@@ -1,0 +1,71 @@
+name: "\U0001F41B Bug report"
+description: Create a report to help us improve
+title: "[Bug] "
+body:
+    - type: textarea
+      id: bug-description
+      attributes:
+          label: Describe the bug
+          description: A clear and concise description of what the bug is
+      validations:
+          required: true
+    - type: textarea
+      id: use-case
+      attributes:
+          label: Steps to reproduce the behavior
+          description: Please describe how the bug can be reproduced
+          placeholder:  |
+            1. Go to '...'
+            2. Click on '....'
+            3. Scroll down to '....'
+            4. See error
+    - type: textarea
+      id: expected-behavior
+      attributes:
+          label: Expected behavior
+          description: A clear and concise description of what you expected to happen
+      validations:
+          required: false
+    - type: textarea
+      id: logs
+      attributes:
+          label: Log files
+          description: If applicable, please provide the log files related to this bug
+          placeholder: | 
+            E.g.:
+            - TH logs: ...
+            - DUT logs: ...
+      validations:
+          required: false
+    - type: textarea
+      id: pics
+      attributes:
+          label: PICS file
+          description: If applicable, please provide the PICS file that was used
+      validations:
+          required: false
+    - type: textarea
+      id: screenshot
+      attributes:
+          label: Screenshots
+          description: If applicable, provide screenshots to help explain your problem
+      validations:
+          required: false
+    - type: textarea
+      id: environment
+      attributes:
+          label: Environment
+          description: Please complete the following information and provide any other enviroment versions you believe that might be relevant
+          placeholder: | 
+            - TH version: [e.g. v2.8.1]
+            - OS: [e.g. ubuntu 22.0, macOS 13.0]
+            - Browser: [e.g. chrome, safari]
+      validations:
+          required: false
+    - type: textarea
+      id: additional-info
+      attributes:
+          label: Additional Information
+          description: Please include any other additional or relevant information here
+      validations:
+          required: false

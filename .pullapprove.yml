@@ -1,0 +1,38 @@
+
+version: 3
+
+# https://developer.github.com/v3/previews/#draft-pull-requests
+github_api_version: "shadow-cat-preview"
+
+pullapprove_conditions:
+    - "base.ref == 'develop'"
+
+############################################################
+#  Notifications
+############################################################
+
+notifications:
+    ############################################################
+    #  New contributors
+    ############################################################
+    - when: pull_request.opened
+      if: "author_association == 'FIRST_TIME_CONTRIBUTOR'"
+      comment: |
+          Hey @{{ author }}, thanks for the PR! The review will start once
+          the tests and CI checks have passed. If they don't, please review
+          the logs and try to fix the issues (ask for help if you can't
+          figure it out). A reviewer will be assigned once the tests are
+          passing and they'll walk you through getting the PR finished
+          and merged.
+groups:
+############################################################
+#  Shared Reviewer Groups
+############################################################
+    dev-team-reviewers:
+        conditions:
+            - files.include('*')
+        reviewers:
+            teams: [test-harness-devs]
+        reviews:
+            request: 2
+            required: 2

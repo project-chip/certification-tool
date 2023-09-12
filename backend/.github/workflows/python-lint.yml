@@ -1,0 +1,53 @@
+name: Python Linting
+
+on:
+  pull_request:
+    branches:
+      - develop
+      - "release/**"
+  push:
+    branches:
+      - develop
+      - "release/**"
+
+jobs:
+  run-linters:
+    name: Run linters
+    runs-on: ubuntu-22.04
+
+    steps:
+      - name: Check out Git repository
+        uses: actions/checkout@v3
+
+      - name: Set up Python
+        uses: actions/setup-python@v1
+        with:
+          python-version: "3.10"
+
+      - name: Install Python dependencies
+        run: >
+          pip install 
+          poetry==1.5.0
+          black==23.7.0 
+          flake8==6.0.0 
+          mypy==1.3.0 
+          isort==5.12.0 
+          sql==2022.4.0
+          pydantic==1.10.11
+          pydantic-yaml==0.11.2
+          types-requests==2.31.0.1
+          types-filelock==3.2.7
+          types-pyyaml==6.0.12.10
+
+      - name: Run linters
+        uses: wearerequired/lint-action@v1
+        with:
+          github_token: ${{ secrets.github_token }}
+          # Enable linters
+          black: true
+          flake8: true
+          mypy: true
+          mypy_args: "app test_collections"
+
+      - name: Run isort
+        run: isort --check-only app test_collections

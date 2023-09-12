@@ -1,0 +1,16 @@
+.mypy_cache
+.coverage
+htmlcov
+__pycache__
+app.egg-info
+logs
+/docker-stack.yml
+.DS_Store
+app/chip-tool/chip-tool
+app/tool.config
+test_environment.config
+SerialTests.lock
+test_db_creation.lock
+.sha_information
+test_collections/yaml_tests/yaml/
+test_collections/yaml_tests/sdk_runner/

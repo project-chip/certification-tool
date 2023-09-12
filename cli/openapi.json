@@ -1,0 +1,2522 @@
+{
+    "openapi": "3.0.2",
+    "info": {
+        "title": "CHIP Test Harness",
+        "version": "0.1.0"
+    },
+    "paths": {
+        "/api/v1/test_collections/": {
+            "get": {
+                "tags": [
+                    "test collections"
+                ],
+                "summary": "Read Test Collections",
+                "description": "Retrieve available test collections.",
+                "operationId": "read_test_collections_api_v1_test_collections__get",
+                "responses": {
+                    "200": {
+                        "description": "Successful Response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/TestCollections"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/v1/projects/": {
+            "get": {
+                "tags": [
+                    "projects"
+                ],
+                "summary": "Read Projects",
+                "description": "Retrive list of projects\n\nArgs:\n    archived (bool, optional): Get archived projects, when true will; get archived\n        projects only, when false only non-archived projects are returned.\n        Defaults to false.\n    skip (int, optional): Pagination offset. Defaults to 0.\n    limit (int, optional): max number of records to return. Defaults to 100.\n\nReturns:\n    List[Project]: List of projects",
+                "operationId": "read_projects_api_v1_projects__get",
+                "parameters": [
+                    {
+                        "required": false,
+                        "schema": {
+                            "title": "Archived",
+                            "type": "boolean",
+                            "default": false
+                        },
+                        "name": "archived",
+                        "in": "query"
+                    },
+                    {
+                        "required": false,
+                        "schema": {
+                            "title": "Skip",
+                            "type": "integer",
+                            "default": 0
+                        },
+                        "name": "skip",
+                        "in": "query"
+                    },
+                    {
+                        "required": false,
+                        "schema": {
+                            "title": "Limit",
+                            "type": "integer",
+                            "default": 100
+                        },
+                        "name": "limit",
+                        "in": "query"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful Response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "title": "Response Read Projects Api V1 Projects  Get",
+                                    "type": "array",
+                                    "items": {
+                                        "$ref": "#/components/schemas/Project"
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Validation Error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/HTTPValidationError"
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "post": {
+                "tags": [
+                    "projects"
+                ],
+                "summary": "Create Project",
+                "description": "Create new project\n\nArgs:\n    project_in (ProjectCreate): Parameters for new project,  see schema for details\n\nReturns:\n    Project: newly created project record",
+                "operationId": "create_project_api_v1_projects__post",
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/ProjectCreate"
+                            }
+                        }
+                    },
+                    "required": true
+                },
+                "responses": {
+                    "200": {
+                        "description": "Successful Response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Project"
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Validation Error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/HTTPValidationError"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/v1/projects/default_config": {
+            "get": {
+                "tags": [
+                    "projects"
+                ],
+                "summary": "Default Config",
+                "description": "Return default configuration for projects.\n\nReturns:\n    List[Project]: List of projects",
+                "operationId": "default_config_api_v1_projects_default_config_get",
+                "responses": {
+                    "200": {
+                        "description": "Successful Response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/TestEnvironmentConfig"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/v1/projects/{id}": {
+            "get": {
+                "tags": [
+                    "projects"
+                ],
+                "summary": "Read Project",
+                "description": "Lookup project by id\n\nArgs:\n    id (int): project id\n\nRaises:\n    HTTPException: if no project exists for provided project id\n\nReturns:\n    Project: project record",
+                "operationId": "read_project_api_v1_projects__id__get",
+                "parameters": [
+                    {
+                        "required": true,
+                        "schema": {
+                            "title": "Id",
+                            "type": "integer"
+                        },
+                        "name": "id",
+                        "in": "path"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful Response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Project"
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Validation Error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/HTTPValidationError"
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "put": {
+                "tags": [
+                    "projects"
+                ],
+                "summary": "Update Project",
+                "description": "Update an existing project\n\nArgs:\n    id (int): project id\n    project_in (schemas.ProjectUpdate): projects parameters to be updated\n\nRaises:\n    HTTPException: if no project exists for provided project id\n\nReturns:\n    Project: updated project record",
+                "operationId": "update_project_api_v1_projects__id__put",
+                "parameters": [
+                    {
+                        "required": true,
+                        "schema": {
+                            "title": "Id",
+                            "type": "integer"
+                        },
+                        "name": "id",
+                        "in": "path"
+                    }
+                ],
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/ProjectUpdate"
+                            }
+                        }
+                    },
+                    "required": true
+                },
+                "responses": {
+                    "200": {
+                        "description": "Successful Response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Project"
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Validation Error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/HTTPValidationError"
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "delete": {
+                "tags": [
+                    "projects"
+                ],
+                "summary": "Delete Project",
+                "description": "Delete project by id\n\nArgs:\n    id (int): project id\n\nRaises:\n    HTTPException: if no project exists for provided project id\n\nReturns:\n    Project: project record that was deleted",
+                "operationId": "delete_project_api_v1_projects__id__delete",
+                "parameters": [
+                    {
+                        "required": true,
+                        "schema": {
+                            "title": "Id",
+                            "type": "integer"
+                        },
+                        "name": "id",
+                        "in": "path"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful Response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Project"
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Validation Error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/HTTPValidationError"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/v1/projects/{id}/archive": {
+            "post": {
+                "tags": [
+                    "projects"
+                ],
+                "summary": "Archive Project",
+                "description": "Archive project by id.\n\nArgs:\n    id (int): project id\n\nRaises:\n    HTTPException: if no project exists for provided project id\n\nReturns:\n    Project: project record that was archived",
+                "operationId": "archive_project_api_v1_projects__id__archive_post",
+                "parameters": [
+                    {
+                        "required": true,
+                        "schema": {
+                            "title": "Id",
+                            "type": "integer"
+                        },
+                        "name": "id",
+                        "in": "path"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful Response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Project"
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Validation Error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/HTTPValidationError"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/v1/projects/{id}/unarchive": {
+            "post": {
+                "tags": [
+                    "projects"
+                ],
+                "summary": "Unarchive Project",
+                "description": "Unarchive project by id.\n\nArgs:\n    id (int): project id\n\nRaises:\n    HTTPException: if no project exists for provided project id\n\nReturns:\n    Project: project record that was unarchived",
+                "operationId": "unarchive_project_api_v1_projects__id__unarchive_post",
+                "parameters": [
+                    {
+                        "required": true,
+                        "schema": {
+                            "title": "Id",
+                            "type": "integer"
+                        },
+                        "name": "id",
+                        "in": "path"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful Response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Project"
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Validation Error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/HTTPValidationError"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/v1/operators/": {
+            "get": {
+                "tags": [
+                    "operators"
+                ],
+                "summary": "Read Operators",
+                "description": "Retrive list of operators.\n\nArgs:\n    skip (int, optional): Pagination offset. Defaults to 0.\n    limit (int, optional): max number of records to return. Defaults to 100.\n\nReturns:\n    List[Operator]: List of operators",
+                "operationId": "read_operators_api_v1_operators__get",
+                "parameters": [
+                    {
+                        "required": false,
+                        "schema": {
+                            "title": "Skip",
+                            "type": "integer",
+                            "default": 0
+                        },
+                        "name": "skip",
+                        "in": "query"
+                    },
+                    {
+                        "required": false,
+                        "schema": {
+                            "title": "Limit",
+                            "type": "integer",
+                            "default": 100
+                        },
+                        "name": "limit",
+                        "in": "query"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful Response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "title": "Response Read Operators Api V1 Operators  Get",
+                                    "type": "array",
+                                    "items": {
+                                        "$ref": "#/components/schemas/Operator"
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Validation Error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/HTTPValidationError"
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "post": {
+                "tags": [
+                    "operators"
+                ],
+                "summary": "Create Operator",
+                "description": "Create new operator.\n\nArgs:\n    operator_in (OperatorCreate): Parameters for new operator.\n\nReturns:\n    Operator: newly created operator record",
+                "operationId": "create_operator_api_v1_operators__post",
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/OperatorCreate"
+                            }
+                        }
+                    },
+                    "required": true
+                },
+                "responses": {
+                    "200": {
+                        "description": "Successful Response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Operator"
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Validation Error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/HTTPValidationError"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/v1/operators/{id}": {
+            "get": {
+                "tags": [
+                    "operators"
+                ],
+                "summary": "Read Operator",
+                "description": "Lookup operator by id.\n\nArgs:\n    id (int): operator id\n\nRaises:\n    HTTPException: if no operator exists for provided operator id\n\nReturns:\n    Operator: operator record",
+                "operationId": "read_operator_api_v1_operators__id__get",
+                "parameters": [
+                    {
+                        "required": true,
+                        "schema": {
+                            "title": "Id",
+                            "type": "integer"
+                        },
+                        "name": "id",
+                        "in": "path"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful Response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Operator"
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Validation Error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/HTTPValidationError"
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "put": {
+                "tags": [
+                    "operators"
+                ],
+                "summary": "Update Operator",
+                "description": "Update an existing operator.\n\nArgs:\n    id (int): operator id\n    operator_in (schemas.OperatorUpdate): operators parameters to be updated\n\nRaises:\n    HTTPException: if no operator exists for provided operator id\n\nReturns:\n    Operator: updated operator record",
+                "operationId": "update_operator_api_v1_operators__id__put",
+                "parameters": [
+                    {
+                        "required": true,
+                        "schema": {
+                            "title": "Id",
+                            "type": "integer"
+                        },
+                        "name": "id",
+                        "in": "path"
+                    }
+                ],
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/OperatorUpdate"
+                            }
+                        }
+                    },
+                    "required": true
+                },
+                "responses": {
+                    "200": {
+                        "description": "Successful Response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Operator"
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Validation Error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/HTTPValidationError"
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "delete": {
+                "tags": [
+                    "operators"
+                ],
+                "summary": "Delete Operator",
+                "description": "Lookup operator by id.\n\nArgs:\n    id (int): operator id\n\nRaises:\n    HTTPException: if no operator exists for provided operator id\n\nReturns:\n    Operator: operator record that was deleted",
+                "operationId": "delete_operator_api_v1_operators__id__delete",
+                "parameters": [
+                    {
+                        "required": true,
+                        "schema": {
+                            "title": "Id",
+                            "type": "integer"
+                        },
+                        "name": "id",
+                        "in": "path"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful Response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Operator"
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Validation Error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/HTTPValidationError"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/v1/test_run_executions/": {
+            "get": {
+                "tags": [
+                    "test_run_executions"
+                ],
+                "summary": "Read Test Run Executions",
+                "description": "Retrieve test runs, including statistics.\n\nArgs:\n    project_id: Filter test runs by project.\n    archived: Get archived test runs, when true will return archived\n        test runs only, when false only non-archived test runs are returned.\n    skip: Pagination offset.\n    limit: Max number of records to return.\n\nReturns:\n    List of test runs with execution statistics.",
+                "operationId": "read_test_run_executions_api_v1_test_run_executions__get",
+                "parameters": [
+                    {
+                        "required": false,
+                        "schema": {
+                            "title": "Project Id",
+                            "type": "integer"
+                        },
+                        "name": "project_id",
+                        "in": "query"
+                    },
+                    {
+                        "required": false,
+                        "schema": {
+                            "title": "Archived",
+                            "type": "boolean",
+                            "default": false
+                        },
+                        "name": "archived",
+                        "in": "query"
+                    },
+                    {
+                        "required": false,
+                        "schema": {
+                            "title": "Search Query",
+                            "type": "string"
+                        },
+                        "name": "search_query",
+                        "in": "query"
+                    },
+                    {
+                        "required": false,
+                        "schema": {
+                            "title": "Skip",
+                            "type": "integer",
+                            "default": 0
+                        },
+                        "name": "skip",
+                        "in": "query"
+                    },
+                    {
+                        "required": false,
+                        "schema": {
+                            "title": "Limit",
+                            "type": "integer",
+                            "default": 100
+                        },
+                        "name": "limit",
+                        "in": "query"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful Response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "title": "Response Read Test Run Executions Api V1 Test Run Executions  Get",
+                                    "type": "array",
+                                    "items": {
+                                        "$ref": "#/components/schemas/TestRunExecutionWithStats"
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Validation Error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/HTTPValidationError"
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "post": {
+                "tags": [
+                    "test_run_executions"
+                ],
+                "summary": "Create Test Run Execution",
+                "description": "Create new test run execution.",
+                "operationId": "create_test_run_execution_api_v1_test_run_executions__post",
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/Body_create_test_run_execution_api_v1_test_run_executions__post"
+                            }
+                        }
+                    },
+                    "required": true
+                },
+                "responses": {
+                    "200": {
+                        "description": "Successful Response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/TestRunExecutionWithChildren"
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Validation Error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/HTTPValidationError"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/v1/test_run_executions/abort-testing": {
+            "post": {
+                "tags": [
+                    "test_run_executions"
+                ],
+                "summary": "Abort Testing",
+                "description": "Cancel the current testing",
+                "operationId": "abort_testing_api_v1_test_run_executions_abort_testing_post",
+                "responses": {
+                    "200": {
+                        "description": "Successful Response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "title": "Response Abort Testing Api V1 Test Run Executions Abort Testing Post",
+                                    "type": "object",
+                                    "additionalProperties": {
+                                        "type": "string"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/v1/test_run_executions/status": {
+            "get": {
+                "tags": [
+                    "test_run_executions"
+                ],
+                "summary": "Get Test Runner Status",
+                "description": "Retrieve status of the Test Engine.\n\nWhen the Test Engine is actively running the status will include the current\ntest_run and the details of the states.",
+                "operationId": "get_test_runner_status_api_v1_test_run_executions_status_get",
+                "responses": {
+                    "200": {
+                        "description": "Successful Response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/TestRunnerStatus"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/v1/test_run_executions/{id}": {
+            "get": {
+                "tags": [
+                    "test_run_executions"
+                ],
+                "summary": "Read Test Run Execution",
+                "description": "Get test run by ID, including state on all children",
+                "operationId": "read_test_run_execution_api_v1_test_run_executions__id__get",
+                "parameters": [
+                    {
+                        "required": true,
+                        "schema": {
+                            "title": "Id",
+                            "type": "integer"
+                        },
+                        "name": "id",
+                        "in": "path"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful Response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/TestRunExecutionWithChildren"
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Validation Error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/HTTPValidationError"
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "delete": {
+                "tags": [
+                    "test_run_executions"
+                ],
+                "summary": "Remove Test Run Execution",
+                "description": "Remove test run execution",
+                "operationId": "remove_test_run_execution_api_v1_test_run_executions__id__delete",
+                "parameters": [
+                    {
+                        "required": true,
+                        "schema": {
+                            "title": "Id",
+                            "type": "integer"
+                        },
+                        "name": "id",
+                        "in": "path"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful Response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/TestRunExecutionInDBBase"
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Validation Error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/HTTPValidationError"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/v1/test_run_executions/{id}/start": {
+            "post": {
+                "tags": [
+                    "test_run_executions"
+                ],
+                "summary": "Start Test Run Execution",
+                "description": "Start a test run by ID",
+                "operationId": "start_test_run_execution_api_v1_test_run_executions__id__start_post",
+                "parameters": [
+                    {
+                        "required": true,
+                        "schema": {
+                            "title": "Id",
+                            "type": "integer"
+                        },
+                        "name": "id",
+                        "in": "path"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful Response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/TestRunExecutionWithChildren"
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Validation Error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/HTTPValidationError"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/v1/test_run_executions/{id}/archive": {
+            "post": {
+                "tags": [
+                    "test_run_executions"
+                ],
+                "summary": "Archive",
+                "description": "Archive test run execution by id.\n\nArgs:\n    id (int): test run execution id\n\nRaises:\n    HTTPException: if no test run execution exists for provided id\n\nReturns:\n    TestRunExecution: test run execution record that was archived",
+                "operationId": "archive_api_v1_test_run_executions__id__archive_post",
+                "parameters": [
+                    {
+                        "required": true,
+                        "schema": {
+                            "title": "Id",
+                            "type": "integer"
+                        },
+                        "name": "id",
+                        "in": "path"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful Response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/TestRunExecution"
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Validation Error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/HTTPValidationError"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/v1/test_run_executions/{id}/unarchive": {
+            "post": {
+                "tags": [
+                    "test_run_executions"
+                ],
+                "summary": "Unarchive",
+                "description": "Unarchive test run execution by id.\n\nArgs:\n    id (int): test run execution id\n\nRaises:\n    HTTPException: if no test run execution exists for provided id\n\nReturns:\n    TestRunExecution: test run execution record that was unarchived",
+                "operationId": "unarchive_api_v1_test_run_executions__id__unarchive_post",
+                "parameters": [
+                    {
+                        "required": true,
+                        "schema": {
+                            "title": "Id",
+                            "type": "integer"
+                        },
+                        "name": "id",
+                        "in": "path"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful Response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/TestRunExecution"
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Validation Error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/HTTPValidationError"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/v1/test_run_executions/{id}/log": {
+            "get": {
+                "tags": [
+                    "test_run_executions"
+                ],
+                "summary": "Download Log",
+                "description": "Download the logs from a test run.\n\n\nArgs:\n    id (int): Id of the TestRunExectution the log is requested for\n    json_entries (bool, optional): When set, return each log line as a json object\n    download (bool, optional): When set, return as attachment",
+                "operationId": "download_log_api_v1_test_run_executions__id__log_get",
+                "parameters": [
+                    {
+                        "required": true,
+                        "schema": {
+                            "title": "Id",
+                            "type": "integer"
+                        },
+                        "name": "id",
+                        "in": "path"
+                    },
+                    {
+                        "required": false,
+                        "schema": {
+                            "title": "Json Entries",
+                            "type": "boolean",
+                            "default": false
+                        },
+                        "name": "json_entries",
+                        "in": "query"
+                    },
+                    {
+                        "required": false,
+                        "schema": {
+                            "title": "Download",
+                            "type": "boolean",
+                            "default": false
+                        },
+                        "name": "download",
+                        "in": "query"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful Response"
+                    },
+                    "422": {
+                        "description": "Validation Error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/HTTPValidationError"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/v1/test_run_executions/file_upload/": {
+            "post": {
+                "tags": [
+                    "test_run_executions"
+                ],
+                "summary": "Upload File",
+                "description": "Upload a file to the specified path of the current test run.\n\nArgs:\n    file: The file to upload.",
+                "operationId": "upload_file_api_v1_test_run_executions_file_upload__post",
+                "requestBody": {
+                    "content": {
+                        "multipart/form-data": {
+                            "schema": {
+                                "$ref": "#/components/schemas/Body_upload_file_api_v1_test_run_executions_file_upload__post"
+                            }
+                        }
+                    },
+                    "required": true
+                },
+                "responses": {
+                    "200": {
+                        "description": "Successful Response",
+                        "content": {
+                            "application/json": {
+                                "schema": {}
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Validation Error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/HTTPValidationError"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/v1/test_run_configs/": {
+            "get": {
+                "tags": [
+                    "test_run_configs"
+                ],
+                "summary": "Read Test Run Configs",
+                "description": "Retrieve test_run_configs.",
+                "operationId": "read_test_run_configs_api_v1_test_run_configs__get",
+                "parameters": [
+                    {
+                        "required": false,
+                        "schema": {
+                            "title": "Skip",
+                            "type": "integer",
+                            "default": 0
+                        },
+                        "name": "skip",
+                        "in": "query"
+                    },
+                    {
+                        "required": false,
+                        "schema": {
+                            "title": "Limit",
+                            "type": "integer",
+                            "default": 100
+                        },
+                        "name": "limit",
+                        "in": "query"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful Response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "title": "Response Read Test Run Configs Api V1 Test Run Configs  Get",
+                                    "type": "array",
+                                    "items": {
+                                        "$ref": "#/components/schemas/TestRunConfig"
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Validation Error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/HTTPValidationError"
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "post": {
+                "tags": [
+                    "test_run_configs"
+                ],
+                "summary": "Create Test Run Config",
+                "description": "Create new test run config.",
+                "operationId": "create_test_run_config_api_v1_test_run_configs__post",
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/TestRunConfigCreate"
+                            }
+                        }
+                    },
+                    "required": true
+                },
+                "responses": {
+                    "200": {
+                        "description": "Successful Response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/TestRunConfig"
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Validation Error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/HTTPValidationError"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/v1/test_run_configs/{id}": {
+            "get": {
+                "tags": [
+                    "test_run_configs"
+                ],
+                "summary": "Read Test Run Config",
+                "description": "Get test run config by ID.",
+                "operationId": "read_test_run_config_api_v1_test_run_configs__id__get",
+                "parameters": [
+                    {
+                        "required": true,
+                        "schema": {
+                            "title": "Id",
+                            "type": "integer"
+                        },
+                        "name": "id",
+                        "in": "path"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful Response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/TestRunConfig"
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Validation Error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/HTTPValidationError"
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "put": {
+                "tags": [
+                    "test_run_configs"
+                ],
+                "summary": "Update Test Run Config",
+                "description": "Update a test run config.",
+                "operationId": "update_test_run_config_api_v1_test_run_configs__id__put",
+                "parameters": [
+                    {
+                        "required": true,
+                        "schema": {
+                            "title": "Id",
+                            "type": "integer"
+                        },
+                        "name": "id",
+                        "in": "path"
+                    }
+                ],
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/TestRunConfigUpdate"
+                            }
+                        }
+                    },
+                    "required": true
+                },
+                "responses": {
+                    "200": {
+                        "description": "Successful Response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/TestRunConfig"
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Validation Error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/HTTPValidationError"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/v1/utils/test-email/": {
+            "post": {
+                "tags": [
+                    "utils"
+                ],
+                "summary": "Test Email",
+                "description": "Test emails.",
+                "operationId": "test_email_api_v1_utils_test_email__post",
+                "parameters": [
+                    {
+                        "required": true,
+                        "schema": {
+                            "title": "Email To",
+                            "type": "string",
+                            "format": "email"
+                        },
+                        "name": "email_to",
+                        "in": "query"
+                    }
+                ],
+                "responses": {
+                    "201": {
+                        "description": "Successful Response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Msg"
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Validation Error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/HTTPValidationError"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/v1/devices/": {
+            "get": {
+                "tags": [
+                    "devices"
+                ],
+                "summary": "Get Device Configs",
+                "operationId": "get_device_configs_api_v1_devices__get",
+                "responses": {
+                    "200": {
+                        "description": "Successful Response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "title": "Response Get Device Configs Api V1 Devices  Get",
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "put": {
+                "tags": [
+                    "devices"
+                ],
+                "summary": "Add Device Config",
+                "operationId": "add_device_config_api_v1_devices__put",
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "title": "Devicedata",
+                                "type": "object"
+                            }
+                        }
+                    },
+                    "required": true
+                },
+                "responses": {
+                    "200": {
+                        "description": "Successful Response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "title": "Response Add Device Config Api V1 Devices  Put",
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Validation Error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/HTTPValidationError"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    },
+    "components": {
+        "schemas": {
+            "Body_create_test_run_execution_api_v1_test_run_executions__post": {
+                "title": "Body_create_test_run_execution_api_v1_test_run_executions__post",
+                "required": [
+                    "test_run_execution_in"
+                ],
+                "type": "object",
+                "properties": {
+                    "test_run_execution_in": {
+                        "$ref": "#/components/schemas/TestRunExecutionCreate"
+                    },
+                    "selected_tests": {
+                        "title": "Selected Tests",
+                        "type": "object",
+                        "additionalProperties": {
+                            "type": "object",
+                            "additionalProperties": {
+                                "type": "object",
+                                "additionalProperties": {
+                                    "type": "integer"
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "Body_upload_file_api_v1_test_run_executions_file_upload__post": {
+                "title": "Body_upload_file_api_v1_test_run_executions_file_upload__post",
+                "required": [
+                    "file"
+                ],
+                "type": "object",
+                "properties": {
+                    "file": {
+                        "title": "File",
+                        "type": "string",
+                        "format": "binary"
+                    }
+                }
+            },
+            "DutConfig": {
+                "title": "DutConfig",
+                "required": [
+                    "discriminator",
+                    "setup_code",
+                    "pairing_mode"
+                ],
+                "type": "object",
+                "properties": {
+                    "discriminator": {
+                        "title": "Discriminator",
+                        "type": "string"
+                    },
+                    "setup_code": {
+                        "title": "Setup Code",
+                        "type": "string"
+                    },
+                    "pairing_mode": {
+                        "$ref": "#/components/schemas/DutPairingModeEnum"
+                    },
+                    "ip_address": {
+                        "title": "Ip Address",
+                        "type": "string"
+                    },
+                    "port": {
+                        "title": "Port",
+                        "type": "string"
+                    }
+                }
+            },
+            "DutPairingModeEnum": {
+                "title": "DutPairingModeEnum",
+                "enum": [
+                    "ethernet",
+                    "onnetwork",
+                    "ble-wifi",
+                    "ble-thread"
+                ],
+                "type": "string",
+                "description": "An enumeration."
+            },
+            "HTTPValidationError": {
+                "title": "HTTPValidationError",
+                "type": "object",
+                "properties": {
+                    "detail": {
+                        "title": "Detail",
+                        "type": "array",
+                        "items": {
+                            "$ref": "#/components/schemas/ValidationError"
+                        }
+                    }
+                }
+            },
+            "Msg": {
+                "title": "Msg",
+                "required": [
+                    "msg"
+                ],
+                "type": "object",
+                "properties": {
+                    "msg": {
+                        "title": "Msg",
+                        "type": "string"
+                    }
+                }
+            },
+            "NetworkConfig": {
+                "title": "NetworkConfig",
+                "required": [
+                    "wifi",
+                    "thread"
+                ],
+                "type": "object",
+                "properties": {
+                    "wifi": {
+                        "$ref": "#/components/schemas/WiFiConfig"
+                    },
+                    "thread": {
+                        "title": "Thread",
+                        "anyOf": [
+                            {
+                                "$ref": "#/components/schemas/ThreadAutoConfig"
+                            },
+                            {
+                                "$ref": "#/components/schemas/ThreadExternalConfig"
+                            }
+                        ]
+                    }
+                }
+            },
+            "Operator": {
+                "title": "Operator",
+                "required": [
+                    "name",
+                    "id"
+                ],
+                "type": "object",
+                "properties": {
+                    "name": {
+                        "title": "Name",
+                        "type": "string"
+                    },
+                    "id": {
+                        "title": "Id",
+                        "type": "integer"
+                    }
+                },
+                "description": "Default schema, used when return data to API clients"
+            },
+            "OperatorCreate": {
+                "title": "OperatorCreate",
+                "required": [
+                    "name"
+                ],
+                "type": "object",
+                "properties": {
+                    "name": {
+                        "title": "Name",
+                        "type": "string"
+                    }
+                },
+                "description": "Create schema.\n\nName is required for new Operators."
+            },
+            "OperatorUpdate": {
+                "title": "OperatorUpdate",
+                "type": "object",
+                "properties": {
+                    "name": {
+                        "title": "Name",
+                        "type": "string"
+                    }
+                },
+                "description": "Update Schema.\n\nSame as the base schema, only name can be changed"
+            },
+            "Project": {
+                "title": "Project",
+                "required": [
+                    "name",
+                    "id",
+                    "created_at",
+                    "updated_at"
+                ],
+                "type": "object",
+                "properties": {
+                    "name": {
+                        "title": "Name",
+                        "type": "string"
+                    },
+                    "config": {
+                        "$ref": "#/components/schemas/TestEnvironmentConfig"
+                    },
+                    "id": {
+                        "title": "Id",
+                        "type": "integer"
+                    },
+                    "created_at": {
+                        "title": "Created At",
+                        "type": "string",
+                        "format": "date-time"
+                    },
+                    "updated_at": {
+                        "title": "Updated At",
+                        "type": "string",
+                        "format": "date-time"
+                    },
+                    "archived_at": {
+                        "title": "Archived At",
+                        "type": "string",
+                        "format": "date-time"
+                    }
+                }
+            },
+            "ProjectCreate": {
+                "title": "ProjectCreate",
+                "required": [
+                    "name"
+                ],
+                "type": "object",
+                "properties": {
+                    "name": {
+                        "title": "Name",
+                        "type": "string"
+                    },
+                    "config": {
+                        "$ref": "#/components/schemas/TestEnvironmentConfig"
+                    }
+                }
+            },
+            "ProjectUpdate": {
+                "title": "ProjectUpdate",
+                "type": "object",
+                "properties": {
+                    "name": {
+                        "title": "Name",
+                        "type": "string"
+                    },
+                    "config": {
+                        "$ref": "#/components/schemas/TestEnvironmentConfig"
+                    }
+                }
+            },
+            "TestCase": {
+                "title": "TestCase",
+                "required": [
+                    "metadata"
+                ],
+                "type": "object",
+                "properties": {
+                    "metadata": {
+                        "$ref": "#/components/schemas/TestMetadata"
+                    }
+                }
+            },
+            "TestCaseExecution": {
+                "title": "TestCaseExecution",
+                "required": [
+                    "state",
+                    "public_id",
+                    "test_suite_execution_id",
+                    "test_case_metadata_id",
+                    "id",
+                    "test_case_metadata",
+                    "test_step_executions"
+                ],
+                "type": "object",
+                "properties": {
+                    "state": {
+                        "$ref": "#/components/schemas/TestStateEnum"
+                    },
+                    "public_id": {
+                        "title": "Public Id",
+                        "type": "string"
+                    },
+                    "test_suite_execution_id": {
+                        "title": "Test Suite Execution Id",
+                        "type": "integer"
+                    },
+                    "test_case_metadata_id": {
+                        "title": "Test Case Metadata Id",
+                        "type": "integer"
+                    },
+                    "id": {
+                        "title": "Id",
+                        "type": "integer"
+                    },
+                    "started_at": {
+                        "title": "Started At",
+                        "type": "string",
+                        "format": "date-time"
+                    },
+                    "completed_at": {
+                        "title": "Completed At",
+                        "type": "string",
+                        "format": "date-time"
+                    },
+                    "errors": {
+                        "title": "Errors",
+                        "type": "array",
+                        "items": {
+                            "type": "string"
+                        }
+                    },
+                    "test_case_metadata": {
+                        "$ref": "#/components/schemas/TestCaseMetadata"
+                    },
+                    "test_step_executions": {
+                        "title": "Test Step Executions",
+                        "type": "array",
+                        "items": {
+                            "$ref": "#/components/schemas/TestStepExecution"
+                        }
+                    }
+                }
+            },
+            "TestCaseMetadata": {
+                "title": "TestCaseMetadata",
+                "required": [
+                    "public_id",
+                    "title",
+                    "description",
+                    "version",
+                    "source_hash",
+                    "id"
+                ],
+                "type": "object",
+                "properties": {
+                    "public_id": {
+                        "title": "Public Id",
+                        "type": "string"
+                    },
+                    "title": {
+                        "title": "Title",
+                        "type": "string"
+                    },
+                    "description": {
+                        "title": "Description",
+                        "type": "string"
+                    },
+                    "version": {
+                        "title": "Version",
+                        "type": "string"
+                    },
+                    "source_hash": {
+                        "title": "Source Hash",
+                        "type": "string"
+                    },
+                    "id": {
+                        "title": "Id",
+                        "type": "integer"
+                    }
+                }
+            },
+            "TestCollection": {
+                "title": "TestCollection",
+                "required": [
+                    "name",
+                    "path",
+                    "test_suites"
+                ],
+                "type": "object",
+                "properties": {
+                    "name": {
+                        "title": "Name",
+                        "type": "string"
+                    },
+                    "path": {
+                        "title": "Path",
+                        "type": "string"
+                    },
+                    "test_suites": {
+                        "title": "Test Suites",
+                        "type": "object",
+                        "additionalProperties": {
+                            "$ref": "#/components/schemas/TestSuite"
+                        }
+                    }
+                }
+            },
+            "TestCollections": {
+                "title": "TestCollections",
+                "required": [
+                    "test_collections"
+                ],
+                "type": "object",
+                "properties": {
+                    "test_collections": {
+                        "title": "Test Collections",
+                        "type": "object",
+                        "additionalProperties": {
+                            "$ref": "#/components/schemas/TestCollection"
+                        }
+                    }
+                }
+            },
+            "TestEnvironmentConfig": {
+                "title": "TestEnvironmentConfig",
+                "required": [
+                    "network",
+                    "dut_config"
+                ],
+                "type": "object",
+                "properties": {
+                    "network": {
+                        "$ref": "#/components/schemas/NetworkConfig"
+                    },
+                    "dut_config": {
+                        "$ref": "#/components/schemas/DutConfig"
+                    }
+                }
+            },
+            "TestMetadata": {
+                "title": "TestMetadata",
+                "required": [
+                    "public_id",
+                    "version",
+                    "title",
+                    "description"
+                ],
+                "type": "object",
+                "properties": {
+                    "public_id": {
+                        "title": "Public Id",
+                        "type": "string"
+                    },
+                    "version": {
+                        "title": "Version",
+                        "type": "string"
+                    },
+                    "title": {
+                        "title": "Title",
+                        "type": "string"
+                    },
+                    "description": {
+                        "title": "Description",
+                        "type": "string"
+                    }
+                }
+            },
+            "TestRunConfig": {
+                "title": "TestRunConfig",
+                "required": [
+                    "name",
+                    "dut_name",
+                    "id"
+                ],
+                "type": "object",
+                "properties": {
+                    "name": {
+                        "title": "Name",
+                        "type": "string"
+                    },
+                    "dut_name": {
+                        "title": "Dut Name",
+                        "type": "string"
+                    },
+                    "selected_tests": {
+                        "title": "Selected Tests",
+                        "type": "object",
+                        "additionalProperties": {
+                            "type": "object",
+                            "additionalProperties": {
+                                "type": "object",
+                                "additionalProperties": {
+                                    "type": "integer"
+                                }
+                            }
+                        },
+                        "default": {}
+                    },
+                    "id": {
+                        "title": "Id",
+                        "type": "integer"
+                    }
+                }
+            },
+            "TestRunConfigCreate": {
+                "title": "TestRunConfigCreate",
+                "required": [
+                    "name",
+                    "dut_name"
+                ],
+                "type": "object",
+                "properties": {
+                    "name": {
+                        "title": "Name",
+                        "type": "string"
+                    },
+                    "dut_name": {
+                        "title": "Dut Name",
+                        "type": "string"
+                    },
+                    "selected_tests": {
+                        "title": "Selected Tests",
+                        "type": "object",
+                        "additionalProperties": {
+                            "type": "object",
+                            "additionalProperties": {
+                                "type": "object",
+                                "additionalProperties": {
+                                    "type": "integer"
+                                }
+                            }
+                        },
+                        "default": {}
+                    }
+                }
+            },
+            "TestRunConfigUpdate": {
+                "title": "TestRunConfigUpdate",
+                "required": [
+                    "name"
+                ],
+                "type": "object",
+                "properties": {
+                    "name": {
+                        "title": "Name",
+                        "type": "string"
+                    }
+                }
+            },
+            "TestRunExecution": {
+                "title": "TestRunExecution",
+                "required": [
+                    "title",
+                    "id",
+                    "state"
+                ],
+                "type": "object",
+                "properties": {
+                    "title": {
+                        "title": "Title",
+                        "type": "string"
+                    },
+                    "test_run_config_id": {
+                        "title": "Test Run Config Id",
+                        "type": "integer"
+                    },
+                    "project_id": {
+                        "title": "Project Id",
+                        "type": "integer"
+                    },
+                    "description": {
+                        "title": "Description",
+                        "type": "string"
+                    },
+                    "id": {
+                        "title": "Id",
+                        "type": "integer"
+                    },
+                    "state": {
+                        "$ref": "#/components/schemas/TestStateEnum"
+                    },
+                    "started_at": {
+                        "title": "Started At",
+                        "type": "string",
+                        "format": "date-time"
+                    },
+                    "completed_at": {
+                        "title": "Completed At",
+                        "type": "string",
+                        "format": "date-time"
+                    },
+                    "archived_at": {
+                        "title": "Archived At",
+                        "type": "string",
+                        "format": "date-time"
+                    },
+                    "operator": {
+                        "$ref": "#/components/schemas/Operator"
+                    }
+                }
+            },
+            "TestRunExecutionCreate": {
+                "title": "TestRunExecutionCreate",
+                "required": [
+                    "title"
+                ],
+                "type": "object",
+                "properties": {
+                    "title": {
+                        "title": "Title",
+                        "type": "string"
+                    },
+                    "test_run_config_id": {
+                        "title": "Test Run Config Id",
+                        "type": "integer"
+                    },
+                    "project_id": {
+                        "title": "Project Id",
+                        "type": "integer"
+                    },
+                    "description": {
+                        "title": "Description",
+                        "type": "string"
+                    },
+                    "operator_id": {
+                        "title": "Operator Id",
+                        "type": "integer"
+                    }
+                }
+            },
+            "TestRunExecutionInDBBase": {
+                "title": "TestRunExecutionInDBBase",
+                "required": [
+                    "title",
+                    "id",
+                    "state"
+                ],
+                "type": "object",
+                "properties": {
+                    "title": {
+                        "title": "Title",
+                        "type": "string"
+                    },
+                    "test_run_config_id": {
+                        "title": "Test Run Config Id",
+                        "type": "integer"
+                    },
+                    "project_id": {
+                        "title": "Project Id",
+                        "type": "integer"
+                    },
+                    "description": {
+                        "title": "Description",
+                        "type": "string"
+                    },
+                    "id": {
+                        "title": "Id",
+                        "type": "integer"
+                    },
+                    "state": {
+                        "$ref": "#/components/schemas/TestStateEnum"
+                    },
+                    "started_at": {
+                        "title": "Started At",
+                        "type": "string",
+                        "format": "date-time"
+                    },
+                    "completed_at": {
+                        "title": "Completed At",
+                        "type": "string",
+                        "format": "date-time"
+                    },
+                    "archived_at": {
+                        "title": "Archived At",
+                        "type": "string",
+                        "format": "date-time"
+                    }
+                }
+            },
+            "TestRunExecutionStats": {
+                "title": "TestRunExecutionStats",
+                "type": "object",
+                "properties": {
+                    "test_case_count": {
+                        "title": "Test Case Count",
+                        "type": "integer",
+                        "default": 0
+                    },
+                    "states": {
+                        "title": "States",
+                        "type": "object",
+                        "additionalProperties": {
+                            "type": "integer"
+                        },
+                        "default": {}
+                    }
+                }
+            },
+            "TestRunExecutionWithChildren": {
+                "title": "TestRunExecutionWithChildren",
+                "required": [
+                    "title",
+                    "id",
+                    "state"
+                ],
+                "type": "object",
+                "properties": {
+                    "title": {
+                        "title": "Title",
+                        "type": "string"
+                    },
+                    "test_run_config_id": {
+                        "title": "Test Run Config Id",
+                        "type": "integer"
+                    },
+                    "project_id": {
+                        "title": "Project Id",
+                        "type": "integer"
+                    },
+                    "description": {
+                        "title": "Description",
+                        "type": "string"
+                    },
+                    "id": {
+                        "title": "Id",
+                        "type": "integer"
+                    },
+                    "state": {
+                        "$ref": "#/components/schemas/TestStateEnum"
+                    },
+                    "started_at": {
+                        "title": "Started At",
+                        "type": "string",
+                        "format": "date-time"
+                    },
+                    "completed_at": {
+                        "title": "Completed At",
+                        "type": "string",
+                        "format": "date-time"
+                    },
+                    "archived_at": {
+                        "title": "Archived At",
+                        "type": "string",
+                        "format": "date-time"
+                    },
+                    "operator": {
+                        "$ref": "#/components/schemas/Operator"
+                    },
+                    "test_suite_executions": {
+                        "title": "Test Suite Executions",
+                        "type": "array",
+                        "items": {
+                            "$ref": "#/components/schemas/TestSuiteExecution"
+                        }
+                    }
+                }
+            },
+            "TestRunExecutionWithStats": {
+                "title": "TestRunExecutionWithStats",
+                "required": [
+                    "title",
+                    "id",
+                    "state",
+                    "test_case_stats"
+                ],
+                "type": "object",
+                "properties": {
+                    "title": {
+                        "title": "Title",
+                        "type": "string"
+                    },
+                    "test_run_config_id": {
+                        "title": "Test Run Config Id",
+                        "type": "integer"
+                    },
+                    "project_id": {
+                        "title": "Project Id",
+                        "type": "integer"
+                    },
+                    "description": {
+                        "title": "Description",
+                        "type": "string"
+                    },
+                    "id": {
+                        "title": "Id",
+                        "type": "integer"
+                    },
+                    "state": {
+                        "$ref": "#/components/schemas/TestStateEnum"
+                    },
+                    "started_at": {
+                        "title": "Started At",
+                        "type": "string",
+                        "format": "date-time"
+                    },
+                    "completed_at": {
+                        "title": "Completed At",
+                        "type": "string",
+                        "format": "date-time"
+                    },
+                    "archived_at": {
+                        "title": "Archived At",
+                        "type": "string",
+                        "format": "date-time"
+                    },
+                    "operator": {
+                        "$ref": "#/components/schemas/Operator"
+                    },
+                    "test_case_stats": {
+                        "$ref": "#/components/schemas/TestRunExecutionStats"
+                    }
+                }
+            },
+            "TestRunnerState": {
+                "title": "TestRunnerState",
+                "enum": [
+                    "idle",
+                    "loading",
+                    "ready",
+                    "running"
+                ],
+                "description": "An enumeration."
+            },
+            "TestRunnerStatus": {
+                "title": "TestRunnerStatus",
+                "required": [
+                    "state"
+                ],
+                "type": "object",
+                "properties": {
+                    "state": {
+                        "$ref": "#/components/schemas/TestRunnerState"
+                    },
+                    "test_run_execution_id": {
+                        "title": "Test Run Execution Id",
+                        "type": "integer"
+                    }
+                }
+            },
+            "TestStateEnum": {
+                "title": "TestStateEnum",
+                "enum": [
+                    "pending",
+                    "executing",
+                    "pending_actuation",
+                    "passed",
+                    "failed",
+                    "error",
+                    "not_applicable",
+                    "cancelled"
+                ],
+                "type": "string",
+                "description": "An enumeration."
+            },
+            "TestStepExecution": {
+                "title": "TestStepExecution",
+                "required": [
+                    "state",
+                    "title",
+                    "test_case_execution_id",
+                    "id"
+                ],
+                "type": "object",
+                "properties": {
+                    "state": {
+                        "$ref": "#/components/schemas/TestStateEnum"
+                    },
+                    "title": {
+                        "title": "Title",
+                        "type": "string"
+                    },
+                    "test_case_execution_id": {
+                        "title": "Test Case Execution Id",
+                        "type": "integer"
+                    },
+                    "id": {
+                        "title": "Id",
+                        "type": "integer"
+                    },
+                    "started_at": {
+                        "title": "Started At",
+                        "type": "string",
+                        "format": "date-time"
+                    },
+                    "completed_at": {
+                        "title": "Completed At",
+                        "type": "string",
+                        "format": "date-time"
+                    },
+                    "errors": {
+                        "title": "Errors",
+                        "type": "array",
+                        "items": {
+                            "type": "string"
+                        }
+                    },
+                    "failures": {
+                        "title": "Failures",
+                        "type": "array",
+                        "items": {
+                            "type": "string"
+                        }
+                    }
+                }
+            },
+            "TestSuite": {
+                "title": "TestSuite",
+                "required": [
+                    "metadata",
+                    "test_cases"
+                ],
+                "type": "object",
+                "properties": {
+                    "metadata": {
+                        "$ref": "#/components/schemas/TestMetadata"
+                    },
+                    "test_cases": {
+                        "title": "Test Cases",
+                        "type": "object",
+                        "additionalProperties": {
+                            "$ref": "#/components/schemas/TestCase"
+                        }
+                    }
+                }
+            },
+            "TestSuiteExecution": {
+                "title": "TestSuiteExecution",
+                "required": [
+                    "state",
+                    "public_id",
+                    "test_run_execution_id",
+                    "test_suite_metadata_id",
+                    "id",
+                    "test_case_executions",
+                    "test_suite_metadata"
+                ],
+                "type": "object",
+                "properties": {
+                    "state": {
+                        "$ref": "#/components/schemas/TestStateEnum"
+                    },
+                    "public_id": {
+                        "title": "Public Id",
+                        "type": "string"
+                    },
+                    "test_run_execution_id": {
+                        "title": "Test Run Execution Id",
+                        "type": "integer"
+                    },
+                    "test_suite_metadata_id": {
+                        "title": "Test Suite Metadata Id",
+                        "type": "integer"
+                    },
+                    "id": {
+                        "title": "Id",
+                        "type": "integer"
+                    },
+                    "started_at": {
+                        "title": "Started At",
+                        "type": "string",
+                        "format": "date-time"
+                    },
+                    "completed_at": {
+                        "title": "Completed At",
+                        "type": "string",
+                        "format": "date-time"
+                    },
+                    "errors": {
+                        "title": "Errors",
+                        "type": "array",
+                        "items": {
+                            "type": "string"
+                        }
+                    },
+                    "test_case_executions": {
+                        "title": "Test Case Executions",
+                        "type": "array",
+                        "items": {
+                            "$ref": "#/components/schemas/TestCaseExecution"
+                        }
+                    },
+                    "test_suite_metadata": {
+                        "$ref": "#/components/schemas/TestSuiteMetadata"
+                    }
+                }
+            },
+            "TestSuiteMetadata": {
+                "title": "TestSuiteMetadata",
+                "required": [
+                    "public_id",
+                    "title",
+                    "description",
+                    "version",
+                    "source_hash",
+                    "id"
+                ],
+                "type": "object",
+                "properties": {
+                    "public_id": {
+                        "title": "Public Id",
+                        "type": "string"
+                    },
+                    "title": {
+                        "title": "Title",
+                        "type": "string"
+                    },
+                    "description": {
+                        "title": "Description",
+                        "type": "string"
+                    },
+                    "version": {
+                        "title": "Version",
+                        "type": "string"
+                    },
+                    "source_hash": {
+                        "title": "Source Hash",
+                        "type": "string"
+                    },
+                    "id": {
+                        "title": "Id",
+                        "type": "integer"
+                    }
+                }
+            },
+            "ThreadAutoConfig": {
+                "title": "ThreadAutoConfig",
+                "required": [
+                    "rcp_serial_path",
+                    "rcp_baudrate",
+                    "on_mesh_prefix",
+                    "network_interface",
+                    "dataset"
+                ],
+                "type": "object",
+                "properties": {
+                    "rcp_serial_path": {
+                        "title": "Rcp Serial Path",
+                        "type": "string"
+                    },
+                    "rcp_baudrate": {
+                        "title": "Rcp Baudrate",
+                        "type": "integer"
+                    },
+                    "on_mesh_prefix": {
+                        "title": "On Mesh Prefix",
+                        "type": "string"
+                    },
+                    "network_interface": {
+                        "title": "Network Interface",
+                        "type": "string"
+                    },
+                    "dataset": {
+                        "$ref": "#/components/schemas/ThreadDataset"
+                    },
+                    "otbr_docker_image": {
+                        "title": "Otbr Docker Image",
+                        "type": "string"
+                    }
+                }
+            },
+            "ThreadDataset": {
+                "title": "ThreadDataset",
+                "required": [
+                    "channel",
+                    "panid",
+                    "extpanid",
+                    "networkkey",
+                    "networkname"
+                ],
+                "type": "object",
+                "properties": {
+                    "channel": {
+                        "title": "Channel",
+                        "type": "string"
+                    },
+                    "panid": {
+                        "title": "Panid",
+                        "type": "string"
+                    },
+                    "extpanid": {
+                        "title": "Extpanid",
+                        "type": "string"
+                    },
+                    "networkkey": {
+                        "title": "Networkkey",
+                        "type": "string"
+                    },
+                    "networkname": {
+                        "title": "Networkname",
+                        "type": "string"
+                    }
+                }
+            },
+            "ThreadExternalConfig": {
+                "title": "ThreadExternalConfig",
+                "required": [
+                    "operational_dataset_hex"
+                ],
+                "type": "object",
+                "properties": {
+                    "operational_dataset_hex": {
+                        "title": "Operational Dataset Hex",
+                        "type": "string"
+                    }
+                }
+            },
+            "ValidationError": {
+                "title": "ValidationError",
+                "required": [
+                    "loc",
+                    "msg",
+                    "type"
+                ],
+                "type": "object",
+                "properties": {
+                    "loc": {
+                        "title": "Location",
+                        "type": "array",
+                        "items": {
+                            "type": "string"
+                        }
+                    },
+                    "msg": {
+                        "title": "Message",
+                        "type": "string"
+                    },
+                    "type": {
+                        "title": "Error Type",
+                        "type": "string"
+                    }
+                }
+            },
+            "WiFiConfig": {
+                "title": "WiFiConfig",
+                "required": [
+                    "ssid",
+                    "password"
+                ],
+                "type": "object",
+                "properties": {
+                    "ssid": {
+                        "title": "Ssid",
+                        "type": "string"
+                    },
+                    "password": {
+                        "title": "Password",
+                        "type": "string"
+                    }
+                }
+            }
+        }
+    }
+}

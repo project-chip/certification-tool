@@ -1,0 +1,64 @@
+@import "../../../../../../styles/colors";
+
+:host ::ng-deep .log-console-parent {
+  height: 100%;
+  color: $creamWhite;
+  background-color: $lightBlack;
+  padding: 15px;
+  overflow: auto;
+  font-family: monospace;
+  p {
+    margin-bottom: 8px;
+  }
+  td {
+    border: none !important;
+    padding: 2px !important;
+  }
+  tr {
+    background: #212121;;
+  }
+  .info-log {
+    color: $info;
+  }
+  .error-log {
+    color: $error;
+  }
+  .warning-log {
+    color: $warning;
+  }
+  .testsuits-log .prefixSpan {
+    margin-left: 30px;
+  }
+  .testcase-log .prefixSpan {
+    margin-left: 60px;
+  }
+  .logs-scolltobottom-icon {
+    position: absolute;
+    right: 20px;
+    bottom: 15px;
+    font-size: 20px;
+    color: $white;
+    background: #8b8888;
+    padding: 5px;
+    border-radius: 5px;
+  }
+  .highlight_log_search {
+    background-color: rgb(138 141 138 / 20%);
+    font-weight: bold;
+  }
+  .active_log {
+    background-color: rgb(255 247 0 / 60%);
+  }
+  .plain-logs {
+    .highlight_log_search {
+      background-color: rgb(255 247 0 / 60%);
+      font-weight: bold;
+    }
+  }
+  .loader-div {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+  }
+}

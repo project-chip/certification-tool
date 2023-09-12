@@ -1,0 +1,12 @@
+<div class="card-comp-parent-div">
+  <div class="p-card-parent">
+    <p-card class="p-card-comp">
+      <div *ngIf="projectSandbox.getIsNewProjectClicked()">
+        <h3 class="heading-label">New Project</h3>
+        <app-project-details></app-project-details>
+        <app-device-detail-list></app-device-detail-list>
+      </div>
+      <app-create-new-project *ngIf="!projectSandbox.getIsNewProjectClicked()"></app-create-new-project>
+    </p-card>
+  </div>
+</div>

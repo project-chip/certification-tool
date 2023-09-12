@@ -1,0 +1,89 @@
+////
+ *
+ * Copyright (c) 2023 Project CHIP Authors
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+////
+= Convert .adoc to .pdf with asciidoctor
+ifdef::env-github[]
+:tip-caption: :bulb:
+:note-caption: :information_source:
+:important-caption: :heavy_exclamation_mark:
+:caution-caption: :fire:
+:warning-caption: :warning:
+endif::[]
+ifndef::env-github[]
+:icons: font
+endif::[]
+:idprefix:
+:idseparator: -
+:sectlinks:
+:sectanchors:
+:sectnumlevels: 4
+:toc-title:
+:toc:
+
+[discrete]
+== *Revision History*
+
+|===
+| *Revision*  | *Date*       | *Author*                            | *Description*
+| 1           | 20-Jul-2023  | [CSA]Raul Marquez               | * Initial version.
+|===
+
+:sectnums:
+== Pre-requisites
+- Docker https://docs.docker.com/engine/install/[Install Docker^]
+
+== Build PDF
+From the command line, install the docker image
+
+[source,bash]
+-----------------
+docker pull asciidoctor/docker-asciidoctor
+-----------------
+
+Go to the directory where the .adoc file is, example
+
+[source,bash]
+-----------------
+cd docs\manual
+-----------------
+
+Build the .pdf file by executing the following command
+
+[source,bash]
+-----------------
+docker run --rm -v .:/documents/ asciidoctor/docker-asciidoctor asciidoctor-pdf manual_file.adoc
+-----------------
+
+A .pdf file will be created with the same name as the .adoc file
+
+== Explanation
+`docker run` Starts a Docker container
+
+`--rm Cleanup` - removes the Docker container after the command has been executed
+
+`-v` mount a volume to the image
+
+`.` The path to the current directory, e.g. the value of [directory to where my manual_file.adoc is located] above
+
+`documents` The name of the mounted volume in the running container
+
+`asciidoctor/docker-asciidoctor` The name of the Docker image that is used to create the Docker container
+
+`asciidoctor-pdf` The command that actually triggers the pdf generation
+
+`manual_file.adoc` The name of the AsciiDoc source file to generate the pdf from
+
+

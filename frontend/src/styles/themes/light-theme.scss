@@ -1,0 +1,216 @@
+@import "../colors";
+
+$backgroundImage1: "../../assets/theme-images/Light_Mode_1.jpg";
+$backgroundImage2: "../../assets/theme-images/Light_Mode_2.jpg";
+
+.light-theme {
+  .mainarea-parent-div {
+    background: url(#{$backgroundImage1});
+    background-size: 100% 100%;
+    height: calc(100vh - 68.2px);
+    .p-card-parent {
+      border: 1px solid $white;
+      .p-card.p-component {
+        position: relative;
+        &::before {
+          content: "";
+          position: absolute;
+          display: block;
+          background: url(#{$backgroundImage1});
+          background-size: 100% 100%;
+          width: 100%;
+          height: 100%;
+          filter: blur(5px);
+          z-index: 0;
+        }
+      }
+      .p-card {
+        background: none;
+      }
+    }
+
+    .p-card-body {
+      position: absolute; // IMP: blur bg image using ::before will make some tags hidden because its coming on top of the other tags
+      width: 100%;
+    }
+  }
+
+  /* Start: top-navbar */
+  .p-menubar {
+    background: url(#{$backgroundImage2});
+    background-size: 100% 100%;
+    color: $lightBlack !important;
+  }
+  p-menubar:not(.data-loading) .p-menubar-start {
+    background-color: $navLogoBg !important;
+  }
+  .top-nav-start {
+    .top-nav-dropdown {
+      .p-dropdown {
+        .p-inputtext {
+          color: $lightBlack !important;
+        }
+        .p-dropdown-trigger {
+          color: $lightBlack !important;
+        }
+      }
+    }
+  }
+  /* End: top-navbar */
+
+  /* Start: Project screen table */
+  .p-datatable {
+    .p-datatable-header {
+      background: inherit;
+      border: unset;
+    }
+    .p-datatable-thead > tr > th {
+      background: $bgColor2;
+    }
+    .p-datatable-scrollable-header {
+      background: inherit;
+    }
+    .p-datatable-scrollable-footer {
+      background: inherit;
+    }
+    .p-datatable-tbody > tr {
+      background: inherit;
+    }
+    .p-paginator-bottom {
+      background: inherit;
+    }
+    .p-paginator .p-paginator-pages .p-paginator-page.p-highlight {
+      background: $bluishGray;
+      border-color: $bluishGray;
+      color: $white !important;
+    }
+    .table_icons i:hover {
+      color: $lightBlack;
+      background-color: rgba(178, 194, 202, 0.432);
+    }
+    .p-dropdown-trigger {
+      color: $lightBlack !important;
+    }
+  }
+  /* End: Project screen table */
+
+  /* Start: Test run screen */
+  .p-tabview {
+    .p-tabview-nav {
+      background: inherit;
+      .p-tabview-nav-link {
+        background: inherit;
+      }
+      // selected tab
+      li.p-highlight .p-tabview-nav-link {
+        background: inherit;
+        color: $lightBlack;
+        border-color: $lightBlack;
+      }
+    }
+    .p-tabview-panels {
+      background: inherit;
+    }
+  }
+  .p-checkbox {
+    .p-checkbox-box.p-highlight {
+      background: $lightBlack;
+      border-color: $lightBlack;
+      &:hover {
+        background: $lightBlack;
+        border-color: $lightBlack;
+      }
+    }
+    .p-checkbox-box:not(.p-highlight):hover {
+      border-color: $lightBlack;
+    }
+    .p-checkbox-box.p-focus {
+      box-shadow: 0 0 0 0.2rem $creamWhite;
+      border-color: $lightBlack;
+    }
+  }
+  .custom-icon {
+    .p-checkbox .p-checkbox-box {
+      border-color: $lightBlack !important;
+      background: $lightBlack !important;
+    }
+  }
+  .test-count {
+    color: $lightBlack;
+    border-color: $lightBlack;
+  }
+  .parent-test-cases .test-name,
+  .test-summary .p-tree {
+    background: $bgColor1;
+    border-color: $white;
+    .test-name-master,
+    .current-element {
+      background-color: $bgColor2;
+      border-color: $white;
+    }
+  }
+  /* End: Test run screen */
+
+  /* Start: Test execution screen */
+  .test-exec-tree-parent .table-heading,
+  .test-log-toolbar-header {
+    background-color: $bgColor3 !important;
+  }
+  .test-execution-parent {
+    .test-execution-tree-div {
+      border-color: $white !important;
+      .test-exec-tree-parent {
+        .all-tests-div .default-test {
+          border-color: $white !important;
+          background-color: $bgColor4 !important;
+          &:not(.active-block) {
+            background: inherit !important;
+          }
+        }
+        .testcase-div {
+          .testcase-div-1,
+          .testcase-div-2,
+          .testcase-div-3 {
+            border-color: $white !important;
+          }
+          .testcase-div-1,
+          .testcase-div-2 {
+            background-color: $bgColor4 !important;
+          }
+        }
+      }
+    }
+    .test-execution-logs-div {
+      border-color: $white !important;
+    }
+  }
+  /* End: Test execution screen */
+
+  // buttons
+  .create-button-div,
+  .project-dropdown,
+  .test-details,
+  .test-execution-parent {
+    button:not(.button-abort) {
+      background: $lightBlack;
+      border: 1px solid $lightBlack;
+      color: $white !important;
+      &:hover {
+        background: $lightBlack;
+        border: 1px solid $lightBlack;
+      }
+    }
+  }
+
+  // input and dropdown
+  input:not([type="file"]),
+  .p-dropdown {
+    background: $bgColor5;
+  }
+
+  // report upload button
+  .report-upload input::before {
+    background: $lightBlack !important;
+    border-color: $lightBlack !important;
+  }
+}

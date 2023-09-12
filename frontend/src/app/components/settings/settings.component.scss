@@ -1,0 +1,103 @@
+@import "../../../styles/colors";
+@import "../../../styles/custom.scss";
+
+:host ::ng-deep .p-card-comp {
+  flex: 1 1 auto;
+  & > .p-component {
+    height: 100%;
+    box-shadow: 0px 6px 12px 3px rgb(0 0 0 / 10%);
+  }
+  .sub-heading {
+    font-size: 18px;
+  }
+  /* Override CSS */
+  .p-card-body {
+    padding: 30px;
+  }
+  .p-card-content {
+    padding: 0;
+  }
+  .heading-label {
+    @extend .heading-text;
+  }
+  .sub-heading {
+    @extend .sub-heading;
+  }
+  .textbox-label {
+    @extend .table-data;
+  }
+  h3 {
+    padding: 0;
+    margin: 0;
+  }
+  .p-card-content, .p-card-body {
+    height: 100%;
+  }
+  .p-tag {
+    font-size: 16px !important;
+  }
+.settings-environment{  
+  font-family: monospace;
+.string { color: brown; }
+.number { color: darkorange; }
+.boolean { color: blue; }
+.null { color: green; }
+.key { color: violet; }
+}
+.p-divider.p-divider-horizontal .p-divider-content {
+  padding: 0 !important;
+}
+}
+.card-comp-parent-div {
+  height: calc(100vh - 97px);
+  margin: 14px;
+  .p-card-parent {
+    height: 100%;
+  }
+}
+.heading-environment {
+  padding-top: 10px !important;
+}
+.settings-environment {
+  white-space: pre;
+  max-height: 100%;
+  overflow: auto;
+  background: black;
+  color: white;
+  margin-top: 10px;
+ 
+ 
+  
+  textarea {
+   background: black;
+   color: white;
+   border: none !important;
+   font-family: monospace;
+  }
+  .p-inputtext:enabled:focus {
+    border: none !important;
+    box-shadow: none !important;
+  }
+
+}
+.environment-parent {
+height: 60%;
+position: relative;
+}
+.settings-icon {
+  position: absolute;
+  font-size: 30px;
+  color: white;
+  bottom: 12px;
+  right: 12px;
+  background-color: rgba(156, 204, 235, 0.432);
+  border-radius: 19px;
+  padding: 5px;
+}
+.environment-button {
+  position: absolute;
+ bottom: 12px;
+  gap: 5px;
+  right: 12px;
+  display: flex;
+}

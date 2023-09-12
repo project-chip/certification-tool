@@ -1,0 +1,19 @@
+# used to remove files from deployment using `git archive`
+# git files
+.gitattributes export-ignore
+.gitignore export-ignore
+
+# SDK repo
+third_party export-ignore
+
+# other dot folders and files
+.devcontainer export-ignore
+.github export-ignore
+.mypy_cache export-ignore
+.pytest_cache export-ignore
+.vscode export-ignore
+.logs export-ignore
+.coverage export-ignore
+.coveragerc export-ignore
+.dockerignore export-ignore
+.pullaprove.yml export-ignore

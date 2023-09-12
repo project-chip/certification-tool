@@ -1,0 +1,34 @@
+@import "./colors";
+
+.heading-text {
+  font-family: "Roboto-Medium";
+  font-size: 18px;
+  color: $lightBlack !important;
+  font-weight: 500;
+}
+.table-heading {
+  font-family: "Roboto-Medium";
+  font-size: 14px;
+  color: $bluishGray !important;
+  font-weight: 500 !important;
+}
+.sub-heading {
+  font-family: "Roboto-Regular";
+  font-size: 16px;
+  color: $lightBlack;
+}
+.table-data {
+  font-family: "Roboto-Regular";
+  font-size: 14px;
+  color: $bluishGray !important;
+}
+.small-text {
+  font-family: "Roboto-Regular";
+  font-size: 12px;
+  color: $bluishGray !important;
+}
+.disabled-icon {
+  opacity: 0.4;
+  cursor: not-allowed;
+  pointer-events: none;
+}

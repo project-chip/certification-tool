@@ -1,0 +1,95 @@
+= Changing the Backend data model
+ifdef::env-github[]
+:tip-caption: :bulb:
+:note-caption: :information_source:
+:important-caption: :heavy_exclamation_mark:
+:caution-caption: :fire:
+:warning-caption: :warning:
+endif::[]
+
+
+This documents the steps required to make changes to the data model.
+The document assumes you're working from within our backend dev container in VSCode, which mounts the host repo folder `backend/app` as `/app`, and the VSCode workspace will open `/app` as the root folder. All the paths mentioned in this document are based on VSCode workspace. Eg. `app/models` is `backend/app/models` in the host repo.
+
+
+Create/change data model in `app/models`
+----------------------------------------
+
+First step is to declare you SQLAlchemy data model in the `models` directory.
+You can either create new files or update the columns for existing files.
+
+Some documentation on this can be found on the link:https://fastapi.tiangolo.com/tutorial/sql-databases/#create-sqlalchemy-models-from-the-base-class[FastAPI Documentation]
+
+If you introduce new files, or deleted old files, you must update the inputs in these two files:
+
+* DB Base: `app/db/base.py`
+* Models component: `app/models/__init__.py`
+
+
+
+Create `alembic` migration
+--------------------------
+
+We're using link:https://alembic.sqlalchemy.org/en/latest/[Alembic] to maintain our database migrations.
+
+After you have made changes to the data models you can create a new db migration by running this command from `/app` inside our VSCode dev environment terminal.
+
+[source,bash]
+----
+alembic revision --autogenerate -m "<Title of migration>"
+----
+
+This will load the data model from source and compare it to the current DB schema, and save the migration in `alembic/<some_hash>_<title_of_migration>`.
+
+IMPORTANT: Auto-generation is not perfect, so please manually verify the content, and save the file from VSCode to get it auto-formatted.
+
+Once you have verified the migration, you need to migrate the DB. This is can be done by running 
+[source,bash]
+----
+alembic upgrade head
+----
+
+This will perform all unperformed migration revision on the DB.
+
+TIP: If you need to revert a change you can look in your latest revision, and see the `revises` in the header. Copy the value and run `alembic downgrade <old-revision-hash>`
+
+Declare/Update the Pydantic Schema for the data model
+-----------------------------------------------------
+
+We use link:https://pydantic-docs.helpmanual.io[Pydantic] for data validation on our API and CRUD operation to avoid invalid data in our database.
+
+The schemas are stored in `app/schemas`. 
+
+New schemas should be imported in `app/schemas/__init__.py`.
+
+We have a schemas for Create and Update operations, for Data in DB, and Data returned by the API. Pydantic schemas can inherit from each other, so we often have basic fields on a base class, and add additional fields on sub schemas.
+
+Peek at other schemas for inspiration.
+
+
+
+Add/Update CRUD operations
+--------------------------
+
+All DB operations on Data model is done via "CRUD" operations. There's a file per data model in `//app/crud`. 
+
+`//app/crud/base.py` implements all the basic operations, in a generic class, so you just need to pass the schemas and all will be well.
+
+
+
+Add/Update Test Utils
+---------------------
+We strive for high code coverage thru unit testing. All CRUD operations must be unit tested, and for simplicity we have some `utils` to help us generate random data according to the schemas.
+
+If you update or add a data model you must update/add test utils in `/tests/utils`.
+
+There's some good examples in there for inspiration. We use link:https://faker.readthedocs.io/en/master/[Faker] to generate random "realistic" data.
+
+
+
+Add/Update CRUD Unit tests
+--------------------------
+We're using link:https://docs.pytest.org/en/stable/[pytest] for our unit test suite, and it is directly available in the sidebar of VSCode, so you can execute the tests individually.
+
+Our CRUD tests are stored in `/tests/crud` with one file per data model.
+

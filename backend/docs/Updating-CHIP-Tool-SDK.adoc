@@ -1,0 +1,15 @@
+# Update SDK reference in backend
+
+This documents the steps required to update SDK reference in this repo.
+
+## Prerequisites
+
+A public docker image must be published for the desired SHA. eg. `connectedhomeip/cert-bins:<SHA>`
+
+## Update references
+Update the following fields in `.env`
+- `SDK_SHA` 
+- `SDK_DOCKER_IMAGE`
+
+
+

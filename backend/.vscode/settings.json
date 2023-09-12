@@ -1,0 +1,43 @@
+{
+    "editor.formatOnSave": true,
+    "editor.rulers": [
+        88
+    ],
+    "files.exclude": {
+        "**/__pycache__": true,
+        ".mypy_cache": true,
+        ".pytest_cache": true
+    },
+    "[python]": {
+        "editor.defaultFormatter": "ms-python.black-formatter", // black
+        "editor.formatOnSave": true, // black
+        "editor.codeActionsOnSave": {
+            "source.organizeImports": true // isort
+        },
+    },
+    // black
+    "black-formatter.importStrategy": "fromEnvironment",
+    // isort
+    "isort.args": [
+        "--profile",
+        "black"
+    ],
+    // mypy
+    "mypy.configFile": "mypy.ini",
+    "mypy.targets": [
+        "app",
+        "test_collections"
+    ],
+    "python.analysis.typeCheckingMode": "off", // Let MyPy Handle Type Checking
+    // pytest
+    "python.testing.autoTestDiscoverOnSaveEnabled": true,
+    "python.testing.pytestEnabled": true,
+    "python.testing.pytestPath": "/usr/local/bin/pytest",
+    "python.testing.pytestArgs": [
+        "app/tests",
+        "--no-cov"
+    ],
+    "python.linting.ignorePatterns": [
+        "test_collections/yaml_tests/yamls/**/*.py"
+    ]
+}

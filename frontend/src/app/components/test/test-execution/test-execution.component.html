@@ -1,0 +1,25 @@
+<div fxLayout="column" class="test-execution-parent">
+  <div fxLayout="row">
+    <div class="heading-text" fxFlex="1 1 auto">Test Execution</div>
+    <div class="abort-button-div">
+      <button *ngIf="sharedAPI.getAppState() === appState[1] && !abortClicked " pButton type="button" label="Abort"
+        (click)="onAbort()" class="p-button-danger button-abort"></button>
+      <button *ngIf="sharedAPI.getAppState() === appState[1] && abortClicked" pButton type="button"
+        class="p-button-danger button-abort aborting" [disabled]="true"><i class="pi pi-spin pi-spinner"></i> Aborting
+      </button>
+      <button *ngIf="sharedAPI.getAppState() === appState[0]" pButton type="button" icon="pi pi-arrow-left"
+        iconPos="left" label="Results" (click)="onFinish()" class="button-finish"></button>
+    </div>
+  </div>
+  <div fxLayout="row" fxFlex="1 1 auto" class="container mb-0 overflowAuto">
+    <div class="test-execution-tree-div">
+      <app-test-execution-tree></app-test-execution-tree>
+    </div>
+    <div fxFlex="1 1 auto" class="test-execution-logs-div">
+      <app-test-logs></app-test-logs>
+    </div>
+  </div>
+  <app-popup-modal popupId="ABORT" header="  " subHeader="Are you sure that you want to abort test?"
+    [buttons]="buttons">
+  </app-popup-modal>
+</div>

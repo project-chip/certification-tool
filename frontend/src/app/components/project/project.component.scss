@@ -1,0 +1,55 @@
+@import "../../../styles/colors";
+@import "../../../styles/custom.scss";
+
+:host ::ng-deep .p-card-comp {
+  flex: 1 1 auto;
+  & > .p-component {
+    height: 100%;
+    box-shadow: 0px 6px 12px 3px rgb(0 0 0 / 10%);
+  }
+  .p-dropdown {
+    width: 14rem;
+  }
+  .p-card-parent .p-card.p-component {
+    position: relative;
+  }
+  .transport-div {
+    label {
+      @extend .table-data;
+      margin-right: 15px;
+      margin-left: 5px;
+    }
+  }
+  .sub-heading {
+    font-size: 18px;
+  }
+  /* Override CSS */
+  .p-card-body {
+    padding: 30px;
+    position: absolute;
+    width: 100%;
+  }
+  .p-card-content {
+    padding: 0;
+  }
+  .heading-label {
+    @extend .heading-text;
+  }
+  .sub-heading {
+    @extend .sub-heading;
+  }
+  .textbox-label {
+    @extend .table-data;
+  }
+  h3 {
+    padding: 0;
+    margin: 0;
+  }
+}
+.card-comp-parent-div {
+  height: calc(100vh - 97px);
+  margin: 14px;
+  .p-card-parent {
+    height: 100%;
+  }
+}

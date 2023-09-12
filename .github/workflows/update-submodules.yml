@@ -1,0 +1,24 @@
+name: Submodules Update Action
+on: workflow_dispatch
+jobs:
+  Update-Submodules-PR:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v3
+        with:
+          submodules: true
+          token: ${{ secrets.SUBMODULE_WORKFLOW }}
+      - name: Update submodules remote
+        run: git submodule update --remote
+      - name: Create Pull Request
+        id: cpr
+        uses: peter-evans/create-pull-request@v3
+        with:
+          commit-message: Updating submodules with automated action
+          title: Update submodules with automated action
+      - name: Pull Request Output
+        run: |
+          echo "Pull Request Number - ${{ steps.cpr.outputs.pull-request-number }}"
+          echo "Pull Request URL - ${{ steps.cpr.outputs.pull-request-url }}"
+

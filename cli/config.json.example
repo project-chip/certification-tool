@@ -1,0 +1,7 @@
+{
+    "hostname": "localhost",
+    "log_config": {
+        "output_log_path": "./output_logs",
+        "format": "<level>{level: <8}</level> | <green>{time:YYYY-MM-DD HH:mm:ss.SSS}</green> | <level>{message}</level>"
+    }
+}

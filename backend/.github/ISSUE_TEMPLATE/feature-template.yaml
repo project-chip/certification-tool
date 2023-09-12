@@ -1,0 +1,42 @@
+name: "\U0001F4A1 Feature Request"
+description: Create a feature to be considered in a future release
+title: "[Feature] "
+body:
+    - type: textarea
+      id: repro
+      attributes:
+          label: Feature description
+          description: Please provide as much context and details as possible
+      validations:
+          required: true
+    - type: textarea
+      id: use-case
+      attributes:
+          label: Use Cases
+          description: Please provide some use cases for the feature
+          placeholder:  |
+            E.g.:
+            [Use Case 1] Export a test run execution:
+            1. Use the backend endpoint to export a test run execution: ...
+            2. Then import the exported execution using this endpoint: ...
+      validations:
+          required: true
+    - type: textarea
+      id: test-case
+      attributes:
+          label: Test Cases
+          description: Please provide some test cases to be used to validate feature behaves as expected.
+          placeholder:  |
+            E.g.:
+            [Test Case 1] Test Use Case 1: Test the export a test run execution
+            1. Use the backend endpoint to export a test run execution: ...
+            Expected Result: The endpoind should return a JSON containing the data for a test run execution following the format bellow:
+            {"db_revision": "9996326cbd1d","test_run_execution": {"title": "UI_Test_Run_2023_05_23_18_43_30"...
+      validations:
+          required: false
+    - type: textarea
+      attributes:
+          label: Additional Information
+          description: Please include any other additional or relevant information here
+      validations:
+          required: false

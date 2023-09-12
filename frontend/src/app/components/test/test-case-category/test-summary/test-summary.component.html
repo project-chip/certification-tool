@@ -1,0 +1,18 @@
+<div fxLayout="column" class="test-summary">
+  <p-tabView styleClass="tabview-custom" fxFlex="100%">
+    <p-tabPanel>
+      <ng-template pTemplate="header">
+        <span>Summary <span *ngIf='treeData.length>0'>({{treeData.length|number:"2.0"}})</span></span>
+      </ng-template>
+      <p-tree *ngIf='treeData.length>0 && testSummary.selectedDataSummary().length>0' [value]="treeData"
+        scrollHeight="auto">
+        <ng-template let-node pTemplate="default">
+          <span fxLayoutAlign="space-between">
+            <span>{{node.label}}</span> <span *ngIf="node.count>0">({{node.count|number:'2.0'}})</span>
+          </span>
+        </ng-template>
+      </p-tree>
+      <p *ngIf="treeData.length===0" class="no-data">Please Select test cases</p>
+    </p-tabPanel>
+  </p-tabView>
+</div>
