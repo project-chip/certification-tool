@@ -1,0 +1,11 @@
+{
+    "recommendations": [
+        "ms-python.python",
+        "streetsidesoftware.code-spell-checker",
+        "ms-azuretools.vscode-docker",
+        "asciidoctor.asciidoctor-vscode",
+        "42crunch.vscode-openapi",
+        "matangover.mypy",
+        "njpwerner.autodocstring"
+    ]
+}

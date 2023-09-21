@@ -1,0 +1,50 @@
+@import "../../../styles/colors";
+:host ::ng-deep {
+  .confirmPopUp {
+    .p-dialog {
+      .p-dialog-header {
+        border-bottom: none !important;
+      }
+      .p-dialog-footer {
+        border-top: 1px solid white;
+      }
+    }
+  }
+}
+.copy-rights {
+  position: absolute;
+  top: 98.2%;
+  left: 48%;
+  font-size: 9px;
+}
+.side_nav_bar {
+  width: 86px;
+}
+.mainarea-parent-div {
+  background-color: $mainAreaParent;
+}
+
+.glass-pane {
+  position: fixed;
+  width: 100vw;
+  height: 100vh;
+  top: 0;
+  background-color: rgb(131 131 131 / 40%);
+  opacity: 0.5;
+}
+.construction {
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  justify-content: center;
+  height: calc(100vh - 68px);
+  img {
+    width: 200px;
+  }
+  span {
+    font-size: 50px;
+    padding-top: 15px;
+    font-family: monospace;
+    color: #444242;
+  }
+}

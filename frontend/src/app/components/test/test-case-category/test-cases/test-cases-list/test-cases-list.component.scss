@@ -1,0 +1,26 @@
+:host ::ng-deep {
+  .test-name {
+    border-bottom-right-radius: 4px;
+  }
+  .test-name-master{
+    border-top-right-radius: 4px;
+  }
+  .span-input-number {
+    margin: auto 10px 0;
+    .p-inputnumber-input {
+      width: 35px;
+    }
+    .p-inputnumber {
+      height: 22.5px;
+    }
+ .p-inputnumber-button {
+      width: 20px;
+    }
+  }
+  .label-text {
+    user-select: none;
+  }
+  .d-none {
+    display: none !important;
+  }
+}

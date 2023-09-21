@@ -1,0 +1,117 @@
+@import "../../../../../styles/colors";
+@import "../../../../../styles/custom.scss";
+
+:host ::ng-deep .test-exec-tree-parent {
+  height: 100%;
+  position: relative;
+  .table-heading {
+    @extend .table-heading;
+    padding: 14px;
+    background-color: $execTableHeader;
+  }
+  .all-tests-div {
+    .default-test {
+      @extend .table-data;
+      padding: 12px 14px;
+      background-color: $execTableHeader;
+      border-top: 1px solid $execTableSubHeader;
+      border-bottom: 1px solid $execTableSubHeader;
+      user-select: none;
+      cursor: pointer;
+      .expand-icon {
+        vertical-align: middle;
+      }
+    }
+    .pi-angle-down {
+      vertical-align: middle;
+    }
+    .category-progress {
+      margin-left: 5px;
+      margin-right: 2px;
+    }
+    .default-test.active-block {
+      background-color: $execTableSubHeader;
+    }
+  }
+  .badge-count {
+    margin-left: 5px;
+    min-width: 20px;
+    height: 20px;
+    padding: 2px;
+  }
+
+  .progress-bar .p-progressbar {
+    height: 6px;
+    width: 100px;
+    top: 7px;
+    .p-progressbar-value {
+      background: $navbar;
+    }
+  }
+  .testcase-loader {
+    padding-right: 14px;
+  }
+  .testcase-div {
+    overflow: auto;
+    height: calc(100% - 134px);
+    transition: height 0.2s;
+  }
+  .testcase-div-3 {
+    display: block !important;
+    .text-ellipsis {
+      overflow: hidden !important;
+      text-overflow: ellipsis;
+    }
+  }
+  .remove-border {
+    border-bottom: unset !important;
+  }
+  .remove-padding {
+    height: 28px !important;
+  }
+
+  .testcase-div-1,
+  .testcase-div-2,
+  .testcase-div-3 {
+    @extend .table-data;
+    height: 34px;
+    border-bottom: 1px solid $execTableBorder;
+    padding: 7px 0px;
+    user-select: none;
+    cursor: pointer;
+    .testcse-count {
+      float: right;
+      padding-right: 15px;
+      font-size: 11px;
+    }
+  }
+
+  .testcase-div-1 {
+    padding-left: 15px;
+  }
+  .testcase-div-2 {
+    padding-left: 30px;
+  }
+  .testcase-div-3 {
+    padding-left: 45px;
+    white-space: nowrap;
+  }
+  .no-test-found {
+    height: 40px;
+    text-align: center;
+    padding: 12px;
+  }
+  .line-through {
+    text-decoration: line-through;
+  }
+  .pending-tc {
+    font-style: italic;
+    opacity: 0.5;
+  }
+  .loader-div {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+  }
+}

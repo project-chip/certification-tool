@@ -1,0 +1,15 @@
+<div>
+  <!-- <div class="sub-heading mt-26 mb-0" fxLayout>Devices
+    <div class="icon-add-circle1 add-device-icon">
+      <span class="path1"></span><span class="path2"></span>
+    </div>
+  </div>
+  <div *ngFor="let setting of addedSettings; let i = index">
+    <app-device-detail [addedSetting]="addedSettings[i]" [settingsType]="settingsType"
+      [settingsJson]="projectSandbox.getNewProjectDetails()"></app-device-detail>
+  </div> -->
+  <div class="create-button-div mt-35">
+    <p-button label="Create" (click)="onCreate()" [disabled]="projectsAPI.getIsCreateProjectContainsWarning()">
+    </p-button>
+  </div>
+</div>

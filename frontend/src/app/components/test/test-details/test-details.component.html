@@ -1,0 +1,38 @@
+<div fxLayout="column" class="test-details" *ngIf="!sharedAPI.getTestCaseLoader()">
+  <p class="sub-heading mt-15 mb-0">Test Details</p>
+  <div fxLayout="row" fxLayoutGap="50px" fxLayoutAlign="space-between center" class="container mt-12">
+
+    <div fxLayoutAlign="center center" fxLayoutGap="30px">
+      <div class="test-name-parent" fxLayoutAlign="center center" fxLayout="column">
+        <div>
+          <p class="textbox-label">Test Name</p>
+          <input type="text" pInputText placeholder="Sample Test" maxlength="30" [(ngModel)]="testName" />
+        </div>
+        <small *ngIf="testName ==='' || allowedCharacter.test(testName)" class="test-name-warning">
+          {{testName ==='' ? 'Test name cannot be empty' : 'Special cases are not allowed'}}
+        </small>
+      </div>
+      <div fxLayoutAlign="center center">
+        <div>
+          <p class="textbox-label">Description</p>
+          <input type="text" pInputText placeholder="(optional)" [(ngModel)]="description">
+        </div>
+      </div>
+    </div>
+
+    <div fxLayoutAlign="center center">
+      <app-test-operator></app-test-operator>
+    </div>
+
+  </div>
+  <app-test-case-category class="app-test-case-component">
+  </app-test-case-category>
+  <div class="test-buttons">
+    <p-button [disabled]="isTestCaseSelected() || isWarningExist()" class="start-button" (click)="onTestStart()">Start
+    </p-button>
+    <p-button (click)="clearTestSelection()" class="clear-test">Clear Selection
+    </p-button>
+  </div>
+</div>
+<p-progressSpinner *ngIf="sharedAPI.getTestCaseLoader()" [style]="{width: '100px', height: '100px'}"
+  styleClass="custom-spinner" class="test-loader" strokeWidth="6" animationDuration=".5s"></p-progressSpinner>

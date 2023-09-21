@@ -1,0 +1,94 @@
+/* You can add global styles to this file, and also import other style files */
+@import url(assets/icomoon/style.css);
+@import "./styles/colors";
+@import "./styles/themes/light-theme.scss";
+@import "./styles/themes/dark-theme.scss";
+
+@font-face {
+  font-family: "Roboto-Medium";
+  src: url("./assets/roboto/Roboto-Medium.ttf");
+}
+@font-face {
+  font-family: "Roboto-Regular";
+  src: url("./assets/roboto/Roboto-Regular.ttf");
+}
+i {
+  cursor: pointer;
+}
+body {
+  margin: 0;
+}
+.cursor-busy * {
+  cursor: wait !important;
+}
+.cursor-busy .mainarea-parent-div {
+  pointer-events: none;
+}
+
+.capitalize {
+  text-transform: capitalize;
+}
+.overflowAuto {
+  overflow: auto;
+}
+.floatRight {
+  float: right;
+}
+.heightZero {
+  height: 0 !important;
+}
+p {
+  margin-top: 0;
+}
+.mb-0 {
+  margin-bottom: 0 !important;
+}
+$sizes: 0, 12, 14, 15, 17, 20, 23, 26, 35;
+
+@mixin list-loop($className, $styleName) {
+  @each $size in $sizes {
+    #{$className + $size} {
+      #{$styleName}: #{$size + "px"};
+    }
+  }
+}
+@include list-loop(".mt-", "margin-top");
+
+//document.getElementById("theme_css").href = "./assets/themes/saga-blue/theme.css"
+
+.buttonYes {
+  color: $white;
+  background-color: $buttonColor;
+}
+.buttonNo {
+  color: $buttonColor;
+  background-color: $white;
+}
+
+.test-count {
+  margin-right: 11px;
+  font-size: 13px;
+  font-weight: 500;
+  color: #2193f6;
+  border: solid 1px #2193f6;
+  padding: 3px;
+  min-width: 23px;
+  border-radius: 5px;
+}
+
+.report-dialog .p-dialog-content {
+  min-height: 200px;
+}
+
+// styling for scroll bar
+::-webkit-scrollbar {
+  width: 5px;
+  height: 5px;
+}
+::-webkit-scrollbar-thumb {
+  background: #adabab;
+  border-radius: 10px;
+}
+::-webkit-scrollbar-track {
+  background: #f1f1f1;
+}

@@ -1,0 +1,20 @@
+<div fxLayout="row" fxLayoutGap="50px" class="container mt-20">
+   <div fxLayoutAlign="center center">
+      <div>
+         <p class="textbox-label">Settings</p>
+         <p-dropdown [options]="settingsType" [(ngModel)]="addedSetting" optionLabel="name" placeholder="Select Type">
+         </p-dropdown>
+      </div>
+   </div>
+   <div fxLayoutAlign="center center" *ngFor="let item of settingsJson[addedSetting.name] | keyvalue: unsorted">
+      <div>
+         <p class="textbox-label">{{item.key}}</p>
+         <input *ngIf="getType(item.value) === 'textbox'" type="text" pInputText [ngModel]="getValue(item.value)" />
+         <p-password *ngIf="getType(item.value) === 'password'" [ngModel]="getValue(item.value)" [feedback]="false">
+         </p-password>
+         <p-toggleButton *ngIf="getType(item.value) === 'password'" [ngModel]="true" class="toggle-button"
+            [onIcon]="'pi pi-check'" [offIcon]="'pi pi-times'"></p-toggleButton>
+         <i class="pi pi-trash trash-icon" *ngIf="getType(item.value) === 'password'"></i>
+      </div>
+   </div>
+</div>

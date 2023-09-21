@@ -1,0 +1,17 @@
+<div class="new-project-main" fxLayout="column" fxLayoutAlign="center center">
+    <div *ngIf="!isImportingTestRuns" fxLayout="column" fxLayoutAlign="center center" (click)="createNewProject()">
+        <i class="icon-add-square"></i>
+        <p class="create-new-project-label">Create New Test Run</p>
+    </div>
+    <div fxFlex="64px"></div>
+    <div *ngIf="!isImportingTestRuns" fxLayout="column" fxLayoutAlign="center center" (click)="fileInput.click()">
+        <i class="icon-import-2"></i>
+        <p class="create-new-project-label">Import Test Run</p>
+        <input type="file" multiple style="display: none;" #fileInput (change)="importTestRun($event)">
+    </div>
+    <div *ngIf="isImportingTestRuns" fxLayout="column" fxLayoutAlign="center center" class="loader-div">
+        <p-progressSpinner [style]="{width: '90px', height: '90px', marginBottom: '56px'}" styleClass="custom-spinner" strokeWidth="6"
+          animationDuration=".5s">Importing Test Runs...</p-progressSpinner>
+        <p class="create-new-project-label">Importing Test Runs...</p>
+    </div>
+</div>

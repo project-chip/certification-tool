@@ -1,0 +1,22 @@
+<div class="card-comp-parent-div">
+  <div class="p-card-parent">
+    <p-card class="p-card-comp" *ngIf="this.sharedAPI.getSelectedProjectType()">
+      <app-create-new-test-run
+        *ngIf="this.sharedAPI.getIsProjectTypeSelected()===0 && this.testSandBox.getTestScreen() ===0">
+      </app-create-new-test-run>
+      <div class="test-parent" fxLayout="column" fxLayoutGap="10px"
+        *ngIf="this.sharedAPI.getIsProjectTypeSelected()===1 && this.testSandBox.getTestScreen() ===0">
+        <h3 class="heading-text" *ngIf="!sharedAPI.getTestCaseLoader()">New Test Run</h3>
+        <app-test-details class="app-test-component"></app-test-details>
+      </div>
+      <app-test-execution *ngIf="this.testSandBox.getTestScreen() ===1"></app-test-execution>
+      <app-test-execution-history *ngIf="this.testSandBox.getTestScreen() ===2"></app-test-execution-history>
+    </p-card>
+  </div>
+  <app-popup-modal *ngIf="this.sharedAPI.getCustomPopupData().popupId"
+    [popupId]="this.sharedAPI.getCustomPopupData().popupId" [header]="this.sharedAPI.getCustomPopupData().header"
+    [subHeader]="this.sharedAPI.getCustomPopupData().subHeader" [buttons]="this.sharedAPI.getCustomPopupData().buttons"
+    [inputItems]="this.sharedAPI.getCustomPopupData().inputItems"
+    [messageId]="this.sharedAPI.getCustomPopupData().messageId">
+  </app-popup-modal>
+</div>

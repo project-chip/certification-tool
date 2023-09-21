@@ -1,0 +1,144 @@
+<div class="utility-parent">
+
+  <app-upload-file *ngIf="mainAreaSandbox.fetchCurrentIndex() ===6"></app-upload-file>
+
+  <div *ngIf="!sharedAPI.getTestReportData() && mainAreaSandbox.fetchCurrentIndex() !== 6" class="loader-div">
+    <p-progressSpinner [style]="{width: '100px', height: '100px'}" styleClass="custom-spinner" strokeWidth="6"
+      animationDuration=".5s"></p-progressSpinner>
+  </div>
+
+  <div
+    [ngClass]="{'test-report':mainAreaSandbox.fetchCurrentIndex() ===6,'test-border':mainAreaSandbox.fetchCurrentIndex() ===6&&sharedAPI.getTestReportData()}">
+    <div fxLayout="column" fxLayoutAlign="center center" *ngIf="sharedAPI.getTestReportData()">
+      <div class="report-heading" fxLayout fxLayoutAlign="space-between center">
+        <h3 class="report-title">Matter Test Harness - Test Run Report</h3>
+        <p-button class="print-button p-button-rounded" icon="pi pi-print" label="Print" (click)="printDoc();">
+        </p-button>
+      </div>
+
+      <div class="report-detail">
+        <h3 class="detail-title">Test Run Information</h3>
+        <div class="test-run" fxLayout fxLayoutAlign="space-between center ">
+          <div class="test-data">
+            <p class="test-title">Test Name</p>
+            <p class="bold-test-title">{{sharedAPI.getTestReportData().title}}</p>
+          </div>
+          <div class="test-data">
+            <p class="test-title">Status</p>
+            <p class="{{sharedAPI.getTestReportData().state}} bold-test-title">{{sharedAPI.getTestReportData().state |
+              titlecase}}</p>
+          </div>
+          <div class="test-data">
+            <p class="test-title">Date</p>
+            <p class="bold-test-title" *ngIf="sharedAPI.getTestReportData().started_at; else nanDate">
+              {{sharedAPI.getTestReportData().started_at | date:'mediumDate'}}</p>
+            <ng-template #nanDate>
+              <p class="bold-test-title">-</p>
+            </ng-template>
+          </div>
+          <div class="test-data">
+            <p class="test-title">Time</p>
+            <p class="bold-test-title">{{getTime(sharedAPI.getTestReportData().started_at) | date:'H:m:s'}} -
+              {{getTime(sharedAPI.getTestReportData().completed_at) | date:'H:m:s'}}
+              ({{getTimeDifference(sharedAPI.getTestReportData().started_at,sharedAPI.getTestReportData().completed_at)}})
+            </p>
+          </div>
+          <div class="test-data">
+            <p class="test-title">Operator</p>
+            <p class="bold-test-title" *ngIf="sharedAPI.getTestReportData().operator">
+              {{sharedAPI.getTestReportData().operator.name}}</p>
+            <p class="bold-test-title" *ngIf="!sharedAPI.getTestReportData().operator">
+              Unknown</p>
+          </div>
+        </div>
+
+      </div>
+      <div id="print-section">
+        <div class="statistics">
+          <h3 class="detail-title">Result Statistics</h3>
+          <div class="statistics-bar">
+            <div class="progress-bar" [attr.style]="reportStatistics()"></div>
+            <div class="progress-bar-legends">
+              <span class="progress-bar-text"><i class="circle passed-background"></i>Passed
+                <span>-{{statisticsData.passed}}</span> </span>
+              <span class="progress-bar-text"><i class="circle error-background"></i>Error
+                <span>-{{statisticsData.error}}</span></span>
+              <span class="progress-bar-text"><i class="circle cancelled-background"></i>Cancelled
+                <span>-{{statisticsData.cancelled}}</span></span>
+              <span class="progress-bar-text"><i class="circle failed-background"></i>Failed
+                <span>-{{statisticsData.failed}}</span></span>
+              <span class="progress-bar-text"><i class="circle pending-background"></i>pending
+                <span>-{{statisticsData.pending}}</span></span>
+            </div>
+          </div>
+
+        </div>
+
+        <div class="report-summary">
+          <div class="report-summary-title" fxLayout fxLayoutAlign="space-between center">
+            <h3 class="detail-title">Result Summary</h3>
+            <p-multiSelect styleClass="custom-select" [options]="tableFields" [(ngModel)]="selectedFields"
+              placeholder="Filter" optionLabel="name">
+            </p-multiSelect>
+          </div>
+          <table class="data-table">
+            <tr>
+              <th style="width: 4.5%;">S.No</th>
+              <th>Public ID</th>
+              <th style="width: 8%;">State</th>
+              <th [ngClass]='{"d-none": isFieldDisplayed(1)}'>Description</th>
+              <th [ngClass]='{"d-none": isFieldDisplayed(3)}'>Title</th>
+              <th style="width: 8.5%;" [ngClass]='{"d-none": isFieldDisplayed(2)}'>Time Elapsed</th>
+
+            </tr>
+            <ng-container *ngFor="let data of sharedAPI.getTestReportData().test_suite_executions; let dataIndex=index">
+              <tr class="test-suite">
+                <td>{{dataIndex+1 }}</td>
+                <td class="bold-title text-warp">{{data.public_id}}</td>
+                <td class='{{data.state}}'>{{data.state |titlecase}}</td>
+                <td class="text-warp" [ngClass]='{"d-none": isFieldDisplayed(1)}'>
+                  {{data.test_suite_metadata.description}}</td>
+                <td class="text-warp" [ngClass]='{"d-none": isFieldDisplayed(3)}'>{{data.test_suite_metadata.title}}
+                </td>
+                <td [ngClass]='{"d-none": isFieldDisplayed(2)}'>{{getTimeDifference(data.started_at,data.completed_at)}}
+                </td>
+              </tr>
+              <ng-container *ngFor="let testcase of data.test_case_executions; let testcaseIndex=index">
+                <tr>
+                  <td>{{dataIndex+1}}.{{testcaseIndex+1}}</td>
+                  <td class="test-case text-warp">{{testcase.public_id}}</td>
+                  <td class='{{testcase.state}} '>{{testcase.state
+                    |titlecase}}</td>
+                  <td class="text-warp" [ngClass]='{"d-none": isFieldDisplayed(1)}'>
+                    {{testcase.test_case_metadata.description}}</td>
+                  <td class="text-warp" [ngClass]='{"d-none": isFieldDisplayed(3)}'>
+                    {{testcase.test_case_metadata.title}}</td>
+                  <td [ngClass]='{"d-none": isFieldDisplayed(2)}'>
+                    {{getTimeDifference(testcase.started_at,testcase.completed_at)}}</td>
+                </tr>
+
+                <ng-container *ngFor="let teststep of testcase.test_step_executions; let teststepIndex=index">
+                  <tr>
+                    <td>{{dataIndex+1}}.{{testcaseIndex+1}}.{{teststepIndex+1}}</td>
+                    <td class="test-step text-warp">{{teststep.title}}</td>
+                    <td class='{{teststep.state}}'>{{teststep.state
+                      |titlecase}}</td>
+                    <td class="text-warp" [ngClass]='{"d-none": isFieldDisplayed(1)}' *ngIf="teststep.errors">
+                      {{'Error:'+teststep.errors}}
+                    </td>
+                    <td [ngClass]='{"d-none": isFieldDisplayed(1)}' *ngIf="!teststep.errors">-</td>
+                    <td class="text-warp" [ngClass]='{"d-none": isFieldDisplayed(3)}'>{{teststep.title}}</td>
+                    <td [ngClass]='{"d-none": isFieldDisplayed(2)}'>
+                      {{getTimeDifference(teststep.started_at,teststep.completed_at)}}</td>
+                  </tr>
+                </ng-container>
+              </ng-container>
+
+            </ng-container>
+          </table>
+
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

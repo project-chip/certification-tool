@@ -1,0 +1,79 @@
+name: Unit Tests
+
+on:
+  pull_request:
+    branches:
+      - develop
+  push:
+    branches:
+      - develop
+
+jobs:
+  backend-tests:
+    name: Backend Tests
+    runs-on: ubuntu-22.04
+
+    # Service containers to run with `container-job`
+    services:
+      # Label used to access the service container
+      postgres:
+        # Docker Hub image
+        image: postgres
+        # Provide the password for postgres
+        env:
+          POSTGRES_PASSWORD: postgres
+        # Set health checks to wait until postgres has started
+        options: >-
+          --health-cmd pg_isready
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+        ports:
+          # Maps tcp port 5432 on service container to the host
+          - 5432:5432
+
+    steps:
+      - name: Check out Git repository
+        uses: actions/checkout@v3
+
+      - name: Load .env file to job environent
+        uses: cardinalby/export-env-action@v2
+        with:
+          envFile: '.env'    
+      
+      - name: Install poetry
+        run: pipx install poetry
+      
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.10'
+          cache: poetry
+          cache-dependency-path: poetry.lock
+      - name: Set Poetry environment
+        run: |
+          poetry env use 3.10
+      - name: Install dependencies
+        run: |
+          poetry install --no-root
+      - name: Install python dependencies
+        run: |
+          source $(poetry env info --path)/bin/activate
+          pip install build lark stringcase
+      - name: Fetch yaml tests and runner
+        run: |
+          source $(poetry env info --path)/bin/activate
+          ./scripts/fetch_sdk_yaml_tests_and_runner.sh
+        env:
+          SERVER_NAME: localhost
+          SERVER_HOST: http://localhost
+      - name: Run Tests
+        run: |
+          source $(poetry env info --path)/bin/activate
+          ./tests-start.sh
+        env:
+          POSTGRES_SERVER: localhost
+          POSTGRES_PASSWORD: postgres
+          POSTGRES_DB: postgres
+          SERVER_NAME: localhost
+          SERVER_HOST: http://localhost

@@ -1,0 +1,54 @@
+<p class="sub-heading mt-15 mb-0">Project Details</p>
+<div class="container mt-12">
+  <div class="project-name-parent">
+    <div>
+      <p class="textbox-label">Project Name</p>
+      <input type="text" pInputText [(ngModel)]="projectName" maxlength="30" (keyup)="onProjectNameChange($event)" />
+    </div>
+    <small *ngIf="projectsAPI.getIsCreateProjectContainsWarning() || projectName===''" class="project-warning">
+      {{projectName === '' ? 'Project name cannot be empty' : 'Special cases are not allowed'}}
+    </small>
+  </div>
+  <p class="sub-heading mt-15 mb-0">Project Config</p>
+
+  <div class="environment-parent">
+    <div class="settings-environment" *ngIf="!onEnvironmentEdit">
+      <span [innerHTML]="jsonToHtml(environmentData)"></span>
+
+    </div>
+    <p-button label="Edit" class="edit-button" *ngIf="!onEnvironmentEdit" (click)="onEnvironmentEdit=true"></p-button>
+    <!-- <i class="icon-edit-2 settings-icon" *ngIf="!onEnvironmentEdit" (click)="onEnvironmentEdit=true"></i> -->
+    <div class="settings-environment" *ngIf="onEnvironmentEdit">
+      <textarea [(ngModel)]="environmentData" pInputTextarea [autoResize]="true" cols="200" rows="10"></textarea>
+
+    </div>
+    <div class="environment-button" *ngIf="onEnvironmentEdit">
+      <p-button label="Update" (click)="updateEnvironment()"></p-button>
+      <p-button label="Cancel" (click)="onEnvironmentEdit=false"></p-button>
+    </div>
+  </div>
+  <!-- <div fxLayoutAlign="center center">
+    <div>
+      <p class="textbox-label">Project Type</p>
+      <p-dropdown [options]="projectTypes" (onChange)="onProjectTypeChange($event.value)"
+        [(ngModel)]="this.projectsAPI.getProjectDetails().dutType" optionLabel="name" placeholder="Select Type">
+      </p-dropdown>
+    </div>
+  </div> -->
+  <!-- <div fxLayoutAlign="center center"> 
+    <div>
+      <p class="textbox-label">Transport</p>
+      <div class="p-field-checkbox" class="transport-div">
+        <p-checkbox name="group" ngDefaultControl value="Thread 1" [(ngModel)]="selectedTransport" inputId="thread_1">
+        </p-checkbox>
+        <label for="thread_1">Thread 1</label>
+        <p-checkbox name="group" ngDefaultControl value="Thread 2" [(ngModel)]="selectedTransport" inputId="thread_2">
+        </p-checkbox>
+        <label for="thread_2">Thread 2</label>
+        <p-checkbox name="group" ngDefaultControl value="Thread 3" [(ngModel)]="selectedTransport" inputId="thread_3">
+        </p-checkbox>
+        <label for="thread_3">Thread 3</label>
+      </div>
+    </div>
+  </div> -->
+</div>

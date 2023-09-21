@@ -1,0 +1,39 @@
+<div class="test-name-master" fxLayout fxLayoutAlign="space-between center">
+  <div fxLayout fxLayoutAlign="center" class="master-text">
+    <p-checkbox class="test-name-checkbox"
+      [value]="this.testSandbox.getRunTestCaseData()[this.testSandbox.getCurrentTestCategory()]"
+      (click)="checkAndUncheckAll(); currentElement('0')" [binary]=true [(ngModel)]="masterCheckBox"
+      [ngClass]="{'custom-icon':isPartiallySelected(),'isDisabled':runTestCaseData().length===0 || this.testSandbox.getTestCaseQuery()!==''}">
+    </p-checkbox>
+    <label class="master-label">Test Suites</label>
+  </div>
+  <span *ngIf="selectedCategories[this.testSandbox.getCurrentTestCategory()].length!==0"
+    class="test-count">{{selectedCategories[this.testSandbox.getCurrentTestCategory()].length | number:'2.0'}}</span>
+</div>
+
+<div class="test-name mb-10">
+  <ng-container *ngIf="runTestCaseData().length!==0">
+    <div *ngFor="let category of this.testSandbox.getRunTestCaseData()[this.testSandbox.getCurrentTestCategory()]"
+      (click)="currentElement(category.key)"
+      [ngClass]='{"current-element": +category.key === this.testSandbox.getLastChecked()}' class="p-field-checkbox"
+      fxLayout fxLayoutAlign="space-between center">
+      <div fxLayout fxLayoutAlign="center center" class="div-test-name-checkbox">
+        <p-checkbox class="test-name-checkbox"
+          [ngClass]='{"custom-icon": checkCurrentChildLength(category.key),"isDisabled":this.testSandbox.getTestCaseQuery()!==""}'
+          [value]="category" [binary]="true" [ngModel]='isParentSelected(category.key)' [inputId]="category.key"
+          (click)="isMasterChecked(category.key)">
+        </p-checkbox>
+        <label class="label-text">{{category.title}}</label>
+      </div>
+      <ng-container
+        *ngIf="this.testSandbox.getSelectedData()[this.testSandbox.getCurrentTestCategory()][+category.key]">
+        <span
+          class="test-count">{{this.testSandbox.getSelectedData()[this.testSandbox.getCurrentTestCategory()][+category.key].children.length
+          | number:'2.0'}}</span>
+      </ng-container>
+    </div>
+  </ng-container>
+  <div *ngIf="runTestCaseData().length===0" fxLayout fxLayoutAlign="center center" class="no-test-available">
+    <p>No Test Cases Available</p>
+  </div>
+</div>

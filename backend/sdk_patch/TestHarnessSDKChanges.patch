@@ -1,0 +1,47 @@
+diff --git a/scripts/py_matter_yamltests/matter_yamltests/hooks.py b/scripts/py_matter_yamltests/matter_yamltests/hooks.py
+index 6017dd68ad..72de340519 100644
+--- a/scripts/py_matter_yamltests/matter_yamltests/hooks.py
++++ b/scripts/py_matter_yamltests/matter_yamltests/hooks.py
+@@ -204,6 +204,12 @@ class TestRunnerHooks():
+         """
+         pass
+ 
++    async def step_manual(self):
++        """
++        This method is called when the step is executed manually.
++        """
++        pass
++
+ 
+ class WebSocketRunnerHooks():
+     def connecting(self, url: str):
+diff --git a/scripts/py_matter_yamltests/matter_yamltests/pseudo_clusters/pseudo_clusters.py b/scripts/py_matter_yamltests/matter_yamltests/pseudo_clusters/pseudo_clusters.py
+index e194615cde..f46da5f676 100644
+--- a/scripts/py_matter_yamltests/matter_yamltests/pseudo_clusters/pseudo_clusters.py
++++ b/scripts/py_matter_yamltests/matter_yamltests/pseudo_clusters/pseudo_clusters.py
+@@ -30,6 +30,10 @@ class PseudoClusters:
+     def supports(self, request) -> bool:
+         return False if self.__get_command(request) is None else True
+ 
++    def is_manual_step(self, request):
++        return (request.cluster == LogCommands().name and
++                request.command == "UserPrompt" )
++
+     def add(self, cluster: PseudoCluster):
+         self.clusters.append(cluster)
+ 
+diff --git a/scripts/py_matter_yamltests/matter_yamltests/runner.py b/scripts/py_matter_yamltests/matter_yamltests/runner.py
+index 08de8d758e..35bcf2c41e 100644
+--- a/scripts/py_matter_yamltests/matter_yamltests/runner.py
++++ b/scripts/py_matter_yamltests/matter_yamltests/runner.py
+@@ -181,6 +181,10 @@ class TestRunner(TestRunnerBase):
+                     hooks.step_start(request)
+                     hooks.step_unknown()
+                     continue
++                elif config.pseudo_clusters.is_manual_step(request):
++                    hooks.step_start(request)
++                    await hooks.step_manual()
++                    continue
+                 else:
+                     hooks.step_start(request)
+ 

@@ -1,0 +1,41 @@
+// For format details, see https://aka.ms/devcontainer.json. For config options, see the README at:
+// https://github.com/microsoft/vscode-dev-containers/tree/v0.140.1/containers/docker-existing-docker-compose
+// If you want to run as a non-root user in the container, see .devcontainer/docker-compose.yml.
+{
+	"name": "CLI: Matter Test Harness",
+	"build": {
+		"dockerfile": "../Dockerfile",
+	},
+	"workspaceMount": "source=${localWorkspaceFolder},target=/cli,type=bind,consistency=cached",
+	"workspaceFolder": "/cli",
+	// Set *default* container specific settings.json values on container create.
+	"settings": {
+		"python.pythonPath": "/usr/local/bin/python",
+		"python.linting.enabled": true,
+		"python.linting.pylintEnabled": false,
+		"python.formatting.blackPath": "/usr/local/bin/black",
+		"python.linting.flake8Path": "/usr/local/bin/flake8",
+		"python.sortImports.path": "/usr/local/bin/isort",
+		"python.testing.pytestPath": "/usr/local/bin/pytest"
+	},
+	// Add the IDs of extensions you want installed when the container is created.
+	"extensions": [
+		"ms-python.python",
+		"streetsidesoftware.code-spell-checker",
+		"ms-azuretools.vscode-docker",
+		"asciidoctor.asciidoctor-vscode",
+		"42crunch.vscode-openapi",
+		"matangover.mypy",
+		"njpwerner.autodocstring"
+	]
+	// Use 'forwardPorts' to make a list of ports inside the container available locally.
+	// "forwardPorts": [],
+	// Uncomment the next line if you want start specific services in your Docker Compose config.
+	// "runServices": [],
+	// Uncomment the next line if you want to keep your containers running after VS Code shuts down.
+	// "shutdownAction": "none",
+	// Uncomment the next line to run commands after the container is created - for example installing curl.
+	// "postCreateCommand": "apt-get update && apt-get install -y curl",
+	// Uncomment to connect as a non-root user if you've added one. See https://aka.ms/vscode-remote/containers/non-root.
+	// "remoteUser": "vscode"
+}

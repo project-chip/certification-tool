@@ -1,0 +1,113 @@
+<div *ngIf="sharedAPI.getTestExecutionLoader() === true">
+  <p-table #test [value]="filterProjectId()" [rows]="5" [paginator]="true" [rowHover]="true"
+    [showCurrentPageReport]="true" currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
+    [rowsPerPageOptions]="[5, 10, 15, 20]" [scrollable]=true scrollHeight="calc(100vh - 360px)">
+    <ng-template pTemplate="caption">
+      <div class="p-d-flex p-ai-center p-jc-between" fxLayout fxLayoutAlign="space-between center">
+        <div fxLayout fxLayoutAlign="center center" class="project-dropdown">
+          <p-dropdown [options]="testExecutionDropDown" [(ngModel)]="selectedDropdownData" optionLabel="tableName">
+          </p-dropdown>
+          <p-button label="Add Test" icon="pi pi-plus" iconPos="left" (click)="newTestRun()"></p-button>
+          <div *ngIf="this.selectedDropdownData.tableName == 'Test'">
+            <div fxFlex="16px"></div>
+            <p-button label="Import Test Run" icon="icon-import-2" iconPos="left" (click)="fileInput.click()">
+            </p-button>
+            <input type="file" multiple style="display: none;" #fileInput (change)="importTestRun($event)">
+          </div>
+          <div fxFlex="16px"></div>
+          <div *ngIf="isImportingTestRuns" class="import-loader-container">
+            <div class="import-loader-items">
+              <p-progressSpinner [style]="{width: '24px', height: '24px'}" styleClass="custom-spinner" strokeWidth="6"
+                animationDuration=".5s"></p-progressSpinner>
+            </div>
+            <span style="padding-left: 8px;">Importing Test Runs...</span>
+          </div>
+        </div>
+        <div>
+          <span class="p-input-icon-left">
+            <i class="icon-search-normal-1" (click)="testHistorySearch()"></i>
+            <input pInputText type="text" (keyup.enter)="testHistorySearch()" (keyup)="checkSearchLength(searchQuery)"
+              [(ngModel)]="searchQuery" class="search-input" id="testsearch" placeholder="Search..." />
+            <i *ngIf="searchQuery.length" class="pi pi-times custom-times"
+              (click)="searchQuery='';checkSearchLength(searchQuery)"></i>
+          </span>
+        </div>
+      </div>
+    </ng-template>
+
+    <ng-template pTemplate="header">
+      <tr class="table-heading-row">
+        <th style="width: 25%;">
+          Test Name
+        </th>
+        <th style="width: 250px;">
+          Created
+        </th>
+        <th style="width: 120px;">
+          Success
+        </th>
+        <th style="width: 130px;">
+          Failure
+        </th>
+        <th>
+          Completion
+        </th>
+        <th></th>
+      </tr>
+
+    </ng-template>
+
+    <ng-template pTemplate="body" let-data>
+      <tr class="table_row">
+        <td class="test-name-td capitalize test-title" (click)="showExecutionPage(data.id)">
+          {{ data.title }}
+        </td>
+        <td class="capitalize" style="width:249px ;">
+          {{ sharedService.findDate(data.started_at) || "NA" }}
+        </td>
+        <td class="capitalize" style="width: 122px;">
+          {{ data.test_case_stats.states.passed || "NA" }}
+        </td>
+        <td class="capitalize" style="width: 129px;">
+          {{ data.test_case_stats.states.failed || "NA"}}
+        </td>
+        <td class="capitalize">
+          <p-progressBar [value]=100 mode="determinate"
+            [attr.style]="sanitizer.bypassSecurityTrustStyle(mystyle(data.test_case_stats))" [showValue]="false"
+            class="progress-bar completed-p-bar">
+          </p-progressBar>
+        </td>
+        <td style="width: 20% !important">
+          <span class="table_icons">
+            <i class="icon-repeat" (click)="repeatTestRun(data)" pTooltip="Repeat" tooltipPosition="bottom"></i>
+            <i class="icon-document-text-1" (click)="showTestReport(data.id)" pTooltip="Show Report"
+              tooltipPosition="bottom"></i>
+            <i class="icon-import-1" (click)="downloadTestReport(data.id)" pTooltip="Download Report"
+              tooltipPosition="bottom"></i>
+            <i class="icon-document-download" (click)="downloadTestLog(data)" pTooltip="Download Logs"
+              tooltipPosition="bottom"></i>
+            <i class="icon-export-3" (click)="exportTestRun(data)" pTooltip="Export Test Run"
+            tooltipPosition="bottom"></i>
+            <i [ngClass]="{'icon-archive-tick':selectedDropdownData.tableName ==='Test', 'icon-archive-minus': selectedDropdownData.tableName ==='Archived Test'}"
+              [pTooltip]='selectedDropdownData.toolTip' (click)="archiveTestRun(data.id)" tooltipPosition="bottom"></i>
+            <i class="icon-trash" pTooltip="Delete" (click)="deleteTestRun(data.id)" tooltipPosition="bottom"></i>
+          </span>
+        </td>
+      </tr>
+    </ng-template>
+
+  </p-table>
+
+  <div class="legends-parent">
+    <p class="legends-title">Legends:</p>
+    <p class="legends-color">
+      <i class="circle passed"></i> Passed <i class="circle failed"></i> Failed <i class="circle error"></i> Error
+      <i class="circle cancelled"></i> Cancelled <i class="circle pending"></i> Pending
+    </p>
+  </div>
+</div>
+<div class="spinner-height" *ngIf="sharedAPI.getTestExecutionLoader() === false" fxLayout="column"
+  fxLayoutAlign="center center">
+  <p-progressSpinner [style]="{width: '100px', height: '100px'}" styleClass="custom-spinner" strokeWidth="6"
+    animationDuration=".5s"></p-progressSpinner>
+</div>

@@ -1,0 +1,34 @@
+@import "../../../../styles/colors";
+@import "../../../../styles/custom.scss";
+
+:host ::ng-deep .test-execution-parent {
+  height: 100%;
+  .heading-text {
+    @extend .heading-text;
+    padding: 20px 14px;
+  }
+  .abort-button-div {
+    padding: 14px;
+    button {
+      height: 34px;
+    }
+    .aborting {
+      width: 120px;
+      cursor: not-allowed;
+      .pi-spinner {
+        margin-right: 7px;
+      }
+    }
+  }
+  .test-execution-tree-div {
+    width: 35%;
+    min-width: 35%;
+  }
+}
+div.container {
+  margin-bottom: 10px;
+  // height: calc(100vh - 190px);
+}
+div.container > div {
+  border: 1px solid $execTableBorder;
+}

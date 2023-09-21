@@ -1,0 +1,21 @@
+<div class="log-console-parent" #logsParentDiv (wheel)="onUserScroll()">
+  <p-table [columns]="cols" [value]="getFilteredLogs()" [scrollable]="true" [rows]="100" scrollHeight="flex"
+    [virtualScroll]="true" [virtualRowHeight]="27">
+
+    <ng-template pTemplate="body" let-rowData let-rowIndex="rowIndex" let-columns="columns">
+      <tr *ngIf="rowData.message.toLowerCase().includes(testRunAPI.getLogsFilterKey().toLowerCase())"
+        [ngClass]="rowIndex !== '' ? 'logs_tr_index_' + rowIndex : ''">
+        <td [ngClass]="getLogCategory(rowData)">
+          <span class="prefixSpan">{{getPrefixChar(rowData)}}</span>
+          <span
+            [innerHTML]="rowData.message | highlightSearch: [testRunAPI.getLogsFilterKey(), testRunAPI.getHighlightedLog() === rowIndex]"></span>
+        </td>
+      </tr>
+    </ng-template>
+  </p-table>
+  <div *ngIf="!testRunAPI.getTestLogs().length" class="loader-div">
+    <p-progressSpinner [style]="{width: '50px', height: '50px'}" styleClass="custom-spinner" strokeWidth="6"
+      animationDuration=".5s"></p-progressSpinner>
+  </div>
+  <i *ngIf="!autoScrollToBottom" class="pi pi-arrow-down logs-scolltobottom-icon" (click)="onAutoScrollIconClick()"></i>
+</div>

@@ -1,0 +1,34 @@
+:host ::ng-deep {
+  .tabview-custom,
+  .p-tabview-panel,
+  .test-summary {
+    height: 100%;
+  }
+  .test-summary{
+  .p-tree {
+    height: calc(100vh - 450px);
+    margin-top: 4px;
+  }
+}
+  .p-tabview-panels {
+    height: 88%;
+  }
+  .p-tree {
+    overflow-y: auto;
+  }
+  .tabview-custom {
+    font-size: 14px;
+    margin-top: 50px;
+  }
+  .no-data {
+    font-weight: 600;
+    font-size: 18px;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  .p-treenode-label {
+    width: 100%;
+  }
+}
