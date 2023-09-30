@@ -1,9 +1,12 @@
 [submodule "backend"]
-path = backend
-url = https://github.com/project-chip/chip-certification-tool-backend
+    path = backend
+    url = https://github.com/project-chip/chip-certification-tool-backend.git
+    branch  = master
 [submodule "frontend"]
-path = frontend
-url = https://github.com/project-chip/chip-certification-tool-frontend
+    path = frontend
+    url = https://github.com/project-chip/chip-certification-tool-frontend.git
+    branch  = master
 [submodule "cli"]
-path = cli
-url = https://github.com/project-chip/certification-tool-cli
+    path = cli
+    url = https://github.com/project-chip/certification-tool-cli.git
+    branch  = master
