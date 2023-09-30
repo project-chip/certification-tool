@@ -37,14 +37,14 @@ The test tooling, harness, and scripts are developed with the following goals an
 
 **Flexible:** The test harness and tools are flexible enough to accommodate deployment in different environments.
 
-**Easy to Use:** The test harness and tools provide smooth, cohesive, integrated experience.
+**Easy to Use:** The test harness and tools provide a smooth, cohesive, integrated experience.
 
 **Open:** The Project’s design and technical processes are open and transparent
 to the general public, including non-members wherever possible.
 
-## Instructions
+# Instructions
 
-Detailed instructions for how to use these set of tools with [Matter](https://github.com/project-chip/connectedhomeip) are located [here](./docs/Matter_User_Guide/Matter_User_Guide.md)
+Detailed instructions for how to use this set of tools with [Matter](https://github.com/project-chip/connectedhomeip) are located [here](./docs/Matter_User_Guide/Matter_User_Guide.md)
 
 ## Related Repositories
 
@@ -55,20 +55,20 @@ Please be aware of these related repositories that all have to be used in concer
 -   [CLI Tool ](https://github.com/project-chip/certification-tool-cli)
 -   [Matter Test Scripts](https://github.com/project-chip/matter-test-scripts)
 
-## License
-
-The test harness and tools are released under the [Apache 2.0 license](./LICENSE).
-
-## Hardware Requirements
+## Minimum Hardware Requirements
 
 -   SD card 64 GB or mo
 -   RaspberryPi 4 or newer with at least 4 GB RAM
+
+## License
+
+The test harness and tools are released under the [Apache 2.0 license](./LICENSE).
 
 ## Install Test Harness on Raspberry Pi
 
 -   Make sure you have your Raspberry Pi turned on and connected to your local network. You can follow the instructions [here](https://www.raspberrypi.org/documentation/configuration/wireless/wireless-cli.md) to setup your Raspberry Pi connection. Remember your IP address since it will be used later.
 -   Make sure you have ssh enabled on your Raspberry Pi, you can follow the instructions [here](https://www.raspberrypi.org/documentation/remote-access/ssh/) to enable it.
--   Once you have ssh enabled, run `ssh-copy-id -i ~/.ssh/id_rsa ubuntu@<Raspberry-IPAddress>` on your local machine.
+-   Once you have ssh enabled, run `ssh-copy-id -i ~/.ssh/id_rsa ubuntu@<Raspberry-Pi-IPAddress>` on your local machine.
 -   Use `./start.sh` under the project root folder to install dependencies for Test Harness.
 -   You should see the below output on your terminal at the end of execution.
 
