@@ -62,8 +62,8 @@ The test harness and tools are released under the [Apache 2.0 license](./LICENSE
 
 ## Install Test Harness on Raspberry Pi
 
--   Make sure you have your Raspberry Pi turned on and connected to your local network. You can follow the instruction link:https://www.raspberrypi.org/documentation/configuration/wireless/wireless-cli.md[here] to setup your Raspberry Pi connection. Remember your IP address since it will be used later.
--   Make sure you have ssh enabled on your Raspberry Pi, you can follow the instruction link:https://www.raspberrypi.org/documentation/remote-access/ssh/[here] to enable it.
+-   Make sure you have your Raspberry Pi turned on and connected to your local network. You can follow the instructions [here](https://www.raspberrypi.org/documentation/configuration/wireless/wireless-cli.md) to setup your Raspberry Pi connection. Remember your IP address since it will be used later.
+-   Make sure you have ssh enabled on your Raspberry Pi, you can follow the instructions [here](https://www.raspberrypi.org/documentation/remote-access/ssh/) to enable it.
 -   Once you have ssh enabled, run `ssh-copy-id -i ~/.ssh/id_rsa ubuntu@<Raspberry-IPAddress>` on your local machine.
 -   Use `./start.sh` under the project root folder to install dependencies for Test Harness.
 -   You should see the below output on your terminal at the end of execution.
