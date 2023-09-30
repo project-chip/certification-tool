@@ -750,7 +750,7 @@ Obtain the dataset hex value by running the following command:
 `./chip-tool pairing ble-thread 97 hex:0e080000000000010000000300001035060004001fffe0020811111111222222020708fd882e3d3a7373dc051000112233445566778899aabbccddeeff030f4f70656e54687265616444656d70790102123404101570fcfd6de18b3d78d6d39881a8a5710c0402a0f7f8 20202021 3840`
 |===
 
-=== Troubleshooting: Boarder Router Container failure to initialize
+=== Troubleshooting: Border Router Container failure to initialize
 
 . Error message: (Example)
 
