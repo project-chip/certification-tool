@@ -1,1 +1,0 @@
-from .test_suite_chip_tool import TestSuiteChipTool
