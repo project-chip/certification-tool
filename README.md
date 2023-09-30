@@ -42,6 +42,10 @@ The test tooling, harness, and scripts are developed with the following goals an
 **Open:** The Project’s design and technical processes are open and transparent
 to the general public, including non-members wherever possible.
 
+## Instructions
+
+Detailed instructions for how to use these set of tools with [Matter](https://github.com/project-chip/connectedhomeip) are located [here](./docs/Matter_User_Guide/Matter_User_Guide.md)
+
 ## Related Repositories
 
 Please be aware of these related repositories that all have to be used in concert to build, develop with, and use the certification tools
