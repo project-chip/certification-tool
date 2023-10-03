@@ -108,3 +108,7 @@ EOF
 sudo systemctl daemon-reload
 sudo systemctl enable matter-th
 
+printf "\n\n**********"
+printf "\n*** Enable systemd-timesyncd ***\n"
+sudo systemctl enable systemd-timesyncd
+sudo systemctl start systemd-timesyncd
