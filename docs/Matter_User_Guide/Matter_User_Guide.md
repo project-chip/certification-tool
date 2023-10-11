@@ -1,6 +1,7 @@
 # Test Harness - Matter User Guide
 
 -   [Test Harness - Matter User Guide](#test-harness---matter-user-guide)
+-   [**Test-Harness Links**](#test-harness-links)
 -   [**Introduction**](#introduction)
 -   [**References**](#references)
 -   [**Test-Harness (TH) Design**](#test-harness-th-design)
@@ -20,6 +21,7 @@
         -   [Setup TH in Ubuntu](#setup-th-in-ubuntu)
         -   [Substitute the SDK’s docker image and update sample apps](#substitute-the-sdks-docker-image-and-update-sample-apps)
     -   [Update Existing TH](#update-existing-th)
+    -   [Updating Existing Yaml Test Script](#updating-existing-yaml-test-script)
 -   [**Bringing Up of Matter Node (DUT) for Certification Testing**](#bringing-up-of-matter-node-dut-for-certification-testing)
     -   [Bringing Up of Reference Matter Node (DUT) on Raspberry Pi](#bringing-up-of-reference-matter-node-dut-on-raspberry-pi)
         -   [To Provision Raspberry Pi Using Wi-Fi Configuration](#to-provision-raspberry-pi-using-wi-fi-configuration)
@@ -73,6 +75,14 @@
         -   [Cluster and Controller Tests](#cluster-and-controller-tests)
     -   [Finalizing Results](#finalizing-results)
     -   [Test Results Summary](#test-results-summary)
+
+# **Test-Harness Links**
+
+| Matter Version   | TH Version   | TH image location                                                                             | Supporting Documentation                                                         | Comments     |
+| ---------------- | ------------ | --------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------- | ------------ |
+| Matter 1.0       | TH v2.6      | [link](https://drive.google.com/file/d/1aw6cie59N3OGRCFjG_sw0Uv7JzXMyLda/view?usp=share_link) | [TH Verification Steps](https://groups.csa-iot.org/wg/matter-csg/document/26925) |              |
+| Matter 1.1       | TH v2.8.1    | [link](https://drive.google.com/file/d/1cObNwYQjTpNYJaQ2Wz_ThNDEWqVasHxe/view?usp=share_link) | [Causeway Link](https://groups.csa-iot.org/wg/matter-csg/document/folder/2470)   |              |
+| Matter 1.2       | TH-Fall2023  | [link](https://drive.google.com/drive/folders/1vZbfqRWNrttJOUZbYskKJaGGdOm54ugq?usp=sharing)  |                                                                                  |              |
 
 # **Introduction**
 
@@ -222,7 +232,7 @@ up the DUT and then proceed with device testing by referring to [Section
 For hobby developers who want to get acquainted with certification
 tools/process/TC’s, can spin DUT’s using the example apps provided in
 the SDK. Refer to the instructions to set up one
-[here](https://docs.google.com/document/d/1bYDjmGrj6dPnu0KHoVRaDF7YhsFzGslw/edit#heading=h.wkkktfl30jjn).
+[here](https://groups.csa-iot.org/wg/matter-csg/document/folder/2756).
 
 TH runs on Ubuntu 22.04 Server LTS. It can be set up in a [Raspberry Pi](#th-image-installation-on-raspberry-pi) or [not](#th-installation-without-a-raspberry-pi)
 
@@ -263,8 +273,7 @@ a Nordic RCP dongle or a SiLabs RCP dongle. Refer to [Section
 
 ### TH Installation on Raspberry Pi
 
-1.  Go to the TH release location
-    ([1lDcK1kJXcQQjOT1zRwAFmucmXMuQStJ4](https://drive.google.com/drive/folders/1lDcK1kJXcQQjOT1zRwAFmucmXMuQStJ4))
+1.  Go to the [TH release location](https://drive.google.com/drive/folders/1vZbfqRWNrttJOUZbYskKJaGGdOm54ugq?usp=sharing)
     and download the official TH image from the given link on the user’s
     PC/Mac.
 
@@ -649,6 +658,76 @@ the terminal.
 </tr>
 </tbody>
 </table>
+
+## Updating Existing Yaml Test Script
+
+It is possible to update yaml test script content by directly editing the file content. It is useful when validating small changes or fixing misspelled commands.
+
+Yaml files are located at:
+<table>
+<colgroup>
+<col style="width: 100%" />
+</colgroup>
+<tbody>
+<tr class="odd">
+<td><p><code>~/chip-certification-tool/backend/test_collections/yaml_tests/yaml/sdk/</code><br /></p>
+</tr>
+</tbody>
+</table>
+
+To update an existing Yaml test script: (e.g. `Test_TC_ACE_1_1.yaml`)
+
+* Open the script file:
+<table>
+<colgroup>
+<col style="width: 100%" />
+</colgroup>
+<tbody>
+<tr class="odd">
+<td><p><code>~/chip-certification-tool/backend/test_collections/yaml_tests/yaml/sdk/Test_TC_ACE_1_1.yaml</code><br /></p>
+</tr>
+</tbody>
+</table>
+
+* Update/change the desired information.
+
+* Save and close the file.
+
+* Restart TH's backend container:
+<table>
+<colgroup>
+<col style="width: 100%" />
+</colgroup>
+<tbody>
+<tr class="odd">
+<td><p><code>$docker restart chip-certification-tool_backend_1</code><br /></p>
+</tr>
+</tbody>
+</table>
+
+* Changes will be available on the next execution of the yaml test.
+
+To create a new Yaml test script:
+
+* Use an existing test script as a starting point.
+
+* Rename the file to a new one: e.g. `Test_TC_ACE_1_1.yaml` to `Test_TC_ACE_9_9.yaml`
+
+* Update the name entry inside the yaml file:
+<table>
+<colgroup>
+<col style="width: 100%" />
+</colgroup>
+<tbody>
+<tr class="odd">
+<td><p><b>FROM</b> name: 42.1.1. <code>[TC-ACE-1.1]</code> Privileges<br />
+</p>
+<p><b>TO</b> name: 42.1.1. <code>[TC-ACE-9.9]</code> Privileges<br /></p>
+</tr>
+</tbody>
+</table>
+
+* Proceed as explained on updating an existent yaml file.
 
 # **Bringing Up of Matter Node (DUT) for Certification Testing**
 
@@ -1762,8 +1841,7 @@ files. Follow the steps below to generate and upload the PICS files.
 
 8.  Prior to the test execution, the user will have to load the relevant
     PICS file to list the required test cases. Depending on the PICS
-    file loaded, the automated_and_semi_automated, python_tests,
-    manual_tests and app1_tests list will be updated accordingly.
+    file loaded, the test suites list will be updated accordingly.
 
     ![](images/img_33.png)
 
@@ -1890,6 +1968,19 @@ screenshot.
 Follow the instructions provided in the user prompt to complete the test
 execution.  
 ![](images/img_41.png)
+
+<table>
+<colgroup>
+<col style="width: 100%" />
+</colgroup>
+<tbody>
+<tr class="odd">
+<td><p>IMPORTANT: Currently the selection will be done automatically
+    by TH based on the test execution result. In the future the User
+    Prompt will be updated to proper represent this behavior.</p></td>
+</tr>
+</tbody>
+</table>
 
 ## “Python test” Inside Docker
 

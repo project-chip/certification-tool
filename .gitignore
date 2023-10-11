@@ -26,3 +26,6 @@ yarn-error.log*
 *.sw*
 .env
 Matter_TH_User_Guide.pdf
+
+# TH Doctor output files
+th-doctor.txt
