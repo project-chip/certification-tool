@@ -31,7 +31,9 @@ ROOT_DIR=$(realpath $(dirname "$0")/../..)
 TMP_SDK_FOLDER="sdk-sparse"
 TMP_SDK_PATH="/tmp/$TMP_SDK_FOLDER"
 SDK_CERT_PATH="credentials/development/paa-root-certs"
+SDK_CERT_DEVELOPMENT_PATH="credentials/development"
 CERT_PATH="/var/paa-root-certs"
+DEVELOPMENT_PATH="/var/credentials/development"
 
 # If SDK path is not present, then do local checkout
 if [ -z "$SDK_PATH" ]
@@ -50,7 +52,7 @@ then
     git clone --filter=blob:none --no-checkout --depth 1 --sparse https://github.com/project-chip/connectedhomeip.git $TMP_SDK_FOLDER
     cd $TMP_SDK_FOLDER
     git sparse-checkout init
-    git sparse-checkout set $SDK_CERT_PATH
+    git sparse-checkout set $SDK_CERT_PATH $SDK_CERT_DEVELOPMENT_PATH
     git checkout -q $SDK_SHA
     SDK_PATH="$TMP_SDK_PATH"
 fi
@@ -62,5 +64,13 @@ then
     sudo chown $USER:$USER $CERT_PATH
 fi
 
+# Create folder if missing (owned by user)
+if [ ! -d "$DEVELOPMENT_PATH" ]
+then
+    sudo mkdir -p $DEVELOPMENT_PATH
+    sudo chown $USER:$USER $DEVELOPMENT_PATH
+fi
+
 # Copy certs from SDK
 cp "$SDK_PATH/$SDK_CERT_PATH/"* $CERT_PATH/
+cp -R "$SDK_PATH/$SDK_CERT_DEVELOPMENT_PATH/"** $DEVELOPMENT_PATH/
