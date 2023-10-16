@@ -354,7 +354,7 @@ ssh back into the TH IP address using:<br />
 
 -   In case the “remote: Repository not found” fatal error occurs, try
     the following steps to fix the issue. Clone the
-    chip-certification-tool with personal access token (Refer to
+    certification-tool with personal access token (Refer to
     [Section 4.2.2](#generate-personal-access-token) to generate the
     personal access token) and follow the steps below.
 
@@ -367,8 +367,8 @@ ssh back into the TH IP address using:<br />
 <td><p>cd ~<br />
 </p>
 <p>Take the backup of Test Harness binary using below command:<br />
-<code>$mv chip-certification-tool chip-certification-tool-backup</code><br />
-<code>$git clone https://&lt;token&gt;@github.com/CHIP-Specifications/chip-certification-tool.git</code></p>
+<code>$mv certification-tool certification-tool-backup</code><br />
+<code>$git clone https://&lt;token&gt;@github.com/project-chip/certification-tool.git</code></p>
 <p>Follow the instructions given in the above section on how to update an existing Test-Harness image</p></td>
 </tr>
 </tbody>
@@ -420,7 +420,7 @@ terminal to bring up the dockers.
 <tr class="odd">
 <td><p>Use the command <code>ssh ubuntu@IP_address</code> from the PC to log in to Raspberry Pi. Refer above sections on how to obtain the IP address of Raspberry Pi.</p>
 <p>Once the SSH connection is successful, start the docker container using the command<br />
-<strong>$</strong> <code>./chip-certification-tool/scripts/start.sh</code></p>
+<strong>$</strong> <code>./certification-tool/scripts/start.sh</code></p>
 <p>The above command might take a while to get executed, wait for 5-10 minutes and then proceed with the Test Execution Steps as outlined in the below sections.</p></td>
 </tr>
 </tbody>
@@ -509,7 +509,7 @@ the sample apps on the platform.
 </colgroup>
 <tbody>
 <tr class="odd">
-<td><p><code>git clone git@github.com:CHIP-Specifications/chip-certification-tool.git"</code></p></td>
+<td><p><code>git clone git@github.com:project-chip/certification-tool.git"</code></p></td>
 </tr>
 </tbody>
 </table>
@@ -522,7 +522,7 @@ the sample apps on the platform.
 </colgroup>
 <tbody>
 <tr class="odd">
-<td><p><code>cd chip-certification-tool</code></p></td>
+<td><p><code>cd certification-tool</code></p></td>
 </tr>
 </tbody>
 </table>
@@ -568,7 +568,7 @@ you’ll need to first build a new SDK docker image.
 </colgroup>
 <tbody>
 <tr class="odd">
-<td><p>Value for variable <code>SDK_DOCKER_TAG</code> in TH repository path <code>chip-certification-tool/backend/app/core/config.py</code></p></td>
+<td><p>Value for variable <code>SDK_DOCKER_TAG</code> in TH repository path <code>certification-tool/backend/app/core/config.py</code></p></td>
 </tr>
 </tbody>
 </table>
@@ -627,10 +627,10 @@ If there’s an image with a tag for the commit you’re using, delete that imag
 </colgroup>
 <tbody>
 <tr class="odd">
-<td><p>To update your sample apps using the new image, you should first edit the <code>chip-certification-tool/scripts/ubuntu/update-sample-apps.sh`</code> script to comment out or remove the following line:<br />
+<td><p>To update your sample apps using the new image, you should first edit the <code>certification-tool/scripts/ubuntu/update-sample-apps.sh`</code> script to comment out or remove the following line:<br />
 <code>sudo docker pull $SDK_DOCKER_IMAGE:$SDK_DOCKER_TAG</code><br />
 This is needed because the docker pull command downloads the image from the remote. Removing this line, the script will use your local image.<br />
-Then run this script in the chip-certification-tool repository<br />
+Then run this script in the certification-tool repository<br />
 <code>./scripts/ubuntu/update-sample-apps.sh</code></p></td>
 </tr>
 </tbody>
@@ -647,7 +647,7 @@ the terminal.
 </colgroup>
 <tbody>
 <tr class="odd">
-<td><p><code>cd ~/chip-certification-tool</code><br />
+<td><p><code>cd ~/certification-tool</code><br />
 <code>git fetch</code><br />
 <code>git checkout &lt;Target_Branch&gt;</code><br />
 <code>git pull</code><br />
@@ -670,7 +670,7 @@ Yaml files are located at:
 </colgroup>
 <tbody>
 <tr class="odd">
-<td><p><code>~/chip-certification-tool/backend/test_collections/yaml_tests/yaml/sdk/</code><br /></p>
+<td><p><code>~/certification-tool/backend/test_collections/yaml_tests/yaml/sdk/</code><br /></p>
 </tr>
 </tbody>
 </table>
@@ -684,7 +684,7 @@ To update an existing Yaml test script: (e.g. `Test_TC_ACE_1_1.yaml`)
 </colgroup>
 <tbody>
 <tr class="odd">
-<td><p><code>~/chip-certification-tool/backend/test_collections/yaml_tests/yaml/sdk/Test_TC_ACE_1_1.yaml</code><br /></p>
+<td><p><code>~/certification-tool/backend/test_collections/yaml_tests/yaml/sdk/Test_TC_ACE_1_1.yaml</code><br /></p>
 </tr>
 </tbody>
 </table>
@@ -700,7 +700,7 @@ To update an existing Yaml test script: (e.g. `Test_TC_ACE_1_1.yaml`)
 </colgroup>
 <tbody>
 <tr class="odd">
-<td><p><code>$docker restart chip-certification-tool_backend_1</code><br /></p>
+<td><p><code>$docker restart certification-tool_backend_1</code><br /></p>
 </tr>
 </tbody>
 </table>
@@ -1328,7 +1328,7 @@ Example output for the above command to generate the dataset value:
 </colgroup>
 <tbody>
 <tr class="odd">
-<td><p><a href="mailto:ubuntu@ubuntu">ubuntu@ubuntu</a>:~<strong>$</strong> ./chip-certification-tool/scripts/OTBR/otbr_start.sh connectedhomeip/otbr sve2 cd81003a4ffe 7 months ago 436MB<br />
+<td><p><a href="mailto:ubuntu@ubuntu">ubuntu@ubuntu</a>:~<strong>$</strong> ./certification-tool/scripts/OTBR/otbr_start.sh connectedhomeip/otbr sve2 cd81003a4ffe 7 months ago 436MB<br />
 otbr image connectedhomeip/otbr:sve2 already installed adbc48b536dc5a350c2e5dcf9c09b378290fe79ac423a15943e8c970473fd44f</p>
 <p>waiting 10 seconds to give the docker container enough time to start up…<br />
 Param: <em>dataset init new</em><br />
@@ -2007,7 +2007,7 @@ Follow the instructions below to execute the test cases.
 </colgroup>
 <tbody>
 <tr class="odd">
-<td><p><code>cd chip-certification-tool</code><br />
+<td><p><code>cd certification-tool</code><br />
 <code>./scripts/ubuntu/update-paa-certs.sh</code></p></td>
 </tr>
 </tbody>

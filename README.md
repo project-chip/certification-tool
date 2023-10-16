@@ -74,11 +74,11 @@ The test harness and tools are released under the [Apache 2.0 license](./LICENSE
 
 ```
 Creating network "chip-default" with the default driver
-Creating network "chip-certification-tool_traefik-public" with the default driver
-Creating chip-certification-tool_db_1       ... done
-Creating chip-certification-tool_proxy_1    ... done
-Creating chip-certification-tool_frontend_1 ... done
-Creating chip-certification-tool_backend_1  ... done
+Creating network "certification-tool_traefik-public" with the default driver
+Creating certification-tool_db_1       ... done
+Creating certification-tool_proxy_1    ... done
+Creating certification-tool_frontend_1 ... done
+Creating certification-tool_backend_1  ... done
 ```
 
 -   You can now access Test Harness tool at RaspberryPi-IPAddress in your browser.
