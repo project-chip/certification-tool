@@ -59,14 +59,14 @@ The following will document how to setup a Raspberry Pi so it can be used for ce
 6. Clone Test Harness code:
 
     ```
-    git clone git@github.com:CHIP-Specifications/chip-certification-tool.git
+    git clone git@github.com:project-chip/certification-tool.git
     ```
 
 7. Start auto install
 
     Note this script takes about 1 hour to run and will reboot the machine in the end.
 
-    Run the following inside `chip-certification-tool` folder:
+    Run the following inside `certification-tool` folder:
 
     ```
     ./scripts/pi-setup/auto-install.sh
