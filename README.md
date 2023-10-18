@@ -63,22 +63,3 @@ Please be aware of these related repositories that all have to be used in concer
 ## License
 
 The test harness and tools are released under the [Apache 2.0 license](./LICENSE).
-
-## Install Test Harness on Raspberry Pi
-
--   Make sure you have your Raspberry Pi turned on and connected to your local network. You can follow the instructions [here](https://www.raspberrypi.org/documentation/configuration/wireless/wireless-cli.md) to setup your Raspberry Pi connection. Remember your IP address since it will be used later.
--   Make sure you have ssh enabled on your Raspberry Pi, you can follow the instructions [here](https://www.raspberrypi.org/documentation/remote-access/ssh/) to enable it.
--   Once you have ssh enabled, run `ssh-copy-id -i ~/.ssh/id_rsa ubuntu@<Raspberry-Pi-IPAddress>` on your local machine.
--   Use `./start.sh` under the project root folder to install dependencies for Test Harness.
--   You should see the below output on your terminal at the end of execution.
-
-```
-Creating network "chip-default" with the default driver
-Creating network "chip-certification-tool_traefik-public" with the default driver
-Creating chip-certification-tool_db_1       ... done
-Creating chip-certification-tool_proxy_1    ... done
-Creating chip-certification-tool_frontend_1 ... done
-Creating chip-certification-tool_backend_1  ... done
-```
-
--   You can now access Test Harness tool at RaspberryPi-IPAddress in your browser.
