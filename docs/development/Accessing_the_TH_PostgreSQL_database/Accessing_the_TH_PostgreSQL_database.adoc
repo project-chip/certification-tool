@@ -95,7 +95,7 @@ image::images/conn3.png[width=512,height=512][Enter connection details]
 
 `Host name/address`: This should match the name of the DB container.
 
-`Username` / `Password`: These are stored in the *default.env* file in the https://github.com/CHIP-Specifications/chip-certification-tool[chip-certification-tool^] repo.
+`Username` / `Password`: These are stored in the *default.env* file in the https://github.com/project-chip/certification-tool[certification-tool^] repo.
 
 === Explore tables and run queries
 To see the available tables, drill down to _Servers_ > _Databases_ > _app_ > _Schemas_ > _public_ > _Tables_.
