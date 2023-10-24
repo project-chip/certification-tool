@@ -14,34 +14,46 @@
  # WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  # See the License for the specific language governing permissions and
  # limitations under the License.
+ 
+CONTAINER_NAME="chip-certification-tool_frontend_1"
 
-# Function to check if command exists
-command_exists () {
-    type "$1" &> /dev/null ;
+# Check if the container is running
+container_running=$(docker inspect -f '{{.State.Running}}' $CONTAINER_NAME 2>/dev/null)
+
+# If the docker inspect command fails or the container is not running, notify and exit
+if [ "$?" -ne 0 ] || [ "$container_running" != "true" ]; then
+    echo "The container \"$CONTAINER_NAME\" is not running.\nPlease start it and try again."
+    exit 1
+fi
+
+# Function to check if command exists inside the container
+command_exists_in_container () {
+    docker exec $CONTAINER_NAME sh -c "type $1" &> /dev/null
 }
 
 # Check Node version
-if command_exists node; then
-    node_version=$(node -v)
-    echo "Node version: $node_version"
+if command_exists_in_container node; then
+    node_version=$(docker exec $CONTAINER_NAME node -v)
 else
-    echo "Node is not installed"
+    node_version="Not installed in the container"
 fi
 
 # Check npm version
-if command_exists npm; then
-    npm_version=$(npm -v)
-    echo "npm version: $npm_version"
+if command_exists_in_container npm; then
+    npm_version=$(docker exec $CONTAINER_NAME npm -v)
 else
-    echo "npm is not installed"
+    npm_version="Not installed in the container"
 fi
 
-# Check Angular version
-if command_exists ng; then
-    ng_version=$(ng version)
-    # Extract only the version number using grep and awk (as ng version command outputs multiple lines)
-    angular_version=$(echo "$ng_version" | grep 'Angular CLI:' | awk '{print $3}')
-    echo "Angular version: $angular_version"
-else
-    echo "Angular CLI is not installed"
+# Fetch Angular version from package.json
+angular_version=$(docker exec $CONTAINER_NAME sh -c "cat package.json | grep '@angular/core' | awk -F':' '{print $2}'" | sed 's/[^0-9.]*//g')
+
+if [ -z "$angular_version" ]; then
+    angular_version="Not found in package.json"
 fi
+
+# Print versions
+echo "----- JavaScript/TypeScript Environments -----"
+echo "Node version: $node_version"
+echo "npm version: $npm_version"
+echo "Angular version: $angular_version"

@@ -15,29 +15,42 @@
  # See the License for the specific language governing permissions and
  # limitations under the License.
 
-ROOT_DIR=$(realpath $(dirname "$0")/../..)
+# Function to check if a command exists
+command_exists () {
+    type "$1" &> /dev/null
+}
 
-# Set the path to the file containing the package list
-FILE_PATH=$ROOT_DIR"/scripts/ubuntu/1-install-dependendcies.sh"
+# Fetch Node, npm, and Angular versions locally
+echo "----- JavaScript/TypeScript Environments -----"
 
-# Check if file exists
-if [ ! -f "$FILE_PATH" ]; then
-    echo "File not found!"
-    exit 1
+if command_exists node; then
+    echo "Node version: $(node -v)"
+else
+    echo "Node is not installed."
 fi
 
-# Extract the package list from the file and remove comments
-packagelist=($(sed -n '/packagelist=(/,/)/p' "$FILE_PATH" | sed -e '1d;$d;s/#.*//'))
+if command_exists npm; then
+    echo "npm version: $(npm -v)"
+else
+    echo "npm is not installed."
+fi
 
-printf "%-36s %-20s\n" "Package Name" "Installed Version"
-echo "------------------------------------------------------"
+if command_exists ng; then
+    # Assuming that Angular CLI is installed globally and you can use 'ng version'
+    angular_version=$(ng version 2>&1 | grep 'Angular CLI:' | awk '{print $3}')
+    echo "Angular version: $angular_version"
+else
+    echo "Angular CLI is not installed."
+fi
+echo ""
 
-for package in "${packagelist[@]}"; do
-    package_name=$(echo $package | tr -d ',' | tr -d '[:space:]')
-    if [ ! -z "$package_name" ]; then
-        version=$(dpkg-query -W -f='${Version}' "$package_name" 2>/dev/null || echo "Not installed")
-        # Remove trailing whitespaces from version
-        version=$(echo $version | sed 's/[[:space:]]*$//')
-        printf "%-36s %-20s\n" "$package_name" "$version"
-    fi
-done
+# Fetch pip list locally
+echo "----- Python Environment -----"
+if command_exists pip; then
+    pip list
+elif command_exists pip3; then
+    pip3 list
+else
+    echo "Neither pip nor pip3 is found on the system."
+fi
+

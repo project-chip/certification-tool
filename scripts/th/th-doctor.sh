@@ -96,17 +96,17 @@
     repository_branches_output=$("$TH_DEV_SCRIPTS_DIR/_repo-branch.sh")
     print_framed_text "$repository_branches_output" "Git Status"
 
-    # Test Harness Environment Dependencies
+    # Test Harness Main Environment
     th_env_deps_output=$("$TH_DEV_SCRIPTS_DIR/_th-env-deps.sh")
-    print_framed_text "$th_env_deps_output" "Test Harness Environment Dependencies"
+    print_framed_text "$th_env_deps_output" "Test Harness Main Environment"
 
-    # Test Harness Frontend Development Environment
+    # Test Harness Frontend Environment (Container)
     th_frontend_output=$("$TH_DEV_SCRIPTS_DIR/_th-frontend.sh")
-    print_framed_text "$th_frontend_output" "Test Harness Frontend Development Environment"
+    print_framed_text "$th_frontend_output" "Test Harness Frontend Environment (Container)"
 
-    # Test Harness Backend Development Environment
+    # Test Harness Backend Environment (Container)
     th_backend_output=$("$TH_DEV_SCRIPTS_DIR/_th-backend.sh")
-    print_framed_text "$th_backend_output" "Test Harness Backend Development Environment"
+    print_framed_text "$th_backend_output" "Test Harness Backend Environment (Container)"
 
     # Test Harness CLI Development Environment
     th_cli_output=$("$TH_DEV_SCRIPTS_DIR/_th-cli.sh")
