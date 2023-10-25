@@ -93,6 +93,10 @@ The TH tool can be used by any DUT vendor to run the Matter certification tests 
 . TEDS Matter tool: https://groups.csa-iot.org/wg/matter-wg/document/28545[https://groups.csa-iot.org/wg/matter-wg/document/28545]
 
 
+*Important:*
+Some links contained in this user manual require a CSA membership and authentication as a CSA authorized user in order to be accessed
+
+
 <<<
 == *Test-Harness (TH) Design*
 
