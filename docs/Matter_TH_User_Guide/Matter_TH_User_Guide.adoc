@@ -38,10 +38,10 @@ endif::[]
 [discrete]
 == *Test-Harness Links*
 |===
-| *Matter Version* | *TH Version* | *TH image location*                                                                         | *Supporting Documentation*                                                     | *Comments*
-| Matter 1.0       | TH v2.6      | https://drive.google.com/file/d/1aw6cie59N3OGRCFjG_sw0Uv7JzXMyLda/view?usp=share_link[link] | https://groups.csa-iot.org/wg/matter-csg/document/26925[TH Verification Steps] |
-| Matter 1.1       | TH v2.8.1    | https://drive.google.com/file/d/1cObNwYQjTpNYJaQ2Wz_ThNDEWqVasHxe/view?usp=share_link[link] | https://groups.csa-iot.org/wg/matter-csg/document/folder/2470[Causeway Link]   |
-| Matter 1.2       | TH-Fall2023  | https://drive.google.com/drive/folders/1vZbfqRWNrttJOUZbYskKJaGGdOm54ugq?usp=sharing[link]  |                                                                                |
+| *Matter Version* | *TH Version* | *TH image location*                                                                         | *Supporting Documentation*                                                     | *SDK commit* | *Comments*
+| Matter 1.0       | TH v2.6      | https://drive.google.com/file/d/1aw6cie59N3OGRCFjG_sw0Uv7JzXMyLda/view?usp=share_link[link] | https://groups.csa-iot.org/wg/matter-csg/document/26925[TH Verification Steps] | 96c9357      |
+| Matter 1.1       | TH v2.8.1    | https://drive.google.com/file/d/1cObNwYQjTpNYJaQ2Wz_ThNDEWqVasHxe/view?usp=share_link[link] | https://groups.csa-iot.org/wg/matter-csg/document/folder/2470[Causeway Link]   | 5a21d17      |
+| Matter 1.2       | TH-Fall2023  | https://drive.google.com/drive/folders/1vZbfqRWNrttJOUZbYskKJaGGdOm54ugq?usp=sharing[link]  |                                                                                | 19771ed      |
 |===
 
 <<<
@@ -60,6 +60,7 @@ endif::[]
 | 8           | 12-Jun-2023  | [Apple]Carolina Lopes               | * Added instructions to install TH without a Raspberry Pi.
 | 9           | 06-Sep-2023  | [Apple]Antonio Melo Jr              | * Moved the table of contents to a further page. +
 * Added TH links for images and support documentations 
+| 10          | 25-Oct-2023  | [Apple]Hilton Lima                  | * Added SDK commit column to Test-Harness Links table.
 |===
 
 <<<
