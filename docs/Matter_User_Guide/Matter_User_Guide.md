@@ -137,6 +137,9 @@ Matter certification testing tools or technologies.
 6.  TEDS Matter tool:
     <https://groups.csa-iot.org/wg/matter-wg/document/28545>
 
+**Important:**
+*Some links contained in this user manual require a CSA membership and authentication as a CSA authorized user in order to be accessed*
+
 # **Test-Harness (TH) Design**
 
 This section outlines the TH architecture, data model and data flow on
