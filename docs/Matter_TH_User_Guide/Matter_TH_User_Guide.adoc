@@ -61,6 +61,7 @@ endif::[]
 | 9           | 06-Sep-2023  | [Apple]Antonio Melo Jr              | * Moved the table of contents to a further page. +
 * Added TH links for images and support documentations 
 | 10          | 25-Oct-2023  | [Apple]Hilton Lima                  | * Added SDK commit column to Test-Harness Links table.
+| 11          | 26-Oct-2023  | [Apple]Carolina Lopes               | * Updated some links and images.
 |===
 
 <<<
@@ -72,7 +73,7 @@ toc::[]
 :sectnums:
 == *Introduction*
 
-The Matter Test-Harness is a comprehensive test tool used for certification testing of Matter devices in accordance with the Matter protocol as defined in the Matter specification https://docs.google.com/document/d/1bYDjmGrj6dPnu0KHoVRaDF7YhsFzGslw/edit#heading=h.3znysh7[&#91;2&#93;]. 
+The Matter Test-Harness is a comprehensive test tool used for certification testing of Matter devices in accordance with the Matter protocol as defined in the https://groups.csa-iot.org/wg/members-all/document/folder/2269[Matter specification]. 
 
 This user guide serves as the primary user documentation to work with the Test-Harness ( *TH* ) tool, providing high-level architecture of the tool, how to use the tool to execute certification tests and submit the test results to CSA for certification.
 
@@ -88,9 +89,9 @@ The TH tool can be used by any DUT vendor to run the Matter certification tests 
 . Matter Specification: https://groups.csa-iot.org/wg/members-all/document/27349[Matter Specification (Causeway)] / https://github.com/CHIP-Specifications/connectedhomeip-spec[Matter Specification (Github)]
 . Matter SDK Repo github: https://github.com/project-chip/connectedhomeip[https://github.com/project-chip/connectedhomeip]  
 . Matter Test Plans: https://groups.csa-iot.org/wg/members-all/document/30026[Matter Test Plans (Causeway)] / https://github.com/CHIP-Specifications/chip-test-plans[Matter Test Plans (GitHub)]
-. PICS Tool: https://picstool.csa-iot.org/#userguide[PICS Tool v1.6.4 matter 1.0 - Connectivity Standards Alliance (csa-iot.org)]
-. XML Files Link: https://groups.csa-iot.org/wg/matter-csg/document/26122[https://groups.csa-iot.org/wg/matter-csg/document/26122]
-. TEDS Matter tool: https://groups.csa-iot.org/wg/matter-wg/document/28545[https://groups.csa-iot.org/wg/matter-wg/document/28545]
+. PICS Tool: https://picstool.csa-iot.org/#userguide[PICS Tool - Connectivity Standards Alliance (csa-iot.org)]
+. XML Files: https://groups.csa-iot.org/wg/matter-csg/document/26122
+. TEDS Matter tool: https://groups.csa-iot.org/wg/matter-wg/document/28545
 
 
 *Important:*
@@ -109,7 +110,7 @@ image::images/img_0.png[TH Layout]
 
 Each of the main subsystems of the Test Harness (Proxy, Frontend, Backend and Database) runs on its own docker container deployed to a Ubuntu Raspberry Pi platform. The Proxy container hosts an instance of the traefik application proxy (https://traefik.io/traefik/[https://traefik.io/traefik/]) which is responsible to route user requests coming from an external (to the Raspberry Pi) web browser to either the Frontend or the Backend as appropriate. The Frontend container serves the dynamic web pages that comprise the Web GUI to be rendered on the user browser including the client-side logic. According to that client-side logic and user input, REST API requests are sent again by the external browser to the Application Proxy and get redirected to the Backend container, where a FastAPI (https://fastapi.tiangolo.com/[https://fastapi.tiangolo.com/]) Python application implements the server-side logic. Any application information that needs to be persisted gets serialized and written by the server-side logic to the Postgres database running in the Database container.
 
-In addition to the four main containers described above, which get created and destroyed when the Raspberry Pi platform respectively boots up and shuts down, two other containers are created and destroyed dynamically on demand according to the test execution lifecycle: the SDK container and the OTBR container. The SDK container has copies of the Matter SDK tools (binary executables) which can be used to play the role of clients and servers of the Matter protocol in test interactions, either as Test Harness actuators or DUT simulators. That container gets automatically created and destroyed by the server-side logic at the start and at the end, respectively, of a Test Suite which needs actuators or simulators. The OTBR container, on the other hand, hosts an instance of the Open Thread Border Router and needs to be explicitly started by the TH user when she wants to test a real Matter device that runs over a Thread fabric, as described in <<ot-border-router-otbr-setup, section 6, OT Border Router (OTBR) Setup>>.
+In addition to the four main containers described above, which get created and destroyed when the Raspberry Pi platform respectively boots up and shuts down, two other containers are created and destroyed dynamically on demand according to the test execution lifecycle: the SDK container and the OTBR container. The SDK container has copies of the Matter SDK tools (binary executables) which can be used to play the role of clients and servers of the Matter protocol in test interactions, either as Test Harness actuators or DUT simulators. That container gets automatically created and destroyed by the server-side logic at the start and at the end, respectively, of a Test Suite which needs actuators or simulators. The OTBR container, on the other hand, hosts an instance of the Open Thread Border Router and needs to be explicitly started by the TH user when they want to test a real Matter device that runs over a Thread fabric, as described in <<ot-border-router-otbr-setup, section 6, OT Border Router (OTBR) Setup>>.
 
 
 
@@ -220,7 +221,7 @@ Take the backup of Test Harness binary using below command: +
 `$mv certification-tool certification-tool-backup` +
 `$git clone https://<token>@github.com/project-chip/certification-tool.git`
 
-Follow the instructions given in the above section on how to update an existing Test-Harness image  
+Follow the instructions given in the section below on how to <<update-existing-th, update an existing Test-Harness>>
 |===
 
 
@@ -257,7 +258,7 @@ The above command might take a while to get executed, wait for 5-10 minutes and 
 
 === TH installation without a Raspberry Pi
 
-To install TH without using a Raspberry Pi you'll need a machine with Ubuntu 22.04 Server LTS. You can create a virtual machine for this purpose (<<create-an-ubuntu-virtual-machine>>), but be aware that if the host's architecture is not arm64 you'll need to substitute the SDK's docker image in order for it to work properly <<substitute-the-sdks-docker-image-and-update-sample-apps>>.
+To install TH without using a Raspberry Pi you'll need a machine with Ubuntu 22.04 Server LTS. You can <<create-an-ubuntu-virtual-machine, create a virtual machine>> for this purpose, but be aware that if the host's architecture is not arm64 you'll need to <<substitute-the-sdks-docker-image-and-update-sample-apps, substitute the SDK's docker image>> in order for it to work properly.
 
 ==== Create an Ubuntu virtual machine
 
@@ -357,7 +358,7 @@ If there's an image with a tag for the commit you're using, delete that image +
 * Update TH sample apps
 
 |===
-|To update your sample apps using the new image, you should first edit the `certification-tool/scripts/ubuntu/update-sample-apps.sh`` script to comment out or remove the following line: +
+|To update your sample apps using the new image, you should first edit the `certification-tool/scripts/ubuntu/update-sample-apps.sh` script to comment out or remove the following line: +
 `sudo docker pull $SDK_DOCKER_IMAGE:$SDK_DOCKER_TAG` +
 This is needed because the docker pull command downloads the image from the remote. Removing this line, the script will use your local image. +
 Then run this script in the certification-tool repository +
@@ -389,7 +390,7 @@ Yaml files are located at:
 |`~/certification-tool/backend/test_collections/yaml_tests/yaml/sdk/`
 |===
 
-To update an existing Yaml test script: (e.g. `Test_TC_ACE_1_1.yaml``)
+To update an existing Yaml test script: (e.g. `Test_TC_ACE_1_1.yaml`)
 
 * Open the script file:
 |===
@@ -426,11 +427,11 @@ To create a new Yaml test script:
 <<<
 == *Bringing Up of Matter Node (DUT) for Certification Testing*
 
-A Matter node can either be a commissioner, controller, controlee, software component or an application. The Matter SDK comes with a few example apps that can be used by Vendors as a reference to build their products. Refer to the examples folder in the https://docs.google.com/document/d/1bYDjmGrj6dPnu0KHoVRaDF7YhsFzGslw/edit#heading=h.3znysh7[SDK] repo github for the same.
+A Matter node can either be a commissioner, controller, controlee, software component or an application. The Matter SDK comes with a few example apps that can be used by Vendors as a reference to build their products. Refer to the examples folder in the https://github.com/project-chip/connectedhomeip[SDK github repo] for the same.
 
 DUT vendors need to get the device flashed with the production firmware revision that they want to get their device certified and execute all the applicable TC’s for their products using the TH. DUT vendors can skip the below sections as the TH brings up the reference applications automatically during the certification tests execution.
 
-A hobby developer can build Matter reference apps either using a Raspberry Pi or Nordic DK board (if the user wants to use thread transport). Follow the instructions below for the https://docs.google.com/document/d/1bYDjmGrj6dPnu0KHoVRaDF7YhsFzGslw/edit#heading=h.hjsjhcfwbnv8[Raspberry Pi] and https://docs.google.com/document/d/1bYDjmGrj6dPnu0KHoVRaDF7YhsFzGslw/edit#heading=h.exwnxjd209ly[Nordic] platforms. 
+A hobby developer can build Matter reference apps either using a Raspberry Pi or Nordic DK board (if the user wants to use thread transport). Follow the instructions below for the <<bringing-up-of-reference-matter-node-dut-on-raspberry-pi, Raspberry Pi>> and <<bringing-up-of-reference-matter-node-dut-on-thread-platform, Nordic>> platforms. 
 
 === Bringing Up of Reference Matter Node (DUT) on Raspberry Pi
 
@@ -553,7 +554,7 @@ source scripts/activate.sh`
 |===
 +
 
-. If the nRF-Connect SDK is not  installed, create a directory running the following command:
+. If the nRF-Connect SDK is not installed, create a directory running the following command:
 
 +
 |===
@@ -661,7 +662,7 @@ Perform the following procedure, regardless of the method used for setting up th
 
 If the DUT supports Thread Transport, DUT vendors need to use the OTBR that is shipped with the TH image for certification testing. Here are the instructions to set up OTBR that comes with the TH. Users need to get the RCP programmed with the recommended version and connect it to the Raspberry Pi running the TH. The OTBR will be started when the TH runs the thread transport related TC’s.
 
-Currently the OTBR in the TH works with either the Nordic RCP dongle or SiLabs RCP dongle. Refer to Section 6.1 to flash the NRF52840 firmware or Section 6.2 to flash the SiLabs firmware and get the RCP’s ready. Once the RCP’s are programmed, the user needs to insert the RCP dongle on to the Raspberry Pi running the TH and reboot the Raspberry Pi.
+Currently the OTBR in the TH works with either the Nordic RCP dongle or SiLabs RCP dongle. Refer to <<instructions-to-flash-the-firmware-nrf52840-rcpdongle, Section 6.1>> to flash the NRF52840 firmware or <<instructions-to-flash-silabs-rcp, Section 6.2>> to flash the SiLabs firmware and get the RCP’s ready. Once the RCP’s are programmed, the user needs to insert the RCP dongle on to the Raspberry Pi running the TH and reboot the Raspberry Pi.
 
 === Instructions to Flash the Firmware NRF52840 RCPDongle
 . Download RCP firmware package from the following link on the user’s system — https://groups.csa-iot.org/wg/matter-csg/document/26977[https://groups.csa-iot.org/wg/matter-csg/document/26977] 
@@ -786,7 +787,7 @@ If any issue occurs while using *otbr_start.sh*, follow the steps below to gener
 |`sudo docker run -it --rm --privileged --network otbr -p 8080:80 --sysctl "net.ipv6.conf.all.disable_ipv6=0 net.ipv6.conf.all.forwarding=1" --name otbr -e NAT64=0 --volume /dev/ttyACM0:/dev/ttyACM0 connectedhomeip/otbr:sve2 --radio-url spinel+hdlc+uart:///dev/ttyACM0`
 |===
 
-. Generate the Thread form for dataset by entering ‘ <Raspberry-Pi IP>:8080 ’ on the user’s system browser. The OTBR form will be generated as shown below. 
+. Generate the Thread form for dataset by entering ‘<Raspberry-Pi IP>:8080’ on the user’s system browser. The OTBR form will be generated as shown below. 
 . Click on the *Form* option and follow the sequence to generate the OTBR form.
 +
 image:images/img_13.png[]
@@ -904,7 +905,7 @@ lo: flags=73<UP,LOOPBACK,RUNNING>  mtu 65536 +
 
 === Project Configuration
 
-When the DUT is a client, refer to https://docs.google.com/document/d/1bYDjmGrj6dPnu0KHoVRaDF7YhsFzGslw/edit#heading=h.mtz3kzfpm92o[simulated_tests.] The TH brings up the example accessory using chip-app1 binary. The user will be prompted to commission the device. Once the commissioning process is completed, proceed with the test execution.
+When the DUT is a client, refer to <<simulated-tests>>. The TH brings up the example accessory using chip-app1 binary. The user will be prompted to commission the device. Once the commissioning process is completed, proceed with the test execution.
 
 In the case where the DUT is a server, the TH spins up the controller, the DUT bring-up procedure should be completed and has to be paired with the controller. 
 
@@ -923,7 +924,7 @@ Follow the sections below for the project configuration and test execution.
 image:images/img_15.png[]
 
 . A new window will be opened as “Matter Test Harness”. 
-. Click on the *Add Project* button. Enter the project name as “Test Project” and edit the Project Config settings to provide additional details.
+. Click on the *Create New Project* button. Enter the project name as “Test Project” and edit the Project Config settings to provide additional details.
 +
 image:images/img_16.png[]
 
@@ -982,19 +983,19 @@ image:images/img_24.png[]
 +
 image:images/img_25.png[]
 +
-image:images/img_26.jpg[]
+image:images/img_26.png[]
 
-. The test cases are loaded based on the PICS file selection. Provide a Test name for this run such as Door Lock First Run. Input any additional description about the run. Enter the Test Engineers Name. Select only the test cases that are to be executed and deselect other test cases. There is a search option available to search for a particular test case. The number of times the test is to be executed can be given by clicking on the number spin control. +
+. The test cases are loaded based on the PICS file selection. Provide a Test name for this run such as Door Lock First Run. Input any additional description about the run. Enter the Test Engineers Name under Operator. Select only the test cases that are to be executed and deselect other test cases. There is a search option available to search for a particular test case. The number of times the test is to be executed can be given by clicking on the number spin control. +
 Ensure that DUT is in the discoverable mode before clicking on the Start button. +
 Example command to be used to launch the sample apps (e.g., all-cluster-app):
 
 +
 |===
-|Ble-wifi:   ./chip-all-clusters-app --wifi
+|Ble-wifi: ./chip-all-clusters-app --wifi
 
-Onnetwork:    ./chip-all-clusters-app
+Onnetwork: ./chip-all-clusters-app
 
-Thread:    Enabled discoverable over Bluetooth LE (ex: On nRF52840 DK: Press Button 4 to start BLE advertisements)  
+Thread: Enable discoverable over Bluetooth LE (ex: On nRF52840 DK: Press Button 4 to start BLE advertisements)  
 |===
 +
 image:images/img_27.png[]
@@ -1059,17 +1060,17 @@ image:images/img_33.png[]
 
 ==== Automated Test Cases
 
-Click on the *automated_and_semi_automated* tab. The automated and semi automated test cases will be listed under this option. The Automated test cases will be listed as the TC-<Cluster>-XX without any suffix, e.g., TC-DRLK-1.1. Automated test case execution will not require any manual intervention.
+Click on the *SDK YAML Tests* tab. The automated and semi automated test cases will be listed in **FirstChipToolSuite**. The Automated test cases will be listed as the TC-<Cluster>-XX without any suffix, e.g., TC-DRLK-1.1. Automated test case execution will not require any manual intervention.
 
 ==== Semi Automated Test Cases
 
 The Semi Automated test cases will be listed as TC-<Cluster>-XX(Semi-automated). During the Semi Automated test case execution, some of the steps will be executed automatically and the user will be prompted to perform a few steps as shown below in the screenshots. From the TH user interface, load the required PICS file to select the test cases, e.g., Doorlock Test Plan.xml.
 
-Select the required Semi Automated test case to be executed and ensure other test cases are not selected. Take for example TC-DRLK-2.2 as shown below:
+Select the required Semi Automated test case to be executed and ensure other test cases are not selected. Take for example TC-ACE-1.6 as shown below:
 
 image:images/img_34.png[]
 
-Bring up the DUT (Doorlock Cluster as Server) by sending the following command ./chip-lock-app on the Raspberry Pi terminal and click on the *Start* button.
+Bring up the DUT (All Clusters as Server) by sending the following command `./chip-all-clusters-app` on the Raspberry Pi terminal and click on the *Start* button.
 
 During the Test execution, as the log gets updated, copy the newly generated node ID.
 
@@ -1083,7 +1084,7 @@ Form the Chip-tool, execute the above command with node ID listed in the TH log.
 `docker exec -it th-chip-tool <popup command> <newly generated nodeID> <end-point id>`
 
 `cd apps` +
-`docker exec -it th-chip-tool ./chip-tool doorlock unlock-lock 0x4eaa83244c40b1e7 1 --timedInteractionTimeoutMs 1000 –PINCode 12345678`
+`docker exec -it th-chip-tool ./chip-tool groups view-group 0x0105 Oxb1d2ee23dcf2f18b 0`
 |===
 
 
@@ -1118,16 +1119,21 @@ image:images/img_40.png[]
 After the Manual pairing of the DUT, execute the command displayed on the prompt as shown below.
 
 |===
-|Example:  `./apps/chip-tool doorlock read lock-state  1 1`
+|Example:  `./apps/chip-tool doorlock read-event door_lock-alarm 1 1`
 |===
 
 Save the Chip-tool logs in a text file. Validate the chip tool log and select the applicable choice from the user prompt in the TH tool and select the *Submit* button. At the end of the test execution, the user is prompted to upload the Chip-tool logs that were saved in the previous step.
 
-=== Simulated Tests (app1_tests)
+=== Simulated Tests
 
-Simulated tests must be executed when the DUT is considered as a Client. During the execution of the simulated_tests, the user is prompted for an action to be performed on the device as shown in the following screenshot.
+Simulated tests must be executed when the DUT is considered as a Client. The simulated test cases will be listed in **FirstAppSuite** under the *SDK YAML Tests* tab.
 
-Follow the instructions provided in the user prompt to complete the test execution. +
+image:images/img_59.png[]
+
+During the execution of these tests, the user is prompted for an action to be performed on the device as shown in the following screenshot.
+
+Follow the instructions provided in the user prompt to complete the test execution.
+
 image:images/img_41.png[]
 
 |===
@@ -1136,9 +1142,9 @@ image:images/img_41.png[]
 
 === “Python test” Inside Docker
 
-The automated Python scripts listed below are available inside the docker of the TH image and are not available in the TH User Interface.
+Some automated Python scripts are available inside the docker of the TH image and are not available in the TH User Interface.
 
-TC_ACE_1_3.py, TC_ACE_1_4.py , TC_CGEN_2_4.py , TC_DA_1_7.py , TC_RR_1_1.py  TC_SC_3_6.py
+E.g.: TC_ACE_1_3.py, TC_ACE_1_4.py , TC_CGEN_2_4.py , TC_DA_1_7.py , TC_RR_1_1.py  TC_SC_3_6.py
 
 Follow the instructions below to execute the test cases.
 
