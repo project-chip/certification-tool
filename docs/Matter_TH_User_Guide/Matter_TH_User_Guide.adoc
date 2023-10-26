@@ -211,14 +211,14 @@ ssh back into the TH IP address using: +
 |===
 
 
-* In case the “remote: Repository not found” fatal error occurs, try the following steps to fix the issue. Clone the chip-certification-tool with personal access token (Refer to <<generate-personal-access-token, Section 4.2.2, Generate Personal Access Token>> to generate the personal access token) and follow the steps below.
+* In case the “remote: Repository not found” fatal error occurs, try the following steps to fix the issue. Clone the certification-tool with personal access token (Refer to <<generate-personal-access-token, Section 4.2.2, Generate Personal Access Token>> to generate the personal access token) and follow the steps below.
 
 |===
 |cd ~ +
 
 Take the backup of Test Harness binary using below command: +
-`$mv chip-certification-tool chip-certification-tool-backup` +
-`$git clone https://<token>@github.com/CHIP-Specifications/chip-certification-tool.git`
+`$mv certification-tool certification-tool-backup` +
+`$git clone https://<token>@github.com/project-chip/certification-tool.git`
 
 Follow the instructions given in the above section on how to update an existing Test-Harness image  
 |===
@@ -250,7 +250,7 @@ During the initial reboot of the Raspberry Pi, if the docker is not initiated au
 |Use the command `ssh ubuntu@IP_address` from the PC to log in to Raspberry Pi. Refer above sections on how to obtain the IP address of Raspberry Pi.
 
 Once the SSH connection is successful, start the docker container using the command +
-*$* `./chip-certification-tool/scripts/start.sh`
+*$* `./certification-tool/scripts/start.sh`
 
 The above command might take a while to get executed, wait for 5-10 minutes and then proceed with the Test Execution Steps as outlined in the below sections.  
 |===
@@ -297,13 +297,13 @@ Seems like bridged network is not available, so you will not be able to test wit
 * Clone git repo
 
 |===
-|`git clone git@github.com:CHIP-Specifications/chip-certification-tool.git"`
+|`git clone git@github.com:project-chip/certification-tool.git"`
 |===
 
 * Go into the repo directory
 
 |===
-|`cd chip-certification-tool`
+|`cd certification-tool`
 |===
 
 * Run TH auto install script
@@ -327,7 +327,7 @@ In order to run TH in a machine that uses the 'linux/amd64' platform, you'll nee
 * Get the SDK commit SHA
 
 |===
-|Value for variable `SDK_DOCKER_TAG` in TH repository path `chip-certification-tool/backend/app/core/config.py`
+|Value for variable `SDK_DOCKER_TAG` in TH repository path `certification-tool/backend/app/core/config.py`
 |===
 
 * Download the Dockerfile for chip-cert-bins from the commit you need
@@ -357,10 +357,10 @@ If there's an image with a tag for the commit you're using, delete that image +
 * Update TH sample apps
 
 |===
-|To update your sample apps using the new image, you should first edit the `chip-certification-tool/scripts/ubuntu/update-sample-apps.sh`` script to comment out or remove the following line: +
+|To update your sample apps using the new image, you should first edit the `certification-tool/scripts/ubuntu/update-sample-apps.sh`` script to comment out or remove the following line: +
 `sudo docker pull $SDK_DOCKER_IMAGE:$SDK_DOCKER_TAG` +
 This is needed because the docker pull command downloads the image from the remote. Removing this line, the script will use your local image. +
-Then run this script in the chip-certification-tool repository +
+Then run this script in the certification-tool repository +
 `./scripts/ubuntu/update-sample-apps.sh`
 |===
 
@@ -370,7 +370,7 @@ Then run this script in the chip-certification-tool repository +
 To update an existing TH environment, follow the instructions below on the terminal.
 
 |===
-|`cd ~/chip-certification-tool` +
+|`cd ~/certification-tool` +
 `git fetch` +
 `git checkout <Target_Branch>` +
 `git pull` +
@@ -386,14 +386,14 @@ It is possible to update yaml test script content by directly editing the file c
 
 Yaml files are located at:
 |===
-|`~/chip-certification-tool/backend/test_collections/yaml_tests/yaml/sdk/`
+|`~/certification-tool/backend/test_collections/yaml_tests/yaml/sdk/`
 |===
 
 To update an existing Yaml test script: (e.g. `Test_TC_ACE_1_1.yaml``)
 
 * Open the script file:
 |===
-|`~/chip-certification-tool/backend/test_collections/yaml_tests/yaml/sdk/Test_TC_ACE_1_1.yaml`
+|`~/certification-tool/backend/test_collections/yaml_tests/yaml/sdk/Test_TC_ACE_1_1.yaml`
 |===
 
 * Update/change the desired information.
@@ -402,7 +402,7 @@ To update an existing Yaml test script: (e.g. `Test_TC_ACE_1_1.yaml``)
 
 * Restart TH's backend container:
 |===
-|`$docker restart chip-certification-tool_backend_1`
+|`$docker restart certification-tool_backend_1`
 |===
 
 * Changes will be available on the next execution of the yaml test.
@@ -728,7 +728,7 @@ TH spins the OTBR docker image automatically when executing the thread related t
 ssh the Raspberry-Pi in the User System using the command “*ssh ubuntu@IP_address*” +
 Example output for the above command to generate the dataset value: 
 |===
-|ubuntu@ubuntu:~*$* ./chip-certification-tool/scripts/OTBR/otbr_start.sh connectedhomeip/otbr             sve2                                       cd81003a4ffe   7 months ago   436MB +
+|ubuntu@ubuntu:~*$* ./certification-tool/scripts/OTBR/otbr_start.sh connectedhomeip/otbr             sve2                                       cd81003a4ffe   7 months ago   436MB +
 otbr image connectedhomeip/otbr:sve2 already installed adbc48b536dc5a350c2e5dcf9c09b378290fe79ac423a15943e8c970473fd44f
 
 waiting 10 seconds to give the docker container enough time to start up... +
@@ -1149,7 +1149,7 @@ Follow the instructions below to execute the test cases.
 
 +
 |===
-|`cd chip-certification-tool` +
+|`cd certification-tool` +
 `./scripts/ubuntu/update-paa-certs.sh`
 |===
 
