@@ -44,7 +44,7 @@ to the general public, including non-members wherever possible.
 
 # Instructions
 
-Detailed instructions for how to use this set of tools with [Matter](https://github.com/project-chip/connectedhomeip) are located [here](./docs/Matter_User_Guide/Matter_User_Guide.md)
+Detailed instructions for how to use this set of tools with [Matter](https://github.com/project-chip/connectedhomeip) are located [here](./docs/Matter_TH_User_Guide/Matter_TH_User_Guide.adoc)
 
 ## Related Repositories
 
