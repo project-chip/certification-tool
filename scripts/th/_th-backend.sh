@@ -15,69 +15,31 @@
  # See the License for the specific language governing permissions and
  # limitations under the License.
 
-ROOT_DIR=$(realpath $(dirname "$0")/../..)
+CONTAINER_NAME="chip-certification-tool_backend_1"
 
-# Set the path to the file containing the package list
-FILE_PATH=$ROOT_DIR"/backend/pyproject.toml"
+# Check if the container is running
+container_running=$(docker inspect -f '{{.State.Running}}' $CONTAINER_NAME 2>/dev/null)
 
-# Function to check if command exists
-command_exists () {
-    type "$1" &> /dev/null ;
-}
-
-# Check Python version
-if command_exists python3; then
-    python_version=$(python3 --version)
-    echo "Python version: $python_version"
-elif command_exists python; then
-    python_version=$(python --version)
-    echo "Python version: $python_version"
-else
-    echo "Python is not installed"
-fi
-
-# Check pip version
-# Adjusted to check for pip3 as well, considering python3 might be installed
-if command_exists pip3; then
-    pip_version=$(pip3 --version)
-    echo "pip version: $pip_version"
-elif command_exists pip; then
-    pip_version=$(pip --version)
-    echo "pip version: $pip_version"
-else
-    echo "pip is not installed"
-fi
-
-# Check virtual environment
-if [ -n "$VIRTUAL_ENV" ]; then
-    echo "Virtual environment: Activated"
-    echo "Virtual environment location: $VIRTUAL_ENV"
-else
-    echo "Virtual environment: Not activated"
-fi
-echo
-
-# Check if file exists
-if [ ! -f "$FILE_PATH" ]; then
-    echo "File not found!"
+# If the docker inspect command fails or the container is not running, notify and exit
+if [ "$?" -ne 0 ] || [ "$container_running" != "true" ]; then
+    echo "The container \"$CONTAINER_NAME\" is not running.\nPlease start it and try again."
     exit 1
 fi
 
-# Function to extract and print dependencies from a section
-print_dependencies() {
-    section=$1
-    echo -e "${section}"
-    printf "%-30s %-20s\n" "Package Name" "Listed Version"
-    echo "---------------------------------------------"
-    awk -v section="$section" 'BEGIN{flag=0} $0 == section {flag=1; next} flag && /^\[/{exit} flag {print $0}' "$FILE_PATH" | \
-    grep '=' | sed 's/ = /:/g' | tr -d '"' | tr -d ',' | while read -r line; do
-        package_name=$(echo $line | cut -d: -f1)
-        listed_version=$(echo $line | cut -d: -f2)
-        printf "%-30s %-20s\n" "$package_name" "$listed_version"
-    done
-    echo ""  # Print an empty line as a separator
+# Function to check if command exists inside the container
+command_exists_in_container () {
+    docker exec $CONTAINER_NAME sh -c "type $1" &> /dev/null
 }
 
-# Call the function for each section
-print_dependencies "[tool.poetry.dependencies]"
-print_dependencies "[tool.poetry.dev-dependencies]"
+# Fetch pip list from container
+echo "----- Python Environment -----"
+if command_exists_in_container pip; then
+    pip_list=$(docker exec $CONTAINER_NAME pip list)
+    echo "$pip_list"
+elif command_exists_in_container pip3; then
+    pip_list=$(docker exec $CONTAINER_NAME pip3 list)
+    echo "$pip_list"
+else
+    echo "Neither pip nor pip3 is installed in the container."
+fi
+
