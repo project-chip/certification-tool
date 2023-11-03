@@ -54,29 +54,14 @@ do
         DEV_COMPOSE_FILES="$DEV_COMPOSE_FILES $FRONTEND_COMPOSE"
         shift # Remove --frontend from processing
         ;;
-        --build-no-cache)
-        COMPOSE_CACHE_OPTION="--no-cache"
-        shift # Remove --build-no-cache from processing
-        ;;
-        *)
         OTHER_ARGUMENTS+=("$1")
         shift # Remove generic argument from processing
         ;;
     esac
 done
 
-
-docker-compose \
--f docker-compose.yml \
-$DEV_COMPOSE_FILES \
-config > docker-stack.yml
-
-if [ ! -z "$COMPOSE_CACHE_OPTION" ] ; then
-    echo "Building no-cache"
-    docker-compose -f docker-stack.yml build $COMPOSE_CACHE_OPTION
-fi
-
-docker-compose -f docker-stack.yml up -d
+# Start docker containers with docker-compose
+docker-compose --log-level WARNING -f docker-compose.yml $DEV_COMPOSE_FILES  up -d
 
 if [ "$FRONTEND_DEV" = true ] ; then
     echo "!!!! Matter TH frontend started in development mode."

@@ -69,14 +69,14 @@ services:
           - node.labels.${STACK_NAME?Variable not set}.app-db-data == true
 
   backend:
-    image: 'backend:latest'
+    image: 'ghcr.io/project-chip/csa-certification-tool-backend:latest'
     ports:
       - "8888:8888"
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
       - /usr/bin/docker:/usr/bin/docker
       - /var/run/dbus:/var/run/dbus
-      - ./backend:/app # mount code in container
+      - ./backend/test_collections:/app/test_collections # mount test_collections in container
     depends_on:
       - db
     env_file:
@@ -88,10 +88,10 @@ services:
     privileged: true
     build:
       context: ./backend
-      dockerfile: backend.dockerfile
+      dockerfile: Dockerfile
       args:
         INSTALL_DEV: ${INSTALL_DEV-false}
-    command: /start-reload.sh
+    command: /start.sh
     labels:
       - traefik.enable=true
       - traefik.constraint-label-stack=${TRAEFIK_TAG?Variable not set}
@@ -99,7 +99,7 @@ services:
       - traefik.http.services.${STACK_NAME?Variable not set}-backend.loadbalancer.server.port=80
 
   frontend:
-    image: 'frontend:latest'
+    image: 'ghcr.io/project-chip/csa-certification-tool-frontend'
     build:
       context: ./frontend
       args:
