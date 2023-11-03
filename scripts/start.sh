@@ -54,6 +54,7 @@ do
         DEV_COMPOSE_FILES="$DEV_COMPOSE_FILES $FRONTEND_COMPOSE"
         shift # Remove --frontend from processing
         ;;
+        *)
         OTHER_ARGUMENTS+=("$1")
         shift # Remove generic argument from processing
         ;;
@@ -61,7 +62,7 @@ do
 done
 
 # Start docker containers with docker-compose
-docker-compose --log-level WARNING -f docker-compose.yml $DEV_COMPOSE_FILES  up -d
+docker-compose -f docker-compose.yml $DEV_COMPOSE_FILES up -d
 
 if [ "$FRONTEND_DEV" = true ] ; then
     echo "!!!! Matter TH frontend started in development mode."
