@@ -88,9 +88,6 @@ services:
     privileged: true
     build:
       context: ./backend
-      dockerfile: Dockerfile
-      args:
-        INSTALL_DEV: ${INSTALL_DEV-false}
     command: /start.sh
     labels:
       - traefik.enable=true
@@ -102,10 +99,6 @@ services:
     image: 'ghcr.io/project-chip/csa-certification-tool-frontend'
     build:
       context: ./frontend
-      args:
-        FRONTEND_ENV: dev
-        INSTALL_PUPPETEER: ${INSTALL_PUPPETEER-false}
-        INSTALL_DEV: ${INSTALL_DEV-false}
     labels:
       - traefik.enable=true
       - traefik.constraint-label-stack=${TRAEFIK_TAG?Variable not set}
