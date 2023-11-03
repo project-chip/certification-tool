@@ -19,4 +19,4 @@
 set -e
 
 ./backend/scripts/build-docker-image.sh "$@"
-./frontend/build-docker-image.sh "$@"
+./frontend/scripts/build-docker-image.sh "$@"
