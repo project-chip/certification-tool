@@ -29,9 +29,6 @@ set -e
 # Ensure .env exists
 ./scripts/install-default-env.sh
 
-# Record Backend SHA to a file
-sh ./scripts/record-backend-sha-version.sh
-
 # Dev override files
 BACKEND_COMPOSE="-f docker-compose.override-backend-dev.yml"
 FRONTEND_COMPOSE="-f docker-compose.override-frontend-dev.yml"
