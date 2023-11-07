@@ -18,4 +18,4 @@ ROOT_DIR=$(realpath $(dirname "$0")/..)
 cd $ROOT_DIR
 # Exit in case of error
 set -e
-docker-compose -f docker-stack.yml down
+docker-compose -f docker-compose.yml down

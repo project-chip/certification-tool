@@ -18,10 +18,5 @@
 # Exit in case of error
 set -e
 
-# Ensure .env exists
-./scripts/install-default-env.sh
-
-FRONTEND_ENV=${FRONTEND_ENV-production} \
-docker-compose \
--f docker-compose.yml \
-build
+./backend/scripts/build-docker-image.sh "$@"
+./frontend/scripts/build-docker-image.sh "$@"

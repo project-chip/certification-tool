@@ -21,6 +21,8 @@ services:
     working_dir: /app/frontend
     command: bash -c "npm install && while true; do sleep 1; done"  # Infinite loop to keep container live doing nothing
     build:
+      context: ./frontend
       args:
         INSTALL_DEV: ${INSTALL_DEV-true}
+        FRONTEND_ENV: dev
         INSTALL_PUPPETEER: ${INSTALL_PUPPETEER-false}
