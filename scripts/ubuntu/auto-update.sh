@@ -35,4 +35,4 @@ $SCRIPT_DIR/stop.sh
 
 printf "\n\n**********"
 printf "\n*** Building Clean Images ***\n"
-$SCRIPT_DIR/build-no-cache.sh
+$SCRIPT_DIR/build.sh --latest --no-cache
