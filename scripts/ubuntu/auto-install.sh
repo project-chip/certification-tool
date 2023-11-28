@@ -36,7 +36,7 @@ echo "*** Build Test Harness Docker containers"
 # Note: `build.sh` shouln't normally be run with sudo
 # but main user was just added to docker, so we still 
 # need root to control docker until machine has been rebooted.
-cd $ROOT_DIR && sudo ./scripts/build.sh
+cd $ROOT_DIR && sudo ./scripts/build.sh --latest
 
 printf "\n\n**********"
 printf "\n*** Fetching sample apps ***\n"
