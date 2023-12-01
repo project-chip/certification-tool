@@ -33,12 +33,6 @@ get_repo_and_branch_info() {
         repo_friendly_name=$title_case_path
     fi
 
-    # Check if the directory exists
-    if [ ! -d "$path" ]; then
-        echo "Directory '$path' does not exist."
-        return 1
-    fi
-
     cd $path
 
     # Get the URL of the remote origin
@@ -86,17 +80,6 @@ get_repo_and_branch_info() {
     # Navigate back to the original directory
     cd $ROOT_DIR
 }
-
-
-
-
-
-
-
-
-
-
-
 
 get_repo_and_branch_info "."
 get_repo_and_branch_info "frontend"
