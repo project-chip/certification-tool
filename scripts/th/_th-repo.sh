@@ -33,6 +33,12 @@ get_repo_and_branch_info() {
         repo_friendly_name=$title_case_path
     fi
 
+    # Check if the directory exists
+    if [ ! -d "$path" ]; then
+        echo "Directory '$path' does not exist."
+        return 1
+    fi
+
     cd $path
 
     # Get the URL of the remote origin
@@ -42,24 +48,37 @@ get_repo_and_branch_info() {
     if [ -n "$remote_url" ]; then
         # Extract the repository name from the URL
         repo_name=$(basename -s .git "$remote_url")
-        echo $repo_friendly_name": $repo_name"
+        echo "$repo_friendly_name: $repo_name"
     else
         # Print error message if there is no remote URL
         echo "Not a Git repository or no remote set"
         return 1
     fi
 
-    # Get the branch or commit if detached
-    branch_or_commit=$(git rev-parse --abbrev-ref HEAD 2>/dev/null || git rev-parse HEAD)
+    # Get the commit SHA of the current HEAD
+    commit_sha=$(git rev-parse HEAD)
+    echo "Commit SHA: $commit_sha"
 
-    # Check if HEAD is detached
-    if [ "$branch_or_commit" = "HEAD" ]; then
-        # If detached, print commit hash
-        commit_hash=$(git rev-parse HEAD)
-        echo "Commit: $commit_hash"
+    # Get the commit message of the current HEAD
+    commit_message=$(git log -1 --pretty=format:"%B")
+    echo "Commit Message: $commit_message"
+
+    # Get the commit author of the current HEAD
+    commit_author=$(git log -1 --pretty=format:"%an")
+    echo "Commit Author: $commit_author"
+
+    # Get the commit date and time of the current HEAD including timezone
+    commit_datetime=$(git log -1 --pretty=format:"%cd" --date=format:"%Y-%m-%d %H:%M:%S %z")
+    echo "Commit Date: $commit_datetime"
+
+    # Attempt to find branches that contain this commit
+    branches=$(git branch --contains $commit_sha)
+
+    if [ -n "$branches" ]; then
+        echo "Contained in branches:"
+        echo "$branches"
     else
-        # If not detached, print branch name
-        echo "Branch: $branch_or_commit"
+        echo "This commit is not on any known branch."
     fi
 
     echo
@@ -67,6 +86,17 @@ get_repo_and_branch_info() {
     # Navigate back to the original directory
     cd $ROOT_DIR
 }
+
+
+
+
+
+
+
+
+
+
+
 
 get_repo_and_branch_info "."
 get_repo_and_branch_info "frontend"
