@@ -31,7 +31,7 @@
         echo "    Show TH SHA, SDK, repository details:  $0"
         echo "    Show TH host OS system information:    $0 --system"
         echo "    Show TH environment details:           $0 --environment"
-        echo "    Show TH netowrk, DUT, docker details:  $0 --more"
+        echo "    Show TH network, DUT, docker details:  $0 --more"
         echo "    Show all TH details:                   $0 --complete"
         echo
     }
