@@ -33,20 +33,44 @@ get_repo_and_branch_info() {
         repo_friendly_name=$title_case_path
     fi
 
+    # Check if the directory exists
+    if [ ! -d "$path" ]; then
+        echo "Directory '$path' does not exist."
+        return 1
+    fi
+
     cd $path
 
     # Get the URL of the remote origin
     remote_url=$(git config --get remote.origin.url)
 
-    # Check if remote URL is non-empty
     if [ -n "$remote_url" ]; then
         # Extract the repository name from the URL
         repo_name=$(basename -s .git "$remote_url")
-        echo "$repo_friendly_name: $repo_name"
+        
+        # Calculate the necessary padding to align the end pipe
+        total_length=95  # Adjust this based on your frame width
+        text_length=${#repo_friendly_name}+${#repo_name}+4  # 4 for the ": " and two spaces around the repo name
+        padding_length=$((total_length - text_length))
+
+        echo '+-----------------------------------------------------------------------------------------------+'
+        printf "|  %s: %s%*s|\n" "$repo_friendly_name" "$repo_name" $padding_length ""
+        echo '+-----------------------------------------------------------------------------------------------+'
     else
         # Print error message if there is no remote URL
         echo "Not a Git repository or no remote set"
         return 1
+    fi
+
+    # Get the current branch and its tracking branch
+    git_status=$(git status)
+    tracking_branch_info=$(echo "$git_status" | grep "Your branch is up to date with")
+
+    # Extract the fork owner and branch from the tracking branch info
+    if [[ $tracking_branch_info =~ Your\ branch\ is\ up\ to\ date\ with\ \'([^\']+)\' ]]; then
+        fork_owner_and_branch="${BASH_REMATCH[1]}"
+    else
+        fork_owner_and_branch="Not set or not a tracking branch"
     fi
 
     # Get the commit SHA of the current HEAD
@@ -66,7 +90,7 @@ get_repo_and_branch_info() {
     echo "Commit Date: $commit_datetime"
 
     # Attempt to find branches that contain this commit
-    branches=$(git branch --contains $commit_sha)
+    branches=$(git branch --contains $commit_sha | sed 's/^/    /')
 
     if [ -n "$branches" ]; then
         echo "Contained in branches:"
@@ -74,6 +98,8 @@ get_repo_and_branch_info() {
     else
         echo "This commit is not on any known branch."
     fi
+
+    echo "    Tracking: $fork_owner_and_branch"
 
     echo
 
