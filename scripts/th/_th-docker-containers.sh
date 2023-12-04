@@ -13,4 +13,4 @@
  # See the License for the specific language governing permissions and
  # limitations under the License.
 
-docker ps --format="table {{.ID}}\t{{.Names}}\t{{.Image}}\t{{.Status}}"
+docker ps --format="table {{.Names}}\t{{.Image}}"
