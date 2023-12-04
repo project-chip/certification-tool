@@ -14,8 +14,8 @@
  # WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  # See the License for the specific language governing permissions and
  # limitations under the License.
+EXEC_PATH=`pwd`
 ROOT_DIR=$(realpath $(dirname "$0")/..)
-
 ## SET BACKEND PATH ENV
 KEY="BACKEND_FILEPATH_ON_HOST"
 VALUE=$(readlink -f $ROOT_DIR/backend)
@@ -35,6 +35,7 @@ FRONTEND_COMPOSE="-f docker-compose.override-frontend-dev.yml"
 
 # Parse args for which docker-compose overrides to use
 DEV_COMPOSE_FILES=""
+OTHER_COMPOSE_FILES=""
 COMPOSE_CACHE_OPTION=""
 BACKEND_DEV=false
 FRONTEND_DEV=false
@@ -51,6 +52,10 @@ do
         DEV_COMPOSE_FILES="$DEV_COMPOSE_FILES $FRONTEND_COMPOSE"
         shift # Remove --frontend from processing
         ;;
+        -c=*|--compose-config=*)
+        COMPOSE_CONFIG=`echo $arg | sed 's/[-a-zA-Z0-9]*=//'`
+        OTHER_COMPOSE_FILES="$OTHER_COMPOSE_FILES -f $EXEC_PATH/$COMPOSE_CONFIG "
+        ;;
         *)
         OTHER_ARGUMENTS+=("$1")
         shift # Remove generic argument from processing
@@ -59,7 +64,7 @@ do
 done
 
 # Start docker containers with docker-compose
-docker-compose -f docker-compose.yml $DEV_COMPOSE_FILES up -d
+docker-compose -f docker-compose.yml $DEV_COMPOSE_FILES $OTHER_COMPOSE_FILES up -d
 
 if [ "$FRONTEND_DEV" = true ] ; then
     echo "!!!! Matter TH frontend started in development mode."
