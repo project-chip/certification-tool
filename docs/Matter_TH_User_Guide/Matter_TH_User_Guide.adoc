@@ -373,9 +373,10 @@ To update an existing TH environment, follow the instructions below on the termi
 |===
 |`cd ~/certification-tool` +
 `git fetch` +
-`git checkout <Target_Branch>` +
+`git checkout <Target_Branch/Tag>` +
 `git pull` +
-`./scripts/ubuntu/auto-update.sh <Target_Branch>` +
+`git submodule update --init --recursive` +
+`./scripts/ubuntu/auto-update.sh <Target_Branch/Tag>` +
 `./scripts/start.sh` +
 
 Wait for 10 mins and open the TH application using the browser
@@ -387,14 +388,14 @@ It is possible to update yaml test script content by directly editing the file c
 
 Yaml files are located at:
 |===
-|`~/certification-tool/backend/test_collections/yaml_tests/yaml/sdk/`
+|`~/certification-tool/backend/test_collections/sdk_tests/sdk_checkout/yaml_tests/yaml/sdk/`
 |===
 
 To update an existing Yaml test script: (e.g. `Test_TC_ACE_1_1.yaml`)
 
 * Open the script file:
 |===
-|`~/certification-tool/backend/test_collections/yaml_tests/yaml/sdk/Test_TC_ACE_1_1.yaml`
+|`~/certification-tool/backend/test_collections/sdk_tests/sdk_checkout/yaml_tests/yaml/sdk/Test_TC_ACE_1_1.yaml`
 |===
 
 * Update/change the desired information.
@@ -423,6 +424,24 @@ To create a new Yaml test script:
 |===
 
 * Proceed as explained on updating an existent yaml file.
+
+
+=== Customized Yaml Test Scripts
+
+To use customized tests, the files must be placed in the specific folder (described below). This way, Test-Harness will load and display the available tests on the interface.
+These tests will not be affected if the system is restarted or if the SDK Yaml tests are updated.
+
+Custom Yaml files folder are located at:
+|===
+|`~/certification-tool/backend/test_collections/sdk_tests/sdk_checkout/yaml_tests/yaml/custom/`
+|===
+
+.Test-Harness displaying the custom tests.
+image::images/img_60.png[TH Custom Yaml]
+
+|===
+|Hint: You can copy the original SDK Yaml test to Custom Yaml folder and do any changes on it.
+|===
 
 <<<
 == *Bringing Up of Matter Node (DUT) for Certification Testing*
