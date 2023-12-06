@@ -48,20 +48,26 @@ endif::[]
 [discrete]
 == *Revision History*
 
+[cols=".^11%,.^15%,.^20%,.^54%"]
 |===
 | *Revision*  | *Date*       | *Author*                            | *Description*                                                                                                       
 | 1           | 11-Jan-2022  | [GRL]Suraj Seenivasan               | * Initial version of the user manual used for V1.0.                                                                 
-| 2           | 22-Aug-2022  | [GRL]Suraj Seenivasan               | * Updated the steps required to run the Python script inside docker: Input given by Tennessee Carmel-Veilleux.      
-| 3           | 06-Feb-2023  | [GRL]Suraj Seenivasan               | * Added instructions to update the existing image and personal access token:* How to execute simulated test cases.  
-| 4           | 09-Feb-2023  | [GRL]Suma                           | * Structuring the user manual. * Added relevant screenshots.                                                        
-| 5           | 24-Feb-2023  | [SiLabs]Yinyi Hu                    | * Instruction to Flash SiLabs RCP* Instruction to collect Logs and submit to TEDS                                   
-| 6           | 01-Mar-2023  | [GRL]Suraj Seenivasan               | * Instructions to flash nRF52840 Dongle and nRF52840 DK                                                             
+| 2           | 22-Aug-2022  | [GRL]Suraj Seenivasan               | * Updated the steps required to run the Python script inside docker: Input given by Tennessee Carmel-Veilleux.
+| 3           | 06-Feb-2023  | [GRL]Suraj Seenivasan               | * Added instructions to update the existing image and personal access token: How to execute simulated test cases.
+| 4           | 09-Feb-2023  | [GRL]Suma                           | * Structuring the user manual. +
+                                                                     * Added relevant screenshots.
+| 5           | 24-Feb-2023  | [SiLabs]Yinyi Hu                    | * Instruction to Flash SiLabs RCP. +
+                                                                     * Instruction to collect Logs and submit to TEDS.
+| 6           | 01-Mar-2023  | [GRL]Suraj Seenivasan               | * Instructions to flash nRF52840 Dongle and nRF52840 DK.
 | 7           | 16-Mar-2023  | [Apple]Fábio Wladimir Monteiro Maia | * Added TH layout explanation.
 | 8           | 12-Jun-2023  | [Apple]Carolina Lopes               | * Added instructions to install TH without a Raspberry Pi.
 | 9           | 06-Sep-2023  | [Apple]Antonio Melo Jr              | * Moved the table of contents to a further page. +
-* Added TH links for images and support documentations 
+                                                                     * Added TH links for images and support documentations.
 | 10          | 25-Oct-2023  | [Apple]Hilton Lima                  | * Added SDK commit column to Test-Harness Links table.
 | 11          | 26-Oct-2023  | [Apple]Carolina Lopes               | * Updated some links and images.
+| 12          | 06-Dec-2023  | [Apple]Hilton Lima                  | * Added Custom Yaml test session. +
+                                                                     * Updated TH update instructions. +
+                                                                     * Revision History table style formated.
 |===
 
 <<<
@@ -373,9 +379,10 @@ To update an existing TH environment, follow the instructions below on the termi
 |===
 |`cd ~/certification-tool` +
 `git fetch` +
-`git checkout <Target_Branch>` +
+`git checkout <Target_Branch/Tag>` +
 `git pull` +
-`./scripts/ubuntu/auto-update.sh <Target_Branch>` +
+`git submodule update --init --recursive` +
+`./scripts/ubuntu/auto-update.sh <Target_Branch/Tag>` +
 `./scripts/start.sh` +
 
 Wait for 10 mins and open the TH application using the browser
@@ -387,14 +394,14 @@ It is possible to update yaml test script content by directly editing the file c
 
 Yaml files are located at:
 |===
-|`~/certification-tool/backend/test_collections/yaml_tests/yaml/sdk/`
+|`~/certification-tool/backend/test_collections/sdk_tests/sdk_checkout/yaml_tests/yaml/sdk/`
 |===
 
 To update an existing Yaml test script: (e.g. `Test_TC_ACE_1_1.yaml`)
 
 * Open the script file:
 |===
-|`~/certification-tool/backend/test_collections/yaml_tests/yaml/sdk/Test_TC_ACE_1_1.yaml`
+|`~/certification-tool/backend/test_collections/sdk_tests/sdk_checkout/yaml_tests/yaml/sdk/Test_TC_ACE_1_1.yaml`
 |===
 
 * Update/change the desired information.
@@ -423,6 +430,24 @@ To create a new Yaml test script:
 |===
 
 * Proceed as explained on updating an existent yaml file.
+
+
+=== Customized Yaml Test Scripts
+
+To use customized tests, the files must be placed in the specific folder (described below). This way, Test-Harness will load and display the available tests on the interface.
+These tests will not be affected if the system is restarted or if the SDK Yaml tests are updated.
+
+Custom Yaml files folder are located at:
+|===
+|`~/certification-tool/backend/test_collections/sdk_tests/sdk_checkout/yaml_tests/yaml/custom/`
+|===
+
+.Test-Harness displaying the custom tests.
+image::images/img_60.png[TH Custom Yaml]
+
+|===
+|Hint: You can copy the original SDK Yaml test to Custom Yaml folder and do any changes on it.
+|===
 
 <<<
 == *Bringing Up of Matter Node (DUT) for Certification Testing*
