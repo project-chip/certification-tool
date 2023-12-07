@@ -96,7 +96,7 @@ services:
       - traefik.http.services.${STACK_NAME?Variable not set}-backend.loadbalancer.server.port=80
 
   frontend:
-    image: 'ghcr.io/project-chip/csa-certification-tool-frontend'
+    image: 'ghcr.io/project-chip/csa-certification-tool-frontend:latest'
     build:
       context: ./frontend
     labels:
