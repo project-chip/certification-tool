@@ -37,6 +37,7 @@ endif::[]
 
 [discrete]
 == *Test-Harness Links*
+[cols=".^15%,.^18%,.^12%,.^20%,.^10%,.^25%"]
 |===
 | *Matter Version* | *TH Version* | *TH image location*                                                                         | *Supporting Documentation*                                                     | *SDK commit* | *Comments*
 | Matter 1.0       | TH v2.6      | https://drive.google.com/file/d/1aw6cie59N3OGRCFjG_sw0Uv7JzXMyLda/view?usp=share_link[link] | https://groups.csa-iot.org/wg/matter-csg/document/26925[TH Verification Steps] | 96c9357      |
@@ -69,6 +70,7 @@ endif::[]
                                                                      * Updated TH update instructions. +
                                                                      * Revision History table style formated.
 | 13          | 07-Dec-2023  | [Apple]Carolina Lopes               | * Updated instructions on how to install TH without a Raspberry Pi.
+| 14          | 14-Dec-2023  | [Apple]Hilton Lima                  | * Updated SDK Python Test session.
 |===
 
 <<<
@@ -1168,15 +1170,17 @@ image:images/img_41.png[]
 |IMPORTANT: Currently the selection will be done automatically by TH based on the test execution result. In the future the User Prompt will be updated to proper represent this behavior.
 |===
 
-=== “Python test” Inside Docker
+=== SDK Python Tests
 
-Some automated Python scripts are available inside the docker of the TH image and are not available in the TH User Interface.
+==== Run Tests Inside SDK Docker Container
+
+Some automated Python scripts are available inside the docker of the TH image.
 
 E.g.: TC_ACE_1_3.py, TC_ACE_1_4.py , TC_CGEN_2_4.py , TC_DA_1_7.py , TC_RR_1_1.py  TC_SC_3_6.py
 
 Follow the instructions below to execute the test cases.
 
-==== Prerequisite
+===== Prerequisite
 
 . A directory containing the PAA (Product) roots that will be mounted as /paa_roots.
 . Run the following commands from the Raspberry Pi terminal.
@@ -1189,7 +1193,7 @@ Follow the instructions below to execute the test cases.
 
 . After execution of the above commands ensure that the PAA’s are available locally at */var/paa-root-certs* .
 
-==== Placeholders for Steps
+===== Placeholders for Steps
 
 Device-specific configuration is shown as shell variables. *PLEASE REPLACE THOSE WITH THE CORRECT VALUE* in the steps below.
 
@@ -1201,21 +1205,13 @@ Device-specific configuration is shown as shell variables. *PLEASE REPLACE THOSE
 * *$BLE_INTERFACE_ID*: Interface ID for BLE interface (e.g., 0 for default, which usually works)
 * *$THREAD_DATASET_HEX*: Thread operational dataset as a hex string (e.g., output of dataset active -x in OpenThread CLI on an existing end-device
 
-==== Common Steps
+===== Common Steps
 
 |===
 |Factory-reset the DUT
 
-`docker run -v $PATH_TO_PAA_ROOTS:/paa_roots -v /var/run/dbus/system_bus_socket:/var/run/dbus/system_bus_socket -v $(pwd):/launch_dir --privileged --network host -it connectedhomeip/chip-cert-bins:<SDK SHA RECOMMENDED>`
+`docker run -v $PATH_TO_PAA_ROOTS:/paa_roots -v /var/run/dbus:/var/run/dbus -v $(pwd):/launch_dir --privileged --network host -it connectedhomeip/chip-cert-bins:<SDK SHA RECOMMENDED>`
 |===
-
-
-* Run the command for TE1:
-
-|===
-|`docker run -v $PATH_TO_PAA_ROOTS:/paa_roots -v /var/run/dbus/system_bus_socket:/var/run/dbus/system_bus_socket -v $(pwd):/launch_dir --privileged --network host -it connectedhomeip/chip-cert-bins:b89e83be43dde7a79d90823f4bc1279eb53f76de`
-|===
-
 
 This downloads a Docker image with the test environment, and runs the environment including mounting the PAA trust store in */paa_roots* and mounts the local Avahi socket so that Avahi in the VM can run against its host.
 
@@ -1223,7 +1219,7 @@ This downloads a Docker image with the test environment, and runs the environmen
 
 NOTE: *The first time running docker will be SLOW (around 5 minutes) due to the need to download data. Every other run after that will be instant.*
 
-==== For On-Network Pairing
+===== For On-Network Pairing
 
 Execute the following command:
 
@@ -1244,7 +1240,7 @@ To test this against a Linux target running on the same network as the host:
 * The *rm -f kvs1* is a factory reset.
 ====
 
-==== For BLE+Wi-Fi Pairing
+===== For BLE+Wi-Fi Pairing
 
 Execute the following command in the docker for the BLE+Wi-Fi pairing:
 
@@ -1252,7 +1248,7 @@ Execute the following command in the docker for the BLE+Wi-Fi pairing:
 |`rm -f admin_storage.json && python3 python_testing/TC_RR_1_1.py --discriminator $DISCRIMINATOR --passcode $SETUP_PASSCODE --commissioning-method ble-wifi --paa-trust-store-path /paa_roots --storage-path admin_storage.json --wifi-ssid $WIFI_SSID --wifi-passphrase $WIFI_PASSPHRASE --ble-interface-id $BLE_INTERFACE_ID`
 |===
 
-==== For BLE+Thread Pairing
+===== For BLE+Thread Pairing
 
 Execute the below command in the docker for the BLE+Thread pairing:
 
@@ -1261,17 +1257,67 @@ Execute the below command in the docker for the BLE+Thread pairing:
 |===
 
 
-==== Post-Test Steps
+===== Post-Test Steps
 
 Factory reset the DUT again → The test fills tons of stuff and the device will be in an odd state of ACL’s. This will be fixed once there is ample time to clean up after the test is completed by sending commands to, for example, remove the fabrics joined.
 
-==== Possible Issues
+===== Possible Issues
 
 * Failing at Step 9 during execution of TC_RR_1_1:
 .. Some DUT’s have an incorrectly-configured UserLabel cluster where the backend is not implemented due to SDK example issues where some examples have the backend and others do not. This will fail at the last step (“Step 9: Fill UserLabel clusters on each endpoint”), with FAILURE writes. To override the test not to run this step, you can add “*--bool-arg skip_user_label_cluster_steps:true*“ to the command line of *TC_RR_1_1.py*, at the end.
 .. Not having the *$PATH_TO_PAA_ROOTS* set properly when starting the docker or not having PAA roots certificates at that path.
 .. Follow the instructions for item 2 in <<prerequisite, Section 8.5.1, Prerequisite>>.
 
+==== Run Tests on the TH User Interface
+
+Some automated Python scripts are available in TH User Interface.
+
+To execute the tests, the parameters *discriminator*, *setup_code* and *pairing_mode* need to be filled in the device configuration parameters (*dut_config*).
+
+To configure specific/custom parameters, please edit the project configuration to include the parameters in the session (*test_parameters*).
+
+Project configuration example:
+[source,xml,options="unbreakable"]
+----
+{
+  ...
+  "dut_config": {
+    "discriminator": "3840",
+    "setup_code": "20202021",
+    "pairing_mode": "onnetwork",
+    "chip_tool_timeout": null,
+    "chip_tool_use_paa_certs": false
+  },
+  "test_parameters": {
+    "paa-trust-store-path": "/credentials/development/paa_roots"
+    "storage-path": "admin_storage.json"
+  }
+  ...
+}
+----
+
+Considering this project configuration and selecting tests TC_ACE_1_1 and TC_ACE_1_2. 
+
+image:images/img_61.png[]
+
+This configuration will result in the following execution steps:
+. Perform DUT commissioning
+. Run the TC_ACE_1_2 test (without commissioning)
+. Run the TC_ACE_1_3 test (without commissioning)
+
+Expected result after tests execution:
+
+image:images/img_62.png[]
+
+These steps performed by TH are equivalent to the following steps when performed manually in the SDK container:
+
+ . TC_ACE_1_2 test execution (with commissioning)
+
+ python3 TC_ACE_1_2.py --commissioning-method on-network --discriminator 3840 --passcode 20202021  --paa-trust-store-path /credentials/development/paa_roots --storage-path admin_storage.json
+ 
+ . TC_ACE_1_3 test execution (without commissioning)
+ 
+ python3 TC_ACE_1_3.py --discriminator 3840 --passcode 20202021  --paa-trust-store-path /credentials/development/paa_roots --storage-path admin_storage.json
 
 <<<
 == *Collect Logs and Submit to TEDS*
