@@ -1301,6 +1301,7 @@ Considering this project configuration and selecting tests TC_ACE_1_2 and TC_ACE
 image:images/img_61.png[]
 
 This configuration will result in the following execution steps:
+
 . Perform DUT commissioning
 . Run the TC_ACE_1_2 test (without commissioning)
 . Run the TC_ACE_1_3 test (without commissioning)
