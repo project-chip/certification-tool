@@ -1289,7 +1289,7 @@ Project configuration example:
     "chip_tool_use_paa_certs": false
   },
   "test_parameters": {
-    "paa-trust-store-path": "/credentials/development/paa_roots"
+    "paa-trust-store-path": "/credentials/development/paa_roots",
     "storage-path": "admin_storage.json"
   }
   ...
@@ -1319,6 +1319,39 @@ These steps performed by TH are equivalent to the following steps when performed
  . TC_ACE_1_3 test execution (without commissioning)
  
  python3 TC_ACE_1_3.py --discriminator 3840 --passcode 20202021  --paa-trust-store-path /credentials/development/paa_roots --storage-path admin_storage.json
+
+===== PIXIT Support
+
+PIXIT type parameters must be filled in in the section (*test_parameters*).
+The following example will be used to define the following parameters:
+
+----
+PIXIT.ACE.APPENDPOINT:1
+PIXIT.ACE.APPDEVTYPEID:256
+PIXIT.ACE.APPCLUSTER:OnOff
+PIXIT.ACE.APPATTRIBUTE:OnOff
+----
+
+Project configuration example:
+[source,xml,options="unbreakable"]
+----
+{
+  ...
+  "test_parameters": {
+    "paa-trust-store-path": "/credentials/development/paa_roots",
+    "storage-path": "admin_storage.json",
+    "int-arg": "PIXIT.ACE.APPENDPOINT:1 PIXIT.ACE.APPDEVTYPEID:256",
+    "string-arg": "PIXIT.ACE.APPCLUSTER:OnOff PIXIT.ACE.APPATTRIBUTE:OnOff"
+  }
+  ...
+}
+----
+
+The following example will be used to define the following parameters when running the test:
+
+----
+--int-arg PIXIT.ACE.APPENDPOINT:1 PIXIT.ACE.APPDEVTYPEID:256 --string-arg PIXIT.ACE.APPCLUSTER:OnOff PIXIT.ACE.APPATTRIBUTE:OnOff
+----
 
 <<<
 == *Collect Logs and Submit to TEDS*
