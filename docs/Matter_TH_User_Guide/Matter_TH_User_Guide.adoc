@@ -1296,7 +1296,7 @@ Project configuration example:
 }
 ----
 
-Considering this project configuration and selecting tests TC_ACE_1_1 and TC_ACE_1_2. 
+Considering this project configuration and selecting tests TC_ACE_1_2 and TC_ACE_1_3.
 
 image:images/img_61.png[]
 
