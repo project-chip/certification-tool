@@ -1347,7 +1347,7 @@ Project configuration example:
 }
 ----
 
-The following example will be used to define the following parameters when running the test:
+The above example will be used to define the following arguments when running the test:
 
 ----
 --int-arg PIXIT.ACE.APPENDPOINT:1 PIXIT.ACE.APPDEVTYPEID:256 --string-arg PIXIT.ACE.APPCLUSTER:OnOff PIXIT.ACE.APPATTRIBUTE:OnOff
