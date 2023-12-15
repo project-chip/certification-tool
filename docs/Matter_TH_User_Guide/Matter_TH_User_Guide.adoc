@@ -1322,7 +1322,7 @@ These steps performed by TH are equivalent to the following steps when performed
 
 ===== PIXIT Support
 
-PIXIT type parameters must be filled in in the section (*test_parameters*).
+PIXIT type parameters must be filled in the *test_parameters* section.
 The following example will be used to define the following parameters:
 
 ----
