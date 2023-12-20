@@ -40,9 +40,10 @@ endif::[]
 [cols=".^15%,.^18%,.^12%,.^20%,.^10%,.^25%"]
 |===
 | *Matter Version* | *TH Version* | *TH image location*                                                                         | *Supporting Documentation*                                                     | *SDK commit* | *Comments*
-| Matter 1.0       | TH v2.6      | https://drive.google.com/file/d/1aw6cie59N3OGRCFjG_sw0Uv7JzXMyLda/view?usp=share_link[link] | https://groups.csa-iot.org/wg/matter-csg/document/26925[TH Verification Steps] | 96c9357      |
-| Matter 1.1       | TH v2.8.1    | https://drive.google.com/file/d/1cObNwYQjTpNYJaQ2Wz_ThNDEWqVasHxe/view?usp=share_link[link] | https://groups.csa-iot.org/wg/matter-csg/document/folder/2470[Causeway Link]   | 5a21d17      |
-| Matter 1.2       | TH-Fall2023  | https://drive.google.com/drive/folders/1vZbfqRWNrttJOUZbYskKJaGGdOm54ugq?usp=sharing[link]  |                                                                                | 19771ed      |
+| Matter 1.0       | TH v2.6      | https://drive.google.com/file/d/10YkV4mDulhLoA6RJOKZNNKWhHTH1tOfu/view?usp=share_link[link] | https://groups.csa-iot.org/wg/matter-csg/document/26925[TH Verification Steps] | 96c9357      |
+| Matter 1.1       | TH v2.8.1    | https://drive.google.com/file/d/15fU3L7QE-MNBslf53A_6sFgn1Wq0Pvqd/view?usp=share_link[link] | https://groups.csa-iot.org/wg/matter-csg/document/folder/2470[Causeway Link]   | 5a21d17      |
+| Matter 1.2       | TH-Fall2023  | https://drive.google.com/file/d/1WTjhc7xbYt18RvpABU3_r47uqOLd7NN1/view?usp=share_link[link]  |                                                                                | 19771ed      |
+| Matter 1.2       | TH-Spring2024| https://drive.google.com/file/d/1XOQolEPUhJWYSKty2_FfsmhraTCtGvqP/view?usp=share_link[link]          |                                                                                | 85a48aa      |
 |===
 
 <<<
@@ -71,6 +72,7 @@ endif::[]
                                                                      * Revision History table style formated.
 | 13          | 07-Dec-2023  | [Apple]Carolina Lopes               | * Updated instructions on how to install TH without a Raspberry Pi.
 | 14          | 14-Dec-2023  | [Apple]Hilton Lima                  | * Updated SDK Python Test section.
+| 15          | 20-Dec-2023  | [Apple]Antonio Melo Jr.             | * Updated Test Harness links related to release of Spring 2024.
 |===
 
 <<<
@@ -182,7 +184,7 @@ If the DUT supports thread transport, an RCP dongle provisioned with a recommend
 
 ==== TH Installation on Raspberry Pi
 
-. Go to the https://drive.google.com/drive/folders/1vZbfqRWNrttJOUZbYskKJaGGdOm54ugq?usp=sharing[TH release location] and download the official TH image from the given link on the user’s PC/Mac.
+. Go to the https://drive.google.com/file/d/1XOQolEPUhJWYSKty2_FfsmhraTCtGvqP/view?usp=share_link[TH release location] and download the official TH image from the given link on the user’s PC/Mac.
 . Place the blank SD card into the user’s system USB slot. 
 . Open the https://www.raspberrypi.com/software/[Raspberry Pi Imager] or https://www.balena.io/etcher/[Balena Etcher] tool on the Mac/PC and select the image file from the drop-down list to flash.
 . After the SD card has been flashed with the image, remove the SD card and place it in the Raspberry Pi’s memory card slot.
