@@ -52,3 +52,15 @@ cd $ROOT_DIR && \
 echo "*** Update CLI dependencies"
 source ~/.profile #ensure poetry is in path
 cd $ROOT_DIR/cli && poetry install
+
+echo "*** Setup Test Collections"
+cd $ROOT_DIR
+for dir in ./test_collections/*
+do
+    prestart=$dir/setup.sh
+    # Only run setup.sh if present/
+    [ -x $prestart ] && $prestart
+done
+
+# We echo "complete" to ensure this scripts last command has exit code 0.
+echo "Test Collection Setup Complete"
