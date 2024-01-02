@@ -57,6 +57,7 @@ packagelist=(
 sudo DEBIAN_FRONTEND=noninteractive sudo apt-get install ${packagelist[@]} -y
 
 # Install Docker Compose, needed for Test Harness
+sudo pip3 install docker==6.1.3
 sudo pip3 install docker-compose
 
 # Install Peotry, needed for Test Harness CLI
