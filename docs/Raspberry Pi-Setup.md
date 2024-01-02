@@ -25,7 +25,7 @@ The following will document how to setup a Raspberry Pi so it can be used for ce
 -   RaspberryPi 4 or newer with at least 4 GB RAM
 -   Internet access on Raspberry Pi during setup.
 
-1. Download and flash a micro SD-card with [Ubuntu Server 22.04](https://ubuntu.com/download/raspberry-pi/thank-you?version=22.04&architecture=server-arm64+raspi) for Raspberry Pi using [Raspberry Pi imager](https://www.raspberrypi.com/software/)
+1. Download and flash a micro SD-card with [Ubuntu Server 22.04](https://ubuntu.com/download/raspberry-pi/thank-you?version=22.04.3&architecture=server-arm64+raspi) for Raspberry Pi using [Raspberry Pi imager](https://www.raspberrypi.com/software/)
 
 2. If needed, configure WiFi ([Ubuntu guide](https://ubuntu.com/tutorials/how-to-install-ubuntu-on-your-raspberry-pi#3-wifi-or-ethernet))
 
