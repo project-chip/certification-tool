@@ -46,6 +46,10 @@ printf "\n\n**********"
 printf "\n*** Fetching PAA Certs from SDK ***\n"
 $UBUNTU_SCRIPT_DIR/update-paa-certs.sh
 
+# Revert needrestart config to default.
+sudo sed -i "s/\$nrconf{kernelhints} = -1;/#\$nrconf{kernelhints} = -1;/g" /etc/needrestart/needrestart.conf
+sudo sed -i "s/\$nrconf{restart} = 'a';/#\$nrconf{restart} = 'i';/" /etc/needrestart/needrestart.conf
+
 printf "\n\n**********"
 printf "\n*** You need to reboot to finish setup. ***\n"
 printf "\n*** Do you want to reboot now? (Press 1 to reboot now)\n"
