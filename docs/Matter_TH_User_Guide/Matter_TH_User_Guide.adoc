@@ -73,6 +73,7 @@ endif::[]
 | 13          | 07-Dec-2023  | [Apple]Carolina Lopes               | * Updated instructions on how to install TH without a Raspberry Pi.
 | 14          | 14-Dec-2023  | [Apple]Hilton Lima                  | * Updated SDK Python Test section.
 | 15          | 20-Dec-2023  | [Apple]Antonio Melo Jr.             | * Updated Test Harness links related to release of Spring 2024.
+| 16          | 04-Jan-2024  | [Apple]Antonio Melo Jr.             | * Updated Test Harness Release location link to the new Drive folder.
 |===
 
 <<<
