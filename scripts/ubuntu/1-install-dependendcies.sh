@@ -56,8 +56,5 @@ packagelist=(
 )
 sudo DEBIAN_FRONTEND=noninteractive sudo apt-get install ${packagelist[@]} -y
 
-# Install Docker Compose, needed for Test Harness
-sudo pip3 install docker-compose
-
 # Install Peotry, needed for Test Harness CLI
 curl -sSL https://install.python-poetry.org | python3 -
