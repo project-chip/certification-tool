@@ -74,6 +74,7 @@ endif::[]
 | 14          | 14-Dec-2023  | [Apple]Hilton Lima                  | * Updated SDK Python Test section.
 | 15          | 20-Dec-2023  | [Apple]Antonio Melo Jr.             | * Updated Test Harness links related to release of Spring 2024.
 | 16          | 04-Jan-2024  | [Apple]Antonio Melo Jr.             | * Updated Test Harness Release location link to the new Drive folder.
+| 17          | 04-Jan-2024  | [Apple]Romulo Quidute               | * Renamed Custom Yaml test section to Customized Test Scripts and also added Custom Python test information. +
 |===
 
 <<<
@@ -440,7 +441,7 @@ To create a new Yaml test script:
 * Proceed as explained on updating an existent yaml file.
 
 
-=== Customized Yaml Test Scripts
+=== Customized Test Scripts (Yaml/Python Tests)
 
 To use customized tests, the files must be placed in the specific folder (described below). This way, Test-Harness will load and display the available tests on the interface.
 These tests will not be affected if the system is restarted or if the SDK Yaml tests are updated.
@@ -450,11 +451,16 @@ Custom Yaml files folder are located at:
 |`~/certification-tool/backend/test_collections/sdk_tests/sdk_checkout/yaml_tests/yaml/custom/`
 |===
 
+Custom Python files folder are located at:
+|===
+|`~/certification-tool/backend/test_collections/sdk_tests/sdk_checkout/python_testing/scripts/custom/`
+|===
+
 .Test-Harness displaying the custom tests.
-image::images/img_60.png[TH Custom Yaml]
+image::images/img_60.png[]
 
 |===
-|Hint: You can copy the original SDK Yaml test to Custom Yaml folder and do any changes on it.
+|Hint: You can copy the original SDK Yaml/Python test to Custom Yaml/Python folder and do any changes on it.
 |===
 
 <<<
