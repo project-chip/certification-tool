@@ -184,7 +184,7 @@ If the DUT supports thread transport, an RCP dongle provisioned with a recommend
 
 ==== TH Installation on Raspberry Pi
 
-. Go to the https://drive.google.com/file/d/1XOQolEPUhJWYSKty2_FfsmhraTCtGvqP/view?usp=share_link[TH release location] and download the official TH image from the given link on the user’s PC/Mac.
+. Go to the https://drive.google.com/drive/u/1/folders/1ca7CG8QHHYy0g4ScSmiGL3KApNwtZ-w9[TH release location] and download the official TH image from the given link on the user’s PC/Mac.
 . Place the blank SD card into the user’s system USB slot. 
 . Open the https://www.raspberrypi.com/software/[Raspberry Pi Imager] or https://www.balena.io/etcher/[Balena Etcher] tool on the Mac/PC and select the image file from the drop-down list to flash.
 . After the SD card has been flashed with the image, remove the SD card and place it in the Raspberry Pi’s memory card slot.
