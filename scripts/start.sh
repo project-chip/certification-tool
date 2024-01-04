@@ -64,9 +64,25 @@ docker-compose -f docker-compose.yml $DEV_COMPOSE_FILES up -d
 if [ "$FRONTEND_DEV" = true ] ; then
     echo "!!!! Matter TH frontend started in development mode."
     echo "!!!! Manually start frontend by connecting to the frontend container"
+else
+    echo -n "Waiting for frontend to start"
+    until docker compose exec frontend curl --fail -s --output /dev/null http://localhost:4200
+    do
+        echo -n "."
+	sleep 5
+    done
+    echo " done"
 fi
 
 if [ "$BACKEND_DEV" = true ] ; then
     echo "!!!! Matter TH backend started in development mode."
     echo "!!!! Manually start backend by connecting to the backend container"
+else
+    echo -n "Waiting for backend to start"
+    until docker compose exec backend curl --fail -s --output /dev/null http://localhost/docs
+    do
+        echo -n "."
+	sleep 5
+    done
+    echo " done"
 fi
