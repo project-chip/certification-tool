@@ -74,7 +74,8 @@ endif::[]
 | 14          | 14-Dec-2023  | [Apple]Hilton Lima                  | * Updated SDK Python Test section.
 | 15          | 20-Dec-2023  | [Apple]Antonio Melo Jr.             | * Updated Test Harness links related to release of Spring 2024.
 | 16          | 04-Jan-2024  | [Apple]Antonio Melo Jr.             | * Updated Test Harness Release location link to the new Drive folder.
-| 17          | 04-Jan-2024  | [Apple]Romulo Quidute               | * Renamed Custom Yaml test section to Customized Test Scripts and also added Custom Python test information. +
+| 17          | 04-Jan-2024  | [Apple]Romulo Quidute               | * Renamed Custom Yaml test section to Customized Test Scripts and also added Custom Python test information.
+| 18          | 05-Jan-2024  | [Apple]Carolina Lopes               | * Added information about the SDK Python Test suites.
 |===
 
 <<<
@@ -1305,29 +1306,28 @@ Project configuration example:
 }
 ----
 
-Considering this project configuration and selecting tests TC_ACE_1_2 and TC_ACE_1_3.
+===== Test suites
 
-image:images/img_61.png[]
+TH expects the SDK Python Tests to follow a certain template. New tests are being written with this template and the old tests are being updated to conform to it. The tests are divided in 3 test suites:
 
-This configuration will result in the following execution steps:
+image:images/img_61.png[SDK Python Tests - Suites]
 
-. Perform DUT commissioning
-. Run the TC_ACE_1_2 test (without commissioning)
-. Run the TC_ACE_1_3 test (without commissioning)
+. Python Testing Suite
+  * For test cases that follow the expected template and have a commissioning first step.
+  * The user will be asked to make sure that the DUT is in Commissioning Mode at the start of the test suite setup and then the DUT will be commissioned.
+  * The commissioning will be kept throughout the execution of all its tests.
+. Python Testing Suite - No commissioning
+  * For test cases that follow the expected template but don't have a commissioning first step.
+  * The selected tests will be executed without commissioning the DUT.
+  * The user will be asked to make sure that the DUT is in Commissioning Mode at the start of each test.
+. Python Testing Suite - Legacy
+  * For test cases that don't follow the expected template yet.
+  * The user will be asked to make sure that the DUT is in Commissioning Mode at the start of each test.
+  * The user will also be asked if the DUT should be commissioned at the start of each test. The DUT will be commissioned depending on the user's answer.
 
-Expected result after tests execution:
+image:images/img_62.png[SDK Python Tests - Commissioning Mode prompt]
 
-image:images/img_62.png[]
-
-These steps performed by TH are equivalent to the following steps when performed manually in the SDK container:
-
- . TC_ACE_1_2 test execution (with commissioning)
-
- python3 TC_ACE_1_2.py --commissioning-method on-network --discriminator 3840 --passcode 20202021  --paa-trust-store-path /credentials/development/paa_roots --storage-path admin_storage.json
- 
- . TC_ACE_1_3 test execution (without commissioning)
- 
- python3 TC_ACE_1_3.py --discriminator 3840 --passcode 20202021  --paa-trust-store-path /credentials/development/paa_roots --storage-path admin_storage.json
+image:images/img_63.png[SDK Python Tests - DUT should be commissioned prompt]
 
 ===== PIXIT Support
 
