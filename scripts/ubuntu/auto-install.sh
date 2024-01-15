@@ -32,12 +32,6 @@ printf "\n*** Getting Test Harness code ***\n"
 
 $SCRIPT_DIR/update.sh
 
-echo "*** Build Test Harness Docker containers"
-# Note: `build.sh` shouln't normally be run with sudo
-# but main user was just added to docker, so we still 
-# need root to control docker until machine has been rebooted.
-cd $ROOT_DIR && sudo ./scripts/build.sh
-
 printf "\n\n**********"
 printf "\n*** Fetching sample apps ***\n"
 $UBUNTU_SCRIPT_DIR/update-sample-apps.sh
