@@ -43,7 +43,6 @@ packagelist=(
     libglib2.0-dev=2.72.4-0ubuntu2.2
     libreadline-dev=8.1.2-1
     libssl-dev=3.0.2-0ubuntu1.13
-    lsb-release=11.1.0ubuntu4
     net-tools=1.60+git20181103.0eebece-1ubuntu5
     ninja-build=1.10.1-1
     npm=8.5.1~ds-1
