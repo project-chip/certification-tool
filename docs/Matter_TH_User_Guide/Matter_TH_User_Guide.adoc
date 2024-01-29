@@ -43,7 +43,7 @@ endif::[]
 | Matter 1.0       | TH v2.6      | https://drive.google.com/file/d/10YkV4mDulhLoA6RJOKZNNKWhHTH1tOfu/view?usp=share_link[link] | https://groups.csa-iot.org/wg/matter-csg/document/26925[TH Verification Steps] | 96c9357      |
 | Matter 1.1       | TH v2.8.1    | https://drive.google.com/file/d/15fU3L7QE-MNBslf53A_6sFgn1Wq0Pvqd/view?usp=share_link[link] | https://groups.csa-iot.org/wg/matter-csg/document/folder/2470[Causeway Link]   | 5a21d17      |
 | Matter 1.2       | TH-Fall2023  | https://drive.google.com/file/d/1WTjhc7xbYt18RvpABU3_r47uqOLd7NN1/view?usp=share_link[link]  |                                                                                | 19771ed      |
-| Matter 1.2       | TH-Spring2024| https://drive.google.com/file/d/1XOQolEPUhJWYSKty2_FfsmhraTCtGvqP/view?usp=share_link[link]          |                                                                                | 85a48aa      |
+| Matter 1.3       | TH-Spring2024| https://drive.google.com/file/d/1XOQolEPUhJWYSKty2_FfsmhraTCtGvqP/view?usp=share_link[link]          |                                                                                | 85a48aa      |
 |===
 
 <<<
@@ -76,6 +76,7 @@ endif::[]
 | 16          | 04-Jan-2024  | [Apple]Antonio Melo Jr.             | * Updated Test Harness Release location link to the new Drive folder.
 | 17          | 04-Jan-2024  | [Apple]Romulo Quidute               | * Renamed Custom Yaml test section to Customized Test Scripts and also added Custom Python test information.
 | 18          | 05-Jan-2024  | [Apple]Carolina Lopes               | * Added information about the SDK Python Test suites.
+| 19          | 29-Jan-2024  | [Apple]Romulo Quidute               | * Fixed Matter version in Test-Harness Links section.
 |===
 
 <<<
