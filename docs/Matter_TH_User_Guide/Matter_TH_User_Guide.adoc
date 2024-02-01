@@ -273,7 +273,7 @@ The above command might take a while to get executed, wait for 5-10 minutes and 
 
 === TH installation without a Raspberry Pi
 
-The official installation method uses a Raspberry Pi (<<th-image-installation-on-raspberry-pi>>). **This alternative installation method is targeted for development purpose and it is only support onnetwork pairing mode.**
+The official installation method uses a Raspberry Pi (<<th-image-installation-on-raspberry-pi>>). **This alternative installation method is targeted for development purpose and it only supports onnetwork pairing mode.**
 
 To install TH without using a Raspberry Pi you'll need a machine with Ubuntu 22.04 Server LTS. You can <<create-an-ubuntu-virtual-machine, create a virtual machine>> for this purpose, but be aware that if the host's architecture is not arm64 you'll need to <<substitute-the-sdks-docker-image-and-update-sample-apps, substitute the SDK's docker image>> in order for it to work properly.
 
