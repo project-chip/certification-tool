@@ -33,7 +33,7 @@ set -e
 BACKEND_COMPOSE="-f docker-compose.override-backend-dev.yml"
 FRONTEND_COMPOSE="-f docker-compose.override-frontend-dev.yml"
 
-# Parse args for which docker-compose overrides to use
+# Parse args for which docker compose overrides to use
 DEV_COMPOSE_FILES=""
 COMPOSE_CACHE_OPTION=""
 BACKEND_DEV=false
@@ -59,14 +59,30 @@ do
 done
 
 # Start docker containers with docker-compose
-docker-compose -f docker-compose.yml $DEV_COMPOSE_FILES up -d
+docker compose -f docker-compose.yml $DEV_COMPOSE_FILES up -d
 
 if [ "$FRONTEND_DEV" = true ] ; then
     echo "!!!! Matter TH frontend started in development mode."
     echo "!!!! Manually start frontend by connecting to the frontend container"
+else
+    echo -n "Waiting for frontend to start"
+    until docker compose exec frontend curl --fail -s --output /dev/null http://localhost:4200
+    do
+        echo -n "."
+	sleep 5
+    done
+    echo " done"
 fi
 
 if [ "$BACKEND_DEV" = true ] ; then
     echo "!!!! Matter TH backend started in development mode."
     echo "!!!! Manually start backend by connecting to the backend container"
+else
+    echo -n "Waiting for backend to start"
+    until docker compose exec backend curl --fail -s --output /dev/null http://localhost/docs
+    do
+        echo -n "."
+	sleep 5
+    done
+    echo " done"
 fi

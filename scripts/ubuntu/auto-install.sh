@@ -32,12 +32,6 @@ printf "\n*** Getting Test Harness code ***\n"
 
 $SCRIPT_DIR/update.sh
 
-echo "*** Build Test Harness Docker containers"
-# Note: `build.sh` shouln't normally be run with sudo
-# but main user was just added to docker, so we still 
-# need root to control docker until machine has been rebooted.
-cd $ROOT_DIR && sudo ./scripts/build.sh
-
 printf "\n\n**********"
 printf "\n*** Fetching sample apps ***\n"
 $UBUNTU_SCRIPT_DIR/update-sample-apps.sh
@@ -45,6 +39,10 @@ $UBUNTU_SCRIPT_DIR/update-sample-apps.sh
 printf "\n\n**********"
 printf "\n*** Fetching PAA Certs from SDK ***\n"
 $UBUNTU_SCRIPT_DIR/update-paa-certs.sh
+
+# Revert needrestart config to default.
+sudo sed -i "s/\$nrconf{kernelhints} = -1;/#\$nrconf{kernelhints} = -1;/g" /etc/needrestart/needrestart.conf
+sudo sed -i "s/\$nrconf{restart} = 'a';/#\$nrconf{restart} = 'i';/" /etc/needrestart/needrestart.conf
 
 printf "\n\n**********"
 printf "\n*** You need to reboot to finish setup. ***\n"
