@@ -36,14 +36,25 @@ endif::[]
 :toc: macro
 
 include::1-TestHarnessLinks.adoc[]
+
 include::2-RevisionHistory.adoc[]
+
 include::3-TableOfContents.adoc[]
+
 include::4-Introduction.adoc[]
+
 include::5-References.adoc[]
+
 include::6-TestHarnessDesign.adoc[]
+
 include::7-GettingStarted.adoc[]
+
 include::8-BringingUpMatterNodeForCertificationTesting.adoc[]
+
 include::9-OpenThreadBorderRouterSetup.adoc[]
+
 include::10-TestConfiguration.adoc[]
+
 include::11-TestCaseExecution.adoc[]
+
 include::12-CollectLogsSubmitTEDS.adoc[]
