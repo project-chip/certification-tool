@@ -67,7 +67,7 @@ endif::[]
                                                                      * Added TH links for images and support documentations.
 | 10          | 25-Oct-2023  | [Apple]Hilton Lima                  | * Added SDK commit column to Test-Harness Links table.
 | 11          | 26-Oct-2023  | [Apple]Carolina Lopes               | * Updated some links and images.
-| 12          | 06-Dec-2023  | [Apple]Hilton Lima                  | * Added Custom Yaml test session. +
+| 12          | 06-Dec-2023  | [Apple]Hilton Lima                  | * Added Custom Yaml test section. +
                                                                      * Updated TH update instructions. +
                                                                      * Revision History table style formated.
 | 13          | 07-Dec-2023  | [Apple]Carolina Lopes               | * Updated instructions on how to install TH without a Raspberry Pi.
@@ -76,7 +76,8 @@ endif::[]
 | 16          | 04-Jan-2024  | [Apple]Antonio Melo Jr.             | * Updated Test Harness Release location link to the new Drive folder.
 | 17          | 04-Jan-2024  | [Apple]Romulo Quidute               | * Renamed Custom Yaml test section to Customized Test Scripts and also added Custom Python test information.
 | 18          | 05-Jan-2024  | [Apple]Carolina Lopes               | * Added information about the SDK Python Test suites.
-| 19          | 30-Jan-2024  | [Apple]Romulo Quidute               | * Updated some referenced links. 
+| 19          | 30-Jan-2024  | [Apple]Romulo Quidute               | * Updated some referenced links.
+| 20          | 07-fev-2024  | [Apple]Hilton Lima                  | * Added 'Common test failures' section for SDK tests.
 |===
 
 <<<
@@ -1278,6 +1279,10 @@ Factory reset the DUT again → The test fills tons of stuff and the device will
 .. Some DUT’s have an incorrectly-configured UserLabel cluster where the backend is not implemented due to SDK example issues where some examples have the backend and others do not. This will fail at the last step (“Step 9: Fill UserLabel clusters on each endpoint”), with FAILURE writes. To override the test not to run this step, you can add “*--bool-arg skip_user_label_cluster_steps:true*“ to the command line of *TC_RR_1_1.py*, at the end.
 .. Not having the *$PATH_TO_PAA_ROOTS* set properly when starting the docker or not having PAA roots certificates at that path.
 .. Follow the instructions for item 2 in <<prerequisite, Section 8.5.1, Prerequisite>>.
+
+====== Common test failures
+
+The documents in this https://github.com/project-chip/matter-test-scripts/tree/main/docs/common_test_failures[link] are intended to be used to help root-cause common test failures, especially in cases where the underlying cause of the failure may not be immediately obvious from the test step or expected outcomes.
 
 ==== Run Tests on the TH User Interface
 
