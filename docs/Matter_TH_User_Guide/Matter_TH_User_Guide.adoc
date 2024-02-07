@@ -39,11 +39,7 @@ include::1-TestHarnessLinks.adoc[]
 
 include::2-RevisionHistory.adoc[]
 
-<<<
-[discrete]
-== *Table of contents*
-toc::[]
-// include::3-TableOfContents.adoc[]
+include::3-TableOfContents.adoc[]
 
 include::4-Introduction.adoc[]
 
