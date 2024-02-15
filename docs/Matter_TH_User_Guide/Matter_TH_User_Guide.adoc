@@ -35,26 +35,27 @@ endif::[]
 :toc-title:
 :toc: macro
 
-include::1-TestHarnessLinks.adoc[]
+include::TestHarnessLinks.adoc[]
 
-include::2-RevisionHistory.adoc[]
+include::RevisionHistory.adoc[]
 
-include::3-TableOfContents.adoc[]
+include::TableOfContents.adoc[]
 
-include::4-Introduction.adoc[]
+:sectnums:
+include::Introduction.adoc[]
 
-include::5-References.adoc[]
+include::References.adoc[]
 
-include::6-TestHarnessDesign.adoc[]
+include::TestHarnessDesign.adoc[]
 
-include::7-GettingStarted.adoc[]
+include::GettingStarted.adoc[]
 
-include::8-BringingUpMatterNodeForCertificationTesting.adoc[]
+include::BringingUpMatterNodeForCertificationTesting.adoc[]
 
-include::9-OpenThreadBorderRouterSetup.adoc[]
+include::OpenThreadBorderRouterSetup.adoc[]
 
-include::10-TestConfiguration.adoc[]
+include::TestConfiguration.adoc[]
 
-include::11-TestCaseExecution.adoc[]
+include::TestCaseExecution.adoc[]
 
-include::12-CollectLogsSubmitTEDS.adoc[]
+include::CollectLogsSubmitTEDS.adoc[]

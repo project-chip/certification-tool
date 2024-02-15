@@ -15,7 +15,6 @@
  * limitations under the License.
 ////
 <<<
-:sectnums:
 == *Introduction*
 
 The Matter Test-Harness is a comprehensive test tool used for certification testing of Matter devices in accordance with the Matter protocol as defined in the https://groups.csa-iot.org/wg/members-all/document/folder/2269[Matter specification]. 
