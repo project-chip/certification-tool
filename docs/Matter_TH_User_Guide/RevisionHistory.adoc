@@ -1,0 +1,49 @@
+////
+ *
+ * Copyright (c) 2024 Project CHIP Authors
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+////
+<<<
+[discrete]
+== *Revision History*
+
+[cols=".^11%,.^15%,.^20%,.^54%"]
+|===
+| *Revision*  | *Date*       | *Author*                            | *Description*                                                                                                       
+| 1           | 11-Jan-2022  | [GRL]Suraj Seenivasan               | * Initial version of the user manual used for V1.0.                                                                 
+| 2           | 22-Aug-2022  | [GRL]Suraj Seenivasan               | * Updated the steps required to run the Python script inside docker: Input given by Tennessee Carmel-Veilleux.
+| 3           | 06-Feb-2023  | [GRL]Suraj Seenivasan               | * Added instructions to update the existing image and personal access token: How to execute simulated test cases.
+| 4           | 09-Feb-2023  | [GRL]Suma                           | * Structuring the user manual. +
+                                                                     * Added relevant screenshots.
+| 5           | 24-Feb-2023  | [SiLabs]Yinyi Hu                    | * Instruction to Flash SiLabs RCP. +
+                                                                     * Instruction to collect Logs and submit to TEDS.
+| 6           | 01-Mar-2023  | [GRL]Suraj Seenivasan               | * Instructions to flash nRF52840 Dongle and nRF52840 DK.
+| 7           | 16-Mar-2023  | [Apple]Fábio Wladimir Monteiro Maia | * Added TH layout explanation.
+| 8           | 12-Jun-2023  | [Apple]Carolina Lopes               | * Added instructions to install TH without a Raspberry Pi.
+| 9           | 06-Sep-2023  | [Apple]Antonio Melo Jr              | * Moved the table of contents to a further page. +
+                                                                     * Added TH links for images and support documentations.
+| 10          | 25-Oct-2023  | [Apple]Hilton Lima                  | * Added SDK commit column to Test-Harness Links table.
+| 11          | 26-Oct-2023  | [Apple]Carolina Lopes               | * Updated some links and images.
+| 12          | 06-Dec-2023  | [Apple]Hilton Lima                  | * Added Custom Yaml test section. +
+                                                                     * Updated TH update instructions. +
+                                                                     * Revision History table style formated.
+| 13          | 07-Dec-2023  | [Apple]Carolina Lopes               | * Updated instructions on how to install TH without a Raspberry Pi.
+| 14          | 14-Dec-2023  | [Apple]Hilton Lima                  | * Updated SDK Python Test section.
+| 15          | 20-Dec-2023  | [Apple]Antonio Melo Jr.             | * Updated Test Harness links related to release of Spring 2024.
+| 16          | 04-Jan-2024  | [Apple]Antonio Melo Jr.             | * Updated Test Harness Release location link to the new Drive folder.
+| 17          | 04-Jan-2024  | [Apple]Romulo Quidute               | * Renamed Custom Yaml test section to Customized Test Scripts and also added Custom Python test information.
+| 18          | 05-Jan-2024  | [Apple]Carolina Lopes               | * Added information about the SDK Python Test suites.
+| 19          | 30-Jan-2024  | [Apple]Romulo Quidute               | * Updated some referenced links.
+| 20          | 07-fev-2024  | [Apple]Hilton Lima                  | * Added 'Common Test Failures' section for SDK tests.
+|===

@@ -1,0 +1,28 @@
+////
+ *
+ * Copyright (c) 2024 Project CHIP Authors
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+////
+<<<
+== *Introduction*
+
+The Matter Test-Harness is a comprehensive test tool used for certification testing of Matter devices in accordance with the Matter protocol as defined in the https://groups.csa-iot.org/wg/members-all/document/folder/2269[Matter specification]. 
+
+This user guide serves as the primary user documentation to work with the Test-Harness ( *TH* ) tool, providing high-level architecture of the tool, how to use the tool to execute certification tests and submit the test results to CSA for certification.
+
+The TH tool runs on the Raspberry Pi platform, providing an intuitive Web user interface to create a test project, configure the project/Device Under Test ( *DUT* ) settings, load the required test cases using the PICS xml file and execute test cases for various devices (commissioner, controller and controlee) as defined in the Matter specification. 
+
+The TH tool provides an option to execute the following test scripts— Automated, Semi Automated, Python, Manual and Simulated. Upon completion of the test execution, detailed logs and test results will be available for user analysis. The user will also be able to submit logs to ATL’s for review to obtain device certification.
+
+The TH tool can be used by any DUT vendor to run the Matter certification tests OR by any hobby developer to get acquainted with the Matter certification testing tools or technologies. 
