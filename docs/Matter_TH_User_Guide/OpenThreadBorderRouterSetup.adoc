@@ -19,7 +19,7 @@
 
 If the DUT supports Thread Transport, DUT vendors need to use the OTBR that is shipped with the TH image for certification testing. Here are the instructions to set up OTBR that comes with the TH. Users need to get the RCP programmed with the recommended version and connect it to the Raspberry Pi running the TH. The OTBR will be started when the TH runs the thread transport related TC’s.
 
-Currently the OTBR in the TH works with either the Nordic RCP dongle or SiLabs RCP dongle. Refer to <<instructions-to-flash-the-firmware-nrf52840-rcpdongle, Section 6.1>> to flash the NRF52840 firmware or <<instructions-to-flash-silabs-rcp, Section 6.2>> to flash the SiLabs firmware and get the RCP’s ready. Once the RCP’s are programmed, the user needs to insert the RCP dongle on to the Raspberry Pi running the TH and reboot the Raspberry Pi.
+Currently the OTBR in the TH works with either the Nordic RCP dongle or SiLabs RCP dongle. Refer to <<instructions-to-flash-the-firmware-nrf52840-rcpdongle, Section 7.1>> to flash the NRF52840 firmware or <<instructions-to-flash-silabs-rcp, Section 7.2>> to flash the SiLabs firmware and get the RCP’s ready. Once the RCP’s are programmed, the user needs to insert the RCP dongle on to the Raspberry Pi running the TH and reboot the Raspberry Pi.
 
 === Instructions to Flash the Firmware NRF52840 RCPDongle
 . Download RCP firmware package from the following link on the user’s system — https://groups.csa-iot.org/wg/matter-csg/document/26977[https://groups.csa-iot.org/wg/matter-csg/document/26977] 
