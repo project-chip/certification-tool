@@ -14,6 +14,7 @@
  # WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  # See the License for the specific language governing permissions and
  # limitations under the License.
+set -e
 
 # Silence user prompts about reboot and service restart required (script will prompt user to reboot in the end)
 sudo sed -i "s/#\$nrconf{kernelhints} = -1;/\$nrconf{kernelhints} = -1;/g" /etc/needrestart/needrestart.conf
@@ -25,7 +26,7 @@ sudo DEBIAN_FRONTEND=noninteractive apt-get upgrade -y
 
 # TODO Comment on what dependency is required for:
 packagelist=(
-    linux-modules-extra-raspi=5.15.0.1044.42
+    linux-modules-extra-raspi=5.15.0.1046.44
     pi-bluetooth=0.1.18ubuntu4
 )
 

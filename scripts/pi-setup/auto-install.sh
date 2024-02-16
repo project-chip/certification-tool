@@ -22,5 +22,13 @@ UBUNTU_SCRIPT_DIR="$SCRIPT_DIR/ubuntu"
 printf "\n\n**********"
 printf "\n*** Installing Raspberry Pi Dependencies ***\n"
 $PI_SCRIPT_DIR/install-pi-dependencies.sh
+if [ $? -ne 0 ]; then
+    echo "### Exit with Error ###"
+    exit 1
+fi
 
 $UBUNTU_SCRIPT_DIR/auto-install.sh
+if [ $? -ne 0 ]; then
+    echo "### Exit with Error ###"
+    exit 1
+fi
