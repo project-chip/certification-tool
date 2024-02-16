@@ -14,6 +14,7 @@
  # WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  # See the License for the specific language governing permissions and
  # limitations under the License.
+set -e
 
 # Install Docker Package Repo
 curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo gpg --dearmor --yes -o /usr/share/keyrings/docker-archive-keyring.gpg
@@ -53,7 +54,7 @@ packagelist=(
     toilet=0.3-1.4
     unzip=6.0-26ubuntu3.1
 )
-sudo DEBIAN_FRONTEND=noninteractive sudo apt-get install ${packagelist[@]} -y
+sudo DEBIAN_FRONTEND=noninteractive sudo apt-get install ${packagelist[@]} -y --allow-downgrades
 
 # Install Peotry, needed for Test Harness CLI
 curl -sSL https://install.python-poetry.org | python3 -
