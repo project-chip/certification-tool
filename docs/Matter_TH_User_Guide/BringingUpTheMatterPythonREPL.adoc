@@ -22,7 +22,7 @@ The https://github.com/project-chip/connectedhomeip/blob/master/docs/guides/matt
 You can use the `chip-cert-bins` SDK image to run `chip-repl` on your Test Harness by follwing these instructions:
 
 * Start container: +
-Remember to set `PATH_TO_PAA_ROOTS` and subsitute `<SDK SHA RECOMMENDED>`
+Remember to set `PATH_TO_PAA_ROOTS` and substitute `<SDK SHA RECOMMENDED>`
 |===
 |`docker run -v $PATH_TO_PAA_ROOTS:/paa_roots -v /var/run/dbus:/var/run/dbus -v $(pwd):/launch_dir --privileged --network host -it connectedhomeip/chip-cert-bins:<SDK SHA RECOMMENDED>`
 |===
