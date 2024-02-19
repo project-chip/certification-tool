@@ -46,4 +46,5 @@
 | 18          | 05-Jan-2024  | [Apple]Carolina Lopes               | * Added information about the SDK Python Test suites.
 | 19          | 30-Jan-2024  | [Apple]Romulo Quidute               | * Updated some referenced links.
 | 20          | 07-fev-2024  | [Apple]Hilton Lima                  | * Added 'Common Test Failures' section for SDK tests.
+| 21          | 07-fev-2024  | [Apple]Carolina Lopes               | * Added 'Bringing up the Matter Python REPL' section.
 |===

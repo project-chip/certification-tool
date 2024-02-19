@@ -23,7 +23,7 @@ If the DUT is a controlee (e.g., light bulb), the TH spins a reference commissio
 
 If the DUT is a commissioner/controller, the Test TH spins an example accessory that is shipped with the SDK and uses that for the DUT to provision, control and run certification tests.
 
-Refer to <<bringing-up-of-matter-node-dut-for-certification-testing, Section 5, Bringing Up of Matter Node (DUT) for Certification Testing>> to bring up the DUT and then proceed with device testing by referring to <<test-configuration, Section 7, Test Configuration>>.
+Refer to <<bringing-up-of-matter-node-dut-for-certification-testing, Section 5, Bringing Up of Matter Node (DUT) for Certification Testing>> to bring up the DUT and then proceed with device testing by referring to <<test-configuration, Section 8, Test Configuration>>.
 
 For hobby developers who want to get acquainted with certification tools/process/TC’s, can spin DUT’s using the example apps provided in the SDK. Refer to the instructions to set up one https://groups.csa-iot.org/wg/matter-csg/document/folder/2756[here].
 
@@ -47,7 +47,7 @@ The Mac/PC will be used to download the TH image and flash on the SD card to be 
 
 * *RCP dongle*
 
-If the DUT supports thread transport, an RCP dongle provisioned with a recommended RCP image for the default OTBR router that comes with the TH will be required to function properly. Currently, the OTBR can work with a Nordic RCP dongle or a SiLabs RCP dongle. Refer to <<ot-border-router-otbr-setup, Section 6, OT Border Router (OTBR) Setup>> on how to install an RCP image.
+If the DUT supports thread transport, an RCP dongle provisioned with a recommended RCP image for the default OTBR router that comes with the TH will be required to function properly. Currently, the OTBR can work with a Nordic RCP dongle or a SiLabs RCP dongle. Refer to <<ot-border-router-otbr-setup, Section 7, OT Border Router (OTBR) Setup>> on how to install an RCP image.
 
 ==== TH Installation on Raspberry Pi
 
@@ -60,7 +60,7 @@ If the DUT supports thread transport, an RCP dongle provisioned with a recommend
 * username: ubuntu
 * password: raspberrypi
 . Using the _ifconfig_ command, obtain the IP address of the Raspberry Pi. The same IP address will be used to launch the TH user interface on the user's system using the browser.
-. Proceed with test configuration and execution (refer to <<test-configuration, Section 7, Test Configuration>> and <<test-case-execution, Section 8, Test Case Execution>> respectively).
+. Proceed with test configuration and execution (refer to <<test-configuration, Section 8, Test Configuration>> and <<test-case-execution, Section 9, Test Case Execution>> respectively).
 
 
 === Troubleshooting

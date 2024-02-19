@@ -86,7 +86,7 @@ On completion of the network and the device configuration, select the *Update* a
 ===== Upload PICS File
 The newly created project will be listed under the Project details column. +
 
-Click on the Edit option to configure the project to load the required PICS file for the cluster to be tested and select the *Update* button. Refer to <<test-case-execution, Section 8, Test Case Execution>>.
+Click on the Edit option to configure the project to load the required PICS file for the cluster to be tested and select the *Update* button. Refer to <<test-case-execution, Section 9, Test Case Execution>>.
 
 image:images/img_23.png[]
 
@@ -122,7 +122,7 @@ image:images/img_28.png[]
 * The Yellow icon to download the test logs
 * The Blue icon to save the test reports
 
-. Click on the *Result* button and select the test that was executed and click on *Show Report* to view the reports. The user can also select previously executed tests and view the reports and logs. There is an option provided to re-run the test cases. Refer to <<collect-logs-and-submit-to-teds, Section 9, Collect Logs and Submit to TEDS>> to collect the logs and submit the reports to TEDS.
+. Click on the *Result* button and select the test that was executed and click on *Show Report* to view the reports. The user can also select previously executed tests and view the reports and logs. There is an option provided to re-run the test cases. Refer to <<collect-logs-and-submit-to-teds, Section 10, Collect Logs and Submit to TEDS>> to collect the logs and submit the reports to TEDS.
 +
 image:images/img_29.png[]
 

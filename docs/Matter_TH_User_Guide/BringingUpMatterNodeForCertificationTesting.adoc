@@ -129,7 +129,7 @@ image:images/img_8.png[]
 image:images/img_9.png[]
 
 . Connect the nRF52840-Dongle to the USB port of the Raspberry Pi having the latest TH image. 
-. For the Thread DUT, enable discoverable over Bluetooth LE (e.g., on nRF52840 DK: select Button 4) and start the Thread Setup Test execution by referring to <<test-configuration, Section 7, Test Configuration>> .
+. For the Thread DUT, enable discoverable over Bluetooth LE (e.g., on nRF52840 DK: select Button 4) and start the Thread Setup Test execution by referring to <<test-configuration, Section 8, Test Configuration>> .
       
 ===== *Instructions to Set Up nRF52840-DK Using Docker Environment*
 . To build the sample apps for nRF-Connect, check out the Matter repository and bootstrap using following commands:
@@ -244,4 +244,4 @@ Perform the following procedure, regardless of the method used for setting up th
 
 
 . Connect the nRF52840-Dongle to the USB port of the Raspberry Pi having the latest TH image. 
-. For the Thread DUT, enable discoverable over Bluetooth LE (e.g., On nRF52840 DK: Press Button 4) and start the Thread Setup Test execution by referring to <<test-configuration, Section 7, Test Configuration>>.
+. For the Thread DUT, enable discoverable over Bluetooth LE (e.g., On nRF52840 DK: Press Button 4) and start the Thread Setup Test execution by referring to <<test-configuration, Section 8, Test Configuration>>.

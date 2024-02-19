@@ -52,6 +52,8 @@ include::GettingStarted.adoc[]
 
 include::BringingUpMatterNodeForCertificationTesting.adoc[]
 
+include::BringingUpTheMatterPythonREPL.adoc[]
+
 include::OpenThreadBorderRouterSetup.adoc[]
 
 include::TestConfiguration.adoc[]

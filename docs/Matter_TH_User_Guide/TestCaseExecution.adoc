@@ -227,7 +227,7 @@ Factory reset the DUT again → The test fills tons of stuff and the device will
 * Failing at Step 9 during execution of TC_RR_1_1:
 .. Some DUT’s have an incorrectly-configured UserLabel cluster where the backend is not implemented due to SDK example issues where some examples have the backend and others do not. This will fail at the last step (“Step 9: Fill UserLabel clusters on each endpoint”), with FAILURE writes. To override the test not to run this step, you can add “*--bool-arg skip_user_label_cluster_steps:true*“ to the command line of *TC_RR_1_1.py*, at the end.
 .. Not having the *$PATH_TO_PAA_ROOTS* set properly when starting the docker or not having PAA roots certificates at that path.
-.. Follow the instructions for item 2 in <<prerequisite, Section 8.5.1, Prerequisite>>.
+.. Follow the instructions for item 2 in <<prerequisite, Section 9.5.1.1, Prerequisite>>.
 
 ====== Common Test Failures
 
