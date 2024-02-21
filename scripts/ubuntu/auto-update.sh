@@ -25,6 +25,10 @@ if [ $# != 1 ] || [ $1 = "--help" ]; then
   exit 1
 fi
 
+printf "\n\n**********"
+printf "\n*** Stoping Containers ***\n"
+$SCRIPT_DIR/stop.sh
+
 BRANCH_NAME=$1
 
 # It is necessary to update the branch references from origin
@@ -43,11 +47,3 @@ $UBUNTU_SCRIPT_DIR/update-sample-apps.sh
 printf "\n\n**********"
 printf "\n*** Fetching PAA Certs from SDK ***\n"
 $UBUNTU_SCRIPT_DIR/update-paa-certs.sh
-
-printf "\n\n**********"
-printf "\n*** Stoping Containers ***\n"
-$SCRIPT_DIR/stop.sh
-
-printf "\n\n**********"
-printf "\n*** Building Clean Images ***\n"
-$SCRIPT_DIR/build.sh --latest --no-cache
