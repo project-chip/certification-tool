@@ -1165,10 +1165,10 @@ Form the Chip-tool, execute the above command with node ID listed in the TH log.
 
 |===
 |Example: +
-`docker exec -it th-chip-tool <popup command> <newly generated nodeID> <end-point id>`
+`docker exec -it th-sdk <popup command> <newly generated nodeID> <end-point id>`
 
 `cd apps` +
-`docker exec -it th-chip-tool ./chip-tool groups view-group 0x0105 Oxb1d2ee23dcf2f18b 0`
+`docker exec -it th-sdk ./chip-tool groups view-group 0x0105 Oxb1d2ee23dcf2f18b 0`
 |===
 
 
