@@ -81,6 +81,7 @@ endif::[]
 | 20          | 07-fev-2024  | [Apple]Hilton Lima                  | * Added 'Common Test Failures' section for SDK tests.
 | 21          | 07-fev-2024  | [Apple]Carolina Lopes               | * Added 'Bringing up the Matter Python REPL' section.
 | 22          | 15-fev-2024  | [Apple]Hilton Lima                  | * Updated 'TH Installation on Raspberry Pi' section.
+| 23          | 26-fev-2024  | [Apple]Carolina Lopes               | * Added volume mapping for data model XML files on docker run commands for SDK containter.
 |===
 
 <<<
@@ -731,7 +732,7 @@ You can use the `chip-cert-bins` SDK image to run `chip-repl` on your Test Harne
 * Start container: +
 Remember to set `PATH_TO_PAA_ROOTS` and substitute `<SDK SHA RECOMMENDED>`
 |===
-|`docker run -v $PATH_TO_PAA_ROOTS:/paa_roots -v /var/run/dbus:/var/run/dbus -v $(pwd):/launch_dir --privileged --network host -it connectedhomeip/chip-cert-bins:<SDK SHA RECOMMENDED>`
+|`docker run -v $PATH_TO_PAA_ROOTS:/paa_roots -v /var/run/dbus:/var/run/dbus -v /home/ubuntu/certification-tool/backend/test_collections/matter/sdk_tests/sdk_checkout/python_testing:/root/python_testing -v $(pwd):/launch_dir --privileged --network host -it connectedhomeip/chip-cert-bins:<SDK SHA RECOMMENDED>`
 |===
 
 * Activate python environment:
@@ -1269,7 +1270,7 @@ Device-specific configuration is shown as shell variables. *PLEASE REPLACE THOSE
 |===
 |Factory-reset the DUT
 
-`docker run -v $PATH_TO_PAA_ROOTS:/paa_roots -v /var/run/dbus:/var/run/dbus -v $(pwd):/launch_dir --privileged --network host -it connectedhomeip/chip-cert-bins:<SDK SHA RECOMMENDED>`
+`docker run -v $PATH_TO_PAA_ROOTS:/paa_roots -v /var/run/dbus:/var/run/dbus -v /home/ubuntu/certification-tool/backend/test_collections/matter/sdk_tests/sdk_checkout/python_testing:/root/python_testing -v $(pwd):/launch_dir --privileged --network host -it connectedhomeip/chip-cert-bins:<SDK SHA RECOMMENDED>`
 |===
 
 This downloads a Docker image with the test environment, and runs the environment including mounting the PAA trust store in */paa_roots* and mounts the local Avahi socket so that Avahi in the VM can run against its host.
@@ -1283,7 +1284,7 @@ NOTE: *The first time running docker will be SLOW (around 5 minutes) due to the 
 Execute the following command:
 
 |===
-|`rm -f admin_storage.json && python3 python_testing/TC_RR_1_1.py --discriminator $DISCRIMINATOR --passcode $SETUP_PASSCODE --commissioning-method on-network --paa-trust-store-path /paa_roots --storage-path admin_storage.json`
+|`rm -f admin_storage.json && python3 python_testing/scripts/sdk/TC_RR_1_1.py --discriminator $DISCRIMINATOR --passcode $SETUP_PASSCODE --commissioning-method on-network --paa-trust-store-path /paa_roots --storage-path admin_storage.json`
 |===
 
 To test this against a Linux target running on the same network as the host:
@@ -1304,7 +1305,7 @@ To test this against a Linux target running on the same network as the host:
 Execute the following command in the docker for the BLE+Wi-Fi pairing:
 
 |===
-|`rm -f admin_storage.json && python3 python_testing/TC_RR_1_1.py --discriminator $DISCRIMINATOR --passcode $SETUP_PASSCODE --commissioning-method ble-wifi --paa-trust-store-path /paa_roots --storage-path admin_storage.json --wifi-ssid $WIFI_SSID --wifi-passphrase $WIFI_PASSPHRASE --ble-interface-id $BLE_INTERFACE_ID`
+|`rm -f admin_storage.json && python3 python_testing/scripts/sdk/TC_RR_1_1.py --discriminator $DISCRIMINATOR --passcode $SETUP_PASSCODE --commissioning-method ble-wifi --paa-trust-store-path /paa_roots --storage-path admin_storage.json --wifi-ssid $WIFI_SSID --wifi-passphrase $WIFI_PASSPHRASE --ble-interface-id $BLE_INTERFACE_ID`
 |===
 
 ===== For BLE+Thread Pairing
@@ -1312,7 +1313,7 @@ Execute the following command in the docker for the BLE+Wi-Fi pairing:
 Execute the below command in the docker for the BLE+Thread pairing:
 
 |===
-|`rm -f admin_storage.json && python3 python_testing/TC_RR_1_1.py --discriminator $DISCRIMINATOR --passcode $SETUP_PASSCODE --commissioning-method ble-thread --paa-trust-store-path /paa_roots --storage-path admin_storage.json --thread-dataset-hex $THREAD_DATASET_HEX --ble-interface-id $BLE_INTERFACE_ID`
+|`rm -f admin_storage.json && python3 python_testing/scripts/sdk/TC_RR_1_1.py --discriminator $DISCRIMINATOR --passcode $SETUP_PASSCODE --commissioning-method ble-thread --paa-trust-store-path /paa_roots --storage-path admin_storage.json --thread-dataset-hex $THREAD_DATASET_HEX --ble-interface-id $BLE_INTERFACE_ID`
 |===
 
 
@@ -1446,7 +1447,7 @@ image:images/img_45.png[]
 When executing Python tests from the Docker, pipe test logs to file. 
 
 |===
-|`rm -f admin_storage.json && python3 python_testing/TC_<test_case>.py <test_parameters> \| tee /launch_dir/<test_log_file>.log`
+|`rm -f admin_storage.json && python3 python_testing/scripts/sdk/TC_<test_case>.py <test_parameters> \| tee /launch_dir/<test_log_file>.log`
 |===
 
 Result logs will be available typically under the TH home directory where the docker container is launched.
