@@ -43,7 +43,7 @@ packagelist=(
     libgirepository1.0-dev=1.72.0-1
     libglib2.0-dev=2.72.4-0ubuntu2.2
     libreadline-dev=8.1.2-1
-    libssl-dev
+    libssl-dev                                  # Apparently with each update, previous versions of the library are removed
     net-tools=1.60+git20181103.0eebece-1ubuntu5
     ninja-build=1.10.1-1
     npm=8.5.1~ds-1
