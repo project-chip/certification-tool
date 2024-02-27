@@ -40,10 +40,10 @@ endif::[]
 [cols=".^15%,.^18%,.^12%,.^20%,.^10%,.^25%"]
 |===
 | *Matter Version* | *TH Version* | *TH image location*                                                                         | *Supporting Documentation*                                                     | *SDK commit* | *Comments*
-| Matter 1.0       | TH v2.6      | https://drive.google.com/file/d/10YkV4mDulhLoA6RJOKZNNKWhHTH1tOfu/view?usp=drive_link[link] | https://groups.csa-iot.org/wg/matter-csg/document/folder/2947[Causeway Link] | 96c9357      |
-| Matter 1.1       | TH v2.8.1    | https://drive.google.com/file/d/15fU3L7QE-MNBslf53A_6sFgn1Wq0Pvqd/view?usp=drive_link[link] | https://groups.csa-iot.org/wg/matter-csg/document/folder/2470[Causeway Link]   | 5a21d17      |
+| Matter 1.0       | v2.6      | https://drive.google.com/file/d/10YkV4mDulhLoA6RJOKZNNKWhHTH1tOfu/view?usp=drive_link[link] | https://groups.csa-iot.org/wg/matter-csg/document/folder/2947[Causeway Link] | 96c9357      |
+| Matter 1.1       | v2.8.1    | https://drive.google.com/file/d/15fU3L7QE-MNBslf53A_6sFgn1Wq0Pvqd/view?usp=drive_link[link] | https://groups.csa-iot.org/wg/matter-csg/document/folder/2470[Causeway Link]   | 5a21d17      |
 | Matter 1.2       | TH-Fall2023  | https://drive.google.com/file/d/1WTjhc7xbYt18RvpABU3_r47uqOLd7NN1/view?usp=drive_link[link] | https://groups.csa-iot.org/wg/matter-csg/document/folder/2756[Causeway Link] | 19771ed      |
-| Matter 1.3       | TH-Spring2024| https://drive.google.com/file/d/1ckEPmJuy0_2YPDbl4Aw3PQWj139W7S35/view?usp=drive_link[link] | https://groups.csa-iot.org/wg/matter-csg/document/folder/3314[Causeway Link] | 0ff709f      | Not Official - TE2 Version
+| Matter 1.3       | v2.10-beta3+spring2024| Not Applicable | https://groups.csa-iot.org/wg/matter-csg/document/folder/3314[Causeway Link] | 9f6d627      | To install, substitute the TH version name for _<Target_Branch/Tag>_ in section <<fresh_install>> 
 |===
 
 
@@ -81,6 +81,8 @@ endif::[]
 | 20          | 07-fev-2024  | [Apple]Hilton Lima                  | * Added 'Common Test Failures' section for SDK tests.
 | 21          | 07-fev-2024  | [Apple]Carolina Lopes               | * Added 'Bringing up the Matter Python REPL' section.
 | 22          | 15-fev-2024  | [Apple]Hilton Lima                  | * Updated 'TH Installation on Raspberry Pi' section.
+| 23          | 26-fev-2024  | [Apple]Carolina Lopes               | * Added volume mapping for data model XML files on docker run commands for SDK containter.
+| 23          | 27-fev-2024  | [Apple]Carolina Lopes               | * Updated mapping in docker run command for SDK container.
 |===
 
 <<<
@@ -169,8 +171,9 @@ Refer to <<bringing-up-of-matter-node-dut-for-certification-testing, Section 5, 
 
 For hobby developers who want to get acquainted with certification tools/process/TC’s, can spin DUT’s using the example apps provided in the SDK. Refer to the instructions to set up one https://groups.csa-iot.org/wg/matter-csg/document/folder/2756[here].
 
-TH runs on Ubuntu 22.04 Server LTS. The official installation method uses a Raspberry Pi (<<th-image-installation-on-raspberry-pi>>), but there's an alternative method used in the tool's development that uses a virtual machine instead (<<th-installation-without-a-raspberry-pi>>). Keep in mind that thread networking is not officially supported in VM installations at the moment.
+TH runs on Ubuntu 22.04 Server LTS. The official installation method uses a Raspberry Pi (<<fresh_install>>), but there's an alternative method used in the tool's development that uses a virtual machine instead (<<th-installation-without-a-raspberry-pi>>). Keep in mind that thread networking is not officially supported in VM installations at the moment.
 
+[#fresh_install]
 === TH Installation on Raspberry Pi
 
 There are two ways to obtain the latest TH on Raspberry Pi. Follow the instructions in <<th-installation-on-raspberry-pi, Section 4.1.2, TH Installation on Raspberry Pi>> to install TH from scratch OR if you already have the TH, follow the instructions in <<update-existing-th, Section 4.4, Update Existing TH>> to update the TH.
@@ -192,6 +195,10 @@ The Mac/PC will be used to flash the Ubuntu image on the SD card to be used on R
 If the DUT supports thread transport, an RCP dongle provisioned with a recommended RCP firmware for the default OTBR router that comes with the TH will be required to function properly. Currently, the OTBR can work with a Nordic RCP dongle or a SiLabs RCP dongle. Refer to <<ot-border-router-otbr-setup, Section 6, OT Border Router (OTBR) Setup>> on how to install the RCP firmware.
 
 ==== TH Installation on Raspberry Pi
+
+**************
+**Starting with version v2.10 we have moved from distributing TH as an SD-Card image to publishing the TH Docker containers at Github Container Registry and pulling them at install time. By doing that the release process has been made much faster and less error-prone, while at the same time installation time has gone shorter.**
+**************
 
 . Place the blank SD card into the user’s system USB slot. 
 . Open the https://www.raspberrypi.com/software/[Raspberry Pi Imager] or https://www.balena.io/etcher/[Balena Etcher] tool on the Mac/PC and select the 'Ubuntu Server 22.04 LTS (64-bit)'.
@@ -726,7 +733,7 @@ You can use the `chip-cert-bins` SDK image to run `chip-repl` on your Test Harne
 * Start container: +
 Remember to set `PATH_TO_PAA_ROOTS` and substitute `<SDK SHA RECOMMENDED>`
 |===
-|`docker run -v $PATH_TO_PAA_ROOTS:/paa_roots -v /var/run/dbus:/var/run/dbus -v $(pwd):/launch_dir --privileged --network host -it connectedhomeip/chip-cert-bins:<SDK SHA RECOMMENDED>`
+|`docker run -v $PATH_TO_PAA_ROOTS:/paa_roots -v /var/run/dbus/system_bus_socket:/var/run/dbus/system_bus_socket -v /home/ubuntu/certification-tool/backend/test_collections/matter/sdk_tests/sdk_checkout/python_testing:/root/python_testing -v $(pwd):/launch_dir --privileged --network host -it connectedhomeip/chip-cert-bins:<SDK SHA RECOMMENDED>`
 |===
 
 * Activate python environment:
@@ -1165,10 +1172,10 @@ Form the Chip-tool, execute the above command with node ID listed in the TH log.
 
 |===
 |Example: +
-`docker exec -it th-chip-tool <popup command> <newly generated nodeID> <end-point id>`
+`docker exec -it th-sdk <popup command> <newly generated nodeID> <end-point id>`
 
 `cd apps` +
-`docker exec -it th-chip-tool ./chip-tool groups view-group 0x0105 Oxb1d2ee23dcf2f18b 0`
+`docker exec -it th-sdk ./chip-tool groups view-group 0x0105 Oxb1d2ee23dcf2f18b 0`
 |===
 
 
@@ -1264,7 +1271,7 @@ Device-specific configuration is shown as shell variables. *PLEASE REPLACE THOSE
 |===
 |Factory-reset the DUT
 
-`docker run -v $PATH_TO_PAA_ROOTS:/paa_roots -v /var/run/dbus:/var/run/dbus -v $(pwd):/launch_dir --privileged --network host -it connectedhomeip/chip-cert-bins:<SDK SHA RECOMMENDED>`
+`docker run -v $PATH_TO_PAA_ROOTS:/paa_roots -v /var/run/dbus/system_bus_socket:/var/run/dbus/system_bus_socket -v /home/ubuntu/certification-tool/backend/test_collections/matter/sdk_tests/sdk_checkout/python_testing:/root/python_testing -v $(pwd):/launch_dir --privileged --network host -it connectedhomeip/chip-cert-bins:<SDK SHA RECOMMENDED>`
 |===
 
 This downloads a Docker image with the test environment, and runs the environment including mounting the PAA trust store in */paa_roots* and mounts the local Avahi socket so that Avahi in the VM can run against its host.
@@ -1278,7 +1285,7 @@ NOTE: *The first time running docker will be SLOW (around 5 minutes) due to the 
 Execute the following command:
 
 |===
-|`rm -f admin_storage.json && python3 python_testing/TC_RR_1_1.py --discriminator $DISCRIMINATOR --passcode $SETUP_PASSCODE --commissioning-method on-network --paa-trust-store-path /paa_roots --storage-path admin_storage.json`
+|`rm -f admin_storage.json && python3 python_testing/scripts/sdk/TC_RR_1_1.py --discriminator $DISCRIMINATOR --passcode $SETUP_PASSCODE --commissioning-method on-network --paa-trust-store-path /paa_roots --storage-path admin_storage.json`
 |===
 
 To test this against a Linux target running on the same network as the host:
@@ -1299,7 +1306,7 @@ To test this against a Linux target running on the same network as the host:
 Execute the following command in the docker for the BLE+Wi-Fi pairing:
 
 |===
-|`rm -f admin_storage.json && python3 python_testing/TC_RR_1_1.py --discriminator $DISCRIMINATOR --passcode $SETUP_PASSCODE --commissioning-method ble-wifi --paa-trust-store-path /paa_roots --storage-path admin_storage.json --wifi-ssid $WIFI_SSID --wifi-passphrase $WIFI_PASSPHRASE --ble-interface-id $BLE_INTERFACE_ID`
+|`rm -f admin_storage.json && python3 python_testing/scripts/sdk/TC_RR_1_1.py --discriminator $DISCRIMINATOR --passcode $SETUP_PASSCODE --commissioning-method ble-wifi --paa-trust-store-path /paa_roots --storage-path admin_storage.json --wifi-ssid $WIFI_SSID --wifi-passphrase $WIFI_PASSPHRASE --ble-interface-id $BLE_INTERFACE_ID`
 |===
 
 ===== For BLE+Thread Pairing
@@ -1307,7 +1314,7 @@ Execute the following command in the docker for the BLE+Wi-Fi pairing:
 Execute the below command in the docker for the BLE+Thread pairing:
 
 |===
-|`rm -f admin_storage.json && python3 python_testing/TC_RR_1_1.py --discriminator $DISCRIMINATOR --passcode $SETUP_PASSCODE --commissioning-method ble-thread --paa-trust-store-path /paa_roots --storage-path admin_storage.json --thread-dataset-hex $THREAD_DATASET_HEX --ble-interface-id $BLE_INTERFACE_ID`
+|`rm -f admin_storage.json && python3 python_testing/scripts/sdk/TC_RR_1_1.py --discriminator $DISCRIMINATOR --passcode $SETUP_PASSCODE --commissioning-method ble-thread --paa-trust-store-path /paa_roots --storage-path admin_storage.json --thread-dataset-hex $THREAD_DATASET_HEX --ble-interface-id $BLE_INTERFACE_ID`
 |===
 
 
@@ -1441,7 +1448,7 @@ image:images/img_45.png[]
 When executing Python tests from the Docker, pipe test logs to file. 
 
 |===
-|`rm -f admin_storage.json && python3 python_testing/TC_<test_case>.py <test_parameters> \| tee /launch_dir/<test_log_file>.log`
+|`rm -f admin_storage.json && python3 python_testing/scripts/sdk/TC_<test_case>.py <test_parameters> \| tee /launch_dir/<test_log_file>.log`
 |===
 
 Result logs will be available typically under the TH home directory where the docker container is launched.
