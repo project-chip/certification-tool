@@ -65,4 +65,4 @@ IFS=$SAVEIFS
 # sudo DEBIAN_FRONTEND=noninteractive sudo apt-get install ${packagelist[@]} -y --allow-downgrades
 
 # Install Peotry, needed for Test Harness CLI
-# curl -sSL https://install.python-poetry.org | python3 -
+curl -sSL https://install.python-poetry.org | python3 -
