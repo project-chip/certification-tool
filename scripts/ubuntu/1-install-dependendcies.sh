@@ -32,7 +32,7 @@ packagelist=(
     "apt-transport-https (=2.4.11)"
     "avahi-utils (>=0.8-5ubuntu5.2)"                 # Matter uses Avahi
     "ca-certificates (=20230311ubuntu0.22.04.1)"
-    "docker-ce (=5:24.0.7-1~ubuntu.22.04~jammy)"     # Test Harness uses Docker
+    "docker-ce (>=5:24.0.7-1~ubuntu.22.04~jammy)"    # Test Harness uses Docker
     "figlet (=2.2.5-3)"
     "g++ (=4:11.2.0-1ubuntu1)"
     "gcc (=4:11.2.0-1ubuntu1)"
@@ -52,13 +52,13 @@ packagelist=(
     "python3-venv (=3.10.6-1~22.04)"                 # Test Harness CLI uses Python
     "software-properties-common (=0.99.22.9)"
     "toilet (=0.3-1.4)"
-    "unzip (=6.0-26ubuntu3.1)"
+    "unzip (>=6.0-26ubuntu3.1)"
 )
 
 SAVEIFS=$IFS
 IFS=$(echo -en "\r")
 for package in ${packagelist[@]}; do
-  sudo DEBIAN_FRONTEND=noninteractive sudo apt satisfy ${package[@]} -y
+  sudo DEBIAN_FRONTEND=noninteractive sudo apt satisfy ${package[@]} -y --allow-downgrades
 done
 IFS=$SAVEIFS 
 
