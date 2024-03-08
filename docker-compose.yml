@@ -77,7 +77,7 @@ services:
       - /var/run/docker.sock:/var/run/docker.sock
       - /usr/bin/docker:/usr/bin/docker
       - /var/run/dbus:/var/run/dbus
-      - ./backend/test_collections:/app/test_collections # mount test_collections in container
+      - ./test_collections:/app/test_collections # mount test_collections in container
     depends_on:
       - db
     env_file:
