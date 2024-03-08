@@ -27,19 +27,6 @@ if [ $# -eq 1 ]; then
     ROOT_BRANCH="$1"
 fi
 
-# If the repo is not pointing to a branch, the branch name will appear as "HEAD"
-# In that case, we ask the user if we may use the "develop" branch instead
-# If refused, the whole opperation is aborted
-if [ "$ROOT_BRANCH" = "HEAD" ]; then
-    echo "The HEAD is detached from a branch. Should it checkout to develop before proceeding?"
-    select yn in "Yes" "No"; do
-        case $yn in
-            Yes ) ROOT_BRANCH=develop; break;;
-            No ) echo "Aborting..."; exit;;
-        esac
-    done
-fi
-
 echo "*** Stashing local changes"
 cd $ROOT_DIR && git stash && git submodule foreach 'git stash'
 
@@ -69,10 +56,13 @@ cd $ROOT_DIR/cli && poetry install
 echo "*** Setup Test Collections"
 cd $ROOT_DIR
 for dir in ./test_collections/*
-do
-    prestart=$dir/setup.sh
-    # Only run setup.sh if present/
-    [ -x $prestart ] && $prestart
+do    
+    setup=$dir/setup.sh
+    # Only run setup.sh if present and it's executable
+    if [ -x $setup ]; then 
+        echo "Running setup script: $setup"
+        $setup
+    fi
 done
 
 # We echo "complete" to ensure this scripts last command has exit code 0.

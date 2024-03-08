@@ -23,7 +23,7 @@ UBUNTU_SCRIPT_DIR="$SCRIPT_DIR/ubuntu"
 
 printf "\n\n**********"
 printf "\n*** Installing Dependencies ***\n"
-$UBUNTU_SCRIPT_DIR/1-install-dependendcies.sh
+$UBUNTU_SCRIPT_DIR/1-install-dependencies.sh
 
 printf "\n\n**********"
 printf "\n*** Configure Machine ***\n"
