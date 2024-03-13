@@ -26,8 +26,14 @@ sudo DEBIAN_FRONTEND=noninteractive apt-get upgrade -y
 
 # TODO Comment on what dependency is required for:
 packagelist=(
-    linux-modules-extra-raspi=5.15.0.1046.44
-    pi-bluetooth=0.1.18ubuntu4
+    "linux-modules-extra-raspi (>=5.15.0.1046.44)"
+    "pi-bluetooth (=0.1.18ubuntu4)"
 )
 
-sudo DEBIAN_FRONTEND=noninteractive sudo apt-get install ${packagelist[@]} -y
+SAVEIFS=$IFS
+IFS=$(echo -en "\r")
+for package in ${packagelist[@]}; do
+  echo "# Instaling package: ${package[@]}"
+  sudo DEBIAN_FRONTEND=noninteractive sudo apt satisfy ${package[@]} -y --allow-downgrades
+done
+IFS=$SAVEIFS 
