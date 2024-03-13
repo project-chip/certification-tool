@@ -18,9 +18,9 @@
 ROOT_DIR=$(realpath $(dirname "$0")/../..)
 cd $ROOT_DIR
 
-SDK_SHA=$(cat $ROOT_DIR/backend/app/core/config.py | grep SDK_SHA | cut -d'"' -f 2 | cut -d"'" -f 2)
-SDK_DOCKER_IMAGE=$(cat $ROOT_DIR/backend/app/core/config.py | grep SDK_DOCKER_IMAGE | cut -d'"' -f 2 | cut -d"'" -f 2)
-SDK_DOCKER_TAG=$(cat $ROOT_DIR/backend/app/core/config.py | grep SDK_DOCKER_TAG | cut -d'"' -f 2 | cut -d"'" -f 2)
+SDK_SHA=$(cat $ROOT_DIR/backend/test_collections/matter/config.py | grep SDK_SHA | cut -d'"' -f 2 | cut -d"'" -f 2)
+SDK_DOCKER_IMAGE=$(cat $ROOT_DIR/backend/test_collections/matter/config.py | grep SDK_DOCKER_IMAGE | cut -d'"' -f 2 | cut -d"'" -f 2)
+SDK_DOCKER_TAG=$(cat $ROOT_DIR/backend/test_collections/matter/config.py | grep SDK_DOCKER_TAG | cut -d'"' -f 2 | cut -d"'" -f 2)
 
 read_version() {
     # Input validation for path

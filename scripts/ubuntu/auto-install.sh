@@ -20,10 +20,9 @@ ROOT_DIR=$(realpath $(dirname "$0")/../..)
 SCRIPT_DIR="$ROOT_DIR/scripts"
 UBUNTU_SCRIPT_DIR="$SCRIPT_DIR/ubuntu"
 
-
 printf "\n\n**********"
 printf "\n*** Installing Dependencies ***\n"
-$UBUNTU_SCRIPT_DIR/1-install-dependendcies.sh
+$UBUNTU_SCRIPT_DIR/1-install-dependencies.sh
 
 printf "\n\n**********"
 printf "\n*** Configure Machine ***\n"
@@ -31,16 +30,7 @@ $UBUNTU_SCRIPT_DIR/2-machine-cofiguration.sh
 
 printf "\n\n**********"
 printf "\n*** Getting Test Harness code ***\n"
-
 $SCRIPT_DIR/update.sh
-
-printf "\n\n**********"
-printf "\n*** Fetching sample apps ***\n"
-$UBUNTU_SCRIPT_DIR/update-sample-apps.sh
-
-printf "\n\n**********"
-printf "\n*** Fetching PAA Certs from SDK ***\n"
-$UBUNTU_SCRIPT_DIR/update-paa-certs.sh
 
 # Revert needrestart config to default.
 sudo sed -i "s/\$nrconf{kernelhints} = -1;/#\$nrconf{kernelhints} = -1;/g" /etc/needrestart/needrestart.conf
