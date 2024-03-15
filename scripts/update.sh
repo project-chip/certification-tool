@@ -44,10 +44,40 @@ cd $ROOT_DIR
 # Download docker images from docker-compose.yml.
 # As this might be run during setup we use `newgrp` command to ensure 
 # docker works.
+BUILD_BACKEND=false
+BUILD_FRONTEND=false
+set +e
+
+# Download backend Docker image
 newgrp docker << END
-# You can do more lines than just this./
-docker compose pull
+docker compose pull backend
 END
+if [ $? -ne 0 ]; then
+    BUILD_BACKEND=true
+fi
+
+# Download frontend Docker image
+newgrp docker << END
+docker compose pull frontend
+END
+if [ $? -ne 0 ]; then
+    BUILD_FRONTEND=true
+fi
+set -e
+
+# Download proxy and db Docker images 
+newgrp docker << END
+docker compose pull db proxy
+END
+
+# In case of failure, the images will be built locally
+if $BUILD_BACKEND; then
+    $ROOT_DIR/backend/scripts/build-docker-image.sh
+fi
+
+if $BUILD_FRONTEND; then
+    $ROOT_DIR/frontend/scripts/build-docker-image.sh
+fi
 
 echo "*** Update CLI dependencies"
 source ~/.profile #ensure poetry is in path
@@ -58,9 +88,9 @@ cd $ROOT_DIR
 for dir in ./test_collections/*
 do
     setup=$dir/setup.sh
-    # Only run setup.sh if present/
-    if [ -x $setup ]; then
-        echo "Running "$setup"..."
+    # Only run setup.sh if present and it's executable
+    if [ -x $setup ]; then 
+        echo "Running setup script: $setup"
         $setup
     fi
 done
