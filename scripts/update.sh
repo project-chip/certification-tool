@@ -47,26 +47,27 @@ cd $ROOT_DIR
 BUILD_BACKEND=false
 BUILD_FRONTEND=false
 set +e
+
+# Download backend Docker image
 newgrp docker << END
 docker compose pull backend
 END
-# Check if the docker images download failed
 if [ $? -ne 0 ]; then
     BUILD_BACKEND=true
 fi
 
+# Download frontend Docker image
 newgrp docker << END
 docker compose pull frontend
 END
-# Check if the docker images download failed
 if [ $? -ne 0 ]; then
     BUILD_FRONTEND=true
 fi
 set -e
 
-# Download proxy and db services Docker images 
+# Download proxy and db Docker images 
 newgrp docker << END
-docker compose pull
+docker compose pull db proxy
 END
 
 # In case of failure, the images will be built locally
