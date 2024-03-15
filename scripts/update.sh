@@ -86,7 +86,7 @@ cd $ROOT_DIR/cli && poetry install
 echo "*** Setup Test Collections"
 cd $ROOT_DIR
 for dir in ./test_collections/*
-do    
+do
     setup=$dir/setup.sh
     # Only run setup.sh if present and it's executable
     if [ -x $setup ]; then 
