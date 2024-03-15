@@ -28,7 +28,7 @@ if [ $# -eq 1 ]; then
 fi
 
 echo "*** Stashing local changes"
-cd $ROOT_DIR && git stash && git submodule foreach 'git stash'
+# cd $ROOT_DIR && git stash && git submodule foreach 'git stash'
 
 echo "*** Pull Test Harness code"
 cd $ROOT_DIR && \
@@ -44,18 +44,39 @@ cd $ROOT_DIR
 # Download docker images from docker-compose.yml.
 # As this might be run during setup we use `newgrp` command to ensure 
 # docker works.
+BUILD_BACKEND=false
+BUILD_FRONTEND=false
 set +e
+newgrp docker << END
+docker compose pull backend
+END
+# Check if the docker images download failed
+if [ $? -ne 0 ]; then
+    BUILD_BACKEND=true
+fi
+
+newgrp docker << END
+docker compose pull frontend
+END
+# Check if the docker images download failed
+if [ $? -ne 0 ]; then
+    BUILD_FRONTEND=true
+fi
+set -e
+
+# Download proxy and db services Docker images 
 newgrp docker << END
 docker compose pull
 END
-# Check if the docker images download failed
+
 # In case of failure, the images will be built locally
-if [ $? -ne 0 ]; then
-    newgrp docker << END
-    docker compose up --no-start
-END
+if $BUILD_BACKEND; then
+    $ROOT_DIR/backend/scripts/build-docker-image.sh
 fi
-set -e
+
+if $BUILD_FRONTEND; then
+    $ROOT_DIR/frontend/scripts/build-docker-image.sh
+fi
 
 echo "*** Update CLI dependencies"
 source ~/.profile #ensure poetry is in path
