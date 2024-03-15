@@ -44,10 +44,18 @@ cd $ROOT_DIR
 # Download docker images from docker-compose.yml.
 # As this might be run during setup we use `newgrp` command to ensure 
 # docker works.
+set +e
 newgrp docker << END
-# You can do more lines than just this./
 docker compose pull
 END
+# Check if the docker images download failed
+# In case of failure, the images will be built locally
+if [ $? -ne 0 ]; then
+    newgrp docker << END
+    docker compose up --no-start
+END
+fi
+set -e
 
 echo "*** Update CLI dependencies"
 source ~/.profile #ensure poetry is in path
