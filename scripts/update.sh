@@ -28,7 +28,7 @@ if [ $# -eq 1 ]; then
 fi
 
 echo "*** Stashing local changes"
-# cd $ROOT_DIR && git stash && git submodule foreach 'git stash'
+cd $ROOT_DIR && git stash && git submodule foreach 'git stash'
 
 echo "*** Pull Test Harness code"
 cd $ROOT_DIR && \
