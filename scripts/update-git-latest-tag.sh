@@ -20,17 +20,20 @@ REMOTE="origin"
 
 if [ $# = 0 ]
 then
-  echo "Update the remote '$TAG_NAME' tag references and push it to remote."
-elif [ $1 = "--remote" ] && [ $# = 2 ]
+  echo "No custom remote defined. Using 'origin' as default."
+elif [ $# = 2 ] && [ $1 = "--remote" ]
 then
   REMOTE=$2
+  echo "Using '$REMOTE' as remote."
 else
   echo "This script will update the '$TAG_NAME' tag references and push to remote."
   echo "To perform the update go to the desired commit/branch and then:"
-  echo "Usage: ./scripts/update-git-latest-tag.sh --remote parameterA"
+  echo "Usage: ./scripts/update-git-latest-tag.sh --remote custom_remote"
   echo "  --remote [Optional] you can set a custom remote (default is origin)"
   exit 1
 fi
+
+echo "Updating remote '$TAG_NAME' tag references and push it to remote."
 
 echo "*** Deleting old local tag"
 git tag --delete $TAG_NAME
