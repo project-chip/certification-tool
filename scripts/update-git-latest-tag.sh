@@ -16,32 +16,30 @@
  # limitations under the License.
 TAG_NAME="latest"
 TAG_COMMENT="Test Harness latest release version."
+ORIGIN="origin"
 
-if [ $# != 0 ] || [ $1 = "--help" ]; then
-  echo "This script will update the '$TAG_NAME' tag references."
-  echo "To perform the update, follow these steps:"
-  echo "1 - Go to the desired commit/branch."
-  echo "2 - Run the script: ./scripts/update-git-latest-tag.sh"
+if [ $# = 0 ]
+then
+  echo "Update the remote '$TAG_NAME' tag references and push it to remote."
+elif [ $1 = "--origin" ] && [ $# = 2 ]
+then
+  ORIGIN=$2
+else
+  echo "This script will update the '$TAG_NAME' tag references and push to remote."
+  echo "To perform the update go to the desired commit/branch and then:"
+  echo "Usage: ./scripts/update-git-latest-tag.sh --origin parameterA"
+  echo "  --origin [Optional] you can set a custom remote (default is origin)"
   exit 1
 fi
-
-echo "*** Old tag reference"
-git rev-list --oneline -1 $TAG_NAME
-
-echo "*** Pulling remote tag references"
-git fetch --tags --force
 
 echo "*** Deleting old local tag"
 git tag --delete $TAG_NAME
 
 echo "*** Deleting old remote tag"
-git push origin :refs/tags/$TAG_NAME
+git push $ORIGIN :refs/tags/$TAG_NAME
 
-echo "*** Creating a new tag"
+echo "*** Creating a local tag"
 git tag --annotate $TAG_NAME -m "$TAG_COMMENT"
 
-echo "*** New tag reference"
-git rev-list --oneline -1 $TAG_NAME
-
 echo "*** Pushing tag on remote"
-git push origin $TAG_NAME
+git push $ORIGIN $TAG_NAME
