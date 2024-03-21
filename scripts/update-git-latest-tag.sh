@@ -26,7 +26,7 @@ then
   REMOTE=$2
   echo "Using '$REMOTE' as remote."
 else
-  echo "This script will update the '$TAG_NAME' tag references and push to remote."
+  echo "This script will update the '$TAG_NAME' tag reference and push it to remote."
   echo "To perform the update go to the desired commit/branch and then:"
   echo "Usage: ./scripts/update-git-latest-tag.sh --remote custom_remote"
   echo "  --remote [Optional] you can set a custom remote (default is origin)"
