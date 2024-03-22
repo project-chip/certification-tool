@@ -215,8 +215,6 @@ If the DUT supports thread transport, an RCP dongle provisioned with a recommend
 ** `$git clone -b <Target_Branch/Tag> https://github.com/project-chip/certification-tool.git`
 * Goto to TH folder: 
 ** `$cd certification-tool`
-* Initialize the submodules: 
-** `$git submodule update --init --recursive`
 * Install/configure the TH dependencies: 
 ** `$./scripts/pi-setup/auto-install.sh`
 ** At the end of the script, select option 1 to restart the RaspberryPi.
@@ -297,7 +295,7 @@ The above command might take a while to get executed, wait for 5-10 minutes and 
 
 === TH installation without a Raspberry Pi
 
-The official installation method uses a Raspberry Pi (<<th-image-installation-on-raspberry-pi>>). **This alternative installation method is targeted for development purpose and it only supports onnetwork pairing mode.**
+The official installation method uses a Raspberry Pi (<<th-installation-on-raspberry-pi, TH Installation on Raspberry Pi>>). **This alternative installation method is targeted for development purpose and it only supports onnetwork pairing mode.**
 
 To install TH without using a Raspberry Pi you'll need a machine with Ubuntu 22.04 Server LTS. You can <<create-an-ubuntu-virtual-machine, create a virtual machine>> for this purpose, but be aware that if the host's architecture is not arm64 you'll need to <<substitute-the-sdks-docker-image-and-update-sample-apps, substitute the SDK's docker image>> in order for it to work properly.
 
@@ -328,18 +326,10 @@ Seems like bridged network is not available, so you will not be able to test wit
 
 ==== Setup TH in Ubuntu
 
-* Create new ssh key
-
-|===
-|`ssh-keygen -t ed25519 -C "user@matter-vm"`
-|===
-
-* Add SSH key to GitHub Settings
-
 * Clone git repo
 
 |===
-|`git clone git@github.com:project-chip/certification-tool.git"`
+|`git clone -b <Target_Branch/Tag> https://github.com/project-chip/certification-tool.git`
 |===
 
 * Go into the repo directory
@@ -364,7 +354,9 @@ If using multipass, to find the IP address use the command
 
 ==== Substitute the SDK's docker image and update sample apps
 
-In order to run TH in a machine that uses the 'linux/amd64' platform, you'll need to first build a new SDK docker image.
+If the platform of the machine that will run the TH is 'linux/amr64' it will not be necessary to build a new SDK docker image.
+
+To run TH on a machine using the 'linux/amd64' platform, you will need to first build a new SDK docker image.
 
 * Get the SDK commit SHA
 
@@ -413,10 +405,6 @@ To update an existing TH environment, follow the instructions below on the termi
 
 |===
 |`cd ~/certification-tool` +
-`git fetch` +
-`git checkout <Target_Branch/Tag>` +
-`git pull` +
-`git submodule update --init --recursive` +
 `./scripts/ubuntu/auto-update.sh <Target_Branch/Tag>` +
 `./scripts/start.sh` +
 
@@ -429,14 +417,14 @@ It is possible to update yaml test script content by directly editing the file c
 
 Yaml files are located at:
 |===
-|`~/certification-tool/backend/test_collections/sdk_tests/sdk_checkout/yaml_tests/yaml/sdk/`
+|`~/certification-tool/backend/test_collections/matter/sdk_tests/sdk_checkout/yaml_tests/yaml/sdk/`
 |===
 
 To update an existing Yaml test script: (e.g. `Test_TC_ACE_1_1.yaml`)
 
 * Open the script file:
 |===
-|`~/certification-tool/backend/test_collections/sdk_tests/sdk_checkout/yaml_tests/yaml/sdk/Test_TC_ACE_1_1.yaml`
+|`~/certification-tool/backend/test_collections/matter/sdk_tests/sdk_checkout/yaml_tests/yaml/sdk/Test_TC_ACE_1_1.yaml`
 |===
 
 * Update/change the desired information.
@@ -474,12 +462,12 @@ These tests will not be affected if the system is restarted or if the SDK Yaml t
 
 Custom Yaml files folder are located at:
 |===
-|`~/certification-tool/backend/test_collections/sdk_tests/sdk_checkout/yaml_tests/yaml/custom/`
+|`~/certification-tool/backend/test_collections/matter/sdk_tests/sdk_checkout/yaml_tests/yaml/custom/`
 |===
 
 Custom Python files folder are located at:
 |===
-|`~/certification-tool/backend/test_collections/sdk_tests/sdk_checkout/python_testing/scripts/custom/`
+|`~/certification-tool/backend/test_collections/matter/sdk_tests/sdk_checkout/python_testing/scripts/custom/`
 |===
 
 .Test-Harness displaying the custom tests.

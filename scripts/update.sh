@@ -30,8 +30,9 @@ fi
 echo "*** Stashing local changes"
 cd $ROOT_DIR && git stash && git submodule foreach 'git stash'
 
-echo "*** Pull Test Harness code"
+echo "*** Pulling Test Harness code"
 cd $ROOT_DIR && \
+    git fetch && \
     git checkout $ROOT_BRANCH && \
     git pull && \
     git submodule update --init --recursive
