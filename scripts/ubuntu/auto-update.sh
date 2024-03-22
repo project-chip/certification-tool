@@ -31,10 +31,6 @@ $SCRIPT_DIR/stop.sh
 
 BRANCH_NAME=$1
 
-# It is necessary to update the branch references from origin
-# to prevent unrecognized branch error during checkout.
-git fetch 
-
 printf "\n\n**********"
 printf "\n*** Getting Test Harness code ***\n"
 $SCRIPT_DIR/update.sh "$BRANCH_NAME"
