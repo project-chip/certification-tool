@@ -73,11 +73,15 @@ END
 
 # In case of failure, the images will be built locally
 if $BUILD_BACKEND; then
+newgrp docker << END
     $ROOT_DIR/backend/scripts/build-docker-image.sh
+END
 fi
 
 if $BUILD_FRONTEND; then
+newgrp docker << END
     $ROOT_DIR/frontend/scripts/build-docker-image.sh
+END
 fi
 
 echo "*** Update CLI dependencies"
