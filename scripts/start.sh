@@ -63,12 +63,11 @@ done
 set +e
 
 echo "*** Starting 'db' and 'proxy' docker containers"
-DOCKER_UP="docker compose -f docker-compose.yml up db proxy --detach"
-$DOCKER_UP
+docker compose -f docker-compose.yml up db proxy --detach
 if [ $? -ne 0 ]; then
     echo "### Exit with Error ###"
     echo "    Unable to start containers."
-    echo "    You can also pull the images manually using this command: $DOCKER_UP"
+    echo "    You can also pull the images manually using this command: $ 'docker compose -f docker-compose.yml pull db proxy'"
     exit 1
 fi
 
