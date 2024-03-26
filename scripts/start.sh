@@ -99,7 +99,7 @@ else
     until docker compose exec frontend curl --fail -s --output /dev/null http://localhost:4200
     do
         echo -n "."
-	    sleep 5
+        sleep 5
     done
     echo " done"
 fi
@@ -112,7 +112,7 @@ else
     until docker compose exec backend curl --fail -s --output /dev/null http://localhost/docs
     do
         echo -n "."
-	    sleep 5
+        sleep 5
     done
     echo " done"
 fi
