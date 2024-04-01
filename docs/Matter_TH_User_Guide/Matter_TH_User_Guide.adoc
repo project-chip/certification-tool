@@ -84,6 +84,7 @@ endif::[]
 | 23          | 26-fev-2024  | [Apple]Carolina Lopes               | * Added volume mapping for data model XML files on docker run commands for SDK containter.
 | 24          | 27-fev-2024  | [Apple]Carolina Lopes               | * Updated mapping in docker run command for SDK container.
 | 25          | 27-Mar-2024  | [Apple]Hilton Lima                  | * Update nRF52840 firmware download link.
+| 26          | 01-Apr-2024  | [Apple]Hilton Lima                  | * Update download link to Flash SiLabs RCP.
 |===
 
 <<<
@@ -773,7 +774,7 @@ Example: +
 
 === Instructions to Flash SiLabs RCP
 
-Download the firmware from the following URL: https://www.dropbox.com/s/rrov679am165b3z/ot-rcp-binaries-1.1.0-1.1.zip?dl=0[https://www.dropbox.com/s/rrov679am165b3z/ot-rcp-binaries-1.1.0-1.1.zip?dl=0] 
+Download the latest version of ot-rcp-binaries from the assets list of the latest release: https://github.com/SiliconLabs/matter/tags[Silicon Labs Matter GitHub] 
 
 For detailed RCP firmware usage, refer to: https://www.silabs.com/documents/public/application-notes/an1256-using-sl-rcp-with-openthread-border-router.pdf[https://www.silabs.com/documents/public/application-notes/an1256-using-sl-rcp-with-openthread-border-router.pdf]
 
