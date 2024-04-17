@@ -50,4 +50,4 @@ $SCRIPT_DIR/stop.sh
 
 printf "\n\n**********"
 printf "\n*** Building Clean Images ***\n"
-$SCRIPT_DIR/build.sh --latest --no-cache
+$SCRIPT_DIR/build.sh
