@@ -38,3 +38,19 @@ git fetch
 printf "\n\n**********"
 printf "\n*** Getting Test Harness code ***\n"
 $SCRIPT_DIR/update.sh "$BRANCH_NAME"
+
+printf "\n\n**********"
+printf "\n*** Fetching sample apps ***\n"
+$UBUNTU_SCRIPT_DIR/update-sample-apps.sh
+
+printf "\n\n**********"
+printf "\n*** Fetching PAA Certs from SDK ***\n"
+$UBUNTU_SCRIPT_DIR/update-paa-certs.sh
+
+printf "\n\n**********"
+printf "\n*** Stoping Containers ***\n"
+$SCRIPT_DIR/stop.sh
+
+printf "\n\n**********"
+printf "\n*** Building Clean Images ***\n"
+$SCRIPT_DIR/build.sh
