@@ -30,7 +30,9 @@ $UBUNTU_SCRIPT_DIR/2-machine-cofiguration.sh
 
 printf "\n\n**********"
 printf "\n*** Getting Test Harness code ***\n"
-$SCRIPT_DIR/update.sh
+# Store the current branch for the update
+CURRENT_BRANCH=$(git rev-parse --abbrev-ref HEAD)
+$SCRIPT_DIR/auto-update.sh "$CURRENT_BRANCH"
 
 # Revert needrestart config to default.
 sudo sed -i "s/\$nrconf{kernelhints} = -1;/#\$nrconf{kernelhints} = -1;/g" /etc/needrestart/needrestart.conf

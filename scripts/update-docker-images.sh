@@ -16,26 +16,8 @@
  # limitations under the License.
 ROOT_DIR=$(realpath $(dirname "$0")/..)
 
-# Store the current branch for the update
-ROOT_BRANCH=$(git rev-parse --abbrev-ref HEAD)
-
 # Exit in case anything goes wrong
 set -e
-
-# Check if a branch name was not provided.
-if [ $# -eq 1 ]; then
-    ROOT_BRANCH="$1"
-fi
-
-echo "*** Stashing local changes"
-cd $ROOT_DIR && git stash && git submodule foreach 'git stash'
-
-echo "*** Pulling Test Harness code"
-cd $ROOT_DIR && \
-    git fetch && \
-    git checkout $ROOT_BRANCH && \
-    git pull && \
-    git submodule update --init --recursive
 
 echo "*** Download Docker images"
 cd $ROOT_DIR
@@ -84,40 +66,5 @@ newgrp docker << END
 END
 fi
 
-echo "*** Update CLI dependencies"
-source ~/.profile #ensure poetry is in path
-cd $ROOT_DIR/cli && poetry install
-
-echo "*** Setup Test Collections"
-cd $ROOT_DIR
-
-try_to_execute_setup_script()
-{
-    program_folder=$1
-
-    if [ -d $program_folder ]; then 
-        setup_script=$program_folder/setup.sh
-        # Only run setup.sh if present and it's executable
-        if [ -x $setup_script ]; then 
-            echo "Running setup script: $setup_script"
-            $setup_script
-            if [ $? -ne 0 ]; then
-                echo "### Exit with Error ###"
-                return 1
-            fi
-            echo "Setup script finished with success"
-        fi
-    fi
-}
-
-MATTER_PROGRAM_FOLDER="./backend/test_collections/matter"
-try_to_execute_setup_script $MATTER_PROGRAM_FOLDER
-
-TEST_COLLECTIONS_FOLDER="./test_collections/*"
-for program_folder in $TEST_COLLECTIONS_FOLDER
-do
-    try_to_execute_setup_script $program_folder  
-done
-
 # We echo "complete" to ensure this scripts last command has exit code 0.
-echo "Test Collection Setup Complete"
+echo "./scripts/update-docker-images.sh Complete"

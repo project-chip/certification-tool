@@ -32,21 +32,13 @@ $SCRIPT_DIR/stop.sh
 BRANCH_NAME=$1
 
 printf "\n\n**********"
-printf "\n*** Getting Test Harness code ***\n"
-$SCRIPT_DIR/update.sh "$BRANCH_NAME"
+printf "\n*** Update Test Harness code ***\n"
+$SCRIPT_DIR/update-th-code.sh "$BRANCH_NAME"
 
 printf "\n\n**********"
-printf "\n*** Fetching sample apps ***\n"
-$UBUNTU_SCRIPT_DIR/update-sample-apps.sh
+printf "\n*** Update Docker images ***\n"
+$SCRIPT_DIR/update-docker-images.sh
 
 printf "\n\n**********"
-printf "\n*** Fetching PAA Certs from SDK ***\n"
-$UBUNTU_SCRIPT_DIR/update-paa-certs.sh
-
-printf "\n\n**********"
-printf "\n*** Stoping Containers ***\n"
-$SCRIPT_DIR/stop.sh
-
-printf "\n\n**********"
-printf "\n*** Building Clean Images ***\n"
-$SCRIPT_DIR/build.sh
+printf "\n*** Setup Test Collections ***\n"
+$SCRIPT_DIR/update-setup-test-collections.sh
