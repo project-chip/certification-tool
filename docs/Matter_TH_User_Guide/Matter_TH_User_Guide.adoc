@@ -85,8 +85,9 @@ endif::[]
 | 24          | 27-Fev-2024  | [Apple]Carolina Lopes               | * Updated mapping in docker run command for SDK container.
 | 25          | 27-Mar-2024  | [Apple]Hilton Lima                  | * Update nRF52840 firmware download link.
 | 26          | 01-Apr-2024  | [Apple]Hilton Lima                  | * Update download link to Flash SiLabs RCP.
-| 27          | 17-Apr-2024  | [Apple]Hilton Lima                  | * Updated Test Harness links related to final release of Spring 2024.
-| 28          | 18-Apr-2024  | [Apple]Hilton Lima                  | * Update section 'TH installation without a Raspberry Pi'.
+| 27          | 01-Apr-2024  | [Apple]Romulo Quidute               | * Update OTBR scripts location.
+| 28          | 17-Apr-2024  | [Apple]Hilton Lima                  | * Updated Test Harness links related to final release of Spring 2024.
+| 29          | 18-Apr-2024  | [Apple]Hilton Lima                  | * Update section 'TH installation without a Raspberry Pi'.
 |===
 
 <<<
@@ -820,8 +821,10 @@ TH spins the OTBR docker image automatically when executing the thread related t
 ssh the Raspberry-Pi in the User System using the command “*ssh ubuntu@IP_address*” +
 Example output for the above command to generate the dataset value: 
 |===
-|ubuntu@ubuntu:~*$* ./certification-tool/scripts/OTBR/otbr_start.sh connectedhomeip/otbr             sve2                                       cd81003a4ffe   7 months ago   436MB +
-otbr image connectedhomeip/otbr:sve2 already installed adbc48b536dc5a350c2e5dcf9c09b378290fe79ac423a15943e8c970473fd44f
+|ubuntu@ubuntu:~*$* ./certification-tool/backend/test_collections/matter/scripts/OTBR/otbr_start.sh 
+nrfconnect/otbr             9185bda                                       083c8472bc52   10 months ago   1.21GB +
+otbr image nrfconnect/otbr:9185bda already installed 
+54d868724cbb0c05c155983d5df5e9a3c1b61cbdafdf38eef2d8d1928f305a
 
 waiting 10 seconds to give the docker container enough time to start up... +
 Param: 'dataset init new' +

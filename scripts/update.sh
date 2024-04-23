@@ -119,5 +119,10 @@ do
     try_to_execute_setup_script $program_folder  
 done
 
+if [ $PROGRAM_FOUND -eq 0 ]; then
+    echo "### Error: No setup script found"
+fi
+
+
 # We echo "complete" to ensure this scripts last command has exit code 0.
 echo "Test Collection Setup Complete"
