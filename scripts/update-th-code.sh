@@ -22,7 +22,7 @@ ROOT_BRANCH=$(git rev-parse --abbrev-ref HEAD)
 # Exit in case anything goes wrong
 set -e
 
-# Check if a branch name was not provided.
+# Check if a branch name was provided.
 if [ $# -eq 1 ]; then
     ROOT_BRANCH="$1"
 fi
