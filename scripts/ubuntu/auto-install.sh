@@ -23,20 +23,34 @@ UBUNTU_SCRIPT_DIR="$SCRIPT_DIR/ubuntu"
 printf "\n\n**********"
 printf "\n*** Installing Dependencies ***\n"
 $UBUNTU_SCRIPT_DIR/1-install-dependencies.sh
+if [ $? -ne 0 ]; then
+    echo "### Exit with Error ###"
+    exit 1
+fi
 
 printf "\n\n**********"
 printf "\n*** Configure Machine ***\n"
 $UBUNTU_SCRIPT_DIR/2-machine-cofiguration.sh
+if [ $? -ne 0 ]; then
+    echo "### Exit with Error ###"
+    exit 1
+fi
 
 printf "\n\n**********"
 printf "\n*** Getting Test Harness code ***\n"
 # Store the current branch for the update
 CURRENT_BRANCH=$(git rev-parse --abbrev-ref HEAD)
 $SCRIPT_DIR/auto-update.sh "$CURRENT_BRANCH"
+if [ $? -ne 0 ]; then
+    echo "### Exit with Error ###"
+    exit 1
+fi
 
 # Revert needrestart config to default.
 sudo sed -i "s/\$nrconf{kernelhints} = -1;/#\$nrconf{kernelhints} = -1;/g" /etc/needrestart/needrestart.conf
 sudo sed -i "s/\$nrconf{restart} = 'a';/#\$nrconf{restart} = 'i';/" /etc/needrestart/needrestart.conf
+
+echo "Script 'auto-install.sh' completed successfully"
 
 printf "\n\n**********"
 printf "\n*** You need to reboot to finish setup. ***\n"

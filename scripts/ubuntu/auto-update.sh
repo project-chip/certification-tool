@@ -28,17 +28,35 @@ fi
 printf "\n\n**********"
 printf "\n*** Stoping Containers ***\n"
 $SCRIPT_DIR/stop.sh
+if [ $? -ne 0 ]; then
+    echo "### Exit with Error ###"
+    exit 1
+fi
 
 BRANCH_NAME=$1
 
 printf "\n\n**********"
 printf "\n*** Update Test Harness code ***\n"
 $SCRIPT_DIR/update-th-code.sh "$BRANCH_NAME"
+if [ $? -ne 0 ]; then
+    echo "### Exit with Error ###"
+    exit 1
+fi
 
 printf "\n\n**********"
 printf "\n*** Update Docker images ***\n"
 $SCRIPT_DIR/update-docker-images.sh
+if [ $? -ne 0 ]; then
+    echo "### Exit with Error ###"
+    exit 1
+fi
 
 printf "\n\n**********"
 printf "\n*** Setup Test Collections ***\n"
 $SCRIPT_DIR/update-setup-test-collections.sh
+if [ $? -ne 0 ]; then
+    echo "### Exit with Error ###"
+    exit 1
+fi
+
+echo "Script 'auto-update.sh' completed successfully"
