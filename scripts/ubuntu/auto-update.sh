@@ -28,10 +28,6 @@ fi
 printf "\n\n**********"
 printf "\n*** Stoping Containers ***\n"
 $SCRIPT_DIR/stop.sh
-if [ $? -ne 0 ]; then
-    echo "### Exit with Error ###"
-    exit 1
-fi
 
 BRANCH_NAME=$1
 
