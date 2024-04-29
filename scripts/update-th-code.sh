@@ -1,7 +1,7 @@
 #! /usr/bin/env bash
 
  #
- # Copyright (c) 2023 Project CHIP Authors
+ # Copyright (c) 2024 Project CHIP Authors
  #
  # Licensed under the Apache License, Version 2.0 (the "License");
  # you may not use this file except in compliance with the License.
@@ -40,4 +40,4 @@ git pull
 git submodule update --init --recursive
 
 # We echo "complete" to ensure this scripts last command has exit code 0.
-echo "./scripts/update-th-code.sh Complete"
+echo "Script 'update-th-code.sh' completed successfully"
