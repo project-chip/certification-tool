@@ -88,6 +88,7 @@ endif::[]
 | 27          | 01-Apr-2024  | [Apple]Romulo Quidute               | * Update OTBR scripts location.
 | 28          | 17-Apr-2024  | [Apple]Hilton Lima                  | * Updated Test Harness links related to final release of Spring 2024.
 | 29          | 18-Apr-2024  | [Apple]Hilton Lima                  | * Update section 'TH installation without a Raspberry Pi'.
+| 30          | 30-Apr-2024  | [Apple]Hilton Lima                  | * Update location for update scripts.
 |===
 
 <<<
@@ -405,11 +406,11 @@ If there's an image with a tag for the commit you're using, delete that image +
 * Update TH sample apps
 
 |===
-|To update your sample apps using the new image, you should first edit the `certification-tool/scripts/ubuntu/update-sample-apps.sh` script to comment out or remove the following line: +
+|To update your sample apps using the new image, you should first edit the `certification-tool/backend/test_collections/matter/scripts/update-sample-apps.sh` script to comment out or remove the following line: +
 `sudo docker pull $SDK_DOCKER_IMAGE:$SDK_DOCKER_TAG` +
 This is needed because the docker pull command downloads the image from the remote. Removing this line, the script will use your local image. +
 Then run this script in the certification-tool repository +
-`./scripts/ubuntu/update-sample-apps.sh`
+`./backend/test_collections/matter/scripts/update-sample-apps.sh`
 |===
 
 
@@ -1253,7 +1254,7 @@ Follow the instructions below to execute the test cases.
 +
 |===
 |`cd certification-tool` +
-`./scripts/ubuntu/update-paa-certs.sh`
+`./backend/test_collections/matter/scripts/update-paa-certs.sh`
 |===
 
 . After execution of the above commands ensure that the PAA’s are available locally at */var/paa-root-certs* .
