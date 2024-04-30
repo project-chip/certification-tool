@@ -16,11 +16,10 @@
  # limitations under the License.
 ROOT_DIR=$(realpath $(dirname "$0")/../..)
 SCRIPT_DIR="$ROOT_DIR/scripts"
-UBUNTU_SCRIPT_DIR="$SCRIPT_DIR/ubuntu"
 
 if [ $# != 1 ] || [ $1 = "--help" ]; then
   echo "Usage:"
-  echo "./scripts/auto-update.sh <branch_name>"
+  echo "./scripts/ubuntu/auto-update.sh <branch_name>"
   echo "Mandatory: <branch_name>  branch name"
   exit 1
 fi
@@ -32,21 +31,27 @@ $SCRIPT_DIR/stop.sh
 BRANCH_NAME=$1
 
 printf "\n\n**********"
-printf "\n*** Getting Test Harness code ***\n"
-$SCRIPT_DIR/update.sh "$BRANCH_NAME"
+printf "\n*** Update Test Harness code ***\n"
+$SCRIPT_DIR/update-th-code.sh "$BRANCH_NAME"
+if [ $? -ne 0 ]; then
+    echo "### Exit with Error ###"
+    exit 1
+fi
 
 printf "\n\n**********"
-printf "\n*** Fetching sample apps ***\n"
-$UBUNTU_SCRIPT_DIR/update-sample-apps.sh
+printf "\n*** Update Docker images ***\n"
+$SCRIPT_DIR/update-docker-images.sh
+if [ $? -ne 0 ]; then
+    echo "### Exit with Error ###"
+    exit 1
+fi
 
 printf "\n\n**********"
-printf "\n*** Fetching PAA Certs from SDK ***\n"
-$UBUNTU_SCRIPT_DIR/update-paa-certs.sh
+printf "\n*** Setup Test Collections ***\n"
+$SCRIPT_DIR/update-setup-test-collections.sh
+if [ $? -ne 0 ]; then
+    echo "### Exit with Error ###"
+    exit 1
+fi
 
-printf "\n\n**********"
-printf "\n*** Stoping Containers ***\n"
-$SCRIPT_DIR/stop.sh
-
-printf "\n\n**********"
-printf "\n*** Building Clean Images ***\n"
-$SCRIPT_DIR/build.sh
+echo "Script 'auto-update.sh' completed successfully"

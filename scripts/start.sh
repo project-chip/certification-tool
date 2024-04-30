@@ -116,3 +116,5 @@ else
     done
     echo " done"
 fi
+
+echo "Script 'start.sh' completed successfully"

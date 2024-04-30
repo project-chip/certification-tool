@@ -19,3 +19,5 @@ cd $ROOT_DIR
 # Exit in case of error
 set -e
 docker compose -f docker-compose.yml down
+
+echo "Script 'stop.sh' completed successfully"
