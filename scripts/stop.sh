@@ -20,4 +20,4 @@ cd $ROOT_DIR
 set -e
 docker compose -f docker-compose.yml down
 
-echo "Script 'Stop.sh' completed successfully"
+echo "Script 'stop.sh' completed successfully"
