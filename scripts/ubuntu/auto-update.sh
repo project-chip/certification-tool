@@ -16,11 +16,10 @@
  # limitations under the License.
 ROOT_DIR=$(realpath $(dirname "$0")/../..)
 SCRIPT_DIR="$ROOT_DIR/scripts"
-UBUNTU_SCRIPT_DIR="$SCRIPT_DIR/ubuntu"
 
 if [ $# != 1 ] || [ $1 = "--help" ]; then
   echo "Usage:"
-  echo "./scripts/auto-update.sh <branch_name>"
+  echo "./scripts/ubuntu/auto-update.sh <branch_name>"
   echo "Mandatory: <branch_name>  branch name"
   exit 1
 fi
