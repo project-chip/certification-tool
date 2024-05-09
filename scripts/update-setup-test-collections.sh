@@ -46,21 +46,16 @@ MATTER_PROGRAM_FOLDER="./backend/test_collections/matter"
 try_to_execute_setup_script $MATTER_PROGRAM_FOLDER
 
 TEST_COLLECTIONS_FOLDER="./test_collections/*"
-SETUP_FAILED=false
 for program_folder in $TEST_COLLECTIONS_FOLDER
 do
     try_to_execute_setup_script $program_folder  
     if [ $? -ne 0 ]; then
-        SETUP_FAILED=true
+        echo "######"
+        echo “The program’s setup script failed. Please repeat the installation and if the problem persists, contact the program developers.”
+        echo "######"
+        exit 1
     fi
 done
-
-if $SETUP_FAILED ; then
-    echo "######"
-    echo “The program’s setup script failed. Please repeat the installation and if the problem persists, contact the program developers.”
-    echo "######"
-    exit 1
-fi
 
 # We echo "complete" to ensure this scripts last command has exit code 0.
 echo "Script 'update-setup-test-collections.sh' completed successfully"
