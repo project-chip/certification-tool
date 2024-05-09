@@ -21,7 +21,7 @@ SCRIPT_DIR="$ROOT_DIR/scripts"
 UBUNTU_SCRIPT_DIR="$SCRIPT_DIR/ubuntu"
 
 printf "\n\n**********"
-printf "\n*** Installing Dependencies ***\n"
+printf "\n*** Installing Test Harness Dependencies ***\n"
 $UBUNTU_SCRIPT_DIR/1-install-dependencies.sh
 if [ $? -ne 0 ]; then
     echo "### Exit with Error ###"
