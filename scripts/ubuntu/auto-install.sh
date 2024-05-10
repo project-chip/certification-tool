@@ -37,7 +37,7 @@ if [ $? -ne 0 ]; then
 fi
 
 printf "\n\n**********"
-printf "\n*** Getting Test Harness code ***\n"
+printf "\n*** Update Test Harness code ***\n"
 # Store the current branch for the update
 CURRENT_BRANCH=$(git rev-parse --abbrev-ref HEAD)
 $UBUNTU_SCRIPT_DIR/auto-update.sh "$CURRENT_BRANCH"
