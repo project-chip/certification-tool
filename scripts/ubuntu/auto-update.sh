@@ -24,13 +24,13 @@ if [ $# != 1 ] || [ $1 = "--help" ]; then
   exit 1
 fi
 
-printf "\n\n**********"
+printf "\n\n************************************************************"
 printf "\n*** Stoping Containers ***\n"
 $SCRIPT_DIR/stop.sh
 
 BRANCH_NAME=$1
 
-printf "\n\n**********"
+printf "\n\n************************************************************"
 printf "\n*** Update Test Harness code ***\n"
 $SCRIPT_DIR/update-th-code.sh "$BRANCH_NAME"
 if [ $? -ne 0 ]; then

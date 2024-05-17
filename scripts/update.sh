@@ -17,7 +17,7 @@
 ROOT_DIR=$(realpath $(dirname "$0")/../..)
 SCRIPT_DIR="$ROOT_DIR/scripts"
 
-printf "\n\n**********"
+printf "\n\n************************************************************"
 printf "\n*** Update Docker images ***\n"
 $SCRIPT_DIR/update-docker-images.sh
 if [ $? -ne 0 ]; then
@@ -25,7 +25,7 @@ if [ $? -ne 0 ]; then
     exit 1
 fi
 
-printf "\n\n**********"
+printf "\n\n************************************************************"
 printf "\n*** Setup Test Collections ***\n"
 $SCRIPT_DIR/update-setup-test-collections.sh
 if [ $? -ne 0 ]; then
