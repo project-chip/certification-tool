@@ -20,7 +20,7 @@ ROOT_DIR=$(realpath $(dirname "$0")/../..)
 SCRIPT_DIR="$ROOT_DIR/scripts"
 UBUNTU_SCRIPT_DIR="$SCRIPT_DIR/ubuntu"
 
-printf "\n\n**********"
+printf "\n\n************************************************************"
 printf "\n*** Installing Test Harness Dependencies ***\n"
 $UBUNTU_SCRIPT_DIR/1-install-dependencies.sh
 if [ $? -ne 0 ]; then
@@ -28,7 +28,7 @@ if [ $? -ne 0 ]; then
     exit 1
 fi
 
-printf "\n\n**********"
+printf "\n\n************************************************************"
 printf "\n*** Configure Machine ***\n"
 $UBUNTU_SCRIPT_DIR/2-machine-cofiguration.sh
 if [ $? -ne 0 ]; then
@@ -36,8 +36,8 @@ if [ $? -ne 0 ]; then
     exit 1
 fi
 
-printf "\n\n**********"
-printf "\n*** Getting Test Harness code ***\n"
+printf "\n\n************************************************************"
+printf "\n*** Update Test Harness code ***\n"
 # Store the current branch for the update
 CURRENT_BRANCH=$(git rev-parse --abbrev-ref HEAD)
 $UBUNTU_SCRIPT_DIR/auto-update.sh "$CURRENT_BRANCH"
@@ -52,7 +52,7 @@ sudo sed -i "s/\$nrconf{restart} = 'a';/#\$nrconf{restart} = 'i';/" /etc/needres
 
 echo "Script 'auto-install.sh' completed successfully"
 
-printf "\n\n**********"
+printf "\n\n************************************************************"
 printf "\n*** You need to reboot to finish setup. ***\n"
 printf "\n*** Do you want to reboot now? (Press 1 to reboot now)\n"
 select yn in "Yes" "No"; do

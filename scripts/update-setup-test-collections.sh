@@ -51,7 +51,7 @@ do
     try_to_execute_setup_script $program_folder  
     if [ $? -ne 0 ]; then
         echo "######"
-        echo “The program’s setup script failed. Please repeat the installation and if the problem persists, contact the program developers.”
+        echo "The program's setup script failed. Please repeat the installation and if the problem persists, contact the program developers."
         echo "######"
         exit 1
     fi
