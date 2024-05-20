@@ -19,7 +19,7 @@ SCRIPT_DIR="$ROOT_DIR/scripts"
 PI_SCRIPT_DIR="$SCRIPT_DIR/pi-setup"
 UBUNTU_SCRIPT_DIR="$SCRIPT_DIR/ubuntu"
 
-printf "\n\n**********"
+printf "\n\n************************************************************"
 printf "\n*** Installing Raspberry Pi Dependencies ***\n"
 $PI_SCRIPT_DIR/install-pi-dependencies.sh
 if [ $? -ne 0 ]; then
