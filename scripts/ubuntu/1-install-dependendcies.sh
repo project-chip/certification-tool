@@ -17,6 +17,11 @@
 set -e
 
 # Install Docker Package Repo
+echo
+echo "####################################"
+echo "Install Docker Package Repo"
+echo "####################################"
+echo
 timeout 300s bash -c '
 start_time=$(date)
 echo "Ping started at: $start_time"
@@ -43,6 +48,11 @@ curl -fsSL --retry 2 --retry-connrefused -v https://download.docker.com/linux/ub
 echo "deb [arch=$(dpkg --print-architecture) signed-by=/usr/share/keyrings/docker-archive-keyring.gpg] https://download.docker.com/linux/ubuntu $(lsb_release -cs) stable" | sudo tee /etc/apt/sources.list.d/docker.list > /dev/null
 
 # Silence user prompts about reboot and service restart required (script will prompt user to reboot in the end)
+echo
+echo "####################################"
+echo "Silence user prompts about reboot and service restart required (script will prompt user to reboot in the end)"
+echo "####################################"
+echo
 sudo sed -i "s/#\$nrconf{kernelhints} = -1;/\$nrconf{kernelhints} = -1;/g" /etc/needrestart/needrestart.conf
 sudo sed -i "s/#\$nrconf{restart} = 'i';/\$nrconf{restart} = 'a';/" /etc/needrestart/needrestart.conf
 
@@ -86,4 +96,9 @@ done
 IFS=$SAVEIFS 
 
 # Install Peotry, needed for Test Harness CLI
+echo
+echo "####################################"
+echo "Install Peotry, needed for Test Harness CLI"
+echo "####################################"
+echo
 curl -sSL https://install.python-poetry.org | python3 -
