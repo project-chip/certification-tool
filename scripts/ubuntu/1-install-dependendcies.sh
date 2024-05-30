@@ -17,30 +17,29 @@
 set -e
 
 # Install Docker Package Repo
-
-# ping docker.download.com before curl
-timeout 10s bash -c '
+timeout 300s bash -c '
+start_time=$(date)
+echo "Ping started at: $start_time"
 while :; do
   if ping -c 1 docker.download.com | grep -q "1 received"; then
     echo "Ping docker.download.com successful"
+    end_time=$(date)
+    echo "Ping ended at: $end_time"
+    echo "Ping duration: $(($(date +%s) - $(date -d "$start_time" +%s))) seconds"
     break
   fi
   echo "Ping docker.download.com failed, retrying..."
   sleep 1
-  if ping -c 1 docker.download.com | grep -q "1 received"; then
-    echo "Ping docker.download.com successful"
-    break
-  else
-    echo "Ping docker.download.com failed, no more retries"
-    break
-  fi
 done
 if [ $? -eq 124 ]; then
+  end_time=$(date)
   echo "docker.download.com: Timeout reached"
+  echo "Ping ended at: $end_time"
+  echo "Ping duration: $(($(date +%s) - $(date -d "$start_time" +%s))) seconds"
 fi
 '
 
-curl -4fsSL --retry 2 --retry-connrefused -v https://download.docker.com/linux/ubuntu/gpg | sudo gpg --dearmor --yes -o /usr/share/keyrings/docker-archive-keyring.gpg
+curl -fsSL --retry 2 --retry-connrefused -v https://download.docker.com/linux/ubuntu/gpg | sudo gpg --dearmor --yes -o /usr/share/keyrings/docker-archive-keyring.gpg
 echo "deb [arch=$(dpkg --print-architecture) signed-by=/usr/share/keyrings/docker-archive-keyring.gpg] https://download.docker.com/linux/ubuntu $(lsb_release -cs) stable" | sudo tee /etc/apt/sources.list.d/docker.list > /dev/null
 
 # Silence user prompts about reboot and service restart required (script will prompt user to reboot in the end)
