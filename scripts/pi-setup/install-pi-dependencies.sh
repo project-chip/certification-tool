@@ -17,20 +17,10 @@
 set -e
 
 # Silence user prompts about reboot and service restart required (script will prompt user to reboot in the end)
-echo
-echo "###########################################"
-echo "Silence user prompts about reboot and service restart required (script will prompt user to reboot in the end)"
-echo "###########################################"
-echo
 sudo sed -i "s/#\$nrconf{kernelhints} = -1;/\$nrconf{kernelhints} = -1;/g" /etc/needrestart/needrestart.conf
 sudo sed -i "s/#\$nrconf{restart} = 'i';/\$nrconf{restart} = 'a';/" /etc/needrestart/needrestart.conf
 
 # Upgrade OS
-echo
-echo "###########################################"
-echo "Upgrade OS"
-echo "###########################################"
-echo
 sudo DEBIAN_FRONTEND=noninteractive apt-get update -y
 sudo DEBIAN_FRONTEND=noninteractive apt-get upgrade -y
 
@@ -43,11 +33,7 @@ packagelist=(
 SAVEIFS=$IFS
 IFS=$(echo -en "\r")
 for package in ${packagelist[@]}; do
-  echo
-  echo "###########################################"
   echo "# Instaling package: ${package[@]}"
-  echo "###########################################"
-  echo
   sudo DEBIAN_FRONTEND=noninteractive sudo apt satisfy ${package[@]} -y --allow-downgrades
 done
 IFS=$SAVEIFS 
