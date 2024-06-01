@@ -16,12 +16,10 @@
  # limitations under the License.
 set -e
 
-# Install Docker Package Repo
-echo
-echo "####################################"
-echo "Install Docker Package Repo"
-echo "####################################"
-echo
+# Verify docker.download.com is reachable before attempting to install the
+# Docker Package Repo (network randomly fails after service restarts).
+# A ping will be attempted and retried in increments of 1 second before
+# a 5 minute timeout.
 timeout 300s bash -c '
 start_time=$(date)
 echo "Ping started at: $start_time"
@@ -44,8 +42,8 @@ if [ $? -eq 124 ]; then
 fi
 '
 
-curl -fsSL --retry 2 --retry-connrefused -v https://download.docker.com/linux/ubuntu/gpg | sudo gpg --dearmor --yes -o /usr/share/keyrings/docker-archive-keyring.gpg
-echo "deb [arch=$(dpkg --print-architecture) signed-by=/usr/share/keyrings/docker-archive-keyring.gpg] https://download.docker.com/linux/ubuntu $(lsb_release -cs) stable" | sudo tee /etc/apt/sources.list.d/docker.list > /dev/null
+# Install Docker Package Repo
+curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo gpg --dearmor --yes -o /usr/share/keyrings/docker-archive-keyring.gpgecho "deb [arch=$(dpkg --print-architecture) signed-by=/usr/share/keyrings/docker-archive-keyring.gpg] https://download.docker.com/linux/ubuntu $(lsb_release -cs) stable" | sudo tee /etc/apt/sources.list.d/docker.list > /dev/null
 
 # Silence user prompts about reboot and service restart required (script will prompt user to reboot in the end)
 echo
