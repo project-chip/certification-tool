@@ -26,9 +26,14 @@ sudo DEBIAN_FRONTEND=noninteractive apt-get upgrade -y
 
 # TODO Comment on what dependency is required for:
 packagelist=(
-    "linux-modules-extra-raspi (>=5.15.0.1046.44)"
-    "pi-bluetooth (=0.1.18ubuntu4)"
+    "pi-bluetooth (>=0.1.18ubuntu4)"
 )
+
+UBUNTU_VERSION_NUMBER=$(lsb_release -sr)
+if [UBUNTU_VERSION_NUMBER -eq "22.04"]; then
+  packagelist+="linux-modules-extra-raspi (>=5.15.0.1046.44)"
+fi
+
 
 SAVEIFS=$IFS
 IFS=$(echo -en "\r")
