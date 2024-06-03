@@ -35,8 +35,8 @@ sudo DEBIAN_FRONTEND=noninteractive apt-get upgrade -y
 # TODO Comment on what dependency is required for:
 packagelist=(
     "docker-ce (>=5:24.0.7-1~ubuntu.22.04~jammy)"    # Test Harness uses Docker
-    "python3-pip (=22.0.2+dfsg-1ubuntu0.4)"          # Test Harness CLI uses Python              
-    "python3-venv (=3.10.6-1~22.04)"                 # Test Harness CLI uses Python
+    "python3-pip (>=22.0.2+dfsg-1ubuntu0.4)"          # Test Harness CLI uses Python              
+    "python3-venv (>=3.10.6-1~22.04)"                 # Test Harness CLI uses Python
 )
 
 SAVEIFS=$IFS
