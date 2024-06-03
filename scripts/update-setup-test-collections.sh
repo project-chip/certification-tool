@@ -44,6 +44,12 @@ try_to_execute_setup_script()
 
 MATTER_PROGRAM_FOLDER="./backend/test_collections/matter"
 try_to_execute_setup_script $MATTER_PROGRAM_FOLDER
+if [ $? -ne 0 ]; then
+    echo "######"
+    echo "The Matter program configuration script failed. Retry the installation and if the problem persists, contact the Matter program developers."
+    echo "######"
+    exit 1
+fi
 
 TEST_COLLECTIONS_FOLDER="./test_collections/*"
 for program_folder in $TEST_COLLECTIONS_FOLDER
