@@ -25,7 +25,7 @@ source "$SCRIPT_DIR/utils.sh"
 print_start_of_script
 
 print_instalation_step "Set up Docker's apt repository"
-$UBUNTU_SCRIPT_DIR/3-install-docker-repository.sh
+$UBUNTU_SCRIPT_DIR/1.1-install-docker-repository.sh
 
 print_instalation_step "Silence user prompts about reboot and service restart required (script will prompt user to reboot in the end)"
 sudo sed -i "s/#\$nrconf{kernelhints} = -1;/\$nrconf{kernelhints} = -1;/g" /etc/needrestart/needrestart.conf
@@ -38,12 +38,12 @@ sudo DEBIAN_FRONTEND=noninteractive apt-get upgrade -y
 packagelist=(
     "python3-pip (>=22.0.2+dfsg-1ubuntu0.4)"          # Test Harness CLI uses Python              
     "python3-venv (>=3.10.6-1~22.04)"                 # Test Harness CLI uses Python
+    "docker-ce (>=5:24.0.7-1~ubuntu.22.04~jammy)"
 )
 
 UBUNTU_VERSION_NUMBER=$(lsb_release -sr)
 if [UBUNTU_VERSION_NUMBER -eq "22.04"]; then
   packagelist+="linux-modules-extra-raspi (>=5.15.0.1046.44)"
-  packagelist+="docker-ce (>=5:24.0.7-1~ubuntu.22.04~jammy)"    # Test Harness uses Docker
 fi
 
 SAVEIFS=$IFS
