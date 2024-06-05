@@ -15,12 +15,17 @@
  # See the License for the specific language governing permissions and
  # limitations under the License.
 ROOT_DIR=$(realpath $(dirname "$0")/..)
+SCRIPT_DIR="$ROOT_DIR/scripts"
 
-echo "*** Update CLI dependencies"
+source "$SCRIPT_DIR/utils.sh"
+
+print_start_of_script
+
+print_instalation_step "Update CLI dependencies"
 source ~/.profile #ensure poetry is in path
 cd $ROOT_DIR/cli && poetry install
 
-echo "*** Setup Test Collections"
+print_instalation_step "Setup Test Collections"
 cd $ROOT_DIR
 
 try_to_execute_setup_script()
@@ -63,5 +68,4 @@ do
     fi
 done
 
-# We echo "complete" to ensure this scripts last command has exit code 0.
-echo "Script 'update-setup-test-collections.sh' completed successfully"
+print_end_of_script
