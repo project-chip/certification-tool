@@ -16,11 +16,19 @@
  # limitations under the License.
 set -e
 
-# Silence user prompts about reboot and service restart required (script will prompt user to reboot in the end)
+ROOT_DIR=$(realpath $(dirname "$0")/../..)
+SCRIPT_DIR="$ROOT_DIR/scripts"
+UBUNTU_SCRIPT_DIR="$SCRIPT_DIR/ubuntu"
+
+source "$SCRIPT_DIR/utils.sh"
+
+print_start_of_script
+
+print_instalation_step "Silence user prompts about reboot and service restart required (script will prompt user to reboot in the end)"
 sudo sed -i "s/#\$nrconf{kernelhints} = -1;/\$nrconf{kernelhints} = -1;/g" /etc/needrestart/needrestart.conf
 sudo sed -i "s/#\$nrconf{restart} = 'i';/\$nrconf{restart} = 'a';/" /etc/needrestart/needrestart.conf
 
-# Upgrade OS
+print_instalation_step "Upgrade OS"
 sudo DEBIAN_FRONTEND=noninteractive apt-get update -y
 sudo DEBIAN_FRONTEND=noninteractive apt-get upgrade -y
 
@@ -39,7 +47,9 @@ packagelist=(
 SAVEIFS=$IFS
 IFS=$(echo -en "\r")
 for package in ${packagelist[@]}; do
-  echo "# Instaling package: ${package[@]}"
+  print_instalation_step "Instaling package: ${package[@]}"
   sudo DEBIAN_FRONTEND=noninteractive sudo apt satisfy ${package[@]} -y --allow-downgrades
 done
 IFS=$SAVEIFS 
+
+print_start_of_script

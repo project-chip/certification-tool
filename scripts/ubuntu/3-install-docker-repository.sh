@@ -14,9 +14,16 @@
  # WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  # See the License for the specific language governing permissions and
  # limitations under the License.
-
 set -e
 
+ROOT_DIR=$(realpath $(dirname "$0")/../..)
+SCRIPT_DIR="$ROOT_DIR/scripts"
+
+source "$SCRIPT_DIR/utils.sh"
+
+print_start_of_script
+
+print_instalation_step "Verify docker.download.com is reachable"
 # Verify docker.download.com is reachable before attempting to install the
 # Docker Package Repo (network randomly fails after service restarts).
 # A ping will be attempted and retried in increments of 1 second before
@@ -42,18 +49,20 @@ if [ $? -eq 124 ]; then
   echo "Ping duration: $(($(date +%s) - $(date -d "$start_time" +%s))) seconds"
 fi
 '
-# Reference link: https://docs.docker.com/engine/install/ubuntu/
 
-# Add Docker's official GPG key:
+# Reference link: https://docs.docker.com/engine/install/ubuntu/
+print_instalation_step "Add Docker's official GPG key"
 sudo apt-get update
 sudo apt-get install ca-certificates curl
 sudo install -m 0755 -d /etc/apt/keyrings
 sudo curl -fsSL https://download.docker.com/linux/ubuntu/gpg -o /etc/apt/keyrings/docker.asc
 sudo chmod a+r /etc/apt/keyrings/docker.asc
 
-# Add the repository to Apt sources:
+print_instalation_step "Add the repository to Apt sources"
 echo \
   "deb [arch=$(dpkg --print-architecture) signed-by=/etc/apt/keyrings/docker.asc] https://download.docker.com/linux/ubuntu \
   $(. /etc/os-release && echo "$VERSION_CODENAME") stable" | \
   sudo tee /etc/apt/sources.list.d/docker.list > /dev/null
 sudo apt-get update
+
+print_end_of_script
