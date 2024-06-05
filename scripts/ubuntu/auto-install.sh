@@ -37,7 +37,7 @@ CURRENT_BRANCH=$(git rev-parse --abbrev-ref HEAD)
 $UBUNTU_SCRIPT_DIR/auto-update.sh "$CURRENT_BRANCH"
 verify_return_code
 
-# Revert needrestart config to default.
+print_instalation_step "Revert needrestart config to default"
 sudo sed -i "s/\$nrconf{kernelhints} = -1;/#\$nrconf{kernelhints} = -1;/g" /etc/needrestart/needrestart.conf
 sudo sed -i "s/\$nrconf{restart} = 'a';/#\$nrconf{restart} = 'i';/" /etc/needrestart/needrestart.conf
 
