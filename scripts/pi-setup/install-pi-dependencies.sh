@@ -28,7 +28,7 @@ sudo DEBIAN_FRONTEND=noninteractive apt-get upgrade -y
 packagelist=(
     "pi-bluetooth (>=0.1.18ubuntu4)",
     "bluetooth (>=5.64-0ubuntu1.1)",
-    "linux-rasp (>=5.15.0.1055.53)"
+    "linux-raspi (>=5.15.0.1055.53)"
 )
 
 # UBUNTU_VERSION_NUMBER=$(lsb_release -sr)
