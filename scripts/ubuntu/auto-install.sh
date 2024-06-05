@@ -27,7 +27,6 @@ print_instalation_step "Installing Test Harness Dependencies"
 $UBUNTU_SCRIPT_DIR/1-install-dependencies.sh
 verify_return_code
 
-exit 1
 print_instalation_step "Configure Machine"
 $UBUNTU_SCRIPT_DIR/2-machine-cofiguration.sh
 verify_return_code
