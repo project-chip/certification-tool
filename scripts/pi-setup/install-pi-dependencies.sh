@@ -34,8 +34,8 @@ sudo DEBIAN_FRONTEND=noninteractive apt-get upgrade -y
 
 # TODO Comment on what dependency is required for:
 packagelist=(
-    "pi-bluetooth (>=0.1.18ubuntu4)",
-    "bluetooth (>=5.64-0ubuntu1.1)",
+    "pi-bluetooth (>=0.1.18ubuntu4)"
+    "bluetooth (>=5.64-0ubuntu1.1)"
     "linux-raspi (>=5.15.0.1055.53)"
 )
 
