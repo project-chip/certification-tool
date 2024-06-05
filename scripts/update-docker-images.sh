@@ -15,11 +15,15 @@
  # See the License for the specific language governing permissions and
  # limitations under the License.
 ROOT_DIR=$(realpath $(dirname "$0")/..)
+SCRIPT_DIR="$ROOT_DIR/scripts"
 
 # Exit in case anything goes wrong
 set -e
 
-echo "*** Download Docker images"
+source "$SCRIPT_DIR/utils.sh"
+
+print_start_of_script
+
 cd $ROOT_DIR
 # Ensure .env exists
 ./scripts/install-default-env.sh
@@ -31,7 +35,7 @@ BUILD_BACKEND=false
 BUILD_FRONTEND=false
 set +e
 
-# Download backend Docker image
+print_instalation_step "Downloading backend Docker image"
 newgrp docker << END
 docker compose pull backend
 END
@@ -39,7 +43,7 @@ if [ $? -ne 0 ]; then
     BUILD_BACKEND=true
 fi
 
-# Download frontend Docker image
+print_instalation_step "Downloading frontend Docker image"
 newgrp docker << END
 docker compose pull frontend
 END
@@ -48,7 +52,7 @@ if [ $? -ne 0 ]; then
 fi
 set -e
 
-# Download proxy and db Docker images 
+print_instalation_step "Downloading proxy and db Docker images"
 newgrp docker << END
 docker compose pull db proxy
 END
@@ -66,5 +70,4 @@ newgrp docker << END
 END
 fi
 
-# We echo "complete" to ensure this scripts last command has exit code 0.
-echo "Script 'update-docker-images.sh' completed successfully"
+print_end_of_script
