@@ -18,17 +18,16 @@ set -e
 
 ROOT_DIR=$(realpath $(dirname "$0")/../..)
 SCRIPT_DIR="$ROOT_DIR/scripts"
-UBUNTU_SCRIPT_DIR="$SCRIPT_DIR/ubuntu"
 
 source "$SCRIPT_DIR/utils.sh"
 
 print_start_of_script
 
-print_instalation_step "Silence user prompts about reboot and service restart required (script will prompt user to reboot in the end)"
+print_script_step "Silence user prompts about reboot and service restart required (script will prompt user to reboot in the end)"
 sudo sed -i "s/#\$nrconf{kernelhints} = -1;/\$nrconf{kernelhints} = -1;/g" /etc/needrestart/needrestart.conf
 sudo sed -i "s/#\$nrconf{restart} = 'i';/\$nrconf{restart} = 'a';/" /etc/needrestart/needrestart.conf
 
-print_instalation_step "Upgrade OS"
+print_script_step "Upgrade OS"
 sudo DEBIAN_FRONTEND=noninteractive apt-get update -y
 sudo DEBIAN_FRONTEND=noninteractive apt-get upgrade -y
 
@@ -39,10 +38,15 @@ packagelist=(
     "linux-raspi (>=5.15.0.1055.53)"
 )
 
+UBUNTU_VERSION_NUMBER=$(lsb_release -sr)
+if [UBUNTU_VERSION_NUMBER -eq "22.04"]; then
+  packagelist+="linux-modules-extra-raspi (>=5.15.0.1046.44)"
+fi
+
 SAVEIFS=$IFS
 IFS=$(echo -en "\r")
 for package in ${packagelist[@]}; do
-  print_instalation_step "Instaling package: ${package[@]}"
+  print_script_step "Instaling package: ${package[@]}"
   sudo DEBIAN_FRONTEND=noninteractive sudo apt satisfy ${package[@]} -y --allow-downgrades
 done
 IFS=$SAVEIFS 

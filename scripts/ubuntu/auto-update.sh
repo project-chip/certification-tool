@@ -28,16 +28,16 @@ if [ $# != 1 ] || [ $1 = "--help" ]; then
   exit 1
 fi
 
-print_instalation_step "Stoping Containers"
+print_script_step "Stoping Containers"
 $SCRIPT_DIR/stop.sh
 
 BRANCH_NAME=$1
 
-print_instalation_step "Update Test Harness code"
+print_script_step "Update Test Harness code"
 $SCRIPT_DIR/update-th-code.sh "$BRANCH_NAME"
 verify_return_code
 
-print_instalation_step "Update Test Harness Setup"
+print_script_step "Update Test Harness Setup"
 $SCRIPT_DIR/update.sh "$BRANCH_NAME"
 verify_return_code
 

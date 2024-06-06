@@ -34,11 +34,11 @@ fi
 
 cd $ROOT_DIR
 
-print_instalation_step "Stashing local changes"
+print_script_step "Stashing local changes"
 git stash
 git submodule foreach 'git stash'
 
-print_instalation_step "Pulling Test Harness code"
+print_script_step "Pulling Test Harness code"
 git fetch
 git checkout $ROOT_BRANCH
 git pull

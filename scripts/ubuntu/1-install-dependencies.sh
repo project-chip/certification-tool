@@ -24,10 +24,10 @@ source "$SCRIPT_DIR/utils.sh"
 
 print_start_of_script
 
-print_instalation_step "Set up Docker's apt repository"
+print_script_step "Set up Docker's apt repository"
 $UBUNTU_SCRIPT_DIR/1.1-install-docker-repository.sh
 
-print_instalation_step "Silence user prompts about reboot and service restart required (script will prompt user to reboot in the end)"
+print_script_step "Silence user prompts about reboot and service restart required (script will prompt user to reboot in the end)"
 sudo sed -i "s/#\$nrconf{kernelhints} = -1;/\$nrconf{kernelhints} = -1;/g" /etc/needrestart/needrestart.conf
 sudo sed -i "s/#\$nrconf{restart} = 'i';/\$nrconf{restart} = 'a';/" /etc/needrestart/needrestart.conf
 
@@ -41,20 +41,15 @@ packagelist=(
     "python3-venv (>=3.10.6-1~22.04)"                 # Test Harness CLI uses Python
 )
 
-UBUNTU_VERSION_NUMBER=$(lsb_release -sr)
-if [UBUNTU_VERSION_NUMBER -eq "22.04"]; then
-  packagelist+="linux-modules-extra-raspi (>=5.15.0.1046.44)"
-fi
-
 SAVEIFS=$IFS
 IFS=$(echo -en "\r")
 for package in ${packagelist[@]}; do
-  print_instalation_step "Instaling package: ${package[@]}"
+  print_script_step "Instaling package: ${package[@]}"
   sudo DEBIAN_FRONTEND=noninteractive apt satisfy ${package[@]} -y --allow-downgrades
 done
 IFS=$SAVEIFS 
 
-print_instalation_step "Install Poetry, needed for Test Harness CLI"
+print_script_step "Install Poetry, needed for Test Harness CLI"
 curl -sSL https://install.python-poetry.org | python3 -
 
 print_end_of_script

@@ -35,7 +35,7 @@ BUILD_BACKEND=false
 BUILD_FRONTEND=false
 set +e
 
-print_instalation_step "Downloading backend Docker image"
+print_script_step "Downloading backend Docker image"
 newgrp docker << END
 docker compose pull backend
 END
@@ -43,7 +43,7 @@ if [ $? -ne 0 ]; then
     BUILD_BACKEND=true
 fi
 
-print_instalation_step "Downloading frontend Docker image"
+print_script_step "Downloading frontend Docker image"
 newgrp docker << END
 docker compose pull frontend
 END
@@ -52,7 +52,7 @@ if [ $? -ne 0 ]; then
 fi
 set -e
 
-print_instalation_step "Downloading proxy and db Docker images"
+print_script_step "Downloading proxy and db Docker images"
 newgrp docker << END
 docker compose pull db proxy
 END

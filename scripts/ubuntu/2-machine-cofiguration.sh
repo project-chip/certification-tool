@@ -24,17 +24,17 @@ print_start_of_script
 WLAN_INTERFACE="${WLAN_INTERFACE:-wlan0}"
 
 # Trust github
-print_instalation_step "Apply github.com fingerprint"
+print_script_step "Apply github.com fingerprint"
 ssh-keygen -F github.com || ssh-keyscan github.com >>~/.ssh/known_hosts
 
 # Configure docker access from user
-print_instalation_step "Configuring Docker access for user"
+print_script_step "Configuring Docker access for user"
 sudo groupadd docker
 sudo usermod -a -G docker $USER
 sudo service docker restart
 
 # Setup Wifi
-print_instalation_step "Create System Service for wpa_suppliant"
+print_script_step "Create System Service for wpa_suppliant"
 printf "\n Writing: /etc/systemd/system/dbus-fi.w1.wpa_supplicant1.service"
 cat << EOF | sudo tee /etc/systemd/system/dbus-fi.w1.wpa_supplicant1.service
 [Unit]
@@ -69,7 +69,7 @@ for setting in ${WPA_SUPPLICANT_SETTINGS[@]}; do
 done
 
 # Setup Network
-print_instalation_step "Accept Router Advertisements on network interfaces"
+print_script_step "Accept Router Advertisements on network interfaces"
 SYSCTL_FILE=/etc/sysctl.conf
 SYSCTL_SETTINGS=(
     "net.ipv6.conf.eth0.accept_ra=2"
@@ -84,11 +84,11 @@ for setting in ${SYSCTL_SETTINGS[@]}; do
     grep -qxF "$setting" "$SYSCTL_FILE" || echo "$setting" | sudo tee -a "$SYSCTL_FILE"
 done
 
-print_instalation_step "Enable ip6table_filter in kernel modules"
+print_script_step "Enable ip6table_filter in kernel modules"
 printf "\n Updating: /etc/modules\n"
 grep -qxF "ip6table_filter" /etc/modules || echo "ip6table_filter" | sudo tee -a /etc/modules
 
-print_instalation_step "Create System Service for Matter Test Harness"
+print_script_step "Create System Service for Matter Test Harness"
 printf "\n Writing: /etc/systemd/system/matter-th.service"
 cat << EOF | sudo tee /etc/systemd/system/matter-th.service
 [Unit]
@@ -106,7 +106,7 @@ EOF
 sudo systemctl daemon-reload
 sudo systemctl enable matter-th
 
-print_instalation_step "Enable systemd-timesyncd"
+print_script_step "Enable systemd-timesyncd"
 sudo systemctl enable systemd-timesyncd
 sudo systemctl start systemd-timesyncd
 

@@ -23,11 +23,11 @@ source "$SCRIPT_DIR/utils.sh"
 
 print_start_of_script
 
-print_instalation_step "Installing Raspberry Pi Dependencies"
+print_script_step "Installing Raspberry Pi Dependencies"
 $PI_SCRIPT_DIR/install-pi-dependencies.sh
 verify_return_code
 
-print_instalation_step "Installing Ubuntu Dependencies"
+print_script_step "Installing Ubuntu Dependencies"
 $UBUNTU_SCRIPT_DIR/auto-install.sh
 verify_return_code
 

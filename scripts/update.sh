@@ -21,11 +21,11 @@ source "$SCRIPT_DIR/utils.sh"
 
 print_start_of_script
 
-print_instalation_step "Update Docker images"
+print_script_step "Update Docker images"
 $SCRIPT_DIR/update-docker-images.sh
 verify_return_code
 
-print_instalation_step "Setup Test Collections"
+print_script_step "Setup Test Collections"
 $SCRIPT_DIR/update-setup-test-collections.sh
 verify_return_code
 
