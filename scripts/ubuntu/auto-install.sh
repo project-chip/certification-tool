@@ -43,6 +43,8 @@ sudo sed -i "s/\$nrconf{restart} = 'a';/#\$nrconf{restart} = 'i';/" /etc/needres
 
 print_end_of_script
 
+print_installation_success
+
 print_instalation_step "You need to reboot to finish setup"
 printf "Do you want to reboot now? (Press 1 to reboot now)\n"
 select yn in "Yes" "No"; do
