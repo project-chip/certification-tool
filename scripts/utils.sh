@@ -18,8 +18,11 @@
 print_instalation_step()
 {
     info=$1
+    #Retreive the script name
+    script_name=`basename "$(realpath $0)"`
+
     printf "\n\n********************************************************************************\n"
-    printf "$info\n"
+    printf "$script_name: $info\n"
     printf "********************************************************************************\n"
 }
 
@@ -28,7 +31,7 @@ print_start_of_script()
     #Retreive the script name
     script_name=`basename "$(realpath $0)"`
     printf "\n\n################################################################################\n"
-    printf "Running script '$script_name'\n"
+    printf "$script_name: Starting...\n"
     printf "################################################################################\n"
 }
 
@@ -37,7 +40,7 @@ print_end_of_script()
     #Retreive the script name
     script_name=`basename "$(realpath $0)"`
     printf "\n\n################################################################################\n"
-    printf "Script '$script_name' completed successfully\n"
+    printf "$script_name: Finishing...\n"
     printf "################################################################################\n"
 }
 
@@ -46,13 +49,19 @@ verify_return_code()
     if [ $? -ne 0 ]; then
         printf "\n\n"
         printf "################################################################################\n"
-        printf "################################################################################\n"
         printf "############################### Exit with Error ################################\n"
-        printf "################################################################################\n"
         printf "################################################################################\n\n"
         printf "Please try the installation again and if the problem persists, \n"
         printf "please collect as much information as possible and file an issue here: \n"
         printf "https://github.com/project-chip/certification-tool/issues \n\n\n"
         exit 1
     fi
+}
+
+print_installation_success()
+{
+    printf "\n\n"
+    printf "################################################################################\n"
+    printf "The installation was completed successfully.\n"
+    printf "################################################################################\n\n"
 }
