@@ -27,7 +27,7 @@ print_script_step "Installing Raspberry Pi Dependencies"
 $PI_SCRIPT_DIR/install-pi-dependencies.sh
 verify_return_code
 
-print_script_step "Installing Ubuntu Dependencies"
+print_script_step "Running Ubuntu auto-install"
 $UBUNTU_SCRIPT_DIR/auto-install.sh
 verify_return_code
 
