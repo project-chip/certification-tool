@@ -32,7 +32,7 @@ $UBUNTU_SCRIPT_DIR/2-machine-cofiguration.sh
 verify_return_code
 
 print_script_step "Update Test Harness code"
-#Store the current branch for the update
+# Store the current branch for the update
 CURRENT_BRANCH=$(git rev-parse --abbrev-ref HEAD)
 $UBUNTU_SCRIPT_DIR/auto-update.sh "$CURRENT_BRANCH"
 verify_return_code
