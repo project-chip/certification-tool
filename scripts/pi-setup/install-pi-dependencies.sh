@@ -47,4 +47,4 @@ for package in ${packagelist[@]}; do
 done
 IFS=$SAVEIFS 
 
-print_start_of_script
+print_end_of_script
