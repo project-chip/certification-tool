@@ -21,7 +21,6 @@ source "$SCRIPT_DIR/utils.sh"
 
 print_start_of_script
 
-
 # Store the current branch for the update
 ROOT_BRANCH=$(git rev-parse --abbrev-ref HEAD)
 
