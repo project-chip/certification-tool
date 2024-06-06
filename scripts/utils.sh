@@ -15,7 +15,7 @@
  # See the License for the specific language governing permissions and
  # limitations under the License.
 
-print_instalation_step()
+print_script_step()
 {
     info=$1
     #Retreive the script name

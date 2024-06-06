@@ -21,11 +21,11 @@ source "$SCRIPT_DIR/utils.sh"
 
 print_start_of_script
 
-print_instalation_step "Update CLI dependencies"
+print_script_step "Update CLI dependencies"
 source ~/.profile #ensure poetry is in path
 cd $ROOT_DIR/cli && poetry install
 
-print_instalation_step "Setup Test Collections"
+print_script_step "Setup Test Collections"
 cd $ROOT_DIR
 
 try_to_execute_setup_script()
