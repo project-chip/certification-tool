@@ -21,9 +21,9 @@ source "$SCRIPT_DIR/utils.sh"
 
 print_start_of_script
 
-print_script_step "Update CLI dependencies"
-source ~/.profile #ensure poetry is in path
-cd $ROOT_DIR/cli && poetry install
+print_script_step "Setup CLI dependencies"
+$SCRIPT_DIR/update-setup-cli-dependencies.sh
+verify_return_code
 
 print_script_step "Setup Test Collections"
 cd $ROOT_DIR
@@ -36,13 +36,12 @@ try_to_execute_setup_script()
         setup_script=$program_folder/setup.sh
         # Only run setup.sh if present and it's executable
         if [ -x $setup_script ]; then 
-            echo "Running setup script: $setup_script"
+            print_script_step "Running setup script: $setup_script"
             $setup_script
             if [ $? -ne 0 ]; then
-                echo "### Exit with Error ###"
                 return 1
             fi
-            echo "Setup script finished with success"
+            printf "Setup script finished with success\n"
         fi
     fi
 }
@@ -50,9 +49,10 @@ try_to_execute_setup_script()
 MATTER_PROGRAM_FOLDER="./backend/test_collections/matter"
 try_to_execute_setup_script $MATTER_PROGRAM_FOLDER
 if [ $? -ne 0 ]; then
-    echo "######"
-    echo "The Matter program configuration script failed. Retry the installation and if the problem persists, contact the Matter program developers."
-    echo "######"
+    printf "################################################################################\n"
+    printf "The Matter program setup script failed.\n"
+    printf "Retry the installation and if the problem persists, contact the Matter program developers.\n"
+    printf "################################################################################\n"
     exit 1
 fi
 
@@ -61,9 +61,10 @@ for program_folder in $TEST_COLLECTIONS_FOLDER
 do
     try_to_execute_setup_script $program_folder  
     if [ $? -ne 0 ]; then
-        echo "######"
-        echo "The program's setup script failed. Please repeat the installation and if the problem persists, contact the program developers."
-        echo "######"
+        printf "################################################################################\n"
+        printf "The program's setup script failed.\n"
+        printf "Please repeat the installation and if the problem persists, contact the program developers.\n"
+        printf "################################################################################\n"
         exit 1
     fi
 done
