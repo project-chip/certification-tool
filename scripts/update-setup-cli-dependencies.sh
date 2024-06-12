@@ -23,7 +23,7 @@ source "$SCRIPT_DIR/utils.sh"
 
 print_start_of_script
 
-print_script_step "Update CLI dependencies"
+print_script_step "Running Poetry install"
 source ~/.profile #ensure poetry is in path
 cd $ROOT_DIR/cli
 poetry install --no-root
