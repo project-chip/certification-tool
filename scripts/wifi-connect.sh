@@ -21,7 +21,7 @@ source "$SCRIPT_DIR/utils.sh"
 
 print_start_of_script
 
-sudo apt install network-manager
+sudo apt-get install network-manager
 sudo nmtui-connect
 
 print_end_of_script
