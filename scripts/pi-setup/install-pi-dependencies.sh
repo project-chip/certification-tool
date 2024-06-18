@@ -38,6 +38,11 @@ packagelist=(
     "linux-raspi (>=5.15.0.1055.53)"
 )
 
+UBUNTU_VERSION_NUMBER=$(lsb_release -sr)
+if [UBUNTU_VERSION_NUMBER -eq "22.04"]; then
+  packagelist+="linux-modules-extra-raspi (>=5.15.0.1046.44)"
+fi
+
 SAVEIFS=$IFS
 IFS=$(echo -en "\r")
 for package in ${packagelist[@]}; do
