@@ -15,6 +15,11 @@
  # See the License for the specific language governing permissions and
  # limitations under the License.
 ROOT_DIR=$(realpath $(dirname "$0")/..)
+SCRIPT_DIR="$ROOT_DIR/scripts"
+
+source "$SCRIPT_DIR/utils.sh"
+
+print_start_of_script
 
 # Store the current branch for the update
 ROOT_BRANCH=$(git rev-parse --abbrev-ref HEAD)
@@ -29,15 +34,14 @@ fi
 
 cd $ROOT_DIR
 
-echo "*** Stashing local changes"
+print_script_step "Stashing local changes"
 git stash
 git submodule foreach 'git stash'
 
-echo "*** Pulling Test Harness code"
+print_script_step "Pulling Test Harness code"
 git fetch
 git checkout $ROOT_BRANCH
 git pull
 git submodule update --init --recursive
 
-# We echo "complete" to ensure this scripts last command has exit code 0.
-echo "Script 'update-th-code.sh' completed successfully"
+print_end_of_script

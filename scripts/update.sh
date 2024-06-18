@@ -17,20 +17,16 @@
 ROOT_DIR=$(realpath $(dirname "$0")/..)
 SCRIPT_DIR="$ROOT_DIR/scripts"
 
-printf "\n\n************************************************************"
-printf "\n*** Update Docker images ***\n"
+source "$SCRIPT_DIR/utils.sh"
+
+print_start_of_script
+
+print_script_step "Update Docker images"
 $SCRIPT_DIR/update-docker-images.sh
-if [ $? -ne 0 ]; then
-    echo "### Exit with Error ###"
-    exit 1
-fi
+verify_return_code
 
-printf "\n\n************************************************************"
-printf "\n*** Setup Test Collections ***\n"
+print_script_step "Setup Test Collections"
 $SCRIPT_DIR/update-setup-test-collections.sh
-if [ $? -ne 0 ]; then
-    echo "### Exit with Error ###"
-    exit 1
-fi
+verify_return_code
 
-echo "Script 'update.sh' completed successfully"
+print_end_of_script
