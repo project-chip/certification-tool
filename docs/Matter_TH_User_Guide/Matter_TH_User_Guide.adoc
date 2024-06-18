@@ -22,6 +22,7 @@ ifdef::env-github[]
 :important-caption: :heavy_exclamation_mark:
 :caution-caption: :fire:
 :warning-caption: :warning:
+:imagesdir: https://github.com/project-chip/certification-tool/tree/main/docs/Matter_TH_User_Guide
 endif::[]
 ifndef::env-github[]
 :icons: font
@@ -79,11 +80,11 @@ endif::[]
 | 17          | 04-Jan-2024  | [Apple]Romulo Quidute               | * Renamed Custom Yaml test section to Customized Test Scripts and also added Custom Python test information.
 | 18          | 05-Jan-2024  | [Apple]Carolina Lopes               | * Added information about the SDK Python Test suites.
 | 19          | 30-Jan-2024  | [Apple]Romulo Quidute               | * Updated some referenced links.
-| 20          | 07-Fev-2024  | [Apple]Hilton Lima                  | * Added 'Common Test Failures' section for SDK tests.
-| 21          | 07-Fev-2024  | [Apple]Carolina Lopes               | * Added 'Bringing up the Matter Python REPL' section.
-| 22          | 15-Fev-2024  | [Apple]Hilton Lima                  | * Updated 'TH Installation on Raspberry Pi' section.
-| 23          | 26-Fev-2024  | [Apple]Carolina Lopes               | * Added volume mapping for data model XML files on docker run commands for SDK containter.
-| 24          | 27-Fev-2024  | [Apple]Carolina Lopes               | * Updated mapping in docker run command for SDK container.
+| 20          | 07-Feb-2024  | [Apple]Hilton Lima                  | * Added 'Common Test Failures' section for SDK tests.
+| 21          | 07-Feb-2024  | [Apple]Carolina Lopes               | * Added 'Bringing up the Matter Python REPL' section.
+| 22          | 15-Feb-2024  | [Apple]Hilton Lima                  | * Updated 'TH Installation on Raspberry Pi' section.
+| 23          | 26-Feb-2024  | [Apple]Carolina Lopes               | * Added volume mapping for data model XML files on docker run commands for SDK containter.
+| 24          | 27-Feb-2024  | [Apple]Carolina Lopes               | * Updated mapping in docker run command for SDK container.
 | 25          | 27-Mar-2024  | [Apple]Hilton Lima                  | * Update nRF52840 firmware download link.
 | 26          | 01-Apr-2024  | [Apple]Hilton Lima                  | * Update download link to Flash SiLabs RCP.
 | 27          | 01-Apr-2024  | [Apple]Romulo Quidute               | * Update OTBR scripts location.
@@ -91,6 +92,7 @@ endif::[]
 | 29          | 18-Apr-2024  | [Apple]Hilton Lima                  | * Update section 'TH installation without a Raspberry Pi'.
 | 30          | 30-Apr-2024  | [Apple]Hilton Lima                  | * Update location for update scripts.
 | 31          | 10-Jun-2024  | [Apple]Hilton Lima                  | * Updated Test Harness links.
+| 32          | 17-Jun-2024  | [Google] Tennessee Carmel-Veilleux  | * Added an example of an external operational dataset.
 |===
 
 <<<
@@ -111,7 +113,7 @@ The TH tool runs on the Raspberry Pi platform, providing an intuitive Web user i
 
 The TH tool provides an option to execute the following test scripts— Automated, Semi Automated, Python, Manual and Simulated. Upon completion of the test execution, detailed logs and test results will be available for user analysis. The user will also be able to submit logs to ATL’s for review to obtain device certification.
 
-The TH tool can be used by any DUT vendor to run the Matter certification tests OR by any hobby developer to get acquainted with the Matter certification testing tools or technologies. 
+The TH tool can be used by any DUT vendor to run the Matter certification tests, or by any hobby developer to get acquainted with the Matter certification testing tools or technologies. 
 
 
 <<<
@@ -250,7 +252,7 @@ ssh back into the TH IP address using: +
 |===
 
 
-* In case “sudo fsck” fails, use the following commands:
+* In case "sudo fsck" fails, use the following commands:
 
 |===
 |`sudo fsck -y -f /dev/mmcblk0p2` +
@@ -258,7 +260,7 @@ ssh back into the TH IP address using: +
 |===
 
 
-* In case the “remote: Repository not found” fatal error occurs, try the following steps to fix the issue. Clone the certification-tool with personal access token (Refer to <<generate-personal-access-token, Section 4.2.2, Generate Personal Access Token>> to generate the personal access token) and follow the steps below.
+* In case the "remote: Repository not found" fatal error occurs, try the following steps to fix the issue. Clone the certification-tool with personal access token (Refer to <<generate-personal-access-token, Section 4.2.2, Generate Personal Access Token>> to generate the personal access token) and follow the steps below.
 
 |===
 |cd ~ +
@@ -540,7 +542,7 @@ To build the example apps from the latest SDK source, follow the instructions be
 
 ==== To Provision Raspberry Pi Using Wi-Fi Configuration
 
-The sample app (lighting-app or lock-app or all-cluster-app) can be provisioned over the Wi-Fi network when the app is launched with the “--wifi” argument.
+The sample app (lighting-app or lock-app or all-cluster-app) can be provisioned over the Wi-Fi network when the app is launched with the "--wifi" argument.
 
 |===
 |`./chip-all-clusters-app --wifi`
@@ -805,7 +807,7 @@ From UI:
 +
 image:images/img_11.png[]
 
-* To flash an image, go to “Flash”, select the RCP binary file, and click on *Flash* .
+* To flash an image, go to "Flash", select the RCP binary file, and click on *Flash* .
 +
 image:images/img_12.png[]
 
@@ -818,7 +820,7 @@ From CLI:
 === Forming Thread Network and Generating Dataset for Thread Pairing
 
 TH spins the OTBR docker image automatically when executing the thread related test cases. Follow the steps below if the user wants to start OTBR with custom parameters. The user needs to generate a dataset for the custom OTBR. To generate hexadecimal code required for manual Thread pairing procedure, use the instructions below. +
-ssh the Raspberry-Pi in the User System using the command “*ssh ubuntu@IP_address*” +
+ssh the Raspberry-Pi in the User System using the command "*ssh ubuntu@IP_address*" +
 Example output for the above command to generate the dataset value: 
 |===
 |ubuntu@ubuntu:~*$* ./certification-tool/backend/test_collections/matter/scripts/OTBR/otbr_start.sh 
@@ -1017,8 +1019,8 @@ Follow the sections below for the project configuration and test execution.
 +
 image:images/img_15.png[]
 
-. A new window will be opened as “Matter Test Harness”. 
-. Click on the *Create New Project* button. Enter the project name as “Test Project” and edit the Project Config settings to provide additional details.
+. A new window will be opened as "Matter Test Harness". 
+. Click on the *Create New Project* button. Enter the project name as "Test Project" and edit the Project Config settings to provide additional details.
 +
 image:images/img_16.png[]
 
@@ -1027,13 +1029,13 @@ image:images/img_16.png[]
 +
 image:images/img_17.png[]
 
-.. Configure the DUT by providing details like discriminator, setup_code and set the *pairing_mode as “ble-wifi”*.
+.. Configure the DUT by providing details like discriminator, setup_code and set the *pairing_mode as "ble-wifi"*.
 +
 image:images/img_18.png[]
 
 ===== On Network Mode
 .. If the DUT is already present on the operational network (e.g., connected to the same network as the controller via Ethernet) then the user can select this mode. 
-.. Configure the DUT by providing details like discriminator, setup_code and set the *pairing_mode as “onnetwork”*.
+.. Configure the DUT by providing details like discriminator, setup_code and set the *pairing_mode as "onnetwork"*.
 +
 image:images/img_19.png[]
 
@@ -1042,14 +1044,18 @@ image:images/img_19.png[]
 +
 image:images/img_20.png[]
 
-.. Input the DUT configuration details like discriminator: “3840”, setup_code:”20202021”, and *pairing_mode as “ble-thread”*.
+.. If using an already configured Thread network with a Thread Border router present on the same network as the TH, it is possible to provide an explicit operational data configuration so that it is used instead of locally configuring a new Thread PAN/
++
+image:images/img_example_manual_thread_data_set.png[]
+
+.. Input the DUT configuration details like discriminator: "3840", setup_code:"20202021", and *pairing_mode as "ble-thread"*.
 +
 image:images/img_57.png[]
 +
 NOTE: _The OTBR docker is contained in the TH image and runs automatically upon the start of the TH tool._
 
 ===== PAA Certificates
-For the case that the DUT requires a PAA certificate to perform a pairing operation, input “true" for the flag “chip_tool_use_paa_certs” to configure the Test-Harness to use them.
+For the case that the DUT requires a PAA certificate to perform a pairing operation, input "true" for the flag "chip_tool_use_paa_certs" to configure the Test-Harness to use them.
 
 image:images/img_58.png[]
 
@@ -1115,7 +1121,7 @@ image:images/img_30.png[]
 
 ==== Settings Menu
 
-Click on the “*Select theme*” option drop-down to select the different theme for the user interface.
+Click on the "*Select theme*" option drop-down to select the different theme for the user interface.
 
 
 <<<
@@ -1329,7 +1335,7 @@ Factory reset the DUT again → The test fills tons of stuff and the device will
 ===== Possible Issues
 
 * Failing at Step 9 during execution of TC_RR_1_1:
-.. Some DUT’s have an incorrectly-configured UserLabel cluster where the backend is not implemented due to SDK example issues where some examples have the backend and others do not. This will fail at the last step (“Step 9: Fill UserLabel clusters on each endpoint”), with FAILURE writes. To override the test not to run this step, you can add “*--bool-arg skip_user_label_cluster_steps:true*“ to the command line of *TC_RR_1_1.py*, at the end.
+.. Some DUT’s have an incorrectly-configured UserLabel cluster where the backend is not implemented due to SDK example issues where some examples have the backend and others do not. This will fail at the last step ("Step 9: Fill UserLabel clusters on each endpoint"), with FAILURE writes. To override the test not to run this step, you can add "*--bool-arg skip_user_label_cluster_steps:true*" to the command line of *TC_RR_1_1.py*, at the end.
 .. Not having the *$PATH_TO_PAA_ROOTS* set properly when starting the docker or not having PAA roots certificates at that path.
 .. Follow the instructions for item 2 in <<prerequisite, Section 9.5.1.1, Prerequisite>>.
 
@@ -1463,11 +1469,11 @@ To upload test results, you must log in to TEDS.
 
 ==== Results Recording
 
-Go to your assigned time slot on your dashboard under “Test Slots” and select *Add test results* in your test slot details.
+Go to your assigned time slot on your dashboard under "Test Slots" and select *Add test results* in your test slot details.
 
 image:images/img_46.png[]
 
-Under the “View Test Slot Details”, you will see a menu.
+Under the "View Test Slot Details", you will see a menu.
 
 image:images/img_47.png[]
 
@@ -1477,7 +1483,7 @@ image:images/img_47.png[]
 
 ==== Base Device Results Recording
 
-Selecting “Base Device Tests” from the menu will take you to Based Device tests. +
+Selecting "Base Device Tests" from the menu will take you to Based Device tests. +
 The left panel is where you select tests and record your results. +
 The right panel displays the tests you have recorded for a particular set of tests.
 
@@ -1485,7 +1491,7 @@ image:images/img_48.png[]
 
 ==== Cluster and Controller Tests
 
-Selecting “Cluster Tests” or “Controller Tests” from the menu will take you to the corresponding test page. +
+Selecting "Cluster Tests" or "Controller Tests" from the menu will take you to the corresponding test page. +
 Select your test clusters and record your test results in the same way as the Based Device tests.
 
 image:images/img_49.png[]
@@ -1494,7 +1500,7 @@ image:images/img_50.png[]
 
 === Finalizing Results
 
-When testing has completed, finalize your test results using the *Finalize Test Results* button on the “View Test Slot Details” page. 
+When testing has completed, finalize your test results using the *Finalize Test Results* button on the "View Test Slot Details" page. 
 
 image:images/img_51.png[]
 
@@ -1502,11 +1508,11 @@ image:images/img_52.png[]
 
 === Test Results Summary
 
-When all testing has completed for your DUT, you can review the results in the “Test Results Summary” page.
+When all testing has completed for your DUT, you can review the results in the "Test Results Summary" page.
 
 image:images/img_53.png[]
 
-In this summary you can check to see if a particular test case has been reviewed. If the test has been reviewed, you will see the “Test Reviewed” and “Test House Notes” statuses.
+In this summary you can check to see if a particular test case has been reviewed. If the test has been reviewed, you will see the "Test Reviewed" and "Test House Notes" statuses.
 
 image:images/img_54.png[]
 
