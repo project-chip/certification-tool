@@ -15,25 +15,26 @@
  # See the License for the specific language governing permissions and
  # limitations under the License.
 ROOT_DIR=$(realpath $(dirname "$0")/../..)
+SCRIPT_DIR="$ROOT_DIR/scripts"
+
+source "$SCRIPT_DIR/utils.sh"
+
+print_start_of_script
 
 WLAN_INTERFACE="${WLAN_INTERFACE:-wlan0}"
 
 # Trust github
-printf "\n\n************************************************************"
-printf "\n*** Apply github.com fingerprint ***\n"
+print_script_step "Apply github.com fingerprint"
 ssh-keygen -F github.com || ssh-keyscan github.com >>~/.ssh/known_hosts
 
 # Configure docker access from user
-printf "\n\n************************************************************"
-printf "\n*** Configuring Docker access for user ***\n"
-
+print_script_step "Configuring Docker access for user"
 sudo groupadd docker
 sudo usermod -a -G docker $USER
 sudo service docker restart
 
 # Setup Wifi
-printf "\n\n************************************************************"
-printf "\n*** Create System Service for wpa_suppliant ***\n"
+print_script_step "Create System Service for wpa_suppliant"
 printf "\n Writing: /etc/systemd/system/dbus-fi.w1.wpa_supplicant1.service"
 cat << EOF | sudo tee /etc/systemd/system/dbus-fi.w1.wpa_supplicant1.service
 [Unit]
@@ -68,8 +69,7 @@ for setting in ${WPA_SUPPLICANT_SETTINGS[@]}; do
 done
 
 # Setup Network
-printf "\n\n************************************************************"
-printf "\n*** Accept Router Advertisements on network interfaces ***\n"
+print_script_step "Accept Router Advertisements on network interfaces"
 SYSCTL_FILE=/etc/sysctl.conf
 SYSCTL_SETTINGS=(
     "net.ipv6.conf.eth0.accept_ra=2"
@@ -84,13 +84,11 @@ for setting in ${SYSCTL_SETTINGS[@]}; do
     grep -qxF "$setting" "$SYSCTL_FILE" || echo "$setting" | sudo tee -a "$SYSCTL_FILE"
 done
 
-printf "\n\n************************************************************"
-printf "\n*** Enable ip6table_filter in kernel modules ***\n"
+print_script_step "Enable ip6table_filter in kernel modules"
 printf "\n Updating: /etc/modules\n"
 grep -qxF "ip6table_filter" /etc/modules || echo "ip6table_filter" | sudo tee -a /etc/modules
 
-printf "\n\n************************************************************"
-printf "\n*** Create System Service for Matter Test Harness ***\n"
+print_script_step "Create System Service for Matter Test Harness"
 printf "\n Writing: /etc/systemd/system/matter-th.service"
 cat << EOF | sudo tee /etc/systemd/system/matter-th.service
 [Unit]
@@ -108,7 +106,8 @@ EOF
 sudo systemctl daemon-reload
 sudo systemctl enable matter-th
 
-printf "\n\n************************************************************"
-printf "\n*** Enable systemd-timesyncd ***\n"
+print_script_step "Enable systemd-timesyncd"
 sudo systemctl enable systemd-timesyncd
 sudo systemctl start systemd-timesyncd
+
+print_end_of_script
