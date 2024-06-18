@@ -28,7 +28,7 @@ if [ $# != 1 ] || [ $1 = "--help" ]; then
   exit 1
 fi
 
-print_script_step "Stoping Containers"
+print_script_step "Stopping Containers"
 $SCRIPT_DIR/stop.sh
 
 BRANCH_NAME=$1
