@@ -1,6 +1,7 @@
 name: "\U0001F4A1 Feature Request"
 description: Create a feature to be considered in a future release
 title: "[Feature] "
+labels: ["Feature", "Needs Triage"]
 body:
     - type: textarea
       id: repro
