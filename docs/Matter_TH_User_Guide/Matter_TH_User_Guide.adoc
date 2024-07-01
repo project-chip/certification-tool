@@ -86,8 +86,7 @@ endif::[]
 | 24          | 27-Feb-2024  | [Apple]Carolina Lopes               | * Updated mapping in docker run command for SDK container.
 | 25          | 17-Apr-2024  | [Apple]Hilton Lima                  | * Updated Test Harness links related to final release of Spring 2024.
 | 26          | 18-Apr-2024  | [Apple]Hilton Lima                  | * Update section TH installation without a Raspberry Pi.
-| 27          | 10-Jun-2024  | [Apple]Hilton Lima                  | * Updated Test Harness links.
-| 28          | 01-Jul-2024  | [Apple]Hilton Lima                  | * Updated Test Harness links.
+| 27          | 01-Jul-2024  | [Apple]Hilton Lima                  | * Updated Test Harness links.
 |===
 
 <<<
