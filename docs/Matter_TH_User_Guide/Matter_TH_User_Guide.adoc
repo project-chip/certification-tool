@@ -44,7 +44,7 @@ endif::[]
 | Matter 1.1       | v2.8.1             | https://drive.google.com/file/d/15fU3L7QE-MNBslf53A_6sFgn1Wq0Pvqd/view?usp=drive_link[link] | https://groups.csa-iot.org/wg/matter-csg/document/folder/2470[Causeway Link] | 5a21d17      |
 | Matter 1.2       | TH-Fall2023        | https://drive.google.com/file/d/1WTjhc7xbYt18RvpABU3_r47uqOLd7NN1/view?usp=drive_link[link] | https://groups.csa-iot.org/wg/matter-csg/document/folder/2756[Causeway Link] | 19771ed      | 
 | Matter 1.3       | v2.10+spring2024   | N/A                                                                                         | https://groups.csa-iot.org/wg/matter-csg/document/folder/3314[Causeway Link] | 11f94c3      | To install, use the tag "v2.10+spring2024" in the instructions of <<fresh_install>>
-| Matter 1.3       | v2.10.1+spring2024 | N/A                                                                                         | https://groups.csa-iot.org/wg/matter-csg/document/folder/3314[Causeway Link] | fb2c0e5      | To install, use the tag "v2.10.1+spring2024" in the instructions of <<fresh_install>>
+| Matter 1.3       | v2.10.1+spring2024 | N/A                                                                                         | https://groups.csa-iot.org/wg/matter-csg/document/folder/3314[Causeway Link] | 50bcad1      | To install, use the tag "v2.10.1+spring2024" in the instructions of <<fresh_install>>
 |===
 
 
@@ -79,14 +79,15 @@ endif::[]
 | 17          | 04-Jan-2024  | [Apple]Romulo Quidute               | * Renamed Custom Yaml test section to Customized Test Scripts and also added Custom Python test information.
 | 18          | 05-Jan-2024  | [Apple]Carolina Lopes               | * Added information about the SDK Python Test suites.
 | 19          | 30-Jan-2024  | [Apple]Romulo Quidute               | * Updated some referenced links.
-| 20          | 07-Fev-2024  | [Apple]Hilton Lima                  | * Added 'Common Test Failures' section for SDK tests.
-| 21          | 07-Fev-2024  | [Apple]Carolina Lopes               | * Added 'Bringing up the Matter Python REPL' section.
-| 22          | 15-Fev-2024  | [Apple]Hilton Lima                  | * Updated 'TH Installation on Raspberry Pi' section.
-| 23          | 26-Fev-2024  | [Apple]Carolina Lopes               | * Added volume mapping for data model XML files on docker run commands for SDK containter.
-| 24          | 27-Fev-2024  | [Apple]Carolina Lopes               | * Updated mapping in docker run command for SDK container.
+| 20          | 07-Feb-2024  | [Apple]Hilton Lima                  | * Added 'Common Test Failures' section for SDK tests.
+| 21          | 07-Feb-2024  | [Apple]Carolina Lopes               | * Added 'Bringing up the Matter Python REPL' section.
+| 22          | 15-Feb-2024  | [Apple]Hilton Lima                  | * Updated 'TH Installation on Raspberry Pi' section.
+| 23          | 26-Feb-2024  | [Apple]Carolina Lopes               | * Added volume mapping for data model XML files on docker run commands for SDK containter.
+| 24          | 27-Feb-2024  | [Apple]Carolina Lopes               | * Updated mapping in docker run command for SDK container.
 | 25          | 17-Apr-2024  | [Apple]Hilton Lima                  | * Updated Test Harness links related to final release of Spring 2024.
 | 26          | 18-Apr-2024  | [Apple]Hilton Lima                  | * Update section TH installation without a Raspberry Pi.
 | 27          | 10-Jun-2024  | [Apple]Hilton Lima                  | * Updated Test Harness links.
+| 28          | 01-Jul-2024  | [Apple]Hilton Lima                  | * Updated Test Harness links.
 |===
 
 <<<
