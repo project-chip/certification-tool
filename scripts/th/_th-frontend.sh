@@ -15,7 +15,7 @@
  # See the License for the specific language governing permissions and
  # limitations under the License.
  
-CONTAINER_NAME="certification-tool_frontend_1"
+CONTAINER_NAME="certification-tool-frontend-1"
 
 # Check if the container is running
 container_running=$(docker inspect -f '{{.State.Running}}' $CONTAINER_NAME 2>/dev/null)

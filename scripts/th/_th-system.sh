@@ -56,6 +56,12 @@ get_memory_info() {
     free -h
 }
 
+# Function to display storage information
+get_disk_info() {
+    echo "Storage Information:"
+    df -h --total | awk 'END {print "Total: " $2 "\nUsed: " $3 "\nAvailable: " $4 "\nUsed%: " $5}'
+}
+
 # Call the functions to display the information
 get_os_info
 echo
@@ -67,3 +73,6 @@ get_cpu_info
 echo
 
 get_memory_info
+echo
+
+get_disk_info

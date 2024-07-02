@@ -77,8 +77,8 @@ get_repo_and_branch_info() {
     commit_sha=$(git rev-parse HEAD)
     echo "Commit SHA: $commit_sha"
 
-    # Get the commit message of the current HEAD
-    commit_message=$(git log -1 --pretty=format:"%B")
+    # Get the commit message of the current HEAD, remove newlines, and truncate if necessary
+    commit_message=$(git log -1 --pretty=format:"%B" | tr -d '\n' | awk '{ if (length($0) > 78) { print substr($0, 1, 78) "..." } else { print $0 } }')
     echo "Commit Message: $commit_message"
 
     # Get the commit author of the current HEAD

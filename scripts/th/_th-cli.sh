@@ -22,7 +22,7 @@ FILE_PATH=$ROOT_DIR"/cli/pyproject.toml"
 
 # Check if file exists
 if [ ! -f "$FILE_PATH" ]; then
-    echo "File not found!"
+    echo "File not found! This usually means that the submodule isn't initialized."
     exit 1
 fi
 
