@@ -145,7 +145,7 @@
 
     show_more() {
         # Test Harness DUT Configuration
-        th_net_dut_output=$("$TH_DEV_SCRIPTS_DIR/_th-net-dut.sh")
+        th_net_dut_output=$("$TH_DEV_SCRIPTS_DIR/_th-dut.sh")
         print_framed_text "$th_net_dut_output" "Test Harness DUT Configuration"
     }
 
