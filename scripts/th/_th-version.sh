@@ -75,21 +75,21 @@ read_version ".sha_information" "SHA"
 
 # Print backend and frontend version info
 echo
-echo "TH Backend"
+echo "$BACKEND_CONTAINER_NAME"
 echo "     Version: $version_backend"
 echo "     Image: $image_backend"
 echo "     OS: $os $os_version"
 echo "     SDK SHA: $SDK_SHA"
 echo
-echo "TH Frontend"
+echo "$FRONTEND_CONTAINER_NAME"
 echo "     Version: $version_frontend"
 echo "     Image: $image_frontend"
 echo
-echo "TH Database"
+echo "$DB_CONTAINER_NAME"
 echo "     Version: $version_db"
 echo "     Image: $image_db"
 echo "     DB App Version: $version_db_app"
 echo 
-echo "TH Proxy"
+echo "$PROXY_CONTAINER_NAME"
 echo "     Version: $version_proxy"
 echo "     Image: $image_proxy"
