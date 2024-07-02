@@ -146,10 +146,6 @@
         # Test Harness Network / DUT
         th_net_dut_output=$("$TH_DEV_SCRIPTS_DIR/_th-net-dut.sh")
         print_framed_text "$th_net_dut_output" "Test Harness Network / DUT"
-
-        # Docker Containers
-        docker_images_output=$("$TH_DEV_SCRIPTS_DIR/_th-docker-containers.sh")
-        print_framed_text "$docker_images_output" "Docker Containers"        
     }
 
     # Test Harness
