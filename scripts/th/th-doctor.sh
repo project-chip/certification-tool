@@ -30,7 +30,7 @@
         echo
         echo "    Show TH SHA, SDK, repository details:  $0"
         echo "    Show TH host OS system information:    $0 --system"
-        echo "    Show TH host OS network information:    $0 --network"
+        echo "    Show TH host OS network information:   $0 --network"
         echo "    Show TH environment details:           $0 --environment"
         echo "    Show TH network, DUT, docker details:  $0 --more"
         echo "    Show all TH details:                   $0 --complete"
@@ -164,21 +164,26 @@
     case "$1" in
         --system)
         show_system
+        usage
             ;;
         --network)
         show_network
+        usage
             ;;
         --environment)
         show_environment
+        usage
             ;;
         --more)
         show_more
+        usage
             ;;
         --complete)
         show_system
         show_network
         show_environment
         show_more
+        usage
             ;;
         *)
             usage
