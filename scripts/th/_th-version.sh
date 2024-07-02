@@ -24,6 +24,9 @@ FRONTEND_CONTAINER_NAME="certification-tool-frontend-1"
 # DB container name
 DB_CONTAINER_NAME="certification-tool-db-1"
 
+# Proxy container name
+PROXY_CONTAINER_NAME="certification-tool-proxy-1"
+
 # Get backend info
 FILE_PATH="app/core/config.py"
 SDK_SHA=$(docker exec $BACKEND_CONTAINER_NAME sh -c "grep SDK_SHA $FILE_PATH | cut -d'\"' -f 2 | cut -d\"'\" -f 2")
@@ -43,6 +46,11 @@ inspect_output_db=$(docker inspect $DB_CONTAINER_NAME)
 version_db=$(echo "$inspect_output_db" | grep -oP '"com.docker.compose.version": "\K[^"]+')
 image_db=$(echo "$inspect_output_db" | grep -oP '"Image": "\K[^"]+' | grep -v '^sha')
 version_db_app=$(echo "$inspect_output_db" | grep -oP '"PG_VERSION=[^"]+' | cut -d'=' -f2)
+
+# Get proxy info
+inspect_output_proxy=$(docker inspect $PROXY_CONTAINER_NAME)
+version_proxy=$(echo "$inspect_output_proxy" | grep -oP '"com.docker.compose.version": "\K[^"]+')
+image_proxy=$(echo "$inspect_output_proxy" | grep -oP '"Image": "\K[^"]+' | grep -v '^sha')
 
 read_version() {
     file_path="$1"
@@ -81,3 +89,7 @@ echo "TH Database"
 echo "     Version: $version_db"
 echo "     Image: $image_db"
 echo "     DB App Version: $version_db_app"
+echo 
+echo "TH Proxy"
+echo "     Version: $version_proxy"
+echo "     Image: $image_proxy"
