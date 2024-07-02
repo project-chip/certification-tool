@@ -152,7 +152,6 @@
     show_docker_logs() {
         # Test Harness Docker Container Logs
         th_net_dut_output=$("$TH_DEV_SCRIPTS_DIR/_th-docker-logs.sh")
-        # print_framed_text "$th_net_dut_output" "Test Harness Docker Container Logs"
         echo "$th_net_dut_output"
         echo
     }
