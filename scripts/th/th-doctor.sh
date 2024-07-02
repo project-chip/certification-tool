@@ -114,7 +114,7 @@
 
     show_system() {
         # OS
-        os_output=$("$TH_DEV_SCRIPTS_DIR/_os.sh")
+        os_output=$("$TH_DEV_SCRIPTS_DIR/_th-system.sh")
         print_framed_text "$os_output" "OS"
     }
     
