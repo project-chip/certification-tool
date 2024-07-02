@@ -2,11 +2,10 @@
 	path = cli
 	branch = main
 	url = https://github.com/project-chip/certification-tool-cli
-[submodule "backend"]
-	path = backend
-	branch = main
-	url = https://github.com/project-chip/certification-tool-backend
 [submodule "frontend"]
 	path = frontend
 	branch = main
 	url = https://github.com/project-chip/certification-tool-frontend
+[submodule "backend"]
+	path = backend
+	url = git@github.com:project-chip/certification-tool-backend.git
