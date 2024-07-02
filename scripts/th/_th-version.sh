@@ -15,46 +15,63 @@
  # See the License for the specific language governing permissions and
  # limitations under the License.
 
-ROOT_DIR=$(realpath $(dirname "$0")/../..)
-cd $ROOT_DIR
+# Backend container name
+BACKEND_CONTAINER_NAME="certification-tool-backend-1"
 
-SDK_SHA=$(cat $ROOT_DIR/backend/app/core/config.py | grep SDK_SHA | cut -d'"' -f 2 | cut -d"'" -f 2)
-SDK_DOCKER_IMAGE=$(cat $ROOT_DIR/backend/app/core/config.py | grep SDK_DOCKER_IMAGE | cut -d'"' -f 2 | cut -d"'" -f 2)
-SDK_DOCKER_TAG=$(cat $ROOT_DIR/backend/app/core/config.py | grep SDK_DOCKER_TAG | cut -d'"' -f 2 | cut -d"'" -f 2)
+# Frontend container name
+FRONTEND_CONTAINER_NAME="certification-tool-frontend-1"
+
+# Get backend info
+FILE_PATH="app/core/config.py"
+SDK_SHA=$(docker exec $BACKEND_CONTAINER_NAME sh -c "grep SDK_SHA $FILE_PATH | cut -d'\"' -f 2 | cut -d\"'\" -f 2")
+inspect_output_backend=$(docker inspect $BACKEND_CONTAINER_NAME)
+version_backend=$(echo "$inspect_output_backend" | grep -oP '"com.docker.compose.version": "\K[^"]+')
+os=$(echo "$inspect_output_backend" | grep -oP '"org.opencontainers.image.ref.name": "\K[^"]+')
+os_version=$(echo "$inspect_output_backend" | grep -oP '"org.opencontainers.image.version": "\K[^"]+')
+image_backend=$(echo "$inspect_output_backend" | grep -oP '"Image": "\K[^"]+' | grep -v '^sha')
+
+# Get frontend info
+inspect_output_frontend=$(docker inspect $FRONTEND_CONTAINER_NAME)
+version_frontend=$(echo "$inspect_output_frontend" | grep -oP '"com.docker.compose.version": "\K[^"]+')
+image_frontend=$(echo "$inspect_output_frontend" | grep -oP '"Image": "\K[^"]+' | grep -v '^sha')
 
 read_version() {
-    # Input validation for path
-    if [ -z "$1" ]; then
-        echo "Please provide a path."
-        return 1
-    fi
-
-    # Input validation for title
-    if [ -z "$2" ]; then
-        echo "Please provide a title."
-        return 1
-    fi
-
     file_path="$1"
     title="$2"
 
-    # Check if file exists
-    if [ ! -f "$file_path" ]; then
-        echo "File not found!"
+    # Check if file exists in the container
+    if ! docker exec "$BACKEND_CONTAINER_NAME" sh -c "[ -f $file_path ]"; then
+        echo "File '$file_path' not found in the container!"
         return 1
     fi
 
-    # Read the file content into a variable
-    file_content=$(cat "$file_path")
+    # Read the file content from the container into a variable
+    file_content=$(docker exec "$BACKEND_CONTAINER_NAME" cat "$file_path")
 
     # Print the title and file content
     echo "$title: $file_content"
-
-    cd $ROOT_DIR
 }
 
-read_version $ROOT_DIR"/backend/.version_information" "Version"
-read_version $ROOT_DIR"/backend/.sha_information" "SHA"
-echo 'SDK SHA:' $SDK_SHA
-echo 'Docker image:' $SDK_DOCKER_IMAGE
-echo 'Docker tag:' $SDK_DOCKER_TAG
+# Print Test Harness version info
+read_version ".version_information" "Version"
+read_version ".sha_information" "SHA"
+
+# Print backend and frontend version info
+echo
+echo "TH Backend"
+echo "     Version: $version_backend"
+echo "     Image: $image_backend"
+echo "     OS: $os $os_version"
+echo "     SDK SHA: $SDK_SHA"
+echo
+echo "TH Frontend"
+echo "     Version: $version_frontend"
+echo "     Image: $image_frontend"
+
+
+
+
+
+
+
+
