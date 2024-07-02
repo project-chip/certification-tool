@@ -28,12 +28,12 @@
         echo
         echo "Usage:"
         echo
-        echo "    Show TH SHA, SDK, repository details:  $0"
-        echo "    Show TH host OS system information:    $0 --system"
-        echo "    Show TH host OS network information:   $0 --network"
-        echo "    Show TH environment details:           $0 --environment"
-        echo "    Show TH network, DUT, docker details:  $0 --more"
-        echo "    Show all TH details:                   $0 --complete"
+        echo "    Show TH version and repository details:    $0"
+        echo "    Show TH host OS system information:        $0 --system"
+        echo "    Show TH host OS network information:       $0 --network"
+        echo "    Show TH host OS environment details:       $0 --environment"
+        echo "    Show TH DUT configuration details:         $0 --more"
+        echo "    Show all TH details:                       $0 --complete"
         echo
     }
 
@@ -115,19 +115,19 @@
     show_system() {
         # OS
         os_output=$("$TH_DEV_SCRIPTS_DIR/_th-system.sh")
-        print_framed_text "$os_output" "OS"
+        print_framed_text "$os_output" "Test Harness Host OS System Information"
     }
     
     show_network() {
         # Network
         network_output=$("$TH_DEV_SCRIPTS_DIR/_th-network.sh")
-        print_framed_text "$network_output" "Network"
+        print_framed_text "$network_output" "Test Harness Host OS Network Information"
     }
 
     show_environment() {
-        # Test Harness Main Environment
+        # Test Harness Host OS Environment
         th_env_deps_output=$("$TH_DEV_SCRIPTS_DIR/_th-env-deps.sh")
-        print_framed_text "$th_env_deps_output" "Test Harness Main Environment"
+        print_framed_text "$th_env_deps_output" "Test Harness Host OS Environment"
 
         # Test Harness Frontend Environment (Container)
         th_frontend_output=$("$TH_DEV_SCRIPTS_DIR/_th-frontend.sh")
@@ -143,18 +143,18 @@
     }
 
     show_more() {
-        # Test Harness Network / DUT
+        # Test Harness DUT Configuration
         th_net_dut_output=$("$TH_DEV_SCRIPTS_DIR/_th-net-dut.sh")
-        print_framed_text "$th_net_dut_output" "Test Harness Network / DUT"
+        print_framed_text "$th_net_dut_output" "Test Harness DUT Configuration"
     }
 
-    # Test Harness
+    # Test Harness Version
     th_version_output=$("$TH_DEV_SCRIPTS_DIR/_th-version.sh")
-    print_framed_text "$th_version_output" "Test Harness"
+    print_framed_text "$th_version_output" "Test Harness Version"
 
-    # Git Status
+    # Repository Details
     repository_branches_output=$("$TH_DEV_SCRIPTS_DIR/_th-repo.sh")
-    print_framed_text "$repository_branches_output" "Git Status"
+    print_framed_text "$repository_branches_output" "Repository Details"
 
     # Handle arguments
     case "$1" in
