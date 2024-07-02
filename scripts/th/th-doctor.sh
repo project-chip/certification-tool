@@ -33,6 +33,7 @@
         echo "    Show TH host OS network information:       $0 --network"
         echo "    Show TH host OS environment details:       $0 --environment"
         echo "    Show TH DUT configuration details:         $0 --more"
+        echo "    Show TH Docker Container Logs:             $0 --docker-logs"
         echo "    Show all TH details:                       $0 --complete"
         echo
     }
@@ -148,6 +149,14 @@
         print_framed_text "$th_net_dut_output" "Test Harness DUT Configuration"
     }
 
+    show_docker_logs() {
+        # Test Harness Docker Container Logs
+        th_net_dut_output=$("$TH_DEV_SCRIPTS_DIR/_th-docker-logs.sh")
+        # print_framed_text "$th_net_dut_output" "Test Harness Docker Container Logs"
+        echo "$th_net_dut_output"
+        echo
+    }
+
     # Test Harness Version
     th_version_output=$("$TH_DEV_SCRIPTS_DIR/_th-version.sh")
     print_framed_text "$th_version_output" "Test Harness Version"
@@ -174,11 +183,16 @@
         show_more
         usage
             ;;
+        --docker-logs)
+        show_docker_logs
+        usage
+            ;;
         --complete)
         show_system
         show_network
         show_environment
         show_more
+        show_docker_logs
         usage
             ;;
         *)
