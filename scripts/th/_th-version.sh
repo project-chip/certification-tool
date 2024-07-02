@@ -57,7 +57,7 @@ show_backend_info() {
     FILE_PATH="app/core/config.py"
     SDK_SHA=$(docker exec $BACKEND_CONTAINER_NAME sh -c "grep SDK_SHA $FILE_PATH | cut -d'\"' -f 2 | cut -d\"'\" -f 2")
     inspect_output_backend=$(docker inspect $BACKEND_CONTAINER_NAME)
-    version_backend=$(echo "$inspect_output_backend" | grep -oP '"com.docker.compose.version": "\K[^"]+')
+    dc_version_backend=$(echo "$inspect_output_backend" | grep -oP '"com.docker.compose.version": "\K[^"]+')
     os=$(echo "$inspect_output_backend" | grep -oP '"org.opencontainers.image.ref.name": "\K[^"]+')
     os_version=$(echo "$inspect_output_backend" | grep -oP '"org.opencontainers.image.version": "\K[^"]+')
     image_backend=$(echo "$inspect_output_backend" | grep -oP '"Image": "\K[^"]+' | grep -v '^sha')
@@ -65,7 +65,7 @@ show_backend_info() {
     # Print info
     echo
     echo "$BACKEND_CONTAINER_NAME"
-    echo "     Version: $version_backend"
+    echo "     Docker Compose Version: $dc_version_backend"
     echo "     Image: $image_backend"
     echo "     OS: $os $os_version"
     echo "     SDK SHA: $SDK_SHA"
@@ -82,13 +82,13 @@ show_frontend_info() {
 
     # Get info
     inspect_output_frontend=$(docker inspect $FRONTEND_CONTAINER_NAME)
-    version_frontend=$(echo "$inspect_output_frontend" | grep -oP '"com.docker.compose.version": "\K[^"]+')
+    dc_version_frontend=$(echo "$inspect_output_frontend" | grep -oP '"com.docker.compose.version": "\K[^"]+')
     image_frontend=$(echo "$inspect_output_frontend" | grep -oP '"Image": "\K[^"]+' | grep -v '^sha')
 
     # Print info
     echo
     echo "$FRONTEND_CONTAINER_NAME"
-    echo "     Version: $version_frontend"
+    echo "     Docker Compose Version: $dc_version_frontend"
     echo "     Image: $image_frontend"
 }
 
@@ -103,14 +103,14 @@ show_db_info() {
 
     # Get info
     inspect_output_db=$(docker inspect $DB_CONTAINER_NAME)
-    version_db=$(echo "$inspect_output_db" | grep -oP '"com.docker.compose.version": "\K[^"]+')
+    dc_version_db=$(echo "$inspect_output_db" | grep -oP '"com.docker.compose.version": "\K[^"]+')
     image_db=$(echo "$inspect_output_db" | grep -oP '"Image": "\K[^"]+' | grep -v '^sha')
     version_db_app=$(echo "$inspect_output_db" | grep -oP '"PG_VERSION=[^"]+' | cut -d'=' -f2)
 
     # Print info
     echo
     echo "$DB_CONTAINER_NAME"
-    echo "     Version: $version_db"
+    echo "     Docker Compose Version: $dc_version_db"
     echo "     Image: $image_db"
     echo "     DB App Version: $version_db_app"
 }
@@ -126,13 +126,13 @@ show_proxy_info() {
 
     # Get info
     inspect_output_proxy=$(docker inspect $PROXY_CONTAINER_NAME)
-    version_proxy=$(echo "$inspect_output_proxy" | grep -oP '"com.docker.compose.version": "\K[^"]+')
+    dc_version_proxy=$(echo "$inspect_output_proxy" | grep -oP '"com.docker.compose.version": "\K[^"]+')
     image_proxy=$(echo "$inspect_output_proxy" | grep -oP '"Image": "\K[^"]+' | grep -v '^sha')
 
     # Print info
     echo
     echo "$PROXY_CONTAINER_NAME"
-    echo "     Version: $version_proxy"
+    echo "     Docker Compose Version: $dc_version_proxy"
     echo "     Image: $image_proxy"
 }
 
