@@ -21,6 +21,9 @@ BACKEND_CONTAINER_NAME="certification-tool-backend-1"
 # Frontend container name
 FRONTEND_CONTAINER_NAME="certification-tool-frontend-1"
 
+# DB container name
+DB_CONTAINER_NAME="certification-tool-db-1"
+
 # Get backend info
 FILE_PATH="app/core/config.py"
 SDK_SHA=$(docker exec $BACKEND_CONTAINER_NAME sh -c "grep SDK_SHA $FILE_PATH | cut -d'\"' -f 2 | cut -d\"'\" -f 2")
@@ -34,6 +37,12 @@ image_backend=$(echo "$inspect_output_backend" | grep -oP '"Image": "\K[^"]+' | 
 inspect_output_frontend=$(docker inspect $FRONTEND_CONTAINER_NAME)
 version_frontend=$(echo "$inspect_output_frontend" | grep -oP '"com.docker.compose.version": "\K[^"]+')
 image_frontend=$(echo "$inspect_output_frontend" | grep -oP '"Image": "\K[^"]+' | grep -v '^sha')
+
+# Get DB info
+inspect_output_db=$(docker inspect $DB_CONTAINER_NAME)
+version_db=$(echo "$inspect_output_db" | grep -oP '"com.docker.compose.version": "\K[^"]+')
+image_db=$(echo "$inspect_output_db" | grep -oP '"Image": "\K[^"]+' | grep -v '^sha')
+version_db_app=$(echo "$inspect_output_db" | grep -oP '"PG_VERSION=[^"]+' | cut -d'=' -f2)
 
 read_version() {
     file_path="$1"
@@ -67,11 +76,8 @@ echo
 echo "TH Frontend"
 echo "     Version: $version_frontend"
 echo "     Image: $image_frontend"
-
-
-
-
-
-
-
-
+echo
+echo "TH Database"
+echo "     Version: $version_db"
+echo "     Image: $image_db"
+echo "     DB App Version: $version_db_app"
