@@ -120,7 +120,7 @@
     
     show_network() {
         # Network
-        network_output=$("$TH_DEV_SCRIPTS_DIR/_network.sh")
+        network_output=$("$TH_DEV_SCRIPTS_DIR/_th-network.sh")
         print_framed_text "$network_output" "Network"
     }
 
