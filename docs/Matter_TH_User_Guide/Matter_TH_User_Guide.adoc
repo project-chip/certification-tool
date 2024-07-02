@@ -22,6 +22,7 @@ ifdef::env-github[]
 :important-caption: :heavy_exclamation_mark:
 :caution-caption: :fire:
 :warning-caption: :warning:
+:imagesdir: https://github.com/project-chip/certification-tool/tree/main/docs/Matter_TH_User_Guide
 endif::[]
 ifndef::env-github[]
 :icons: font
@@ -39,12 +40,12 @@ endif::[]
 == *Test-Harness Links*
 [cols=".^10%,.^25%,.^10%,.^20%,.^10%,.^25%"]
 |===
-| *Matter Version* | *TH Version*       | *TH image location*                                                                         | *Supporting Documentation*                                                   | *SDK commit* | *Comments*
-| Matter 1.0       | v2.6               | https://drive.google.com/file/d/10YkV4mDulhLoA6RJOKZNNKWhHTH1tOfu/view?usp=drive_link[link] | https://groups.csa-iot.org/wg/matter-csg/document/folder/2947[Causeway Link] | 96c9357      |
-| Matter 1.1       | v2.8.1             | https://drive.google.com/file/d/15fU3L7QE-MNBslf53A_6sFgn1Wq0Pvqd/view?usp=drive_link[link] | https://groups.csa-iot.org/wg/matter-csg/document/folder/2470[Causeway Link] | 5a21d17      |
-| Matter 1.2       | TH-Fall2023        | https://drive.google.com/file/d/1WTjhc7xbYt18RvpABU3_r47uqOLd7NN1/view?usp=drive_link[link] | https://groups.csa-iot.org/wg/matter-csg/document/folder/2756[Causeway Link] | 19771ed      | 
-| Matter 1.3       | v2.10+spring2024   | N/A                                                                                         | https://groups.csa-iot.org/wg/matter-csg/document/folder/3314[Causeway Link] | 11f94c3      | To install, use the tag "v2.10+spring2024" in the instructions of <<fresh_install>>
-| Matter 1.3       | v2.10.1+spring2024 | N/A                                                                                         | https://groups.csa-iot.org/wg/matter-csg/document/folder/3314[Causeway Link] | 50bcad1      | To install, use the tag "v2.10.1+spring2024" in the instructions of <<fresh_install>>
+| *Matter Version* | *TH Version*       | *TH image location*                                                                         | *Supporting Documentation*                                                    | *SDK commit* | *Comments*
+| Matter 1.0       | v2.6               | https://drive.google.com/file/d/10YkV4mDulhLoA6RJOKZNNKWhHTH1tOfu/view?usp=drive_link[link] | https://groups.csa-iot.org/wg/members-all/document/folder/2729[Causeway Link] | 96c9357      |
+| Matter 1.1       | v2.8.1             | https://drive.google.com/file/d/15fU3L7QE-MNBslf53A_6sFgn1Wq0Pvqd/view?usp=drive_link[link] | https://groups.csa-iot.org/wg/members-all/document/folder/2730[Causeway Link] | 5a21d17      |
+| Matter 1.2       | TH-Fall2023        | https://drive.google.com/file/d/1WTjhc7xbYt18RvpABU3_r47uqOLd7NN1/view?usp=drive_link[link] | https://groups.csa-iot.org/wg/members-all/document/folder/3045[Causeway Link] | 19771ed      | 
+| Matter 1.3       | v2.10+spring2024   | N/A                                                                                         | https://groups.csa-iot.org/wg/members-all/document/folder/3661[Causeway Link] | 11f94c3      | To install, use the tag "v2.10+spring2024" in the instructions of <<fresh_install>>
+| Matter 1.3       | v2.10.1+spring2024 | N/A                                                                                         | https://groups.csa-iot.org/wg/matter-csg/document/folder/3314[Causeway Link]  | fb2c0e5      | To install, use the tag "v2.10.1+spring2024" in the instructions of <<fresh_install>>
 |===
 
 
@@ -84,9 +85,14 @@ endif::[]
 | 22          | 15-Feb-2024  | [Apple]Hilton Lima                  | * Updated 'TH Installation on Raspberry Pi' section.
 | 23          | 26-Feb-2024  | [Apple]Carolina Lopes               | * Added volume mapping for data model XML files on docker run commands for SDK containter.
 | 24          | 27-Feb-2024  | [Apple]Carolina Lopes               | * Updated mapping in docker run command for SDK container.
-| 25          | 17-Apr-2024  | [Apple]Hilton Lima                  | * Updated Test Harness links related to final release of Spring 2024.
-| 26          | 18-Apr-2024  | [Apple]Hilton Lima                  | * Update section TH installation without a Raspberry Pi.
-| 27          | 01-Jul-2024  | [Apple]Hilton Lima                  | * Updated Test Harness links.
+| 25          | 27-Mar-2024  | [Apple]Hilton Lima                  | * Update nRF52840 firmware download link.
+| 26          | 01-Apr-2024  | [Apple]Hilton Lima                  | * Update download link to Flash SiLabs RCP.
+| 27          | 01-Apr-2024  | [Apple]Romulo Quidute               | * Update OTBR scripts location.
+| 28          | 17-Apr-2024  | [Apple]Hilton Lima                  | * Updated Test Harness links related to final release of Spring 2024.
+| 29          | 18-Apr-2024  | [Apple]Hilton Lima                  | * Update section 'TH installation without a Raspberry Pi'.
+| 30          | 30-Apr-2024  | [Apple]Hilton Lima                  | * Update location for update scripts.
+| 31          | 10-Jun-2024  | [Apple]Hilton Lima                  | * Updated Test Harness links.
+| 32          | 17-Jun-2024  | [Google] Tennessee Carmel-Veilleux  | * Added an example of an external operational dataset.
 |===
 
 <<<
@@ -107,7 +113,7 @@ The TH tool runs on the Raspberry Pi platform, providing an intuitive Web user i
 
 The TH tool provides an option to execute the following test scripts— Automated, Semi Automated, Python, Manual and Simulated. Upon completion of the test execution, detailed logs and test results will be available for user analysis. The user will also be able to submit logs to ATL’s for review to obtain device certification.
 
-The TH tool can be used by any DUT vendor to run the Matter certification tests OR by any hobby developer to get acquainted with the Matter certification testing tools or technologies. 
+The TH tool can be used by any DUT vendor to run the Matter certification tests, or by any hobby developer to get acquainted with the Matter certification testing tools or technologies. 
 
 
 <<<
@@ -116,7 +122,7 @@ The TH tool can be used by any DUT vendor to run the Matter certification tests 
 . Matter SDK Repo github: https://github.com/project-chip/connectedhomeip[https://github.com/project-chip/connectedhomeip]  
 . Matter Test Plans: https://groups.csa-iot.org/wg/members-all/document/30026[Matter Test Plans (Causeway)] / https://github.com/CHIP-Specifications/chip-test-plans[Matter Test Plans (GitHub)]
 . PICS Tool: https://picstool.csa-iot.org/#userguide[PICS Tool - Connectivity Standards Alliance (csa-iot.org)]
-. XML Files: https://groups.csa-iot.org/wg/matter-csg/document/26122
+. XML Files: https://groups.csa-iot.org/wg/members-all/document/31907
 . TEDS Matter tool: https://groups.csa-iot.org/wg/matter-wg/document/28545
 
 
@@ -173,7 +179,7 @@ If the DUT is a commissioner/controller, the Test TH spins an example accessory 
 
 Refer to <<bringing-up-of-matter-node-dut-for-certification-testing, Section 5, Bringing Up of Matter Node (DUT) for Certification Testing>> to bring up the DUT and then proceed with device testing by referring to <<test-configuration, Section 8, Test Configuration>>.
 
-For hobby developers who want to get acquainted with certification tools/process/TC’s, can spin DUT’s using the example apps provided in the SDK. Refer to the instructions to set up one https://groups.csa-iot.org/wg/matter-csg/document/folder/2756[here].
+For hobby developers who want to get acquainted with certification tools/process/TC’s, can spin DUT’s using the example apps provided in the SDK. Refer to the instructions to set up one https://groups.csa-iot.org/wg/members-all/document/folder/3661[here].
 
 TH runs on Ubuntu Server 22.04 LTS (64-bit). The official installation method uses a Raspberry Pi (<<fresh_install>>), but there's an alternative method used in the tool's development that uses a virtual machine instead (<<th-installation-without-a-raspberry-pi>>). Keep in mind that thread networking is not officially supported in VM installations at the moment.
 
@@ -219,8 +225,6 @@ If the DUT supports thread transport, an RCP dongle provisioned with a recommend
 ** `$git clone -b <Target_Branch/Tag> https://github.com/project-chip/certification-tool.git`
 * Goto to TH folder: 
 ** `$cd certification-tool`
-* Initialize the submodules: 
-** `$git submodule update --init --recursive`
 * Install/configure the TH dependencies: 
 ** `$./scripts/pi-setup/auto-install.sh`
 ** At the end of the script, select option 1 to restart the RaspberryPi.
@@ -248,7 +252,7 @@ ssh back into the TH IP address using: +
 |===
 
 
-* In case “sudo fsck” fails, use the following commands:
+* In case "sudo fsck" fails, use the following commands:
 
 |===
 |`sudo fsck -y -f /dev/mmcblk0p2` +
@@ -256,7 +260,7 @@ ssh back into the TH IP address using: +
 |===
 
 
-* In case the “remote: Repository not found” fatal error occurs, try the following steps to fix the issue. Clone the certification-tool with personal access token (Refer to <<generate-personal-access-token, Section 4.2.2, Generate Personal Access Token>> to generate the personal access token) and follow the steps below.
+* In case the "remote: Repository not found" fatal error occurs, try the following steps to fix the issue. Clone the certification-tool with personal access token (Refer to <<generate-personal-access-token, Section 4.2.2, Generate Personal Access Token>> to generate the personal access token) and follow the steps below.
 
 |===
 |cd ~ +
@@ -301,15 +305,12 @@ The above command might take a while to get executed, wait for 5-10 minutes and 
 
 === TH installation without a Raspberry Pi
 
-The official installation method uses a Raspberry Pi (<<th-image-installation-on-raspberry-pi>>). **This alternative installation method is targeted for development purpose and it only supports onnetwork pairing mode.**
+The official installation method uses a Raspberry Pi (<<th-installation-on-raspberry-pi, TH Installation on Raspberry Pi>>). **This alternative installation method is targeted for development purpose and it only supports onnetwork pairing mode.**
 
-|===
-|To install TH without using a Raspberry Pi you'll need a machine with Ubuntu Server 22.04 LTS (64-bit). You can <<create-an-ubuntu-virtual-machine, create a virtual machine>> for this purpose, but *be aware that if the host's architecture is not arm64* you'll need to substitute `backend`, `frontend` and <<substitute-the-sdks-docker-image-and-update-sample-apps, the SDK's docker image>> in order for it to work properly.
-|===
+NOTE: To install TH without using a Raspberry Pi you'll need a machine with Ubuntu Server 22.04 LTS (64-bit). You can <<create-an-ubuntu-virtual-machine, create a virtual machine>> for this purpose, but *be aware that if the host's architecture is not arm64* you'll need to substitute `backend`, `frontend` and <<substitute-the-sdks-docker-image-and-update-sample-apps, the SDK's docker image>> in order for it to work properly.
 
-|===
-|Images for linux/amd64 will not always be available in the github registry. So, if necessary, the images needed to be built locally.
-|===
+NOTE: Images for linux/amd64 will not always be available in the github registry. So, if necessary, the images need to be built locally using the following script: +
+`./certification-tool/scripts/build.sh`
 
 ==== Create an Ubuntu virtual machine
 
@@ -341,18 +342,10 @@ Seems like bridged network is not available, so you will not be able to test wit
 
 ==== Setup TH in Ubuntu
 
-* Create new ssh key
-
-|===
-|`ssh-keygen -t ed25519 -C "user@matter-vm"`
-|===
-
-* Add SSH key to GitHub Settings
-
 * Clone git repo
 
 |===
-|`git clone git@github.com:project-chip/certification-tool.git"`
+|`git clone -b <Target_Branch/Tag> https://github.com/project-chip/certification-tool.git`
 |===
 
 * Go into the repo directory
@@ -377,7 +370,9 @@ If using multipass, to find the IP address use the command
 
 ==== Substitute the SDK's docker image and update sample apps
 
-In order to run TH in a machine that uses the 'linux/amd64' platform, you'll need to first build a new SDK docker image.
+If the platform of the machine that will run the TH is 'linux/amr64' it will not be necessary to build a new SDK docker image.
+
+To run TH on a machine using the 'linux/amd64' platform, you will need to first build a new SDK docker image.
 
 * Get the SDK commit SHA
 
@@ -412,11 +407,11 @@ If there's an image with a tag for the commit you're using, delete that image +
 * Update TH sample apps
 
 |===
-|To update your sample apps using the new image, you should first edit the `certification-tool/scripts/ubuntu/update-sample-apps.sh` script to comment out or remove the following line: +
+|To update your sample apps using the new image, you should first edit the `certification-tool/backend/test_collections/matter/scripts/update-sample-apps.sh` script to comment out or remove the following line: +
 `sudo docker pull $SDK_DOCKER_IMAGE:$SDK_DOCKER_TAG` +
 This is needed because the docker pull command downloads the image from the remote. Removing this line, the script will use your local image. +
 Then run this script in the certification-tool repository +
-`./scripts/ubuntu/update-sample-apps.sh`
+`./backend/test_collections/matter/scripts/update-sample-apps.sh`
 |===
 
 
@@ -426,10 +421,6 @@ To update an existing TH environment, follow the instructions below on the termi
 
 |===
 |`cd ~/certification-tool` +
-`git fetch` +
-`git checkout <Target_Branch/Tag>` +
-`git pull` +
-`git submodule update --init --recursive` +
 `./scripts/ubuntu/auto-update.sh <Target_Branch/Tag>` +
 `./scripts/start.sh` +
 
@@ -442,14 +433,14 @@ It is possible to update yaml test script content by directly editing the file c
 
 Yaml files are located at:
 |===
-|`~/certification-tool/backend/test_collections/sdk_tests/sdk_checkout/yaml_tests/yaml/sdk/`
+|`~/certification-tool/backend/test_collections/matter/sdk_tests/sdk_checkout/yaml_tests/yaml/sdk/`
 |===
 
 To update an existing Yaml test script: (e.g. `Test_TC_ACE_1_1.yaml`)
 
 * Open the script file:
 |===
-|`~/certification-tool/backend/test_collections/sdk_tests/sdk_checkout/yaml_tests/yaml/sdk/Test_TC_ACE_1_1.yaml`
+|`~/certification-tool/backend/test_collections/matter/sdk_tests/sdk_checkout/yaml_tests/yaml/sdk/Test_TC_ACE_1_1.yaml`
 |===
 
 * Update/change the desired information.
@@ -487,12 +478,12 @@ These tests will not be affected if the system is restarted or if the SDK Yaml t
 
 Custom Yaml files folder are located at:
 |===
-|`~/certification-tool/backend/test_collections/sdk_tests/sdk_checkout/yaml_tests/yaml/custom/`
+|`~/certification-tool/backend/test_collections/matter/sdk_tests/sdk_checkout/yaml_tests/yaml/custom/`
 |===
 
 Custom Python files folder are located at:
 |===
-|`~/certification-tool/backend/test_collections/sdk_tests/sdk_checkout/python_testing/scripts/custom/`
+|`~/certification-tool/backend/test_collections/matter/sdk_tests/sdk_checkout/python_testing/scripts/custom/`
 |===
 
 .Test-Harness displaying the custom tests.
@@ -551,7 +542,7 @@ To build the example apps from the latest SDK source, follow the instructions be
 
 ==== To Provision Raspberry Pi Using Wi-Fi Configuration
 
-The sample app (lighting-app or lock-app or all-cluster-app) can be provisioned over the Wi-Fi network when the app is launched with the “--wifi” argument.
+The sample app (lighting-app or lock-app or all-cluster-app) can be provisioned over the Wi-Fi network when the app is launched with the "--wifi" argument.
 
 |===
 |`./chip-all-clusters-app --wifi`
@@ -768,7 +759,7 @@ If the DUT supports Thread Transport, DUT vendors need to use the OTBR that is s
 Currently the OTBR in the TH works with either the Nordic RCP dongle or SiLabs RCP dongle. Refer to <<instructions-to-flash-the-firmware-nrf52840-rcpdongle, Section 7.1>> to flash the NRF52840 firmware or <<instructions-to-flash-silabs-rcp, Section 7.2>> to flash the SiLabs firmware and get the RCP’s ready. Once the RCP’s are programmed, the user needs to insert the RCP dongle on to the Raspberry Pi running the TH and reboot the Raspberry Pi.
 
 === Instructions to Flash the Firmware NRF52840 RCPDongle
-. Download RCP firmware package from the following link on the user’s system — https://groups.csa-iot.org/wg/matter-csg/document/26977[https://groups.csa-iot.org/wg/matter-csg/document/26977] 
+. Download RCP firmware package from the following link on the user’s system — https://groups.csa-iot.org/wg/matter-csg/document/33943[Thread Firmware Package] 
 . nRF Util is a unified command line utility for Nordic products. For more details, refer to the following link— https://www.nordicsemi.com/Products/Development-tools/nrf-util[https://www.nordicsemi.com/Products/Development-tools/nrf-util]
 . Install the nRF Util dependency in the user’s system using the following command:
 
@@ -797,7 +788,7 @@ Example: +
 
 === Instructions to Flash SiLabs RCP
 
-Download the firmware from the following URL: https://www.dropbox.com/s/rrov679am165b3z/ot-rcp-binaries-1.1.0-1.1.zip?dl=0[https://www.dropbox.com/s/rrov679am165b3z/ot-rcp-binaries-1.1.0-1.1.zip?dl=0] 
+Download the latest version of ot-rcp-binaries from the assets list of the latest release: https://github.com/SiliconLabs/matter/tags[Silicon Labs Matter GitHub] 
 
 For detailed RCP firmware usage, refer to: https://www.silabs.com/documents/public/application-notes/an1256-using-sl-rcp-with-openthread-border-router.pdf[https://www.silabs.com/documents/public/application-notes/an1256-using-sl-rcp-with-openthread-border-router.pdf]
 
@@ -816,7 +807,7 @@ From UI:
 +
 image:images/img_11.png[]
 
-* To flash an image, go to “Flash”, select the RCP binary file, and click on *Flash* .
+* To flash an image, go to "Flash", select the RCP binary file, and click on *Flash* .
 +
 image:images/img_12.png[]
 
@@ -829,11 +820,13 @@ From CLI:
 === Forming Thread Network and Generating Dataset for Thread Pairing
 
 TH spins the OTBR docker image automatically when executing the thread related test cases. Follow the steps below if the user wants to start OTBR with custom parameters. The user needs to generate a dataset for the custom OTBR. To generate hexadecimal code required for manual Thread pairing procedure, use the instructions below. +
-ssh the Raspberry-Pi in the User System using the command “*ssh ubuntu@IP_address*” +
+ssh the Raspberry-Pi in the User System using the command "*ssh ubuntu@IP_address*" +
 Example output for the above command to generate the dataset value: 
 |===
-|ubuntu@ubuntu:~*$* ./certification-tool/scripts/OTBR/otbr_start.sh connectedhomeip/otbr             sve2                                       cd81003a4ffe   7 months ago   436MB +
-otbr image connectedhomeip/otbr:sve2 already installed adbc48b536dc5a350c2e5dcf9c09b378290fe79ac423a15943e8c970473fd44f
+|ubuntu@ubuntu:~*$* ./certification-tool/backend/test_collections/matter/scripts/OTBR/otbr_start.sh 
+nrfconnect/otbr             9185bda                                       083c8472bc52   10 months ago   1.21GB +
+otbr image nrfconnect/otbr:9185bda already installed 
+54d868724cbb0c05c155983d5df5e9a3c1b61cbdafdf38eef2d8d1928f305a
 
 waiting 10 seconds to give the docker container enough time to start up... +
 Param: 'dataset init new' +
@@ -1026,8 +1019,8 @@ Follow the sections below for the project configuration and test execution.
 +
 image:images/img_15.png[]
 
-. A new window will be opened as “Matter Test Harness”. 
-. Click on the *Create New Project* button. Enter the project name as “Test Project” and edit the Project Config settings to provide additional details.
+. A new window will be opened as "Matter Test Harness". 
+. Click on the *Create New Project* button. Enter the project name as "Test Project" and edit the Project Config settings to provide additional details.
 +
 image:images/img_16.png[]
 
@@ -1036,13 +1029,13 @@ image:images/img_16.png[]
 +
 image:images/img_17.png[]
 
-.. Configure the DUT by providing details like discriminator, setup_code and set the *pairing_mode as “ble-wifi”*.
+.. Configure the DUT by providing details like discriminator, setup_code and set the *pairing_mode as "ble-wifi"*.
 +
 image:images/img_18.png[]
 
 ===== On Network Mode
 .. If the DUT is already present on the operational network (e.g., connected to the same network as the controller via Ethernet) then the user can select this mode. 
-.. Configure the DUT by providing details like discriminator, setup_code and set the *pairing_mode as “onnetwork”*.
+.. Configure the DUT by providing details like discriminator, setup_code and set the *pairing_mode as "onnetwork"*.
 +
 image:images/img_19.png[]
 
@@ -1051,14 +1044,18 @@ image:images/img_19.png[]
 +
 image:images/img_20.png[]
 
-.. Input the DUT configuration details like discriminator: “3840”, setup_code:”20202021”, and *pairing_mode as “ble-thread”*.
+.. If using an already configured Thread network with a Thread Border router present on the same network as the TH, it is possible to provide an explicit operational data configuration so that it is used instead of locally configuring a new Thread PAN/
++
+image:images/img_example_manual_thread_data_set.png[]
+
+.. Input the DUT configuration details like discriminator: "3840", setup_code:"20202021", and *pairing_mode as "ble-thread"*.
 +
 image:images/img_57.png[]
 +
 NOTE: _The OTBR docker is contained in the TH image and runs automatically upon the start of the TH tool._
 
 ===== PAA Certificates
-For the case that the DUT requires a PAA certificate to perform a pairing operation, input “true" for the flag “chip_tool_use_paa_certs” to configure the Test-Harness to use them.
+For the case that the DUT requires a PAA certificate to perform a pairing operation, input "true" for the flag "chip_tool_use_paa_certs" to configure the Test-Harness to use them.
 
 image:images/img_58.png[]
 
@@ -1124,7 +1121,7 @@ image:images/img_30.png[]
 
 ==== Settings Menu
 
-Click on the “*Select theme*” option drop-down to select the different theme for the user interface.
+Click on the "*Select theme*" option drop-down to select the different theme for the user interface.
 
 
 <<<
@@ -1136,7 +1133,7 @@ PICS (_Protocol Implementation Conformance Statement_) is a list of features sup
 
 PICS codes are generated from the Test Plans. The Base.xml file lists all the Core feature PICS from the Matter Base Specifications and the application cluster PICS are listed in the respective TestPlan.xml files. Follow the steps below to generate and upload the PICS files.
 
-. Click on the following link to download the PICS XML files— https://groups.csa-iot.org/wg/matter-csg/document/26122[https://groups.csa-iot.org/wg/matter-csg/document/26122]
+. Click on the following link to download the PICS XML files— https://groups.csa-iot.org/wg/members-all/document/31907[https://groups.csa-iot.org/wg/members-all/document/31907]
 . Click on the following link to use the PICS tool— https://picstool.csa-iot.org/#userguide[PICS Tool v1.6.4 matter 1.0 - Connectivity Standards Alliance (csa-iot.org)]
 . Load the Base.xml file by clicking on the *Browse* option. In case the following error is observed:
 +
@@ -1262,7 +1259,7 @@ Follow the instructions below to execute the test cases.
 +
 |===
 |`cd certification-tool` +
-`./scripts/ubuntu/update-paa-certs.sh`
+`./backend/test_collections/matter/scripts/update-paa-certs.sh`
 |===
 
 . After execution of the above commands ensure that the PAA’s are available locally at */var/paa-root-certs* .
@@ -1338,7 +1335,7 @@ Factory reset the DUT again → The test fills tons of stuff and the device will
 ===== Possible Issues
 
 * Failing at Step 9 during execution of TC_RR_1_1:
-.. Some DUT’s have an incorrectly-configured UserLabel cluster where the backend is not implemented due to SDK example issues where some examples have the backend and others do not. This will fail at the last step (“Step 9: Fill UserLabel clusters on each endpoint”), with FAILURE writes. To override the test not to run this step, you can add “*--bool-arg skip_user_label_cluster_steps:true*“ to the command line of *TC_RR_1_1.py*, at the end.
+.. Some DUT’s have an incorrectly-configured UserLabel cluster where the backend is not implemented due to SDK example issues where some examples have the backend and others do not. This will fail at the last step ("Step 9: Fill UserLabel clusters on each endpoint"), with FAILURE writes. To override the test not to run this step, you can add "*--bool-arg skip_user_label_cluster_steps:true*" to the command line of *TC_RR_1_1.py*, at the end.
 .. Not having the *$PATH_TO_PAA_ROOTS* set properly when starting the docker or not having PAA roots certificates at that path.
 .. Follow the instructions for item 2 in <<prerequisite, Section 9.5.1.1, Prerequisite>>.
 
@@ -1472,11 +1469,11 @@ To upload test results, you must log in to TEDS.
 
 ==== Results Recording
 
-Go to your assigned time slot on your dashboard under “Test Slots” and select *Add test results* in your test slot details.
+Go to your assigned time slot on your dashboard under "Test Slots" and select *Add test results* in your test slot details.
 
 image:images/img_46.png[]
 
-Under the “View Test Slot Details”, you will see a menu.
+Under the "View Test Slot Details", you will see a menu.
 
 image:images/img_47.png[]
 
@@ -1486,7 +1483,7 @@ image:images/img_47.png[]
 
 ==== Base Device Results Recording
 
-Selecting “Base Device Tests” from the menu will take you to Based Device tests. +
+Selecting "Base Device Tests" from the menu will take you to Based Device tests. +
 The left panel is where you select tests and record your results. +
 The right panel displays the tests you have recorded for a particular set of tests.
 
@@ -1494,7 +1491,7 @@ image:images/img_48.png[]
 
 ==== Cluster and Controller Tests
 
-Selecting “Cluster Tests” or “Controller Tests” from the menu will take you to the corresponding test page. +
+Selecting "Cluster Tests" or "Controller Tests" from the menu will take you to the corresponding test page. +
 Select your test clusters and record your test results in the same way as the Based Device tests.
 
 image:images/img_49.png[]
@@ -1503,7 +1500,7 @@ image:images/img_50.png[]
 
 === Finalizing Results
 
-When testing has completed, finalize your test results using the *Finalize Test Results* button on the “View Test Slot Details” page. 
+When testing has completed, finalize your test results using the *Finalize Test Results* button on the "View Test Slot Details" page. 
 
 image:images/img_51.png[]
 
@@ -1511,11 +1508,11 @@ image:images/img_52.png[]
 
 === Test Results Summary
 
-When all testing has completed for your DUT, you can review the results in the “Test Results Summary” page.
+When all testing has completed for your DUT, you can review the results in the "Test Results Summary" page.
 
 image:images/img_53.png[]
 
-In this summary you can check to see if a particular test case has been reviewed. If the test has been reviewed, you will see the “Test Reviewed” and “Test House Notes” statuses.
+In this summary you can check to see if a particular test case has been reviewed. If the test has been reviewed, you will see the "Test Reviewed" and "Test House Notes" statuses.
 
 image:images/img_54.png[]
 

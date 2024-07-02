@@ -1,7 +1,7 @@
 #! /usr/bin/env bash
 
  #
- # Copyright (c) 2023 Project CHIP Authors
+ # Copyright (c) 2024 Project CHIP Authors
  #
  # Licensed under the Apache License, Version 2.0 (the "License");
  # you may not use this file except in compliance with the License.
@@ -15,74 +15,18 @@
  # See the License for the specific language governing permissions and
  # limitations under the License.
 ROOT_DIR=$(realpath $(dirname "$0")/..)
+SCRIPT_DIR="$ROOT_DIR/scripts"
 
-# Store the current branch for the update
-ROOT_BRANCH=$(git rev-parse --abbrev-ref HEAD)
+source "$SCRIPT_DIR/utils.sh"
 
-# Exit in case anything goes wrong
-set -e
+print_start_of_script
 
-# Check if a branch name was not provided.
-if [ $# -eq 1 ]; then
-    ROOT_BRANCH="$1"
-fi
+print_script_step "Update Docker images"
+$SCRIPT_DIR/update-docker-images.sh
+verify_return_code
 
-echo "*** Stashing local changes"
-cd $ROOT_DIR && git stash && git submodule foreach 'git stash'
+print_script_step "Setup Test Collections"
+$SCRIPT_DIR/update-setup-test-collections.sh
+verify_return_code
 
-echo "*** Pull latest Test Harness code"
-cd $ROOT_DIR && \
-    git checkout $ROOT_BRANCH && \
-    git pull && \
-    git submodule update --init --recursive
-
-echo "*** Download latest Docker images"
-cd $ROOT_DIR
-# Ensure .env exists
-./scripts/install-default-env.sh
-
-# Download docker images from docker-compose.yml.
-# As this might be run during setup we use `newgrp` command to ensure 
-# docker works.
-newgrp docker << END
-# You can do more lines than just this./
-docker compose pull
-END
-
-echo "*** Update CLI dependencies"
-source ~/.profile #ensure poetry is in path
-cd $ROOT_DIR/cli && poetry install
-
-echo "*** Setup Test Collections"
-cd $ROOT_DIR
-
-try_to_execute_setup_script()
-{
-    program_folder=$1
-
-    if [ -d $program_folder ]; then 
-        setup_script=$program_folder/setup.sh
-        # Only run setup.sh if present and it's executable
-        if [ -x $setup_script ]; then 
-            echo "Running setup script: $setup_script"
-            $setup_script
-            if [ $? -ne 0 ]; then
-                echo "### Exit with Error ###"
-                return 1
-            fi
-            echo "Setup script finished with success"
-        fi
-    fi
-}
-
-MATTER_PROGRAM_FOLDER="./backend/test_collections/matter"
-try_to_execute_setup_script $MATTER_PROGRAM_FOLDER
-
-TEST_COLLECTIONS_FOLDER="./test_collections/*"
-for program_folder in $TEST_COLLECTIONS_FOLDER
-do
-    try_to_execute_setup_script $program_folder  
-done
-
-# We echo "complete" to ensure this scripts last command has exit code 0.
-echo "Test Collection Setup Complete"
+print_end_of_script
