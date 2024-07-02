@@ -30,6 +30,7 @@
         echo
         echo "    Show TH SHA, SDK, repository details:  $0"
         echo "    Show TH host OS system information:    $0 --system"
+        echo "    Show TH host OS network information:    $0 --network"
         echo "    Show TH environment details:           $0 --environment"
         echo "    Show TH network, DUT, docker details:  $0 --more"
         echo "    Show all TH details:                   $0 --complete"
@@ -65,59 +66,59 @@
         exit 1
     fi
 
-print_framed_text() {
-    # Get the text and title from function arguments
-    input_text="$1"
-    title="$2"
+    print_framed_text() {
+        # Get the text and title from function arguments
+        input_text="$1"
+        title="$2"
 
-    # Ensure 'width' is set and has a reasonable value
-    if [ -z "$width" ] || [ "$width" -lt 10 ]; then
-        echo "Error: 'width' is not set or too small."
-        return 1
-    fi
+        # Ensure 'width' is set and has a reasonable value
+        if [ -z "$width" ] || [ "$width" -lt 10 ]; then
+            echo "Error: 'width' is not set or too small."
+            return 1
+        fi
 
-    max_line_length=$((width - 6))  # Maximum characters in a line before wrapping
+        max_line_length=$((width - 6))  # Maximum characters in a line before wrapping
 
-    # Word-wrap the input text
-    input_text_wrapped=$(echo -e "$input_text" | fold -w $max_line_length -s)
+        # Word-wrap the input text
+        input_text_wrapped=$(echo -e "$input_text" | fold -w $max_line_length -s)
 
-    # Calculate height based on the number of lines in the input text
-    height=$(echo -e "$input_text_wrapped" | wc -l)
-    height=$((height + 4)) # Add 4 to account for the top and bottom frame borders and inner padding
+        # Calculate height based on the number of lines in the input text
+        height=$(echo -e "$input_text_wrapped" | wc -l)
+        height=$((height + 4)) # Add 4 to account for the top and bottom frame borders and inner padding
 
-    # Print the top border with title
-    title_with_padding=" $title "
-    title_padding_left=$(( (width - 2 - ${#title_with_padding}) / 2 ))
-    [ $title_padding_left -lt 0 ] && title_padding_left=0
-    title_padding_right=$(( width - 2 - ${#title_with_padding} - title_padding_left ))
-    [ $title_padding_right -lt 0 ] && title_padding_right=0
-    echo '+'$(printf "%0.s-" $(seq 1 $title_padding_left))"$title_with_padding"$(printf "%0.s-" $(seq 1 $title_padding_right))'+'
+        # Print the top border with title
+        title_with_padding=" $title "
+        title_padding_left=$(( (width - 2 - ${#title_with_padding}) / 2 ))
+        [ $title_padding_left -lt 0 ] && title_padding_left=0
+        title_padding_right=$(( width - 2 - ${#title_with_padding} - title_padding_left ))
+        [ $title_padding_right -lt 0 ] && title_padding_right=0
+        echo '+'$(printf "%0.s-" $(seq 1 $title_padding_left))"$title_with_padding"$(printf "%0.s-" $(seq 1 $title_padding_right))'+'
 
-    # Inner top padding
-    echo "|$(printf ' %.0s' $(seq 1 $((width-2))))|"
+        # Inner top padding
+        echo "|$(printf ' %.0s' $(seq 1 $((width-2))))|"
 
-    # Print each line of wrapped input text with frame borders and padding
-    echo -e "$input_text_wrapped" | while IFS= read -r line; do
-        padding_right=$(( width - 4 - ${#line} - 2 ))  # Subtract 4 for the borders and 2 for the left padding
-        [ $padding_right -lt 0 ] && padding_right=0
-        echo "|  $line$(printf ' %.0s' $(seq 1 $padding_right))  |"
-    done
+        # Print each line of wrapped input text with frame borders and padding
+        echo -e "$input_text_wrapped" | while IFS= read -r line; do
+            padding_right=$(( width - 4 - ${#line} - 2 ))  # Subtract 4 for the borders and 2 for the left padding
+            [ $padding_right -lt 0 ] && padding_right=0
+            echo "|  $line$(printf ' %.0s' $(seq 1 $padding_right))  |"
+        done
 
-    # Inner bottom padding
-    echo "|$(printf ' %.0s' $(seq 1 $((width-2))))|"
+        # Inner bottom padding
+        echo "|$(printf ' %.0s' $(seq 1 $((width-2))))|"
 
-    # Print the bottom border
-    echo '+'$(printf "%0.s-" $(seq 1 $((width-2))))'+'
-    echo
-}
-
-
+        # Print the bottom border
+        echo '+'$(printf "%0.s-" $(seq 1 $((width-2))))'+'
+        echo
+    }
 
     show_system() {
         # OS
         os_output=$("$TH_DEV_SCRIPTS_DIR/_os.sh")
         print_framed_text "$os_output" "OS"
-
+    }
+    
+    show_network() {
         # Network
         network_output=$("$TH_DEV_SCRIPTS_DIR/_network.sh")
         print_framed_text "$network_output" "Network"
@@ -164,6 +165,9 @@ print_framed_text() {
         --system)
         show_system
             ;;
+        --network)
+        show_network
+            ;;
         --environment)
         show_environment
             ;;
@@ -172,6 +176,7 @@ print_framed_text() {
             ;;
         --complete)
         show_system
+        show_network
         show_environment
         show_more
             ;;
