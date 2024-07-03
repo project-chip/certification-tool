@@ -54,16 +54,7 @@ show_backend_info() {
     fi
 
     # Get info
-    FILE_PATH1="test_collections/matter/config.py"
-    FILE_PATH2="app/core/config.py"
-    if docker exec $BACKEND_CONTAINER_NAME sh -c "[ -f $FILE_PATH1 ]"; then
-        FILE_PATH=$FILE_PATH1
-    elif docker exec $BACKEND_CONTAINER_NAME sh -c "[ -f $FILE_PATH2 ]"; then
-        FILE_PATH=$FILE_PATH2
-    else
-        echo "Neither '$FILE_PATH1' nor '$FILE_PATH1' file paths exist."
-        exit 1
-    fi
+    FILE_PATH="test_collections/matter/config.py"
     SDK_SHA=$(docker exec $BACKEND_CONTAINER_NAME sh -c "grep SDK_SHA $FILE_PATH | cut -d'\"' -f 2 | cut -d\"'\" -f 2")
     inspect_output_backend=$(docker inspect $BACKEND_CONTAINER_NAME)
     dc_version_backend=$(echo "$inspect_output_backend" | grep -oP '"com.docker.compose.version": "\K[^"]+')
