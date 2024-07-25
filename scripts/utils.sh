@@ -65,3 +65,16 @@ print_installation_success()
     printf "The installation was completed successfully.\n"
     printf "################################################################################\n\n"
 }
+
+check_ubuntu_os_version()
+{
+    UBUNTU_VERSION_NUMBER=$(lsb_release -sr)
+    if [UBUNTU_VERSION_NUMBER -ne "24.04"]; then
+        printf "###############################################################\n"
+        printf "###############################################################\n"
+        printf "########## This version of Ubuntu is not supported. ###########\n"
+        printf "###############################################################\n"
+        printf "###############################################################\n"
+        exit 1
+    fi
+}

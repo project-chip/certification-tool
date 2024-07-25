@@ -21,6 +21,9 @@ source "$SCRIPT_DIR/utils.sh"
 
 print_start_of_script
 
+check_ubuntu_os_version
+verify_return_code
+
 if [ $# != 1 ] || [ $1 = "--help" ]; then
   echo "Usage:"
   echo "./scripts/ubuntu/auto-update.sh <branch_name>"

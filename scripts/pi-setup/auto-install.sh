@@ -23,6 +23,9 @@ source "$SCRIPT_DIR/utils.sh"
 
 print_start_of_script
 
+check_ubuntu_os_version
+verify_return_code
+
 print_script_step "Installing Raspberry Pi Dependencies"
 $PI_SCRIPT_DIR/install-pi-dependencies.sh
 verify_return_code
