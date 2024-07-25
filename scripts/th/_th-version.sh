@@ -40,6 +40,15 @@ read_version() {
     # Read the file content from the container into a variable
     file_content=$(docker exec "$BACKEND_CONTAINER_NAME" cat "$file_path")
 
+    if [[ "$file_path" == *"config.py"* ]]; then
+        SDK_SHA=$(docker exec $BACKEND_CONTAINER_NAME sh -c "grep SDK_SHA $file_path | cut -d'\"' -f 2 | cut -d\"'\" -f 2")
+        file_content=$SDK_SHA
+    fi
+
+    if [[ -z "$file_content" ]]; then
+        file_content="n/a"
+    fi
+
     # Print the title and file content
     echo "$title: $file_content"
 }
@@ -54,8 +63,6 @@ show_backend_info() {
     fi
 
     # Get info
-    FILE_PATH="test_collections/matter/config.py"
-    SDK_SHA=$(docker exec $BACKEND_CONTAINER_NAME sh -c "grep SDK_SHA $FILE_PATH | cut -d'\"' -f 2 | cut -d\"'\" -f 2")
     inspect_output_backend=$(docker inspect $BACKEND_CONTAINER_NAME)
     dc_version_backend=$(echo "$inspect_output_backend" | grep -oP '"com.docker.compose.version": "\K[^"]+')
     os=$(echo "$inspect_output_backend" | grep -oP '"org.opencontainers.image.ref.name": "\K[^"]+')
@@ -68,7 +75,6 @@ show_backend_info() {
     echo "     Docker Compose Version: $dc_version_backend"
     echo "     Image: $image_backend"
     echo "     OS: $os $os_version"
-    echo "     SDK SHA: $SDK_SHA"
 }
 
 show_frontend_info() {
@@ -137,8 +143,9 @@ show_proxy_info() {
 }
 
 # Show Test Harness version info
-read_version ".version_information" "Version"
-read_version ".sha_information" "SHA"
+read_version ".version_information" "Test Engine Version"
+read_version ".sha_information" "Test Engine SHA"
+read_version "test_collections/matter/config.py" "Test Engine SDK SHA"
 
 # Show Test Harness components version info
 show_backend_info
