@@ -69,7 +69,7 @@ print_installation_success()
 check_ubuntu_os_version()
 {
     UBUNTU_VERSION_NUMBER=$(lsb_release -sr)
-    if [UBUNTU_VERSION_NUMBER -ne "24.04"]; then
+    if [ "$UBUNTU_VERSION_NUMBER" != "24.04" ]; then
         printf "###############################################################\n"
         printf "###############################################################\n"
         printf "########## This version of Ubuntu is not supported. ###########\n"
