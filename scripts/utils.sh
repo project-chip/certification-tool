@@ -65,3 +65,17 @@ print_installation_success()
     printf "The installation was completed successfully.\n"
     printf "################################################################################\n\n"
 }
+
+check_ubuntu_os_version()
+{
+    UBUNTU_VERSION_NUMBER=$(lsb_release -sr)
+    if [ "$UBUNTU_VERSION_NUMBER" != "24.04" ]; then
+        printf "\n\n"
+        printf "###################################################################################\n"
+        printf "######  Matter Certification-Tool requires Ubuntu Server 24.04 LTS (64-bit)  ######\n"
+        printf "###################################################################################\n\n"
+        printf "Please format the SDCard and perform a fresh installation or\n"
+        printf "update you OS and then run the auto-install script again.\n"
+        exit 1
+    fi
+}

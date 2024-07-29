@@ -23,6 +23,9 @@ source "$SCRIPT_DIR/utils.sh"
 
 print_start_of_script
 
+check_ubuntu_os_version
+verify_return_code
+
 print_script_step "Installing Test Harness Dependencies"
 $UBUNTU_SCRIPT_DIR/1-install-dependencies.sh
 verify_return_code
