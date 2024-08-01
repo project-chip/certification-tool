@@ -93,6 +93,7 @@ endif::[]
 | 30          | 30-Apr-2024  | [Apple]Hilton Lima                  | * Update location for update scripts.
 | 31          | 10-Jun-2024  | [Apple]Hilton Lima                  | * Updated Test Harness links.
 | 32          | 17-Jun-2024  | [Google] Tennessee Carmel-Veilleux  | * Added an example of an external operational dataset.
+| 33          | 01-Aug-2024  | [Apple] Carolina Lopes              | * Added information about Certification Mode.
 |===
 
 <<<
@@ -1085,7 +1086,13 @@ image:images/img_25.png[]
 +
 image:images/img_26.png[]
 
-. The test cases are loaded based on the PICS file selection. Provide a Test name for this run such as Door Lock First Run. Input any additional description about the run. Enter the Test Engineers Name under Operator. Select only the test cases that are to be executed and deselect other test cases. There is a search option available to search for a particular test case. The number of times the test is to be executed can be given by clicking on the number spin control. +
+. A Test Run can be created in Regular Mode or Certification Mode. The test cases are automatically selected based on the PICS files provided in the Project Configuration. For a Test Run in Regular Mode, it is possible to change this selection, but in Certification Mode that selection is unchangable -- a test case must be executed if and only if the PICS files indicate that it is applicable.
++
+image:images/img_64.png[]
++
+image:images/img_65.png[]
+
+. Provide a Test name for this run such as Door Lock First Run. Input any additional description about the run. Enter the Test Engineers Name under Operator. Select only the test cases that are to be executed and deselect other test cases. There is a search option available to search for a particular test case. The number of times the test is to be executed can be given by clicking on the number spin control. +
 Ensure that DUT is in the discoverable mode before clicking on the Start button. +
 Example command to be used to launch the sample apps (e.g., all-cluster-app):
 
@@ -1111,6 +1118,10 @@ image:images/img_28.png[]
 . Click on the *Result* button and select the test that was executed and click on *Show Report* to view the reports. The user can also select previously executed tests and view the reports and logs. There is an option provided to re-run the test cases. Refer to <<collect-logs-and-submit-to-teds, Section 10, Collect Logs and Submit to TEDS>> to collect the logs and submit the reports to TEDS.
 +
 image:images/img_29.png[]
+
+. To start a new Test Run in Certification Mode, first select the Certification Mode button and then click on *+ Add Test*.
++
+image:images/img_66.png[]
 
 ==== Utility Menu
 . Click on *Utility Menu* to review the previous test report.
