@@ -770,7 +770,7 @@ If the DUT supports Thread Transport, DUT vendors need to use the OTBR that is s
 Currently the OTBR in the TH works with either the Nordic RCP dongle or SiLabs RCP dongle. Refer to <<instructions-to-flash-the-firmware-nrf52840-rcpdongle, Section 7.1>> to flash the NRF52840 firmware or <<instructions-to-flash-silabs-rcp, Section 7.2>> to flash the SiLabs firmware and get the RCP’s ready. Once the RCP’s are programmed, the user needs to insert the RCP dongle on to the Raspberry Pi running the TH and reboot the Raspberry Pi.
 
 === Instructions to Flash the Firmware NRF52840 RCPDongle
-. Download RCP firmware package from the following link on the user’s system — https://groups.csa-iot.org/wg/matter-csg/document/33943[Thread Firmware Package] 
+. Download RCP firmware package from the following link on the user’s system — https://groups.csa-iot.org/wg/matter-csg/document/34870[Thread RCP Firmware Package]
 . nRF Util is a unified command line utility for Nordic products. For more details, refer to the following link— https://www.nordicsemi.com/Products/Development-tools/nrf-util[https://www.nordicsemi.com/Products/Development-tools/nrf-util]
 . Install the nRF Util dependency in the user’s system using the following command:
 
@@ -796,6 +796,9 @@ Example: +
 . Once the flash is successful, the red LED turns off slowly.
 . Remove the Dongle from the user’s system and connect it to the Raspberry Pi running TH.
 . In case any permission issue occurs during flashing, launch the terminal and retry in sudo mode.
+
+=== Nrfconnect Sample APPs Firmwares to Flash on the NRF52840DK Kit
+The https://groups.csa-iot.org/wg/matter-csg/document/33943[Nrfconnect Sample apps binary Package] is available for download and should be flashed in the development kit NRF52840DK to use it as DUT in the Test-Harness tests.
 
 === Instructions to Flash SiLabs RCP
 
