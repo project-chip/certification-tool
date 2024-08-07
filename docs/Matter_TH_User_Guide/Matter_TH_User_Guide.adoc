@@ -100,7 +100,9 @@ endif::[]
 | 34          | 02-Aug-2024  | [Apple] Antonio Melo Jr.            | * Update the Ubuntu mentions to the current supported version.
 | 35          | 06-Aug-2024  | [Apple] Antonio Melo Jr.            | * Add the TH release version to the front page of the document. +
                                                                      * Add a warning to TH update when using a different Ubuntu version. +
-                                                                     * Update the OTBR start script parameter.
+                                                                     * Update the OTBR start script parameter. +
+                                                                     * Fix the Thread RCP Firmware link. +
+                                                                     * Add Nrfconnect Sample APPs Firmwares section with link.
 |===
 
 <<<
