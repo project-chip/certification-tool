@@ -17,7 +17,7 @@
 
 :ubuntu-version: 24.04
 :ubuntu-description: Ubuntu Server {ubuntu-version} LTS (64-bit)
-:th-version: Fall 2024
+:th-version: v2.11-beta2+fall2024
 = Matter Test-Harness User Manual: {th-version}
 ifdef::env-github[]
 :tip-caption: :bulb:
