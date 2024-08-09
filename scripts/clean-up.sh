@@ -17,30 +17,45 @@
 ROOT_DIR=$(realpath $(dirname "$0")/..)
 SCRIPT_DIR="$ROOT_DIR/scripts"
 
+# Add utility operations to this script
 source "$SCRIPT_DIR/utils.sh"
-
-print_start_of_script
 
 # Exit in case of error
 set -e
 
-rm -rf $HOME/apps
-rm -rf $HOME/.cache/pypoetry
+clean_up_environment() {
+	rm -rf $HOME/apps
+	rm -rf $HOME/.cache/pypoetry
 
-print_script_step "Resetting Database"
-if [ ! $(docker ps -aq -f name=^certification-tool-backend-1$) ]; then
-	docker compose -f $ROOT_DIR/docker-compose.yml up db proxy --detach
-	docker compose -f $ROOT_DIR/docker-compose.yml -f $ROOT_DIR/docker-compose.override-backend-dev.yml up backend --detach --no-build
+	print_script_step "Resetting Database"
+	if [ ! $(docker ps -aq -f name=^certification-tool-backend-1$) ]; then
+		docker compose -f $ROOT_DIR/docker-compose.yml up db proxy --detach
+		docker compose -f $ROOT_DIR/docker-compose.yml -f $ROOT_DIR/docker-compose.override-backend-dev.yml up backend --detach --no-build
+	fi
+	docker exec certification-tool-backend-1 ./prestart.sh
+	docker exec certification-tool-backend-1 poetry install
+	docker exec certification-tool-backend-1 ./scripts/reset_db.py
+
+	print_script_step "Stopping all docker containers"
+	$ROOT_DIR/scripts/stop.sh
+
+	print_script_step "Cleaning All Images"
+	docker network prune -f
+	docker system prune -af --volumes
+}
+
+print_start_of_script
+
+echo
+echo "This operation will erase all the data from the database and prune the docker images and networks"
+read -p "Are you sure you want to clean up the Test-Harness environment? [y/N] " -n 1 -r
+echo
+
+if [[ $REPLY =~ ^[Yy]$ ]]; then
+	clean_up_environment
+else
+	echo
+	echo "Cancelling..."
 fi
-docker exec certification-tool-backend-1 ./prestart.sh
-docker exec certification-tool-backend-1 poetry install
-docker exec certification-tool-backend-1 ./scripts/reset_db.py
-
-print_script_step "Stopping all docker containers"
-$ROOT_DIR/scripts/stop.sh
-
-print_script_step "Cleaning All Images"
-docker network prune -f
-docker system prune -af --volumes
 
 print_end_of_script

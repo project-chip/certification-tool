@@ -103,6 +103,7 @@ endif::[]
                                                                      * Update the OTBR start script parameter. +
                                                                      * Fix the Thread RCP Firmware link. +
                                                                      * Add Nrfconnect Sample APPs Firmwares section with link.
+| 36          | 09-Aug-2024  | [Apple] Antonio Melo Jr.            | * Adding the new cleanup procedure to the troubleshooting of TH Installation section.
 |===
 
 <<<
@@ -218,9 +219,7 @@ If the DUT supports thread transport, an RCP dongle provisioned with a recommend
 
 ==== TH Installation on Raspberry Pi
 
-**************
-**Starting with version v2.10 we have moved from distributing TH as an SD-Card image to publishing the TH Docker containers at Github Container Registry and pulling them at install time. By doing that the release process has been made much faster and less error-prone, while at the same time installation time has gone shorter.**
-**************
+NOTE: **Starting with version v2.10 we have moved from distributing TH as an SD-Card image to publishing the TH Docker containers at Github Container Registry and pulling them at install time. By doing that the release process has been made much faster and less error-prone, while at the same time installation time has gone shorter.**
 
 . Place the blank SD card into the user’s system USB slot. 
 . Open the https://www.raspberrypi.com/software/[Raspberry Pi Imager] or https://www.balena.io/etcher/[Balena Etcher] tool on the Mac/PC and select the '{ubuntu-description}'.
@@ -243,77 +242,6 @@ If the DUT supports thread transport, an RCP dongle provisioned with a recommend
 . Wait about 10 minutes. 
 . Using the _ifconfig_ command, obtain the IP address of the Raspberry Pi. The same IP address will be used to launch the TH user interface on the user's system using the browser.
 . Proceed with test configuration and execution (refer to <<test-configuration, Section 8, Test Configuration>> and <<test-case-execution, Section 9, Test Case Execution>> respectively).
-
-
-=== Troubleshooting
-
-==== Read-Only File System Error
-* During the execution of the above commands if a read-only file system error or an error showing "Is docker daemon running?" occurs, follow the steps below to fix the issue:
-
-|===
-|`$sudo fsck` ( Press 'y' for fixing all the errors )   
-|===
-
-
-* Upon successful completion, try the following commands:
-
-|===
-|`$sudo reboot` +
-ssh back into the TH IP address using: +
-`$ssh ubuntu@<IPADDRESS-OF-THE-RASPI>`
-|===
-
-
-* In case "sudo fsck" fails, use the following commands:
-
-|===
-|`sudo fsck -y -f /dev/mmcblk0p2` +
-`fsck -y /dev/mmcblk0p2`
-|===
-
-
-* In case the "remote: Repository not found" fatal error occurs, try the following steps to fix the issue. Clone the certification-tool with personal access token (Refer to <<generate-personal-access-token, Section 4.2.2, Generate Personal Access Token>> to generate the personal access token) and follow the steps below.
-
-|===
-|cd ~ +
-
-Take the backup of Test Harness binary using below command: +
-`$mv certification-tool certification-tool-backup` +
-`$git clone https://<token>@github.com/project-chip/certification-tool.git`
-
-Follow the instructions given in the section below on how to <<update-existing-th, update an existing Test-Harness>>
-|===
-
-
-==== Generate Personal Access Token
-
-The Personal Access Token may be required during the process of updating an existing TH image. Below are the instructions to obtain the personal access token.
-
-. Connect to the Github account (the one recognized and authorized by Matter).
-. On the upper-right corner of the page, click on the profile photo, then click on *Settings*.
-. On the left sidebar, click on *Developer settings*.
-. On the left sidebar, click on *Personal access tokens* [Personal access tokens (classic)].
-. Click on *Generate new token* .
-. Provide a descriptive name for the token.
-. Enter an expiration date, in days or using the calendar. 
-. Select the scopes or permissions to grant this token.
-. Click on *Generate new token* .
-. The generated token will be printed out on the screen. Make sure to save it as a local copy as it will disappear.
-+
-NOTE: Sample token: pass:[ghp_hUQExoppLKma***************Urg4P]
-
-==== Bringing Up of Docker Containers Manually
-
-During the initial reboot of the Raspberry Pi, if the docker is not initiated automatically, try the following command on the Raspberry Pi terminal to bring up the dockers.
-
-|===
-|Use the command `ssh ubuntu@IP_address` from the PC to log in to Raspberry Pi. Refer above sections on how to obtain the IP address of Raspberry Pi.
-
-Once the SSH connection is successful, start the docker container using the command +
-*$* `./certification-tool/scripts/start.sh`
-
-The above command might take a while to get executed, wait for 5-10 minutes and then proceed with the Test Execution Steps as outlined in the below sections.  
-|===
 
 === TH installation without a Raspberry Pi
 
@@ -506,6 +434,90 @@ image::images/img_60.png[]
 |Hint: You can copy the original SDK Yaml/Python test to Custom Yaml/Python folder and do any changes on it.
 |===
 
+=== Troubleshooting
+
+==== Read-Only File System Error
+* During the execution of TH installation commands if a read-only file system error or an error showing "Is docker daemon running?" occurs, follow the steps below to fix the issue:
+
+|===
+|`$sudo fsck` ( Press 'y' for fixing all the errors )
+|===
+
+
+* Upon successful completion, try the following commands:
+
+|===
+|`$sudo reboot` +
+ssh back into the TH IP address using: +
+`$ssh ubuntu@<IPADDRESS-OF-THE-RASPI>`
+|===
+
+
+* In case "sudo fsck" fails, use the following commands:
+
+|===
+|`sudo fsck -y -f /dev/mmcblk0p2` +
+`fsck -y /dev/mmcblk0p2`
+|===
+
+
+* In case the "remote: Repository not found" fatal error occurs, try the following steps to fix the issue. Clone the certification-tool with personal access token (Refer to <<generate-personal-access-token, Section 4.2.2, Generate Personal Access Token>> to generate the personal access token) and follow the steps below.
+
+|===
+|cd ~ +
+
+Take the backup of Test Harness binary using below command: +
+`$mv certification-tool certification-tool-backup` +
+`$git clone https://<token>@github.com/project-chip/certification-tool.git`
+
+Follow the instructions given in the section below on how to <<update-existing-th, update an existing Test-Harness>>
+|===
+
+==== Generate Personal Access Token
+
+The Personal Access Token may be required during the process of updating an existing TH image. Below are the instructions to obtain the personal access token.
+
+. Connect to the Github account (the one recognized and authorized by Matter).
+. On the upper-right corner of the page, click on the profile photo, then click on *Settings*.
+. On the left sidebar, click on *Developer settings*.
+. On the left sidebar, click on *Personal access tokens* [Personal access tokens (classic)].
+. Click on *Generate new token* .
+. Provide a descriptive name for the token.
+. Enter an expiration date, in days or using the calendar.
+. Select the scopes or permissions to grant this token.
+. Click on *Generate new token* .
+. The generated token will be printed out on the screen. Make sure to save it as a local copy as it will disappear.
++
+NOTE: Sample token: pass:[ghp_hUQExoppLKma***************Urg4P]
+
+==== Bringing Up of Docker Containers Manually
+
+During the initial reboot of the Raspberry Pi, if the docker is not initiated automatically, try the following command on the Raspberry Pi terminal to bring up the dockers.
+
+|===
+|Use the command `ssh ubuntu@IP_address` from the PC to log in to Raspberry Pi. Refer to previous sections on how to obtain the IP address of Raspberry Pi.
+
+Once the SSH connection is successful, start the docker container using the command +
+*$* `./certification-tool/scripts/start.sh`
+
+The above command might take a while to get executed, wait for 5-10 minutes and then proceed with the Test Execution Steps as outlined in the below sections.
+|===
+
+==== Cleaning The Environment Manually
+If the Test-Harness environment is facing issues to install, update or start and no other action is working, you may try the cleanup command followed by a install operation.
+
+WARNING: Please, be advised that this cleanup operation will delete all previous data from the TH database, along with all the docker networks, containers, images used by the application and more.
+
+Follow the bellow procedure to clean and install Test-Harness:
+|===
+|Use the command `ssh ubuntu@IP_address` from the PC to log in to Raspberry Pi. Refer to previous sections on how to obtain the IP address of Raspberry Pi.
+
+Once the SSH connection is successful, clean the environment using the command: +
+*$* `./certification-tool/scripts/clean-up.sh`
+
+Finally, execute a new installation with the following command: +
+*$* `./certification-tool/scripts/pi-setup/auto-install.sh`
+|===
 
 <<<
 == *Bringing Up of Matter Node (DUT) for Certification Testing*
