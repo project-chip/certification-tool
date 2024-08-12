@@ -15,7 +15,10 @@
  * limitations under the License.
 ////
 
-= *Matter Test-Harness User Manual*
+:ubuntu-version: 24.04
+:ubuntu-description: Ubuntu Server {ubuntu-version} LTS (64-bit)
+:th-version: v2.11+fall2024
+= Matter Test-Harness User Manual: {th-version}
 ifdef::env-github[]
 :tip-caption: :bulb:
 :note-caption: :information_source:
@@ -94,7 +97,13 @@ endif::[]
 | 31          | 10-Jun-2024  | [Apple]Hilton Lima                  | * Updated Test Harness links.
 | 32          | 17-Jun-2024  | [Google] Tennessee Carmel-Veilleux  | * Added an example of an external operational dataset.
 | 33          | 01-Aug-2024  | [Apple] Carolina Lopes              | * Added information about Certification Mode.
-| 34          | 02-Aug-2024  | [Apple] Antonio Melo Jr.            | * Update the Ubuntu mentions to the current supported version
+| 34          | 02-Aug-2024  | [Apple] Antonio Melo Jr.            | * Update the Ubuntu mentions to the current supported version.
+| 35          | 06-Aug-2024  | [Apple] Antonio Melo Jr.            | * Add the TH release version to the front page of the document. +
+                                                                     * Add a warning to TH update when using a different Ubuntu version. +
+                                                                     * Update the OTBR start script parameter. +
+                                                                     * Fix the Thread RCP Firmware link. +
+                                                                     * Add Nrfconnect Sample APPs Firmwares section with link.
+| 36          | 09-Aug-2024  | [Apple] Antonio Melo Jr.            | * Adding the new cleanup procedure to the troubleshooting of TH Installation section.
 |===
 
 <<<
@@ -183,7 +192,9 @@ Refer to <<bringing-up-of-matter-node-dut-for-certification-testing, Section 5, 
 
 For hobby developers who want to get acquainted with certification tools/process/TC’s, can spin DUT’s using the example apps provided in the SDK. Refer to the instructions to set up one https://groups.csa-iot.org/wg/members-all/document/folder/3661[here].
 
-TH runs on Ubuntu Server 24.04 LTS (64-bit). The official installation method uses a Raspberry Pi (<<fresh_install>>), but there's an alternative method used in the tool's development that uses a virtual machine instead (<<th-installation-without-a-raspberry-pi>>). Keep in mind that thread networking is not officially supported in VM installations at the moment.
+The TH runs on the official *{ubuntu-description}* version. If the TH device happens to be using a different Ubuntu release or other OS, we strongly recommend fresh installing version {ubuntu-description} for reliable results.
+
+The official installation method uses a Raspberry Pi (<<fresh_install>>), but there's an alternative method used in the tool's development that uses a virtual machine instead (<<th-installation-without-a-raspberry-pi>>). Keep in mind that thread networking is not officially supported in VM installations at the moment.
 
 [#fresh_install]
 === TH Installation on Raspberry Pi
@@ -208,12 +219,10 @@ If the DUT supports thread transport, an RCP dongle provisioned with a recommend
 
 ==== TH Installation on Raspberry Pi
 
-**************
-**Starting with version v2.10 we have moved from distributing TH as an SD-Card image to publishing the TH Docker containers at Github Container Registry and pulling them at install time. By doing that the release process has been made much faster and less error-prone, while at the same time installation time has gone shorter.**
-**************
+NOTE: **Starting with version v2.10 we have moved from distributing TH as an SD-Card image to publishing the TH Docker containers at Github Container Registry and pulling them at install time. By doing that the release process has been made much faster and less error-prone, while at the same time installation time has gone shorter.**
 
 . Place the blank SD card into the user’s system USB slot. 
-. Open the https://www.raspberrypi.com/software/[Raspberry Pi Imager] or https://www.balena.io/etcher/[Balena Etcher] tool on the Mac/PC and select the 'Ubuntu Server 24.04 LTS (64-bit)'.
+. Open the https://www.raspberrypi.com/software/[Raspberry Pi Imager] or https://www.balena.io/etcher/[Balena Etcher] tool on the Mac/PC and select the '{ubuntu-description}'.
 * Edit the SO custom settings to: 
 ** username: ubuntu
 ** password: raspberrypi
@@ -234,82 +243,11 @@ If the DUT supports thread transport, an RCP dongle provisioned with a recommend
 . Using the _ifconfig_ command, obtain the IP address of the Raspberry Pi. The same IP address will be used to launch the TH user interface on the user's system using the browser.
 . Proceed with test configuration and execution (refer to <<test-configuration, Section 8, Test Configuration>> and <<test-case-execution, Section 9, Test Case Execution>> respectively).
 
-
-=== Troubleshooting
-
-==== Read-Only File System Error
-* During the execution of the above commands if a read-only file system error or an error showing "Is docker daemon running?" occurs, follow the steps below to fix the issue:
-
-|===
-|`$sudo fsck` ( Press 'y' for fixing all the errors )   
-|===
-
-
-* Upon successful completion, try the following commands:
-
-|===
-|`$sudo reboot` +
-ssh back into the TH IP address using: +
-`$ssh ubuntu@<IPADDRESS-OF-THE-RASPI>`
-|===
-
-
-* In case "sudo fsck" fails, use the following commands:
-
-|===
-|`sudo fsck -y -f /dev/mmcblk0p2` +
-`fsck -y /dev/mmcblk0p2`
-|===
-
-
-* In case the "remote: Repository not found" fatal error occurs, try the following steps to fix the issue. Clone the certification-tool with personal access token (Refer to <<generate-personal-access-token, Section 4.2.2, Generate Personal Access Token>> to generate the personal access token) and follow the steps below.
-
-|===
-|cd ~ +
-
-Take the backup of Test Harness binary using below command: +
-`$mv certification-tool certification-tool-backup` +
-`$git clone https://<token>@github.com/project-chip/certification-tool.git`
-
-Follow the instructions given in the section below on how to <<update-existing-th, update an existing Test-Harness>>
-|===
-
-
-==== Generate Personal Access Token
-
-The Personal Access Token may be required during the process of updating an existing TH image. Below are the instructions to obtain the personal access token.
-
-. Connect to the Github account (the one recognized and authorized by Matter).
-. On the upper-right corner of the page, click on the profile photo, then click on *Settings*.
-. On the left sidebar, click on *Developer settings*.
-. On the left sidebar, click on *Personal access tokens* [Personal access tokens (classic)].
-. Click on *Generate new token* .
-. Provide a descriptive name for the token.
-. Enter an expiration date, in days or using the calendar. 
-. Select the scopes or permissions to grant this token.
-. Click on *Generate new token* .
-. The generated token will be printed out on the screen. Make sure to save it as a local copy as it will disappear.
-+
-NOTE: Sample token: pass:[ghp_hUQExoppLKma***************Urg4P]
-
-==== Bringing Up of Docker Containers Manually
-
-During the initial reboot of the Raspberry Pi, if the docker is not initiated automatically, try the following command on the Raspberry Pi terminal to bring up the dockers.
-
-|===
-|Use the command `ssh ubuntu@IP_address` from the PC to log in to Raspberry Pi. Refer above sections on how to obtain the IP address of Raspberry Pi.
-
-Once the SSH connection is successful, start the docker container using the command +
-*$* `./certification-tool/scripts/start.sh`
-
-The above command might take a while to get executed, wait for 5-10 minutes and then proceed with the Test Execution Steps as outlined in the below sections.  
-|===
-
 === TH installation without a Raspberry Pi
 
 The official installation method uses a Raspberry Pi (<<th-installation-on-raspberry-pi, TH Installation on Raspberry Pi>>). **This alternative installation method is targeted for development purpose and it only supports onnetwork pairing mode.**
 
-NOTE: To install TH without using a Raspberry Pi you'll need a machine with Ubuntu Server 24.04 LTS (64-bit). You can <<create-an-ubuntu-virtual-machine, create a virtual machine>> for this purpose, but *be aware that if the host's architecture is not arm64* you'll need to substitute `backend`, `frontend` and <<substitute-the-sdks-docker-image-and-update-sample-apps, the SDK's docker image>> in order for it to work properly.
+NOTE: To install TH without using a Raspberry Pi you'll need a machine with {ubuntu-description}. You can <<create-an-ubuntu-virtual-machine, create a virtual machine>> for this purpose, but *be aware that if the host's architecture is not arm64* you'll need to substitute `backend`, `frontend` and <<substitute-the-sdks-docker-image-and-update-sample-apps, the SDK's docker image>> in order for it to work properly.
 
 NOTE: Images for linux/amd64 will not always be available in the github registry. So, if necessary, the images need to be built locally using the following script: +
 `./certification-tool/scripts/build.sh`
@@ -327,10 +265,10 @@ Here's an example of how to create a virtual machine for TH using multipass (htt
 |`brew install multipass`
 |===
 
-* Create new VM with Ubuntu Server 24.04 LTS (64-bit) (2 cpu cores, 8G mem and a 50G disk)
+* Create new VM with {ubuntu-description} (2 cpu cores, 8G mem and a 50G disk)
 
 |===
-|`multipass launch 24.04 -n matter-vm -c 2 -m 8G -d 50G`
+|`multipass launch {ubuntu-version} -n matter-vm -c 2 -m 8G -d 50G`
 |===
 
 * SSH into VM
@@ -418,13 +356,14 @@ Then run this script in the certification-tool repository +
 
 
 === Update Existing TH
+WARNING: If the Operating System is not the *{ubuntu-description}*, please flash and use a SD card with that Ubuntu release to use this version of Test Harness. Beware that the auto update process below will fail in the case of a different release version.
 
 To update an existing TH environment, follow the instructions below on the terminal.
 
 |===
 |`cd ~/certification-tool` +
 `./scripts/ubuntu/auto-update.sh <Target_Branch/Tag>` +
-`./scripts/start.sh` +
+`./scripts/start.sh`
 
 Wait for 10 mins and open the TH application using the browser
 |===
@@ -495,6 +434,90 @@ image::images/img_60.png[]
 |Hint: You can copy the original SDK Yaml/Python test to Custom Yaml/Python folder and do any changes on it.
 |===
 
+=== Troubleshooting
+
+==== Read-Only File System Error
+* During the execution of TH installation commands if a read-only file system error or an error showing "Is docker daemon running?" occurs, follow the steps below to fix the issue:
+
+|===
+|`$sudo fsck` ( Press 'y' for fixing all the errors )
+|===
+
+
+* Upon successful completion, try the following commands:
+
+|===
+|`$sudo reboot` +
+ssh back into the TH IP address using: +
+`$ssh ubuntu@<IPADDRESS-OF-THE-RASPI>`
+|===
+
+
+* In case "sudo fsck" fails, use the following commands:
+
+|===
+|`sudo fsck -y -f /dev/mmcblk0p2` +
+`fsck -y /dev/mmcblk0p2`
+|===
+
+
+* In case the "remote: Repository not found" fatal error occurs, try the following steps to fix the issue. Clone the certification-tool with personal access token (Refer to <<generate-personal-access-token, Section 4.2.2, Generate Personal Access Token>> to generate the personal access token) and follow the steps below.
+
+|===
+|cd ~ +
+
+Take the backup of Test Harness binary using below command: +
+`$mv certification-tool certification-tool-backup` +
+`$git clone https://<token>@github.com/project-chip/certification-tool.git`
+
+Follow the instructions given in the section below on how to <<update-existing-th, update an existing Test-Harness>>
+|===
+
+==== Generate Personal Access Token
+
+The Personal Access Token may be required during the process of updating an existing TH image. Below are the instructions to obtain the personal access token.
+
+. Connect to the Github account (the one recognized and authorized by Matter).
+. On the upper-right corner of the page, click on the profile photo, then click on *Settings*.
+. On the left sidebar, click on *Developer settings*.
+. On the left sidebar, click on *Personal access tokens* [Personal access tokens (classic)].
+. Click on *Generate new token* .
+. Provide a descriptive name for the token.
+. Enter an expiration date, in days or using the calendar.
+. Select the scopes or permissions to grant this token.
+. Click on *Generate new token* .
+. The generated token will be printed out on the screen. Make sure to save it as a local copy as it will disappear.
++
+NOTE: Sample token: pass:[ghp_hUQExoppLKma***************Urg4P]
+
+==== Bringing Up of Docker Containers Manually
+
+During the initial reboot of the Raspberry Pi, if the docker is not initiated automatically, try the following command on the Raspberry Pi terminal to bring up the dockers.
+
+|===
+|Use the command `ssh ubuntu@IP_address` from the PC to log in to Raspberry Pi. Refer to previous sections on how to obtain the IP address of Raspberry Pi.
+
+Once the SSH connection is successful, start the docker container using the command +
+*$* `./certification-tool/scripts/start.sh`
+
+The above command might take a while to get executed, wait for 5-10 minutes and then proceed with the Test Execution Steps as outlined in the below sections.
+|===
+
+==== Cleaning The Environment Manually
+If the Test-Harness environment is facing issues to install, update or start and no other action is working, you may try the cleanup command followed by a install operation.
+
+WARNING: Please, be advised that this cleanup operation will delete all previous data from the TH database, along with all the docker networks, containers, images used by the application and more.
+
+Follow the bellow procedure to clean and install Test-Harness:
+|===
+|Use the command `ssh ubuntu@IP_address` from the PC to log in to Raspberry Pi. Refer to previous sections on how to obtain the IP address of Raspberry Pi.
+
+Once the SSH connection is successful, clean the environment using the command: +
+*$* `./certification-tool/scripts/clean-up.sh`
+
+Finally, execute a new installation with the following command: +
+*$* `./certification-tool/scripts/pi-setup/auto-install.sh`
+|===
 
 <<<
 == *Bringing Up of Matter Node (DUT) for Certification Testing*
@@ -761,7 +784,7 @@ If the DUT supports Thread Transport, DUT vendors need to use the OTBR that is s
 Currently the OTBR in the TH works with either the Nordic RCP dongle or SiLabs RCP dongle. Refer to <<instructions-to-flash-the-firmware-nrf52840-rcpdongle, Section 7.1>> to flash the NRF52840 firmware or <<instructions-to-flash-silabs-rcp, Section 7.2>> to flash the SiLabs firmware and get the RCP’s ready. Once the RCP’s are programmed, the user needs to insert the RCP dongle on to the Raspberry Pi running the TH and reboot the Raspberry Pi.
 
 === Instructions to Flash the Firmware NRF52840 RCPDongle
-. Download RCP firmware package from the following link on the user’s system — https://groups.csa-iot.org/wg/matter-csg/document/33943[Thread Firmware Package] 
+. Download RCP firmware package from the following link on the user’s system — https://groups.csa-iot.org/wg/matter-csg/document/34870[Thread RCP Firmware Package]
 . nRF Util is a unified command line utility for Nordic products. For more details, refer to the following link— https://www.nordicsemi.com/Products/Development-tools/nrf-util[https://www.nordicsemi.com/Products/Development-tools/nrf-util]
 . Install the nRF Util dependency in the user’s system using the following command:
 
@@ -787,6 +810,9 @@ Example: +
 . Once the flash is successful, the red LED turns off slowly.
 . Remove the Dongle from the user’s system and connect it to the Raspberry Pi running TH.
 . In case any permission issue occurs during flashing, launch the terminal and retry in sudo mode.
+
+=== Nrfconnect Sample APPs Firmwares to Flash on the NRF52840DK Kit
+The https://groups.csa-iot.org/wg/matter-csg/document/33943[Nrfconnect Sample apps binary Package] is available for download and should be flashed in the development kit NRF52840DK to use it as DUT in the Test-Harness tests.
 
 === Instructions to Flash SiLabs RCP
 
@@ -882,7 +908,7 @@ If any issue occurs while using *otbr_start.sh*, follow the steps below to gener
 .. Run the docker:
 +
 |===
-|`sudo docker run -it --rm --privileged --network otbr -p 8080:80 --sysctl "net.ipv6.conf.all.disable_ipv6=0 net.ipv6.conf.all.forwarding=1" --name otbr -e NAT64=0 --volume /dev/ttyACM0:/dev/ttyACM0 connectedhomeip/otbr:sve2 --radio-url spinel+hdlc+uart:///dev/ttyACM0`
+|`sudo docker run -it --rm --privileged --network otbr -p 8080:80 --sysctl "net.ipv6.conf.all.disable_ipv6=0 net.ipv6.conf.all.forwarding=1" --name otbr -e NAT64=0 --volume /dev/ttyACM0:/dev/ttyACM0 nrfconnect/otbr:9185bda --radio-url spinel+hdlc+uart:///dev/ttyACM0`
 |===
 
 . Generate the Thread form for dataset by entering ‘<Raspberry-Pi IP>:8080’ on the user’s system browser. The OTBR form will be generated as shown below. 
