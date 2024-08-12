@@ -76,6 +76,38 @@ check_ubuntu_os_version()
         printf "###################################################################################\n\n"
         printf "Please format the SDCard and perform a fresh installation or\n"
         printf "update you OS and then run the auto-install script again.\n"
-        exit 1
+        return 1
+    fi
+
+    return 0
+}
+
+check_user_name()
+{
+    USER_NAME=$(whoami)
+    printf "$USER_NAME"
+    if [ "$USER_NAME" != "ubuntu" ]; then
+        printf "\n\n"
+        printf "###################################################################################\n"
+        printf "######  The Matter certification tool requires the username to be 'ubuntu'  #######\n"
+        printf "###################################################################################\n\n"
+        printf "After creating the 'ubuntu' user, log in and run the auto-install script again.\n"
+        return 1
     fi
 }
+
+check_installation_prerequisites()
+{
+    print_script_step "Verify Matter Test Harness Prerequisites"
+
+    check_ubuntu_os_version
+    INVALID_VERSION=$?
+    INVALID_USER=$(check_user_name)
+    if [ $INVALID_VERSION == 1 ] || [ $INVALID_USER == 1 ]; then
+        printf "FALHOU"
+        exit 1
+    fi
+    exit 2
+}
+
+check_installation_prerequisites              
