@@ -549,7 +549,7 @@ image:images/img_3.png[]
 To build the example apps from the latest SDK source, follow the instructions below: 
 
 * User to acquire Raspberry Pi Version (4 or 5) with SD card of minimum 64 GB memory.
-* Flash the latest Ubuntu LTS image and install all the required dependencies as outlined in https://github.com/project-chip/connectedhomeip/blob/master/docs/guides/BUILDING.md[https://github.com/project-chip/connectedhomeip/blob/master/docs/guides/BUILDING.md].
+* Do a fresh install of the {ubuntu-description} image and install all the required dependencies as outlined in https://github.com/project-chip/connectedhomeip/blob/master/docs/guides/BUILDING.md[https://github.com/project-chip/connectedhomeip/blob/master/docs/guides/BUILDING.md].
 * Clone the connected home SDK repo using the following commands:
 
 
