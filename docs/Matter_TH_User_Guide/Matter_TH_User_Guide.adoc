@@ -104,7 +104,7 @@ endif::[]
                                                                      * Fix the Thread RCP Firmware link. +
                                                                      * Add Nrfconnect Sample APPs Firmwares section with link.
 | 36          | 09-Aug-2024  | [Apple] Antonio Melo Jr.            | * Adding the new cleanup procedure to the troubleshooting of TH Installation section.
-| 37          | 13-ug-2024   | [Apple] Hilton Lima                 | * Remove old references for TH image (obsolete).
+| 37          | 13-Aug-2024   | [Apple] Hilton Lima                 | * Remove old references of TH image (obsolete).
                                                                      * Add a warning to ensure the username needs to be 'ubuntu'.
 |===
 
