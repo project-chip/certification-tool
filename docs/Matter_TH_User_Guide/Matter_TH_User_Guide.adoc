@@ -230,7 +230,7 @@ NOTE: **Starting with version v2.10 we have moved from distributing TH as an SD-
 ** password: raspberrypi
 ** hostname: ubuntu
 
-WARNING: **The username must be ubuntu. Changing the name may cause problems running TH.**
+WARNING: **The username must be 'ubuntu'. Changing the name may cause problems running TH.**
 
 * Make sure you have enabled the SSH service.
 . After the SD card has been flashed, remove the SD card and place it in the Raspberry Pi’s memory card slot.
