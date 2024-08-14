@@ -105,6 +105,7 @@ endif::[]
                                                                      * Add Nrfconnect Sample APPs Firmwares section with link.
 | 36          | 09-Aug-2024  | [Apple] Antonio Melo Jr.            | * Adding the new cleanup procedure to the troubleshooting of TH Installation section.
 | 37          | 13-ug-2024   | [Apple] Hilton Lima                 | * Remove old references for TH image (obsolete).
+                                                                     * Add a warning to ensure the username needs to be 'ubuntu'.
 |===
 
 <<<
@@ -228,6 +229,9 @@ NOTE: **Starting with version v2.10 we have moved from distributing TH as an SD-
 ** username: ubuntu
 ** password: raspberrypi
 ** hostname: ubuntu
+
+WARNING: **The username must be ubuntu. Changing the name may cause problems running TH.**
+
 * Make sure you have enabled the SSH service.
 . After the SD card has been flashed, remove the SD card and place it in the Raspberry Pi’s memory card slot.
 . Power on the Raspberry Pi and ensure that the local area network, display monitor and keyboard are connected.
