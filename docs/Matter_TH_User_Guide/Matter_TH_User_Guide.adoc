@@ -69,7 +69,7 @@ endif::[]
 | 6           | 01-Mar-2023  | [GRL]Suraj Seenivasan               | * Instructions to flash nRF52840 Dongle and nRF52840 DK.
 | 7           | 16-Mar-2023  | [Apple]Fábio Wladimir Monteiro Maia | * Added TH layout explanation.
 | 8           | 12-Jun-2023  | [Apple]Carolina Lopes               | * Added instructions to install TH without a Raspberry Pi.
-| 9           | 06-Sep-2023  | [Apple]Antonio Melo Jr              | * Moved the table of contents to a further page. +
+| 9           | 06-Sep-2023  | [Apple]Antonio Melo Jr.             | * Moved the table of contents to a further page. +
                                                                      * Added TH links for images and support documentations.
 | 10          | 25-Oct-2023  | [Apple]Hilton Lima                  | * Added SDK commit column to Test-Harness Links table.
 | 11          | 26-Oct-2023  | [Apple]Carolina Lopes               | * Updated some links and images.
@@ -104,6 +104,7 @@ endif::[]
                                                                      * Fix the Thread RCP Firmware link. +
                                                                      * Add Nrfconnect Sample APPs Firmwares section with link.
 | 36          | 09-Aug-2024  | [Apple] Antonio Melo Jr.            | * Adding the new cleanup procedure to the troubleshooting of TH Installation section.
+| 37          | 13-ug-2024   | [Apple] Hilton Lima                 | * Remove old references for TH image (obsolete).
 |===
 
 <<<
@@ -205,7 +206,7 @@ There are two ways to obtain the latest TH on Raspberry Pi. Follow the instructi
 
 The following equipment will be required to have a complete TH setup:
 
-* *Raspberry Pi Version 4 with SD card of minimum 64 GB Memory*
+* *Raspberry Pi Version (4 or 5) with SD card of minimum 64 GB Memory*
 
 The TH will be installed on Raspberry PI. The TH contains couple of docker container(s) with all the required dependencies for certification tests execution.
 
@@ -475,7 +476,7 @@ Follow the instructions given in the section below on how to <<update-existing-t
 
 ==== Generate Personal Access Token
 
-The Personal Access Token may be required during the process of updating an existing TH image. Below are the instructions to obtain the personal access token.
+The Personal Access Token may be required during the process of updating an existing TH. Below are the instructions to obtain the personal access token.
 
 . Connect to the Github account (the one recognized and authorized by Matter).
 . On the upper-right corner of the page, click on the profile photo, then click on *Settings*.
@@ -532,19 +533,19 @@ A hobby developer can build Matter reference apps either using a Raspberry Pi or
 
 In the case where a device maker/hobby developer needs to bring up a sample/reference DUT, i.e. light bulb, door lock, etc. using the example apps provided in SDK and verify provisioning of the DUT over the Bluetooth LE, Wi-Fi and Ethernet interfaces, follow the below steps to set up the DUT.
 
-Users can either use the example apps (i.e. light bulb, door lock, etc.) that are shipped with the TH image OR build the apps from the latest SDK source. 
+Users can either use the example apps (i.e. light bulb, door lock, etc.) that are shipped with the TH OR build the apps from the latest SDK source. 
 
-To use the apps that are shipped with the TH image, follow the instructions below:
+To use the apps that are shipped with the TH, follow the instructions below:
 
-* Flash the TH image on the Raspberry Pi. 
+* Do a fresh install of TH (<<fresh_install, Installation on Raspberry Pi>>).
 * Go to the apps folder in /home/ubuntu/apps (as shown below) and launch the app that the user is interested in.
 
 image:images/img_3.png[]
 
 To build the example apps from the latest SDK source, follow the instructions below: 
 
-* User to acquire Raspberry Pi Version 4 with SD card of minimum 64 Gb memory.
-* Flash the TH image on to the SDK card that will be inserted into the Raspberry Pi as the TH image comes with the default Ubuntu OS image OR the user can download the latest Ubuntu LTS image and install all the required dependencies as outlined in https://github.com/project-chip/connectedhomeip/blob/master/docs/guides/BUILDING.md[https://github.com/project-chip/connectedhomeip/blob/master/docs/guides/BUILDING.md].
+* User to acquire Raspberry Pi Version (4 or 5) with SD card of minimum 64 GB memory.
+* Flash the latest Ubuntu LTS image and install all the required dependencies as outlined in https://github.com/project-chip/connectedhomeip/blob/master/docs/guides/BUILDING.md[https://github.com/project-chip/connectedhomeip/blob/master/docs/guides/BUILDING.md].
 * Clone the connected home SDK repo using the following commands:
 
 
@@ -602,7 +603,7 @@ NOTE: _The DUT nRF52840-DK board mentioned in this manual is used for illustrati
 
 To set up the Thread Board, follow the instructions below.
 
-NOTE: _The nRF52840-DK setup can be performed in two methods either by flashing the pre-built binary hex of sample apps which is released along with the TH image by using the nRF Connect Desktop application tool (refer Section 5.2.2.1) or by building the docker environment to build the sample apps (refer Section 5.2.2.2)._
+NOTE: _The nRF52840-DK setup can be performed in two methods either by flashing the pre-built binary hex of sample apps which is released along with the TH by using the nRF Connect Desktop application tool (refer Section 5.2.2.1) or by building the docker environment to build the sample apps (refer Section 5.2.2.2)._
 
 ===== *Instructions to Set Up nRF52840-DK Using nRF Connect Desktop Application Tool*
 .. Requirements:
@@ -611,7 +612,7 @@ NOTE: _The nRF52840-DK setup can be performed in two methods either by flashing 
 +
 NOTE: _The J-Link driver needs to be separately installed on macOS and Linux. Download and install it from https://www.segger.com/downloads/jlink[SEGGER] under the section J-Link Software and Documentation Pack._
 
-. Download thread binary files which are released along with the TH image. 
+. Download thread binary files which are released along with the TH. 
 
 .. From the User Interface:
 . Connect nRF52840-DK to the USB port of the user’s operating system.
@@ -633,7 +634,7 @@ image:images/img_8.png[]
 . Check the log for successful flash. +
 image:images/img_9.png[]
 
-. Connect the nRF52840-Dongle to the USB port of the Raspberry Pi having the latest TH image. 
+. Connect the nRF52840-Dongle to the USB port of the Raspberry Pi having the latest TH. 
 . For the Thread DUT, enable discoverable over Bluetooth LE (e.g., on nRF52840 DK: select Button 4) and start the Thread Setup Test execution by referring to <<test-configuration, Section 8, Test Configuration>> .
       
 ===== *Instructions to Set Up nRF52840-DK Using Docker Environment*
@@ -748,7 +749,7 @@ Perform the following procedure, regardless of the method used for setting up th
 |===
 
 
-. Connect the nRF52840-Dongle to the USB port of the Raspberry Pi having the latest TH image. 
+. Connect the nRF52840-Dongle to the USB port of the Raspberry Pi having the latest TH. 
 . For the Thread DUT, enable discoverable over Bluetooth LE (e.g., On nRF52840 DK: Press Button 4) and start the Thread Setup Test execution by referring to <<test-configuration, Section 8, Test Configuration>>.
 
 
@@ -779,7 +780,7 @@ Remember to set `PATH_TO_PAA_ROOTS` and substitute `<SDK SHA RECOMMENDED>`
 <<<
 == *OT Border Router (OTBR) Setup*
 
-If the DUT supports Thread Transport, DUT vendors need to use the OTBR that is shipped with the TH image for certification testing. Here are the instructions to set up OTBR that comes with the TH. Users need to get the RCP programmed with the recommended version and connect it to the Raspberry Pi running the TH. The OTBR will be started when the TH runs the thread transport related TC’s.
+If the DUT supports Thread Transport, DUT vendors need to use the OTBR that is shipped with the TH for certification testing. Here are the instructions to set up OTBR that comes with the TH. Users need to get the RCP programmed with the recommended version and connect it to the Raspberry Pi running the TH. The OTBR will be started when the TH runs the thread transport related TC’s.
 
 Currently the OTBR in the TH works with either the Nordic RCP dongle or SiLabs RCP dongle. Refer to <<instructions-to-flash-the-firmware-nrf52840-rcpdongle, Section 7.1>> to flash the NRF52840 firmware or <<instructions-to-flash-silabs-rcp, Section 7.2>> to flash the SiLabs firmware and get the RCP’s ready. Once the RCP’s are programmed, the user needs to insert the RCP dongle on to the Raspberry Pi running the TH and reboot the Raspberry Pi.
 
@@ -1068,7 +1069,7 @@ image:images/img_18.png[]
 image:images/img_19.png[]
 
 ===== Thread Device Mode
-.. The TH loads the default thread configuration values that match the OTBR built on the TH image. The following configuration can be customized as per the user’s need.
+.. The TH loads the default thread configuration values that match the OTBR built on the TH. The following configuration can be customized as per the user’s need.
 +
 image:images/img_20.png[]
 
@@ -1080,7 +1081,7 @@ image:images/img_example_manual_thread_data_set.png[]
 +
 image:images/img_57.png[]
 +
-NOTE: _The OTBR docker is contained in the TH image and runs automatically upon the start of the TH tool._
+NOTE: _The OTBR docker is contained in the TH and runs automatically upon the start of the TH tool._
 
 ===== PAA Certificates
 For the case that the DUT requires a PAA certificate to perform a pairing operation, input "true" for the flag "chip_tool_use_paa_certs" to configure the Test-Harness to use them.
@@ -1283,7 +1284,7 @@ image:images/img_41.png[]
 
 ==== Run Tests Inside SDK Docker Container
 
-Some automated Python scripts are available inside the docker of the TH image.
+Some automated Python scripts are available inside the docker of the TH.
 
 E.g.: TC_ACE_1_3.py, TC_ACE_1_4.py , TC_CGEN_2_4.py , TC_DA_1_7.py , TC_RR_1_1.py  TC_SC_3_6.py
 
