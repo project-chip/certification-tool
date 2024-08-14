@@ -226,8 +226,10 @@ NOTE: **Starting with version v2.10 we have moved from distributing TH as an SD-
 . Place the blank SD card into the user’s system USB slot. 
 . Open the https://www.raspberrypi.com/software/[Raspberry Pi Imager] or https://www.balena.io/etcher/[Balena Etcher] tool on the Mac/PC and select the '{ubuntu-description}'.
 * Edit the SO custom settings to: 
-** username: ubuntu +
+** username: ubuntu
++
 WARNING: **The username must be 'ubuntu'. Changing the name may cause problems running TH.**
+
 ** password: raspberrypi
 ** hostname: ubuntu
 * Make sure you have enabled the SSH service.
