@@ -23,7 +23,7 @@ source "$SCRIPT_DIR/utils.sh"
 
 print_start_of_script
 
-check_ubuntu_os_version
+check_installation_prerequisites
 verify_return_code
 
 print_script_step "Installing Test Harness Dependencies"
