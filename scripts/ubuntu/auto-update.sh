@@ -17,6 +17,13 @@
 ROOT_DIR=$(realpath $(dirname "$0")/../..)
 SCRIPT_DIR="$ROOT_DIR/scripts"
 
+source "$SCRIPT_DIR/utils.sh"
+
+print_start_of_script
+
+check_ubuntu_os_version
+verify_return_code
+
 if [ $# != 1 ] || [ $1 = "--help" ]; then
   echo "Usage:"
   echo "./scripts/ubuntu/auto-update.sh <branch_name>"
@@ -24,24 +31,17 @@ if [ $# != 1 ] || [ $1 = "--help" ]; then
   exit 1
 fi
 
-printf "\n\n************************************************************"
-printf "\n*** Stoping Containers ***\n"
+print_script_step "Stopping Containers"
 $SCRIPT_DIR/stop.sh
 
 BRANCH_NAME=$1
 
-printf "\n\n************************************************************"
-printf "\n*** Update Test Harness code ***\n"
+print_script_step "Update Test Harness code"
 $SCRIPT_DIR/update-th-code.sh "$BRANCH_NAME"
-if [ $? -ne 0 ]; then
-    echo "### Exit with Error ###"
-    exit 1
-fi
+verify_return_code
 
+print_script_step "Update Test Harness Setup"
 $SCRIPT_DIR/update.sh "$BRANCH_NAME"
-if [ $? -ne 0 ]; then
-    echo "### Exit with Error ###"
-    exit 1
-fi
+verify_return_code
 
-echo "Script 'auto-update.sh' completed successfully"
+print_end_of_script
