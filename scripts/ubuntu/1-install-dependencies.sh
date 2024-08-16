@@ -34,12 +34,7 @@ sudo sed -i "s/#\$nrconf{restart} = 'i';/\$nrconf{restart} = 'a';/" /etc/needres
 sudo DEBIAN_FRONTEND=noninteractive apt-get update -y
 sudo DEBIAN_FRONTEND=noninteractive apt-get upgrade -y
 
-# TODO Comment on what dependency is required for:
-packagelist=(
-    "docker-ce (>=5:24.0.7-1~ubuntu.22.04~jammy)"  # Test Harness uses Docker
-    "python3-pip (>=24.0+dfsg-1ubuntu1)"           # Test Harness CLI uses Python
-    "python3-venv (>=3.12.3-0ubuntu1)"             # Test Harness CLI uses Python
-)
+readarray packagelist < "$UBUNTU_SCRIPT_DIR/package-dependency-list.txt"
 
 SAVEIFS=$IFS
 IFS=$(echo -en "\r")

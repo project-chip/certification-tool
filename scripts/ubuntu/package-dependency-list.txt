@@ -1,0 +1,3 @@
+docker-ce (>=5:24.0.7-1~ubuntu.22.04~jammy)
+python3-pip (>=24.0+dfsg-1ubuntu1)
+python3-venv (>=3.12.3-0ubuntu1)
