@@ -1157,6 +1157,8 @@ image:images/img_15.png[]
          "otbr_docker_image": null
       }
 ----
++
+NOTE: _The OTBR docker is contained in the TH and runs automatically upon the start of the TH tool._
 
 .. If using an already configured Thread network with a Thread Border router present on the same network as the TH, it is possible to provide an explicit operational data configuration so that it is used instead of locally configuring a new Thread PAN/
 +
@@ -1166,6 +1168,8 @@ image:images/img_15.png[]
          "operational_dataset_hex": "0e08000000000001000035060004001fffe00708fd5270f26ee4c02c041064dc641d7195508d7cd17ce22db711420c0402a0f7f8000300000f0102123402081111111122222222030444454d4f051000112233445566778899aabbccddeeff"
       }
 ----
++
+NOTE: _OTBR needs to be configured and running. TH will not start any OTBR dockers._
 
 .. Input the DUT configuration details like discriminator: "3840", setup_code:"20202021", and *pairing_mode as "ble-thread"*.
 +
@@ -1180,9 +1184,6 @@ image:images/img_15.png[]
       "trace_log": true
    }
 ----
-
-+
-NOTE: _The OTBR docker is contained in the TH and runs automatically upon the start of the TH tool._
 
 ===== PAA Certificates
 For the case that the DUT requires a PAA certificate to perform a pairing operation, input "true" for the flag "chip_tool_use_paa_certs" to configure the Test-Harness to use them.
