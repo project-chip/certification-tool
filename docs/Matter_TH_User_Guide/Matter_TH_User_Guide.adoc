@@ -1138,6 +1138,20 @@ image:images/img_15.png[]
 ----
 
 ===== Thread Device Mode
+.. Input the DUT configuration details like discriminator: "3840", setup_code:"20202021", and *pairing_mode as "ble-thread"*.
++
+[source,xml]
+----
+"dut_config": {
+      "discriminator": "3840",
+      "setup_code": "20202021",
+      "pairing_mode": "ble-thread",
+      "chip_timeout": null,
+      "chip_use_paa_certs": false,
+      "trace_log": true
+   }
+----
+
 .. The TH loads the default thread configuration values that match the OTBR built on the TH. The following configuration can be customized as per the user’s need.
 +
 [source,xml]
@@ -1169,21 +1183,7 @@ NOTE: _The OTBR docker is contained in the TH and runs automatically upon the st
       }
 ----
 +
-NOTE: _OTBR needs to be configured and running. TH will not start any OTBR dockers._
-
-.. Input the DUT configuration details like discriminator: "3840", setup_code:"20202021", and *pairing_mode as "ble-thread"*.
-+
-[source,xml]
-----
-"dut_config": {
-      "discriminator": "3840",
-      "setup_code": "20202021",
-      "pairing_mode": "ble-thread",
-      "chip_timeout": null,
-      "chip_use_paa_certs": false,
-      "trace_log": true
-   }
-----
+WARNING: _OTBR needs to be configured and running. TH will not start any OTBR dockers._
 
 ===== PAA Certificates
 For the case that the DUT requires a PAA certificate to perform a pairing operation, input "true" for the flag "chip_tool_use_paa_certs" to configure the Test-Harness to use them.
