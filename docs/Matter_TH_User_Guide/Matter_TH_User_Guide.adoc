@@ -107,7 +107,8 @@ endif::[]
 | 37          | 13-Aug-2024  | [Apple] Hilton Lima                 | * Remove old references of TH image (obsolete). +
                                                                      * Add a warning to ensure that the username needs to be 'ubuntu'.
 | 38          | 30-Aug-2024  | [Apple] Hilton Lima                 | * Replace images by text examples in 'Project Configuration' section. +
-                                                                     * Removed section 'Collect Logs and Submit to TEDS'.
+                                                                     * Removed section 'Collect Logs and Submit to TEDS'. +
+                                                                     * Added informations about 'qr-code' and 'manual-code' parameters.
 |===
 
 <<<
@@ -1212,7 +1213,40 @@ NOTE: Make sure to include the desired PAA certificates in the default path "*/v
     }
 ----
 
-On completion of the network and the device configuration, select the *Update* and then *Create* button to create the Test Project. 
+.. "qr-code" and "manual-code" parameters: +
+Only one of the following parameter is allowed, also when one of them is configured, the TH will not send "passcode" and "discriminator" (from "dut_config") arguments to DUT.
+
+... "qr-code" parameter example:
++
+[source,xml]
+----
+ "test_parameters": {
+      "qr-code": "MT:-24J042C00KA0648G00"
+    }
+----
+
+... "manual-code" parameter example:
++
+[source,xml]
+----
+ "test_parameters": {
+      "manual-code": "34970112332"
+    }
+----
+
+... Invalid configuration: "manual-code" and "qr-code" together:
++
+[source,xml]
+----
+ "test_parameters": {
+      "qr-code": "MT:-24J042C00KA0648G00"
+      "manual-code": "34970112332"
+    }
+----
++
+WARNING: This is an invalid configuration. TH will not accept these parameters.
+
+On completion of the "network" and the "dut_config" configuration, select the *Update* and then *Create* button to create the Test Project. 
 
 ===== Upload PICS File
 The newly created project will be listed under the Project details column. +
