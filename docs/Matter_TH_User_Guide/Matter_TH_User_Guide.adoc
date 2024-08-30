@@ -1101,11 +1101,11 @@ image:images/img_15.png[]
 [source,xml]
 ----
 "network": {
-      "wifi": {
-         "ssid": "testharness",
-         "password": "wifi-password"
-      },
-      ...
+   "wifi": {
+      "ssid": "testharness",
+      "password": "wifi-password"
+   },
+   ...
 }
 ----
 
@@ -1114,13 +1114,13 @@ image:images/img_15.png[]
 [source,xml]
 ----
 "dut_config": {
-      "discriminator": "3840",
-      "setup_code": "20202021",
-      "pairing_mode": "ble-wifi",
-      "chip_timeout": null,
-      "chip_use_paa_certs": false,
-      "trace_log": true
-   }
+   "discriminator": "3840",
+   "setup_code": "20202021",
+   "pairing_mode": "ble-wifi",
+   "chip_timeout": null,
+   "chip_use_paa_certs": false,
+   "trace_log": true
+}
 ----
 
 ===== On Network Mode
@@ -1129,14 +1129,14 @@ image:images/img_15.png[]
 +
 [source,xml]
 ----
- "dut_config": {  
-      "discriminator": "3840",
-      "setup_code": "20202021",
-      "pairing_mode": "onnetwork",
-      "chip_timeout": null,
-      "chip_use_paa_certs": false,
-      "trace_log": true
-   }
+"dut_config": {  
+   "discriminator": "3840",
+   "setup_code": "20202021",
+   "pairing_mode": "onnetwork",
+   "chip_timeout": null,
+   "chip_use_paa_certs": false,
+   "trace_log": true
+}
 ----
 
 ===== Thread Device Mode
@@ -1145,13 +1145,13 @@ image:images/img_15.png[]
 [source,xml]
 ----
 "dut_config": {
-      "discriminator": "3840",
-      "setup_code": "20202021",
-      "pairing_mode": "ble-thread",
-      "chip_timeout": null,
-      "chip_use_paa_certs": false,
-      "trace_log": true
-   }
+   "discriminator": "3840",
+   "setup_code": "20202021",
+   "pairing_mode": "ble-thread",
+   "chip_timeout": null,
+   "chip_use_paa_certs": false,
+   "trace_log": true
+}
 ----
 
 .. The TH loads the default thread configuration values that match the OTBR built on the TH. The following configuration can be customized as per the user’s need.
@@ -1159,19 +1159,19 @@ image:images/img_15.png[]
 [source,xml]
 ----
 "thread": {
-         "rcp_serial_path": "/dev/ttyACM0",
-         "rcp_baudrate": 115200,
-         "on_mesh_prefix": "fd11:22::/64",
-         "network_interface": "eth0",
-         "dataset": {
-            "channel": "15",
-            "panid": "0x1234",
-            "extpanid": "1111111122222222",
-            "networkkey": "00112233445566778899aabbccddeeff",
-            "networkname": "DEMO"
-         },
-         "otbr_docker_image": null
-      }
+   "rcp_serial_path": "/dev/ttyACM0",
+   "rcp_baudrate": 115200,
+   "on_mesh_prefix": "fd11:22::/64",
+   "network_interface": "eth0",
+   "dataset": {
+      "channel": "15",
+      "panid": "0x1234",
+      "extpanid": "1111111122222222",
+      "networkkey": "00112233445566778899aabbccddeeff",
+      "networkname": "DEMO"
+   },
+   "otbr_docker_image": null
+}
 ----
 +
 NOTE: _The OTBR docker is contained in the TH and runs automatically upon the start of the TH tool._
@@ -1181,8 +1181,8 @@ NOTE: _The OTBR docker is contained in the TH and runs automatically upon the st
 [source,xml]
 ----
 "thread": {
-         "operational_dataset_hex": "0e08000000000001000035060004001fffe00708fd5270f26ee4c02c041064dc641d7195508d7cd17ce22db711420c0402a0f7f8000300000f0102123402081111111122222222030444454d4f051000112233445566778899aabbccddeeff"
-      }
+   "operational_dataset_hex": "0e08000000000001000035060004001fffe00708fd5270f26ee4c02c041064dc641d7195508d7cd17ce22db711420c0402a0f7f8000300000f0102123402081111111122222222030444454d4f051000112233445566778899aabbccddeeff"
+}
 ----
 +
 WARNING: _OTBR needs to be configured and running. TH will not start any OTBR dockers._
@@ -1192,13 +1192,13 @@ For the case that the DUT requires a PAA certificate to perform a pairing operat
 [source,xml]
 ----
 "dut_config": {
-      "discriminator": "3840",
-      "setup_code": "20202021",
-      "pairing_mode": "onnetwork",
-      "chip_timeout": null,
-      "chip_use_paa_certs": true,
-      "trace_log": true
-   }
+   "discriminator": "3840",
+   "setup_code": "20202021",
+   "pairing_mode": "onnetwork",
+   "chip_timeout": null,
+   "chip_use_paa_certs": true,
+   "trace_log": true
+}
 ----
 
 NOTE: Make sure to include the desired PAA certificates in the default path "*/var/paa-root-certs/*", in the Raspberry-Pi.
@@ -1208,9 +1208,9 @@ NOTE: Make sure to include the desired PAA certificates in the default path "*/v
 +
 [source,xml]
 ----
- "test_parameters": {
-      "endpoint": 5
-    }
+"test_parameters": {
+   "endpoint": 5
+}
 ----
 
 .. "qr-code" and "manual-code" parameters: +
@@ -1220,31 +1220,31 @@ Only one of the following parameter is allowed, also when one of them is configu
 +
 [source,xml]
 ----
- "test_parameters": {
-      "qr-code": "MT:-24J042C00KA0648G00"
-    }
+"test_parameters": {
+   "qr-code": "MT:-24J042C00KA0648G00"
+}
 ----
 
 ... "manual-code" parameter example:
 +
 [source,xml]
 ----
- "test_parameters": {
-      "manual-code": "34970112332"
-    }
+"test_parameters": {
+   "manual-code": "34970112332"
+}
 ----
 
-... Invalid configuration: "manual-code" and "qr-code" together:
+... *Invalid* configuration: "manual-code" and "qr-code" together:
 +
 [source,xml]
 ----
- "test_parameters": {
-      "qr-code": "MT:-24J042C00KA0648G00"
-      "manual-code": "34970112332"
-    }
+"test_parameters": {
+   "qr-code": "MT:-24J042C00KA0648G00"
+   "manual-code": "34970112332"
+}
 ----
 +
-WARNING: This is an invalid configuration. TH will not accept these parameters.
+WARNING: This is an invalid configuration. TH will not accept both parameters set at same time.
 
 On completion of the "network" and the "dut_config" configuration, select the *Update* and then *Create* button to create the Test Project. 
 
