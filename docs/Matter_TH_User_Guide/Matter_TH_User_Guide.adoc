@@ -106,7 +106,8 @@ endif::[]
 | 36          | 09-Aug-2024  | [Apple] Antonio Melo Jr.            | * Adding the new cleanup procedure to the troubleshooting of TH Installation section.
 | 37          | 13-Aug-2024  | [Apple] Hilton Lima                 | * Remove old references of TH image (obsolete). +
                                                                      * Add a warning to ensure that the username needs to be 'ubuntu'.
-| 38          | 29-Aug-2024  | [Apple] Hilton Lima                 | * Project Configuration: Replace images by text examples.
+| 38          | 30-Aug-2024  | [Apple] Hilton Lima                 | * Replace images by text examples in 'Project Configuration' section. +
+                                                                     * Removed section 'Collect Logs and Submit to TEDS'.
 |===
 
 <<<
@@ -1582,94 +1583,3 @@ The above example will be used to define the following arguments when running th
 ----
 
 
-<<<
-== *Collect Logs and Submit to TEDS*
-
-DUT’s that require certification from CSA, need to submit the results to CSA’s TEDS portal for ATL’s to review the test results. 
-
-Any hobby developer that is executing these tests using TH need not submit results to TEDS. 
-
-=== Instructions to Download Test Results
-
-==== From the TH User Interface
-
-After completing the test case execution, the user has two options to download the test logs and test reports.
-
-From the Test Execution page, you can download reports and logs as shown below.
-
-image:images/img_42.png[]
-
-image:images/img_43.png[]
-
-Test logs and reports can also be retrieved from the Test-Run page as shown below. 
-
-image:images/img_44.png[]
-
-image:images/img_45.png[]
-
-==== Python Tests in Docker
-
-When executing Python tests from the Docker, pipe test logs to file. 
-
-|===
-|`rm -f admin_storage.json && python3 python_testing/scripts/sdk/TC_<test_case>.py <test_parameters> \| tee /launch_dir/<test_log_file>.log`
-|===
-
-Result logs will be available typically under the TH home directory where the docker container is launched.
-
-=== Upload Test Results
-
-To upload test results, you must log in to TEDS.
-
-==== Results Recording
-
-Go to your assigned time slot on your dashboard under "Test Slots" and select *Add test results* in your test slot details.
-
-image:images/img_46.png[]
-
-Under the "View Test Slot Details", you will see a menu.
-
-image:images/img_47.png[]
-
-* Base Device Tests: These tests are required for all DUT’s.
-* Controller Tests: These tests are only required for Controller devices. If you register your device as a controller, you need to complete this testing. 
-* Cluster Tests: This is a list of all Matter clusters. Here you will enter the test results for the clusters your DUT supports.
-
-==== Base Device Results Recording
-
-Selecting "Base Device Tests" from the menu will take you to Based Device tests. +
-The left panel is where you select tests and record your results. +
-The right panel displays the tests you have recorded for a particular set of tests.
-
-image:images/img_48.png[]
-
-==== Cluster and Controller Tests
-
-Selecting "Cluster Tests" or "Controller Tests" from the menu will take you to the corresponding test page. +
-Select your test clusters and record your test results in the same way as the Based Device tests.
-
-image:images/img_49.png[]
-
-image:images/img_50.png[]
-
-=== Finalizing Results
-
-When testing has completed, finalize your test results using the *Finalize Test Results* button on the "View Test Slot Details" page. 
-
-image:images/img_51.png[]
-
-image:images/img_52.png[]
-
-=== Test Results Summary
-
-When all testing has completed for your DUT, you can review the results in the "Test Results Summary" page.
-
-image:images/img_53.png[]
-
-In this summary you can check to see if a particular test case has been reviewed. If the test has been reviewed, you will see the "Test Reviewed" and "Test House Notes" statuses.
-
-image:images/img_54.png[]
-
-You can also review your results and the results from your company on the TEDS Matter Dashboard.  You can export your results and share them with your company.
-
-image:images/img_55.png[]
