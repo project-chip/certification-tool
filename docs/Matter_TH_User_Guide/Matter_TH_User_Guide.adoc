@@ -109,6 +109,8 @@ endif::[]
 | 38          | 30-Aug-2024  | [Apple] Hilton Lima                 | * Replace images by text examples in 'Project Configuration' section. +
                                                                      * Removed section 'Collect Logs and Submit to TEDS'. +
                                                                      * Added informations about 'qr-code' and 'manual-code' parameters.
+| 39          | 04-Sep-2024  | [Apple] Hilton Lima                 | * Move pixit section. +
+                                                                     * Added 'Test Parameters for SDK Python Tests' section.
 |===
 
 <<<
