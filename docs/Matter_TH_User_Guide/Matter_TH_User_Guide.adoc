@@ -1286,6 +1286,15 @@ Below are some specific examples assembled from data obtained from the spreadshe
 
 . TC-ACE-1.4
 +
+Sample command to run manually inside docker
++
+[source,shell]
+----
+python3 TC_ACE_1_4.py --discriminator 3840 --passcode 20202021 --commissioning-method on-network --storage-path admin_storage.json  --int-arg PIXIT.ACE.APPENDPOINT:1 PIXIT.ACE.APPDEVTYPEID:256 --string-arg PIXIT.ACE.APPCLUSTER:OnOff PIXIT.ACE.APPATTRIBUTE:OnOff  --paa-trust-store-path /credentials/development/paa-root-certs/
+----
++
+Arguments to be used while execution using UI (use product specific values)
++
 [source,xml]
 ----
 "test_parameters": {
@@ -1295,6 +1304,15 @@ Below are some specific examples assembled from data obtained from the spreadshe
 ----
 
 . TC-SC-7.1
++
+Sample command to run manually inside docker
++
+[source,shell]
+----
+python3 TC_SC_7_1.py --bool-arg post_cert_test:true  --qr-code MT:-<24J0CEK01KA0648G00> --storage-path admin_storage.json --paa-trust-store-path ../../credentials/development/paa-root-certs/
+----
++
+Arguments to be used while execution using UI (use product specific values)
 +
 [source,xml]
 ----
