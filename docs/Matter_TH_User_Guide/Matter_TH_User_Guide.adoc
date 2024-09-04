@@ -1282,7 +1282,7 @@ The above example will be used to define the following arguments when running th
 --int-arg PIXIT.ACE.APPENDPOINT:1 PIXIT.ACE.APPDEVTYPEID:256 --string-arg PIXIT.ACE.APPCLUSTER:OnOff PIXIT.ACE.APPATTRIBUTE:OnOff
 ----
 ==== Test Parameters for SDK Python Tests
-Access the spreadsheet via the https://groups.csa-iot.org/wg/matter-csg/document/36336[link] and review the information provided. Based on this data, create the parameters set as requested. 
+Access the spreadsheet via the https://groups.csa-iot.org/wg/matter-csg/document/36336[Verification Steps Document] and review the information provided. Based on this data, create the parameters set as requested. 
 
 Below are some specific examples assembled from data obtained from the spreadsheet.
 
