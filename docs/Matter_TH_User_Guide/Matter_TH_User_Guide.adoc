@@ -358,10 +358,7 @@ If there's an image with a tag for the commit you're using, delete that image +
 * Update TH sample apps
 
 |===
-|To update your sample apps using the new image, you should first edit the `certification-tool/backend/test_collections/matter/scripts/update-sample-apps.sh` script to comment out or remove the following line: +
-`sudo docker pull $SDK_DOCKER_IMAGE:$SDK_DOCKER_TAG` +
-This is needed because the docker pull command downloads the image from the remote. Removing this line, the script will use your local image. +
-Then run this script in the certification-tool repository +
+|To update your sample apps using the new image run this script in the certification-tool repository +
 `./backend/test_collections/matter/scripts/update-sample-apps.sh`
 |===
 
