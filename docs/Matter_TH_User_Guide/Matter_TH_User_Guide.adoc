@@ -17,7 +17,7 @@
 
 :ubuntu-version: 24.04
 :ubuntu-description: Ubuntu Server {ubuntu-version} LTS (64-bit)
-:th-version: v2.11+fall2024
+:th-version: v2.11-beta3+fall2024
 = Matter Test-Harness User Manual: {th-version}
 ifdef::env-github[]
 :tip-caption: :bulb:
@@ -38,6 +38,7 @@ endif::[]
 :sectnumlevels: 4
 :toc-title:
 :toc: macro
+:toclevels: 5
 
 [discrete]
 == *Test-Harness Links*
@@ -109,16 +110,18 @@ endif::[]
 | 38          | 30-Aug-2024  | [Apple] Hilton Lima                 | * Replace images by text examples in 'Project Configuration' section. +
                                                                      * Removed section 'Collect Logs and Submit to TEDS'. +
                                                                      * Added informations about 'qr-code' and 'manual-code' parameters.
+| 39          | 04-Sep-2024  | [Apple] Hilton Lima                 | * Moved PIXIT section. +
+                                                                     * Added 'Test Parameters for SDK Python Tests' section. +
+                                                                     * Changed Table of Contents display level.
 |===
 
 <<<
 [discrete]
 == *Table of contents*
 toc::[]
-
-
 :sectnums:
 <<<
+
 == *Introduction*
 
 The Matter Test-Harness is a comprehensive test tool used for certification testing of Matter devices in accordance with the Matter protocol as defined in the https://groups.csa-iot.org/wg/members-all/document/folder/2269[Matter specification]. 
@@ -355,13 +358,9 @@ If there's an image with a tag for the commit you're using, delete that image +
 * Update TH sample apps
 
 |===
-|To update your sample apps using the new image, you should first edit the `certification-tool/backend/test_collections/matter/scripts/update-sample-apps.sh` script to comment out or remove the following line: +
-`sudo docker pull $SDK_DOCKER_IMAGE:$SDK_DOCKER_TAG` +
-This is needed because the docker pull command downloads the image from the remote. Removing this line, the script will use your local image. +
-Then run this script in the certification-tool repository +
+|To update your sample apps using the new image run this script in the certification-tool repository +
 `./backend/test_collections/matter/scripts/update-sample-apps.sh`
 |===
-
 
 === Update Existing TH
 WARNING: If the Operating System is not the *{ubuntu-description}*, please flash and use a SD card with that Ubuntu release to use this version of Test Harness. Beware that the auto update process below will fail in the case of a different release version.
@@ -1062,64 +1061,64 @@ image:images/img_15.png[]
 [source,xml]
 ----
 {
-   "test_parameters": null,
-   "network": {
-      "wifi": {
-         "ssid": "testharness",
-         "password": "wifi-password"
-      },
-      "thread": {
-         "rcp_serial_path": "/dev/ttyACM0",
-         "rcp_baudrate": 115200,
-         "on_mesh_prefix": "fd11:22::/64",
-         "network_interface": "eth0",
-         "dataset": {
-            "channel": "15",
-            "panid": "0x1234",
-            "extpanid": "1111111122222222",
-            "networkkey": "00112233445566778899aabbccddeeff",
-            "networkname": "DEMO"
-         },
-         "otbr_docker_image": null
-      }
-   },
-   "dut_config": {
-      "discriminator": "3840",
-      "setup_code": "20202021",
-      "pairing_mode": "onnetwork",
-      "chip_timeout": null,
-      "chip_use_paa_certs": false,
-      "trace_log": true
-   }
-}
-----
-
-
-===== Wi-Fi Mode
-.. To pair in the BLE Wi-Fi mode, configure the Network settings by providing the ssid and password.
-+
-[source,xml]
-----
-"network": {
-   "wifi": {
+  "test_parameters": null,
+  "network": {
+    "wifi": {
       "ssid": "testharness",
       "password": "wifi-password"
-   },
-   ...
+    },
+    "thread": {
+      "rcp_serial_path": "/dev/ttyACM0",
+      "rcp_baudrate": 115200,
+      "on_mesh_prefix": "fd11:22::/64",
+      "network_interface": "eth0",
+      "dataset": {
+        "channel": "15",
+        "panid": "0x1234",
+        "extpanid": "1111111122222222",
+        "networkkey": "00112233445566778899aabbccddeeff",
+        "networkname": "DEMO"
+      },
+      "otbr_docker_image": null
+    }
+  },
+  "dut_config": {
+    "discriminator": "3840",
+    "setup_code": "20202021",
+    "pairing_mode": "onnetwork",
+    "chip_timeout": null,
+    "chip_use_paa_certs": false,
+    "trace_log": true
+  }
 }
 ----
 
+
+==== Wi-Fi Mode
 .. Configure the DUT by providing details like discriminator, setup_code and set the *pairing_mode as "ble-wifi"*.
 +
 [source,xml]
 ----
 "dut_config": {
-   "discriminator": "3840",
-   "setup_code": "20202021",
-   "pairing_mode": "ble-wifi",
-   "chip_timeout": null,
-   "chip_use_paa_certs": false,
-   "trace_log": true
+  "discriminator": "3840",
+  "setup_code": "20202021",
+  "pairing_mode": "ble-wifi",
+  "chip_timeout": null,
+  "chip_use_paa_certs": false,
+  "trace_log": true
+}
+----
+
+.. To pair in the BLE Wi-Fi mode, configure the Network settings by providing the ssid and password.
++
+[source,xml]
+----
+"network": {
+  "wifi": {
+    "ssid": "testharness",
+    "password": "wifi-password"
+  },
+...
 }
 ----
 
@@ -1130,27 +1129,27 @@ image:images/img_15.png[]
 [source,xml]
 ----
 "dut_config": {  
-   "discriminator": "3840",
-   "setup_code": "20202021",
-   "pairing_mode": "onnetwork",
-   "chip_timeout": null,
-   "chip_use_paa_certs": false,
-   "trace_log": true
+  "discriminator": "3840",
+  "setup_code": "20202021",
+  "pairing_mode": "onnetwork",
+  "chip_timeout": null,
+  "chip_use_paa_certs": false,
+  "trace_log": true
 }
 ----
 
-===== Thread Device Mode
+==== Thread Device Mode
 .. Input the DUT configuration details like discriminator: "3840", setup_code:"20202021", and *pairing_mode as "ble-thread"*.
 +
 [source,xml]
 ----
 "dut_config": {
-   "discriminator": "3840",
-   "setup_code": "20202021",
-   "pairing_mode": "ble-thread",
-   "chip_timeout": null,
-   "chip_use_paa_certs": false,
-   "trace_log": true
+  "discriminator": "3840",
+  "setup_code": "20202021",
+  "pairing_mode": "ble-thread",
+  "chip_timeout": null,
+  "chip_use_paa_certs": false,
+  "trace_log": true
 }
 ----
 
@@ -1159,18 +1158,18 @@ image:images/img_15.png[]
 [source,xml]
 ----
 "thread": {
-   "rcp_serial_path": "/dev/ttyACM0",
-   "rcp_baudrate": 115200,
-   "on_mesh_prefix": "fd11:22::/64",
-   "network_interface": "eth0",
-   "dataset": {
-      "channel": "15",
-      "panid": "0x1234",
-      "extpanid": "1111111122222222",
-      "networkkey": "00112233445566778899aabbccddeeff",
-      "networkname": "DEMO"
-   },
-   "otbr_docker_image": null
+  "rcp_serial_path": "/dev/ttyACM0",
+  "rcp_baudrate": 115200,
+  "on_mesh_prefix": "fd11:22::/64",
+  "network_interface": "eth0",
+  "dataset": {
+    "channel": "15",
+    "panid": "0x1234",
+    "extpanid": "1111111122222222",
+    "networkkey": "00112233445566778899aabbccddeeff",
+    "networkname": "DEMO"
+  },
+  "otbr_docker_image": null
 }
 ----
 +
@@ -1181,35 +1180,35 @@ NOTE: _The OTBR docker is contained in the TH and runs automatically upon the st
 [source,xml]
 ----
 "thread": {
-   "operational_dataset_hex": "0e08000000000001000035060004001fffe00708fd5270f26ee4c02c041064dc641d7195508d7cd17ce22db711420c0402a0f7f8000300000f0102123402081111111122222222030444454d4f051000112233445566778899aabbccddeeff"
+  "operational_dataset_hex": "0e08000000000001000035060004001fffe00708fd5270f26ee4c02c041064dc641d7195508d7cd17ce22db711420c0402a0f7f8000300000f0102123402081111111122222222030444454d4f051000112233445566778899aabbccddeeff"
 }
 ----
 +
-WARNING: _OTBR needs to be configured and running. TH will not start any OTBR dockers._
+WARNING: _OTBR needs to be configured and running. TH will not start any OTBR docker containers._
 
-===== PAA Certificates
+==== PAA Certificates
 For the case that the DUT requires a PAA certificate to perform a pairing operation, input "true" for the flag "chip_tool_use_paa_certs" to configure the Test-Harness to use them.
 [source,xml]
 ----
 "dut_config": {
-   "discriminator": "3840",
-   "setup_code": "20202021",
-   "pairing_mode": "onnetwork",
-   "chip_timeout": null,
-   "chip_use_paa_certs": true,
-   "trace_log": true
+  "discriminator": "3840",
+  "setup_code": "20202021",
+  "pairing_mode": "onnetwork",
+  "chip_timeout": null,
+  "chip_use_paa_certs": true,
+  "trace_log": true
 }
 ----
 
 NOTE: Make sure to include the desired PAA certificates in the default path "*/var/paa-root-certs/*", in the Raspberry-Pi.
 
-===== Test Parameters
+=== Test Parameters
 .. Input the test parameters like endpoint on the DUT where the cluster to be tested is implemented.
 +
 [source,xml]
 ----
 "test_parameters": {
-   "endpoint": 5
+  "endpoint": 5
 }
 ----
 
@@ -1221,7 +1220,7 @@ Only one of the following parameter is allowed, also when one of them is configu
 [source,xml]
 ----
 "test_parameters": {
-   "qr-code": "MT:-24J042C00KA0648G00"
+  "qr-code": "MT:-24J042C00KA0648G00"
 }
 ----
 
@@ -1230,7 +1229,7 @@ Only one of the following parameter is allowed, also when one of them is configu
 [source,xml]
 ----
 "test_parameters": {
-   "manual-code": "34970112332"
+  "manual-code": "34970112332"
 }
 ----
 
@@ -1239,16 +1238,17 @@ Only one of the following parameter is allowed, also when one of them is configu
 [source,xml]
 ----
 "test_parameters": {
-   "qr-code": "MT:-24J042C00KA0648G00"
-   "manual-code": "34970112332"
+  "qr-code": "MT:-24J042C00KA0648G00"
+  "manual-code": "34970112332"
 }
 ----
 +
-WARNING: This is an invalid configuration. TH will not accept both parameters set at same time.
+WARNING: This is an invalid configuration. TH will not accept both parameters set at the same time.
 
 On completion of the "network" and the "dut_config" configuration, select the *Update* and then *Create* button to create the Test Project. 
 
-===== Upload PICS File
+
+==== Upload PICS File
 The newly created project will be listed under the Project details column. +
 
 Click on the Edit option to configure the project to load the required PICS file for the cluster to be tested and select the *Update* button. Refer to <<test-case-execution, Section 9, Test Case Execution>>.
@@ -1560,6 +1560,86 @@ Project configuration example:
 }
 ----
 
+===== Test Parameters for SDK Python Tests
+
+====== PIXIT Support
+
+PIXIT type parameters must be filled in the *test_parameters* section.
+The following example will be used to define the following parameters:
+
+----
+PIXIT.ACE.APPENDPOINT:1
+PIXIT.ACE.APPDEVTYPEID:256
+PIXIT.ACE.APPCLUSTER:OnOff
+PIXIT.ACE.APPATTRIBUTE:OnOff
+----
+
+Project configuration example:
+[source,xml]
+----
+{
+  ...
+  "test_parameters": {
+    "paa-trust-store-path": "/credentials/development/paa_roots",
+    "storage-path": "admin_storage.json",
+    "int-arg": "PIXIT.ACE.APPENDPOINT:1 PIXIT.ACE.APPDEVTYPEID:256",
+    "string-arg": "PIXIT.ACE.APPCLUSTER:OnOff PIXIT.ACE.APPATTRIBUTE:OnOff"
+  }
+  ...
+}
+----
+
+The above example will be used to define the following arguments when running the test:
+
+[source,shell]
+----
+--int-arg PIXIT.ACE.APPENDPOINT:1 PIXIT.ACE.APPDEVTYPEID:256 --string-arg PIXIT.ACE.APPCLUSTER:OnOff PIXIT.ACE.APPATTRIBUTE:OnOff
+----
+
+====== Test Parameters Examples
+
+Access the spreadsheet via the https://groups.csa-iot.org/wg/matter-csg/document/36336[Verification Steps Document] and review the information provided. Based on this data, create the parameters set as requested. 
+
+Below are some specific examples assembled from data obtained from the spreadsheet.
+
+. TC-ACE-1.4
++
+Sample command to run manually inside docker
++
+[source,shell]
+----
+python3 TC_ACE_1_4.py --discriminator 3840 --passcode 20202021 --commissioning-method on-network --storage-path admin_storage.json  --int-arg PIXIT.ACE.APPENDPOINT:1 PIXIT.ACE.APPDEVTYPEID:256 --string-arg PIXIT.ACE.APPCLUSTER:OnOff PIXIT.ACE.APPATTRIBUTE:OnOff  --paa-trust-store-path /credentials/development/paa-root-certs/
+----
++
+Arguments to be used while executing using UI (use product specific values)
++
+[source,xml]
+----
+"test_parameters": {
+  "int-arg" : "PIXIT.ACE.APPENDPOINT:1 PIXIT.ACE.APPDEVTYPEID:256",
+  "string-arg": "PIXIT.ACE.APPCLUSTER:OnOff PIXIT.ACE.APPATTRIBUTE:OnOff"
+}
+----
+
+. TC-SC-7.1
++
+Sample command to run manually inside docker
++
+[source,shell]
+----
+python3 TC_SC_7_1.py --bool-arg post_cert_test:true  --qr-code MT:-<24J0CEK01KA0648G00> --storage-path admin_storage.json --paa-trust-store-path ../../credentials/development/paa-root-certs/
+----
++
+Arguments to be used while executing using UI (use product specific values)
++
+[source,xml]
+----
+"test_parameters": {
+  "bool-arg": "post_cert_test:true",
+  "qr-code": " MT-24J042C00KA0648G00"
+}
+----
+
 ===== Test suites
 
 TH expects the SDK Python Tests to follow a certain template. New tests are being written with this template and the old tests are being updated to conform to it. The tests are divided in 3 test suites:
@@ -1582,38 +1662,3 @@ image:images/img_61.png[SDK Python Tests - Suites]
 image:images/img_62.png[SDK Python Tests - Commissioning Mode prompt]
 
 image:images/img_63.png[SDK Python Tests - DUT should be commissioned prompt]
-
-===== PIXIT Support
-
-PIXIT type parameters must be filled in the *test_parameters* section.
-The following example will be used to define the following parameters:
-
-----
-PIXIT.ACE.APPENDPOINT:1
-PIXIT.ACE.APPDEVTYPEID:256
-PIXIT.ACE.APPCLUSTER:OnOff
-PIXIT.ACE.APPATTRIBUTE:OnOff
-----
-
-Project configuration example:
-[source,xml,options="unbreakable"]
-----
-{
-  ...
-  "test_parameters": {
-    "paa-trust-store-path": "/credentials/development/paa_roots",
-    "storage-path": "admin_storage.json",
-    "int-arg": "PIXIT.ACE.APPENDPOINT:1 PIXIT.ACE.APPDEVTYPEID:256",
-    "string-arg": "PIXIT.ACE.APPCLUSTER:OnOff PIXIT.ACE.APPATTRIBUTE:OnOff"
-  }
-  ...
-}
-----
-
-The above example will be used to define the following arguments when running the test:
-
-----
---int-arg PIXIT.ACE.APPENDPOINT:1 PIXIT.ACE.APPDEVTYPEID:256 --string-arg PIXIT.ACE.APPCLUSTER:OnOff PIXIT.ACE.APPATTRIBUTE:OnOff
-----
-
-

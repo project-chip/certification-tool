@@ -26,6 +26,9 @@ source "$TH_DIR/scripts/utils.sh"
 
 print_start_of_script
 
+print_script_step "Print SO information"
+echo "$(cat /etc/os-release)"
+
 print_script_step "Calling Install Docker Repository Script"
 $TH_DOCKER_REPO_INSTALL_FILE
 verify_return_code
