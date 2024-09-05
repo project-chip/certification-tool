@@ -362,7 +362,6 @@ If there's an image with a tag for the commit you're using, delete that image +
 `./backend/test_collections/matter/scripts/update-sample-apps.sh`
 |===
 
-
 === Update Existing TH
 WARNING: If the Operating System is not the *{ubuntu-description}*, please flash and use a SD card with that Ubuntu release to use this version of Test Harness. Beware that the auto update process below will fail in the case of a different release version.
 
@@ -1248,38 +1247,6 @@ WARNING: This is an invalid configuration. TH will not accept both parameters se
 
 On completion of the "network" and the "dut_config" configuration, select the *Update* and then *Create* button to create the Test Project. 
 
-==== PIXIT Support
-
-PIXIT type parameters must be filled in the *test_parameters* section.
-The following example will be used to define the following parameters:
-
-----
-PIXIT.ACE.APPENDPOINT:1
-PIXIT.ACE.APPDEVTYPEID:256
-PIXIT.ACE.APPCLUSTER:OnOff
-PIXIT.ACE.APPATTRIBUTE:OnOff
-----
-
-Project configuration example:
-[source,xml]
-----
-{
-  ...
-  "test_parameters": {
-    "paa-trust-store-path": "/credentials/development/paa_roots",
-    "storage-path": "admin_storage.json",
-    "int-arg": "PIXIT.ACE.APPENDPOINT:1 PIXIT.ACE.APPDEVTYPEID:256",
-    "string-arg": "PIXIT.ACE.APPCLUSTER:OnOff PIXIT.ACE.APPATTRIBUTE:OnOff"
-  }
-  ...
-}
-----
-
-The above example will be used to define the following arguments when running the test:
-
-----
---int-arg PIXIT.ACE.APPENDPOINT:1 PIXIT.ACE.APPDEVTYPEID:256 --string-arg PIXIT.ACE.APPCLUSTER:OnOff PIXIT.ACE.APPATTRIBUTE:OnOff
-----
 
 ==== Upload PICS File
 The newly created project will be listed under the Project details column. +
@@ -1634,6 +1601,40 @@ Arguments to be used while executing using UI (use product specific values)
   "bool-arg": "post_cert_test:true",
   "qr-code": " MT-24J042C00KA0648G00"
 }
+----
+
+====== PIXIT Support
+
+PIXIT type parameters must be filled in the *test_parameters* section.
+The following example will be used to define the following parameters:
+
+----
+PIXIT.ACE.APPENDPOINT:1
+PIXIT.ACE.APPDEVTYPEID:256
+PIXIT.ACE.APPCLUSTER:OnOff
+PIXIT.ACE.APPATTRIBUTE:OnOff
+----
+
+Project configuration example:
+[source,xml]
+----
+{
+  ...
+  "test_parameters": {
+    "paa-trust-store-path": "/credentials/development/paa_roots",
+    "storage-path": "admin_storage.json",
+    "int-arg": "PIXIT.ACE.APPENDPOINT:1 PIXIT.ACE.APPDEVTYPEID:256",
+    "string-arg": "PIXIT.ACE.APPCLUSTER:OnOff PIXIT.ACE.APPATTRIBUTE:OnOff"
+  }
+  ...
+}
+----
+
+The above example will be used to define the following arguments when running the test:
+
+[source,shell]
+----
+--int-arg PIXIT.ACE.APPENDPOINT:1 PIXIT.ACE.APPDEVTYPEID:256 --string-arg PIXIT.ACE.APPCLUSTER:OnOff PIXIT.ACE.APPATTRIBUTE:OnOff
 ----
 
 ===== Test suites
