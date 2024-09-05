@@ -1314,7 +1314,7 @@ Sample command to run manually inside docker
 python3 TC_SC_7_1.py --bool-arg post_cert_test:true  --qr-code MT:-<24J0CEK01KA0648G00> --storage-path admin_storage.json --paa-trust-store-path ../../credentials/development/paa-root-certs/
 ----
 +
-Arguments to be used while execution using UI (use product specific values)
+Arguments to be used while executing using UI (use product specific values)
 +
 [source,xml]
 ----
