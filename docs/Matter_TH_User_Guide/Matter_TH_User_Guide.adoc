@@ -1099,19 +1099,6 @@ image:images/img_15.png[]
 
 
 ==== Wi-Fi Mode
-.. To pair in the BLE Wi-Fi mode, configure the Network settings by providing the ssid and password.
-+
-[source,xml]
-----
-"network": {
-  "wifi": {
-    "ssid": "testharness",
-    "password": "wifi-password"
-  },
-...
-}
-----
-
 .. Configure the DUT by providing details like discriminator, setup_code and set the *pairing_mode as "ble-wifi"*.
 +
 [source,xml]
@@ -1123,6 +1110,19 @@ image:images/img_15.png[]
   "chip_timeout": null,
   "chip_use_paa_certs": false,
   "trace_log": true
+}
+----
+
+.. To pair in the BLE Wi-Fi mode, configure the Network settings by providing the ssid and password.
++
+[source,xml]
+----
+"network": {
+  "wifi": {
+    "ssid": "testharness",
+    "password": "wifi-password"
+  },
+...
 }
 ----
 
