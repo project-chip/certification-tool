@@ -1184,7 +1184,7 @@ NOTE: _The OTBR docker is contained in the TH and runs automatically upon the st
 }
 ----
 +
-WARNING: _OTBR needs to be configured and running. TH will not start any OTBR dockers._
+WARNING: _OTBR needs to be configured and running. TH will not start any OTBR docker containers._
 
 ==== PAA Certificates
 For the case that the DUT requires a PAA certificate to perform a pairing operation, input "true" for the flag "chip_tool_use_paa_certs" to configure the Test-Harness to use them.
