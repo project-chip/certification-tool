@@ -1243,7 +1243,7 @@ Only one of the following parameter is allowed, also when one of them is configu
 }
 ----
 +
-WARNING: This is an invalid configuration. TH will not accept both parameters set at same time.
+WARNING: This is an invalid configuration. TH will not accept both parameters set at the same time.
 
 On completion of the "network" and the "dut_config" configuration, select the *Update* and then *Create* button to create the Test Project. 
 
