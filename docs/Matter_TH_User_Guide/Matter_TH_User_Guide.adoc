@@ -114,6 +114,7 @@ endif::[]
 | 39          | 04-Sep-2024  | [Apple] Hilton Lima                 | * Moved PIXIT section. +
                                                                      * Added 'Test Parameters for SDK Python Tests' section. +
                                                                      * Changed Table of Contents display level.
+| 40          | 24-Sep-2024  | [Apple] Hilton Lima                 | * Updated nRF util and desktop application links.
 |===
 
 <<<
@@ -210,7 +211,7 @@ The official installation method uses a Raspberry Pi (<<fresh_install>>), but th
 
 There are two ways to obtain the latest TH on Raspberry Pi. Follow the instructions in <<th-installation-on-raspberry-pi, Section 4.1.2, TH Installation on Raspberry Pi>> to install TH from scratch OR if you already have the TH, follow the instructions in <<update-existing-th, Section 4.4, Update Existing TH>> to update the TH.
 
-==== *Prerequisites*
+==== Prerequisites
 
 The following equipment will be required to have a complete TH setup:
 
@@ -612,10 +613,10 @@ To set up the Thread Board, follow the instructions below.
 
 NOTE: _The nRF52840-DK setup can be performed in two methods either by flashing the pre-built binary hex of sample apps which is released along with the TH by using the nRF Connect Desktop application tool (refer Section 5.2.2.1) or by building the docker environment to build the sample apps (refer Section 5.2.2.2)._
 
-===== *Instructions to Set Up nRF52840-DK Using nRF Connect Desktop Application Tool*
+===== Instructions to Set Up nRF52840-DK Using nRF Connect Desktop Application Tool
 .. Requirements:
 
-. nRF Connect for Desktop tool: Installer for https://nsscprodmedia.blob.core.windows.net/prod/software-and-other-downloads/desktop-software/nrf-connect-for-desktop/4-0-0/nrfconnect-setup-4.0.0-ia32.exe[Windows], https://nsscprodmedia.blob.core.windows.net/prod/software-and-other-downloads/desktop-software/nrf-connect-for-desktop/4-0-0/nrfconnect-4.0.0.dmg[MAC] or https://nsscprodmedia.blob.core.windows.net/prod/software-and-other-downloads/desktop-software/nrf-connect-for-desktop/4-0-0/nrfconnect-4.0.0-x86_64.appimage[Linux]
+. nRF Connect for Desktop tool installer: https://www.nordicsemi.com/Products/Development-tools/nRF-Connect-for-Desktop/Download#infotabs[Link]
 +
 NOTE: _The J-Link driver needs to be separately installed on macOS and Linux. Download and install it from https://www.segger.com/downloads/jlink[SEGGER] under the section J-Link Software and Documentation Pack._
 
@@ -644,7 +645,7 @@ image:images/img_9.png[]
 . Connect the nRF52840-Dongle to the USB port of the Raspberry Pi having the latest TH. 
 . For the Thread DUT, enable discoverable over Bluetooth LE (e.g., on nRF52840 DK: select Button 4) and start the Thread Setup Test execution by referring to <<test-configuration, Section 8, Test Configuration>> .
       
-===== *Instructions to Set Up nRF52840-DK Using Docker Environment*
+===== Instructions to Set Up nRF52840-DK Using Docker Environment
 . To build the sample apps for nRF-Connect, check out the Matter repository and bootstrap using following commands:
 
 +
@@ -713,7 +714,7 @@ NOTE: _Parameters can be omitted if flashing the example app onto the hardware i
 |===
 
 
-===== *Building and Flashing Sample Apps for nRF-Connect*
+===== Building and Flashing Sample Apps for nRF-Connect
 
 Perform the following procedure, regardless of the method used for setting up the environment:
 
@@ -794,12 +795,14 @@ Currently the OTBR in the TH works with either the Nordic RCP dongle or SiLabs R
 === Instructions to Flash the Firmware NRF52840 RCPDongle
 . Download RCP firmware package from the following link on the user’s system — https://groups.csa-iot.org/wg/matter-csg/document/34870[Thread RCP Firmware Package]
 . nRF Util is a unified command line utility for Nordic products. For more details, refer to the following link— https://www.nordicsemi.com/Products/Development-tools/nrf-util[https://www.nordicsemi.com/Products/Development-tools/nrf-util]
-. Install the nRF Util dependency in the user’s system using the following command:
+. Install the nRF Util dependencies on the user’s system using the following commands:
 
 +
-|===
-|`python3 -m pip install -U nrfutil`
-|===
+[source,shell]
+----
+python3 -m pip install -U nrfutil
+nrfutil install nrf5sdk-tools
+----
 
 . Connect the nRF52840 Dongle to the USB port of the user’s system.
 . Press the Reset button on the dongle to enter the DFU mode (the red LED on the dongle starts blinking).
