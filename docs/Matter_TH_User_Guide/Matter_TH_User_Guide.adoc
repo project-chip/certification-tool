@@ -322,7 +322,7 @@ If using multipass, to find the IP address use the command
 
 ==== Substitute the SDK's docker image and update sample apps
 
-If the platform of the machine that will run the TH is 'linux/amr64' it will not be necessary to build a new SDK docker image.
+If the platform of the machine that will run the TH is 'linux/arm64' it will not be necessary to build a new SDK docker image.
 
 To run TH on a machine using the 'linux/amd64' platform, you will need to first build a new SDK docker image.
 
