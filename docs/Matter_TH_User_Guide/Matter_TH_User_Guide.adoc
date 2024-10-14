@@ -1464,7 +1464,7 @@ Device-specific configuration is shown as shell variables. *PLEASE REPLACE THOSE
 * *$SETUP_PASSCODE*: Setup passcode for DUT (e.g., 20202021 for Linux examples)
 * *$WIFI_SSID*: SSID of Wi-Fi AP to which to attempt connection 
 +
-WARNING: Currently, WIFI_SSID with special chars or empty spaces are not supported.
+WARNING: Currently, WIFI_SSID with special characters or empty spaces is not supported.
 * *$WIFI_PASSPHRASE*: Passphrase of Wi-Fi AP to which to attempt connection
 * *$BLE_INTERFACE_ID*: Interface ID for BLE interface (e.g., 0 for default, which usually works)
 * *$THREAD_DATASET_HEX*: Thread operational dataset as a hex string (e.g., output of dataset active -x in OpenThread CLI on an existing end-device
