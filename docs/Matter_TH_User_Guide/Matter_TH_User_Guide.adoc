@@ -17,7 +17,7 @@
 
 :ubuntu-version: 24.04
 :ubuntu-description: Ubuntu Server {ubuntu-version} LTS (64-bit)
-:th-version: v2.11-beta3.1+fall2024
+:th-version: v2.11+fall2024
 = Matter Test-Harness User Manual: {th-version}
 ifdef::env-github[]
 :tip-caption: :bulb:
@@ -97,23 +97,24 @@ endif::[]
 | 29          | 18-Apr-2024  | [Apple]Hilton Lima                  | * Update section 'TH installation without a Raspberry Pi'.
 | 30          | 30-Apr-2024  | [Apple]Hilton Lima                  | * Update location for update scripts.
 | 31          | 10-Jun-2024  | [Apple]Hilton Lima                  | * Updated Test Harness links.
-| 32          | 17-Jun-2024  | [Google] Tennessee Carmel-Veilleux  | * Added an example of an external operational dataset.
-| 33          | 01-Aug-2024  | [Apple] Carolina Lopes              | * Added information about Certification Mode.
-| 34          | 02-Aug-2024  | [Apple] Antonio Melo Jr.            | * Update the Ubuntu mentions to the current supported version.
-| 35          | 06-Aug-2024  | [Apple] Antonio Melo Jr.            | * Add the TH release version to the front page of the document. +
+| 32          | 17-Jun-2024  | [Google]Tennessee Carmel-Veilleux   | * Added an example of an external operational dataset.
+| 33          | 01-Aug-2024  | [Apple]Carolina Lopes               | * Added information about Certification Mode.
+| 34          | 02-Aug-2024  | [Apple]Antonio Melo Jr.             | * Update the Ubuntu mentions to the current supported version.
+| 35          | 06-Aug-2024  | [Apple]Antonio Melo Jr.             | * Add the TH release version to the front page of the document. +
                                                                      * Add a warning to TH update when using a different Ubuntu version. +
                                                                      * Update the OTBR start script parameter. +
                                                                      * Fix the Thread RCP Firmware link. +
                                                                      * Add Nrfconnect Sample APPs Firmwares section with link.
-| 36          | 09-Aug-2024  | [Apple] Antonio Melo Jr.            | * Adding the new cleanup procedure to the troubleshooting of TH Installation section.
-| 37          | 13-Aug-2024  | [Apple] Hilton Lima                 | * Remove old references of TH image (obsolete). +
+| 36          | 09-Aug-2024  | [Apple]Antonio Melo Jr.             | * Adding the new cleanup procedure to the troubleshooting of TH Installation section.
+| 37          | 13-Aug-2024  | [Apple]Hilton Lima                  | * Remove old references of TH image (obsolete). +
                                                                      * Add a warning to ensure that the username needs to be 'ubuntu'.
-| 38          | 30-Aug-2024  | [Apple] Hilton Lima                 | * Replace images by text examples in 'Project Configuration' section. +
+| 38          | 30-Aug-2024  | [Apple]Hilton Lima                  | * Replace images by text examples in 'Project Configuration' section. +
                                                                      * Removed section 'Collect Logs and Submit to TEDS'. +
                                                                      * Added informations about 'qr-code' and 'manual-code' parameters.
-| 39          | 04-Sep-2024  | [Apple] Hilton Lima                 | * Moved PIXIT section. +
+| 39          | 04-Sep-2024  | [Apple]Hilton Lima                  | * Moved PIXIT section. +
                                                                      * Added 'Test Parameters for SDK Python Tests' section. +
                                                                      * Changed Table of Contents display level.
+| 40          | 14-Oct-2024  | [Apple]Romulo Quidute               | * Added Warning for WIFI_SSID with special chars or empty spaces.
 |===
 
 <<<
@@ -1461,7 +1462,9 @@ Device-specific configuration is shown as shell variables. *PLEASE REPLACE THOSE
 * *$PATH_TO_PAA_ROOTS*: Path on host where PAA roots are located. Failure to provide a correct path will cause early failure during commissioning (e.g., /var/paa-root-certs/)
 * *$DISCRIMINATOR*: Long discriminator for DUT (e.g., 3840 for Linux examples)
 * *$SETUP_PASSCODE*: Setup passcode for DUT (e.g., 20202021 for Linux examples)
-* *$WIFI_SSID*: SSID of Wi-Fi AP to which to attempt connection
+* *$WIFI_SSID*: SSID of Wi-Fi AP to which to attempt connection 
++
+WARNING: Currently, WIFI_SSID with special characters or empty spaces is not supported.
 * *$WIFI_PASSPHRASE*: Passphrase of Wi-Fi AP to which to attempt connection
 * *$BLE_INTERFACE_ID*: Interface ID for BLE interface (e.g., 0 for default, which usually works)
 * *$THREAD_DATASET_HEX*: Thread operational dataset as a hex string (e.g., output of dataset active -x in OpenThread CLI on an existing end-device
