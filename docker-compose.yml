@@ -68,7 +68,7 @@ services:
           - node.labels.${STACK_NAME?Variable not set}.app-db-data == true
 
   backend:
-    image: 'ghcr.io/project-chip/csa-certification-tool-backend:9c1ef58'
+    image: 'ghcr.io/project-chip/csa-certification-tool-backend:8f86ccd'
 
     ports:
       - "8888:8888"
