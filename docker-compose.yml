@@ -89,7 +89,7 @@ services:
     privileged: true
     build:
       context: ./backend
-    command: /start-reload.sh
+    command: bash -c "./prestart.sh; python3 ./app/main.py"
     labels:
       - traefik.enable=true
       - traefik.constraint-label-stack=${TRAEFIK_TAG?Variable not set}
