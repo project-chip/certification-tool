@@ -1477,7 +1477,7 @@ WARNING: Currently, WIFI_SSID with special characters or empty spaces is not sup
 |===
 |Factory-reset the DUT
 
-`docker run -v $PATH_TO_PAA_ROOTS:/paa_roots -v /var/run/dbus/system_bus_socket:/var/run/dbus/system_bus_socket -v /home/ubuntu/certification-tool/backend/test_collections/matter/sdk_tests/sdk_checkout/python_testing:/root/python_testing -v $(pwd):/launch_dir --privileged --network host -it connectedhomeip/chip-cert-bins:<SDK SHA RECOMMENDED>`
+`docker run -v $PATH_TO_PAA_ROOTS:/paa_roots -v /var/run/dbus/system_bus_socket:/var/run/dbus/system_bus_socket -v mapped_data_model:/root/python_testing/data_model -v /home/ubuntu/certification-tool/backend/test_collections/matter/sdk_tests/sdk_checkout/python_testing:/root/python_testing -v $(pwd):/launch_dir --privileged --network host -it connectedhomeip/chip-cert-bins:<SDK SHA RECOMMENDED>`
 |===
 
 This downloads a Docker image with the test environment, and runs the environment including mounting the PAA trust store in */paa_roots* and mounts the local Avahi socket so that Avahi in the VM can run against its host.
