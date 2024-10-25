@@ -142,11 +142,11 @@ The TH tool can be used by any DUT vendor to run the Matter certification tests,
 
 <<<
 == *References*
-. Matter Specification: https://groups.csa-iot.org/wg/members-all/document/27349[Matter Specification (Causeway)] / https://github.com/CHIP-Specifications/connectedhomeip-spec[Matter Specification (Github)]
+. Matter Specification: https://groups.csa-iot.org/wg/members-all/document/folder/4120[Matter Specification (Causeway)] / https://github.com/CHIP-Specifications/connectedhomeip-spec[Matter Specification (Github)]
 . Matter SDK Repo github: https://github.com/project-chip/connectedhomeip[https://github.com/project-chip/connectedhomeip]  
-. Matter Test Plans: https://groups.csa-iot.org/wg/members-all/document/30026[Matter Test Plans (Causeway)] / https://github.com/CHIP-Specifications/chip-test-plans[Matter Test Plans (GitHub)]
+. Matter Test Plans: https://groups.csa-iot.org/wg/members-all/document/folder/4120[Matter Test Plans (Causeway)] / https://github.com/CHIP-Specifications/chip-test-plans[Matter Test Plans (GitHub)]
 . PICS Tool: https://picstool.csa-iot.org/#userguide[PICS Tool - Connectivity Standards Alliance (csa-iot.org)]
-. XML Files: https://groups.csa-iot.org/wg/members-all/document/31907
+. XML Files: https://groups.csa-iot.org/wg/members-all/document/folder/4120
 . TEDS Matter tool: https://groups.csa-iot.org/wg/matter-wg/document/28545
 
 
@@ -1327,7 +1327,7 @@ PICS (_Protocol Implementation Conformance Statement_) is a list of features sup
 
 PICS codes are generated from the Test Plans. The Base.xml file lists all the Core feature PICS from the Matter Base Specifications and the application cluster PICS are listed in the respective TestPlan.xml files. Follow the steps below to generate and upload the PICS files.
 
-. Click on the following link to download the PICS XML files— https://groups.csa-iot.org/wg/members-all/document/31907[https://groups.csa-iot.org/wg/members-all/document/31907]
+. Click on the following link to download the PICS XML files— https://groups.csa-iot.org/wg/members-all/document/folder/4120[https://groups.csa-iot.org/wg/members-all/document/folder/4120]
 . Click on the following link to use the PICS tool— https://picstool.csa-iot.org/#userguide[PICS Tool v1.6.4 matter 1.0 - Connectivity Standards Alliance (csa-iot.org)]
 . Load the Base.xml file by clicking on the *Browse* option. In case the following error is observed:
 +
@@ -1661,7 +1661,7 @@ image:images/img_61.png[SDK Python Tests - Suites]
   * For test cases that follow the expected template but don't have a commissioning first step.
   * The selected tests will be executed without commissioning the DUT.
   * The user will be asked to make sure that the DUT is in Commissioning Mode at the start of each test.
-. Python Testing Suite - Legacy
+. Python Testing Suite - Old script format
   * For test cases that don't follow the expected template yet.
   * The user will be asked to make sure that the DUT is in Commissioning Mode at the start of each test.
   * The user will also be asked if the DUT should be commissioned at the start of each test. The DUT will be commissioned depending on the user's answer.
