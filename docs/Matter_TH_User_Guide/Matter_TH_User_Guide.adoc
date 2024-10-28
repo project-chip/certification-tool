@@ -212,7 +212,7 @@ The official installation method uses a Raspberry Pi (<<fresh_install>>), but th
 
 There are two ways to obtain the latest TH on Raspberry Pi. Follow the instructions in <<th-installation-on-raspberry-pi, Section 4.1.2, TH Installation on Raspberry Pi>> to install TH from scratch OR if you already have the TH, follow the instructions in <<update-existing-th, Section 4.4, Update Existing TH>> to update the TH.
 
-NOTE:  This instruction applies to the latest version of the Test Harness this document refers to, for earlier versions of the TH please follow the user guide of that specific TH version as for example Ubuntu versions might differ per installation.
+NOTE: This instruction applies to the latest version of the Test Harness this document refers to. For earlier versions of the TH please follow the user guide of that specific TH version as, for example, Ubuntu versions might differ per installation.
 
 ==== *Prerequisites*
 
