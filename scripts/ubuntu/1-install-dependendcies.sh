@@ -47,7 +47,7 @@ packagelist=(
     "libdbus-1-dev (>=1.12.20-2ubuntu4.1)"
     "libgirepository1.0-dev (=1.72.0-1)"
     "libglib2.0-dev (>=2.72.4-0ubuntu2.2)"
-    "libreadline-dev (=8.1.2-1)"
+    "libreadline-dev (>=8.1.2-1)"
     "libssl-dev (>=3.0.2-0ubuntu1.14)"               # Apparently with each update, previous versions of the library are removed
     "net-tools (>=1.60+git20181103.0eebece-1ubuntu5)"
     "ninja-build (=1.10.1-1)"
@@ -55,8 +55,8 @@ packagelist=(
     "pkg-config (>=0.29.2-1ubuntu3)"
     "python3-pip (>=22.0.2+dfsg-1ubuntu0.4)"          # Test Harness CLI uses Python              
     "python3-venv (>=3.10.6-1~22.04)"                 # Test Harness CLI uses Python
-    "software-properties-common (=0.99.22.9)"
-    "toilet (=0.3-1.4)"
+    "software-properties-common (>=0.99.22.9)"
+    "toilet (>=0.3-1.4)"
     "unzip (>=6.0-26ubuntu3.1)"
 )
 
