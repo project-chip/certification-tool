@@ -15,7 +15,7 @@
  * limitations under the License.
 ////
 
-:ubuntu-version: 24.04
+:ubuntu-version: 24.04.1
 :ubuntu-description: Ubuntu Server {ubuntu-version} LTS (64-bit)
 :th-version: v2.11+fall2024
 = Matter Test-Harness User Manual: {th-version}
