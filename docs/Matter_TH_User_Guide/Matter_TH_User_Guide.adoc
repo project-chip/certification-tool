@@ -116,6 +116,7 @@ endif::[]
 | 40          | 24-Sep-2024  | [Apple] Hilton Lima                 | * Updated nRF util and desktop application links.
 | 41          | 14-Oct-2024  | [Apple]Romulo Quidute               | * Added Warning for WIFI_SSID with special chars or empty spaces. +
                                                                      * Updated Test-Harness Links for v2.11+fall2024 release.
+| 42          | 03-Jan-2025  | [Apple]Romulo Quidute               | * Added Reuse commissioning information section.
 |===
 
 <<<
@@ -1671,3 +1672,9 @@ image:images/img_61.png[SDK Python Tests - Suites]
 image:images/img_62.png[SDK Python Tests - Commissioning Mode prompt]
 
 image:images/img_63.png[SDK Python Tests - DUT should be commissioned prompt]
+
+===== Reuse commissioning information
+This allows users to perform multiple test run executions without the need to perform the commissioning step in every test run execution.
+The TH is now storing the last commissioning information, so a prompt will presented asking user to reuse those previous commissioning information or if he wants to perform a new commissioning procedure.
+
+image:images/img_67.png[SDK Python Tests - Reuse commissioning information  prompt]
