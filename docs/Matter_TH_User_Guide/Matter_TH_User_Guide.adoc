@@ -1677,4 +1677,4 @@ image:images/img_63.png[SDK Python Tests - DUT should be commissioned prompt]
 This allows users to perform multiple test run executions without the need to perform the commissioning step in every test run execution.
 The TH is now storing the last commissioning information, so a prompt will presented asking user to reuse those previous commissioning information or if he wants to perform a new commissioning procedure.
 
-image:images/img_67.png[SDK Python Tests - Reuse commissioing information  prompt]
+image:images/img_67.png[SDK Python Tests - Reuse commissioning information  prompt]
