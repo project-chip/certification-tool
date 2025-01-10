@@ -29,21 +29,21 @@ print_script_step "Verify docker.download.com is reachable"
 # Docker Package Repo (network randomly fails after service restarts).
 for i in {1..5}
 do
-	timeout 2 bash -c "(echo >/dev/tcp/docker.download.com/80) &>/dev/null"
-	retVal=$?
-	if [ $retVal -eq 0 ]; then
-		echo "The docker.download.com is reacheable"
-		break
-	else
-		echo "The docker.download.com is unreachable for try $i"
-		sleep $(expr $i \* 2)
-	fi
+    timeout 2 bash -c "(echo >/dev/tcp/docker.download.com/80) &>/dev/null"
+    retVal=$?
+    if [ $retVal -eq 0 ]; then
+        echo "The docker.download.com is reacheable"
+        break
+    else
+        echo "The docker.download.com is unreachable for try $i"
+        sleep $(expr $i \* 2)
+    fi
 
-	if [ "$i" -eq '5' ]; then
-		echo "Failed to stablish connection with the docker.download.com service."
-		echo "Please verify your connection or try again later."
-		exit 1
-	fi
+    if [ "$i" -eq '5' ]; then
+        echo "Failed to stablish connection with the docker.download.com service."
+        echo "Please verify your connection or try again later."
+        exit 1
+    fi
 done
 
 set -e
