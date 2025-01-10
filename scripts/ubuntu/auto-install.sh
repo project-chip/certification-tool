@@ -20,4 +20,4 @@ LOG_DIR="$ROOT_DIR/logs"
 
 LOG_FILENAME=$(date +"log_ubuntu_auto_install_%F-%H-%M-%S")
 LOG_PATH="$LOG_DIR/$LOG_FILENAME"
-$PI_SCRIPT_DIR/internal-auto-install.sh $* | tee $LOG_PATH
+$UBUNTU_SCRIPT_DIR/internal-auto-install.sh $* | tee $LOG_PATH
