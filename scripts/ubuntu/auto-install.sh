@@ -14,45 +14,10 @@
  # WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  # See the License for the specific language governing permissions and
  # limitations under the License.
-
 ROOT_DIR=$(realpath $(dirname "$0")/../..)
-SCRIPT_DIR="$ROOT_DIR/scripts"
-UBUNTU_SCRIPT_DIR="$SCRIPT_DIR/ubuntu"
+UBUNTU_SCRIPT_DIR="$ROOT_DIR/scripts/ubuntu"
+LOG_DIR="$ROOT_DIR/logs"
 
-source "$SCRIPT_DIR/utils.sh"
-
-print_start_of_script
-
-check_installation_prerequisites
-verify_return_code
-
-print_script_step "Installing Test Harness Dependencies"
-$UBUNTU_SCRIPT_DIR/1-install-dependencies.sh
-verify_return_code
-
-print_script_step "Configure Machine"
-$UBUNTU_SCRIPT_DIR/2-machine-cofiguration.sh
-verify_return_code
-
-print_script_step "Update Test Harness code"
-# Store the current branch for the update
-CURRENT_BRANCH=$(git rev-parse --abbrev-ref HEAD)
-$UBUNTU_SCRIPT_DIR/auto-update.sh "$CURRENT_BRANCH"
-verify_return_code
-
-print_script_step "Revert needrestart config to default"
-sudo sed -i "s/\$nrconf{kernelhints} = -1;/#\$nrconf{kernelhints} = -1;/g" /etc/needrestart/needrestart.conf
-sudo sed -i "s/\$nrconf{restart} = 'a';/#\$nrconf{restart} = 'i';/" /etc/needrestart/needrestart.conf
-
-print_end_of_script
-
-print_installation_success
-
-print_script_step "You need to reboot to finish setup"
-printf "Do you want to reboot now? (Press 1 to reboot now)\n"
-select yn in "Yes" "No"; do
-    case $yn in
-        Yes ) sudo reboot; break;;
-        No ) exit;;
-    esac
-done
+LOG_FILENAME=$(date +"log_ubuntu_auto_install_%F-%H-%M-%S")
+LOG_PATH="$LOG_DIR/$LOG_FILENAME"
+$PI_SCRIPT_DIR/internal-auto-install.sh $* | tee $LOG_PATH
