@@ -16,7 +16,7 @@
  # limitations under the License.
 ROOT_DIR=$(realpath $(dirname "$0")/../..)
 PI_SCRIPT_DIR="$ROOT_DIR/scripts/pi-setup"
-LOG_FILENAME=$(date +"log-pi_setup-auto-update_%F-%H-%M-%S")
+LOG_FILENAME=$(date +"log-pi_setup-auto-install_%F-%H-%M-%S")
 LOG_PATH="$ROOT_DIR/logs/$LOG_FILENAME"
 
-$PI_SCRIPT_DIR/internal-auto-update.sh $* | tee $LOG_PATH
+$PI_SCRIPT_DIR/internal-auto-install.sh $* | tee $LOG_PATH
