@@ -15,23 +15,8 @@
  # See the License for the specific language governing permissions and
  # limitations under the License.
 ROOT_DIR=$(realpath $(dirname "$0")/../..)
-SCRIPT_DIR="$ROOT_DIR/scripts"
-PI_SCRIPT_DIR="$SCRIPT_DIR/pi-setup"
-UBUNTU_SCRIPT_DIR="$SCRIPT_DIR/ubuntu"
+PI_SCRIPT_DIR="$ROOT_DIR/scripts/pi-setup"
+LOG_FILENAME=$(date +"log-pi_setup-auto-install_%F-%H-%M-%S")
+LOG_PATH="$ROOT_DIR/logs/$LOG_FILENAME"
 
-source "$SCRIPT_DIR/utils.sh"
-
-print_start_of_script
-
-check_installation_prerequisites
-verify_return_code
-
-print_script_step "Installing Raspberry Pi Dependencies"
-$PI_SCRIPT_DIR/install-pi-dependencies.sh
-verify_return_code
-
-print_script_step "Running Ubuntu auto-install"
-$UBUNTU_SCRIPT_DIR/auto-install.sh
-verify_return_code
-
-print_end_of_script
+$PI_SCRIPT_DIR/internal-auto-install.sh $* | tee $LOG_PATH
