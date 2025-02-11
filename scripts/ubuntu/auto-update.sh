@@ -19,4 +19,11 @@ UBUNTU_SCRIPT_DIR="$ROOT_DIR/scripts/ubuntu"
 LOG_FILENAME=$(date +"log-ubuntu-auto-update_%F-%H-%M-%S")
 LOG_PATH="$ROOT_DIR/logs/$LOG_FILENAME"
 
-$UBUNTU_SCRIPT_DIR/internal-auto-update.sh $* | tee $LOG_PATH
+OUTPUT=$($UBUNTU_SCRIPT_DIR/internal-auto-update.sh $* 2>&1)
+RETURN_CODE=$?
+
+echo "$OUTPUT" | tee $LOG_PATH
+
+if [ $RETURN_CODE != 0 ]; then
+  exit 1
+fi
