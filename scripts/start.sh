@@ -96,7 +96,8 @@ if [ "$FRONTEND_DEV" = true ] ; then
     echo "!!!! Manually start frontend by connecting to the frontend container"
 else
     echo -n "Waiting for frontend to start"
-    until docker compose exec frontend curl --fail -s --output /dev/null http://localhost:4200
+    CHECK_FRONTEND_SERVICE="docker compose exec frontend curl --fail -s --output /dev/null http://localhost:4200"
+    until $CHECK_FRONTEND_SERVICE >> logs/frontend_service_start.log 2>&1 
     do
         echo -n "."
         sleep 5
@@ -109,7 +110,8 @@ if [ "$BACKEND_DEV" = true ] ; then
     echo "!!!! Manually start backend by connecting to the backend container"
 else
     echo -n "Waiting for backend to start"
-    until docker compose exec backend curl --fail -s --output /dev/null http://localhost/docs
+    CHECK_BACKEND_SERVICE="docker compose exec backend curl --fail -s --output /dev/null http://localhost/docs"
+    until $CHECK_BACKEND >> logs/backend_service_start.log 2>&1
     do
         echo -n "."
         sleep 5
