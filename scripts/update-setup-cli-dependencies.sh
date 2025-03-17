@@ -26,6 +26,7 @@ print_start_of_script
 print_script_step "Running Poetry install"
 source ~/.profile #ensure poetry is in path
 cd $ROOT_DIR/cli
+poetry self update
 poetry install --no-root
 
 print_end_of_script
