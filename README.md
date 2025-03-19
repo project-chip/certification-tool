@@ -57,7 +57,7 @@ Please be aware of these related repositories that all have to be used in concer
 
 ## Minimum Hardware Requirements
 
--   SD card 64 GB or mo
+-   SD card 64 GB or more
 -   RaspberryPi 4 or newer with at least 4 GB RAM
 
 ## License
