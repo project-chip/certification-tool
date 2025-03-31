@@ -17,7 +17,7 @@
 
 :ubuntu-version: 24.04.x
 :ubuntu-description: Ubuntu Server {ubuntu-version} LTS (64-bit)
-:th-version: v2.13-beta2+spring2025
+:th-version: v2.13+summer2025
 = Matter Test-Harness User Manual: {th-version}
 ifdef::env-github[]
 :tip-caption: :bulb:
@@ -50,8 +50,8 @@ endif::[]
 | Matter 1.2       | TH-Fall2023        | https://drive.google.com/file/d/1WTjhc7xbYt18RvpABU3_r47uqOLd7NN1/view?usp=drive_link[link] | https://groups.csa-iot.org/wg/members-all/document/folder/3045[Causeway Link] | 19771ed      | 
 | Matter 1.3       | v2.10.2+spring2024 | N/A                                                                                         | https://groups.csa-iot.org/wg/members-all/document/folder/3314[Causeway Link] | 50bcad1      | To install, use the tag "v2.10.2+spring2024" in the instructions of <<fresh_install>>
 | Matter 1.4       | v2.11+fall2024     | N/A                                                                                         | https://groups.csa-iot.org/wg/members-all/document/folder/4120[Causeway Link] | f2e5de7      | To install, use the tag "v2.11+fall2024" in the instructions of <<fresh_install>>
-| Matter 1.4.1     | v2.12+spring2025   | N/A                                                                                         |                                                                               | 7d67dc9      | To install, use the tag "v2.12-beta3+spring2025" in the instructions of <<fresh_install>>
-| Matter 1.5       | v2.13+spring2025   | N/A                                                                                         |                                                                               | e34015c      | To install, use the tag "v2.13-beta2+spring2025" in the instructions of <<fresh_install>>
+| Matter 1.4.1     | v2.12+spring2025   | N/A                                                                                         | https://groups.csa-iot.org/wg/matter-csg/document/folder/4244[Causeway Link] | 91eab26      | To install, use the tag "v2.12+spring2025" in the instructions of <<fresh_install>>
+| Matter 1.5       | v2.13+summer2025   | N/A                                                                                         |                                                                               | e34015c      | To install, use the tag "v2.13+summer2025" in the instructions of <<fresh_install>>
 |===
 
 
@@ -121,6 +121,8 @@ endif::[]
 | 42          | 03-Jan-2025  | [Apple]Romulo Quidute               | * Added Reuse commissioning information section.
 | 43          | 25-Feb-2025  | [Apple]Romulo Quidute               | * Updated supported Ubuntu version to 24.04.2.
 | 44          | 25-Feb-2025  | [Apple]Antonio Melo Jr.             | * Replacing the patch number with a 'x' in the supported Ubuntu version.
+| 45          | 13-Mar-2025  | [Apple]Romulo Quidute               | * Updated Test-Harness Links for v2.12+spring2025 release.
+| 46          | 31-Mar-2025  | [Apple]Romulo Quidute               | * Added mapping volume section inside SDK Python Tests.
 |===
 
 <<<
@@ -1473,6 +1475,14 @@ Follow the instructions below to execute the test cases.
 |===
 
 . After execution of the above commands ensure that the PAA’s are available locally at */var/paa-root-certs* .
+
+
+===== Mapped Volumes
+The following host directories are mapped into the cert-bins container:
+
+* `/root/python_testing` -> `/home/ubuntu/certification-tool/backend/test_collections/matter/sdk_tests/sdk_checkout/python_testing`
+* `/paa-root-certs` -> `/var/paa-root-certs`
+* `/credentials/development` -> `/var/credentials/development`
 
 ===== Placeholders for Steps
 
