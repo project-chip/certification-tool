@@ -119,7 +119,7 @@ endif::[]
 | 41          | 14-Oct-2024  | [Apple]Romulo Quidute               | * Added Warning for WIFI_SSID with special chars or empty spaces. +
                                                                      * Updated Test-Harness Links for v2.11+fall2024 release.
 | 42          | 03-Jan-2025  | [Apple]Romulo Quidute               | * Added Reuse commissioning information section.
-| 43          | 25-Feb-2025  | [Apple]Romulo Quidute               | * Updated supported Ubuntu version to 24.04.2
+| 43          | 25-Feb-2025  | [Apple]Romulo Quidute               | * Updated supported Ubuntu version to 24.04.2.
 | 44          | 25-Feb-2025  | [Apple]Antonio Melo Jr.             | * Replacing the patch number with a 'x' in the supported Ubuntu version.
 | 45          | 13-Mar-2025  | [Apple]Romulo Quidute               | * Updated Test-Harness Links for v2.12+spring2025 release.
 | 46          | 31-Mar-2025  | [Apple]Romulo Quidute               | * Added mapping volume section inside SDK Python Tests.
