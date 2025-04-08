@@ -73,6 +73,7 @@ services:
     ports:
       - "8888:8888"
       - "50000:50000"
+      - "5000:5000/udp" #To receive H264 packets from camera-controller
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
       - /usr/bin/docker:/usr/bin/docker
