@@ -1711,8 +1711,6 @@ Platform certification is the process of validating that a hardware or software 
 === Selecting Test Cases Rules
 The Test Harness applies different rules to pre-select test cases depending on the type of certification being performed. The selection process takes into account the presence of specific flags in the PICS file and, in some cases, the content of additional configuration files such as the `platform-test.json` and `dmp-test-skip.xml` files.
 
-The Test Harness applies different rules to pre-select test cases depending on the type of certification being performed. The selection process takes into account the presence of specific flags in the PICS file and, in some cases, the content of additional configuration files such as the `platform-test.json` and `dmp-test-skip.xml` files.
-
 The `dmp-test-skip.xml` file is provided by the PICS Tool, while the `platform-test.json` file is a static file that the Test Harness automatically downloads in the background from the SDK repository at the `connectedhomeip` project.
 
 
