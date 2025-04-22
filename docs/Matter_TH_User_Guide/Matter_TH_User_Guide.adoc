@@ -123,7 +123,7 @@ endif::[]
 | 44          | 25-Feb-2025  | [Apple]Antonio Melo Jr.             | * Replacing the patch number with a 'x' in the supported Ubuntu version.
 | 45          | 13-Mar-2025  | [Apple]Romulo Quidute               | * Updated Test-Harness Links for v2.12+spring2025 release.
 | 46          | 31-Mar-2025  | [Apple]Romulo Quidute               | * Added mapping volume section inside SDK Python Tests.
-| 47          | 17-Apr-2025  | [Apple]Romulo Quidute               | * Changes fot v2.13+summer025 version:
+| 47          | 17-Apr-2025  | [Apple]Romulo Quidute               | * Changes for v2.13+summer2025 version:
                                                                        Added platform certification configuration section.
 |===
 
@@ -1711,6 +1711,11 @@ Platform certification is the process of validating that a hardware or software 
 === Selecting Test Cases Rules
 The Test Harness applies different rules to pre-select test cases depending on the type of certification being performed. The selection process takes into account the presence of specific flags in the PICS file and, in some cases, the content of additional configuration files such as the `platform-test.json` and `dmp-test-skip.xml` files.
 
+The Test Harness applies different rules to pre-select test cases depending on the type of certification being performed. The selection process takes into account the presence of specific flags in the PICS file and, in some cases, the content of additional configuration files such as the `platform-test.json` and `dmp-test-skip.xml` files.
+
+The `dmp-test-skip.xml` file is provided by the PICS Tool, while the `platform-test.json` file is a static file that the Test Harness automatically downloads in the background from the SDK repository at the `connectedhomeip` project.
+
+
 The three selection modes are:
 
 * *Platform Certification*
@@ -1734,7 +1739,7 @@ This mode applies to products built on a previously certified platform. The beha
 * The PICS file must contain the `PICS_PLAT_CERT_DONE` flag set to `True`, along with any product-specific PICS entries.
 * The TH will pre-select test cases that:
 ** Comply with the standard PICS rules.
-** And **not** listed in the `dmp-test-skip.xml` (DMP file).
+** Are **not** listed in the `dmp-test-skip.xml` (DMP file).
 
 ==== Full Product Certification
 This is the default mode when the product does not fall under the previous two categories:
@@ -1752,7 +1757,12 @@ On the project configuration screen, users can upload both the PICS file and the
 
 This logic enables the TH to filter and pre-select the appropriate test cases based on the selected certification type.
 
-The `dmp-test-skip.xml` file can be uploaded either by dragging and dropping the file into the upload area or by manually selecting it. Note that only one DMP file is accepted at a time. If a second DMP file is uploaded, the previous configuration will be discarded.
+The `dmp-test-skip.xml` file can be uploaded either by dragging and dropping the file into the upload area or by manually selecting it. Note that only one DMP file is accepted at a time. If a second DMP file is uploaded, the previous configuration will be discarded. 
+
+[NOTE]
+====
+The file must be named exactly `dmp-test-skip.xml`. Renaming the file will result in it being ignored by the Test Harness.
+====
 
 Once the DMP file is uploaded, its content can be viewed in the panel on the left under the "dmp_test_skip" item, as shown in the figure.
 
