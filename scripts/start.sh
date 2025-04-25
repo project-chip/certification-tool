@@ -33,7 +33,8 @@ set -e
 BACKEND_COMPOSE_DEV="-f docker-compose.override-backend-dev.yml"
 FRONTEND_COMPOSE_DEV="-f docker-compose.override-frontend-dev.yml"
 
-DATE_STR=$(date +"%F-%H-%M-%S")
+BACKEND_LOGFILE_PATH="logs/backend_service_start_$(date +"%F-%H-%M-%S")"
+FRONTEND_LOGFILE_PATH="logs/frontend_service_start_$(date +"%F-%H-%M-%S")"
 
 # Parse args for which docker compose overrides to use
 BACKEND_COMPOSE=""
@@ -93,9 +94,9 @@ if [ $? -ne 0 ]; then
     exit 1
 fi
 
-echo "\n\n################################################################################" >> logs/frontend_service_start.log 2>&1
-echo "start.sh: Starting... $DATE_STR " >> logs/frontend_service_start.log 2>&1
-echo "################################################################################" >> logs/frontend_service_start.log 2>&1
+echo "\n\n################################################################################" >> $BACKEND_LOGFILE_PATH 2>&1
+echo "start.sh: Starting..." >> BACKEND_LOGFILE_PATH 2>&1
+echo "################################################################################" >> BACKEND_LOGFILE_PATH 2>&1
 
 if [ "$FRONTEND_DEV" = true ] ; then
     echo "!!!! Matter TH frontend started in development mode."
