@@ -33,6 +33,8 @@ set -e
 BACKEND_COMPOSE_DEV="-f docker-compose.override-backend-dev.yml"
 FRONTEND_COMPOSE_DEV="-f docker-compose.override-frontend-dev.yml"
 
+DATE_STR=$(date +"%F-%H-%M-%S")
+
 # Parse args for which docker compose overrides to use
 BACKEND_COMPOSE=""
 FRONTEND_COMPOSE=""
@@ -91,6 +93,10 @@ if [ $? -ne 0 ]; then
     exit 1
 fi
 
+echo "\n\n################################################################################" >> logs/frontend_service_start.log 2>&1
+echo "start.sh: Starting... $DATE_STR " >> logs/frontend_service_start.log 2>&1
+echo "################################################################################" >> logs/frontend_service_start.log 2>&1
+
 if [ "$FRONTEND_DEV" = true ] ; then
     echo "!!!! Matter TH frontend started in development mode."
     echo "!!!! Manually start frontend by connecting to the frontend container"
@@ -105,18 +111,28 @@ else
     echo " done"
 fi
 
+echo "################################################################################" >> logs/backend_service_start.log 2>&1
+echo "start.sh: Starting... $DATE_STR " >> logs/backend_service_start.log 2>&1
+echo "################################################################################" >> logs/backend_service_start.log 2>&1
+
 if [ "$BACKEND_DEV" = true ] ; then
     echo "!!!! Matter TH backend started in development mode."
     echo "!!!! Manually start backend by connecting to the backend container"
 else
     echo -n "Waiting for backend to start"
     CHECK_BACKEND_SERVICE="docker compose exec backend curl --fail -s --output /dev/null http://localhost/docs"
-    until $CHECK_BACKEND >> logs/backend_service_start.log 2>&1
+    until $CHECK_BACKEND_SERVICE >> logs/backend_service_start.log 2>&1
     do
         echo -n "."
         sleep 5
     done
     echo " done"
 fi
+
+echo "Backend startup process completed" >> logs/backend_service_start.log 2>&1
+docker logs certification-tool-backend-1 >>  logs/backend_service_start.log 2>&1
+
+echo "Frontend startup process completed" >> logs/backend_service_start.log 2>&1
+docker logs certification-tool-frontend-1 >>  logs/frontend_service_start.log 2>&1
 
 echo "Script 'start.sh' completed successfully"
