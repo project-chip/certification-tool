@@ -110,7 +110,7 @@ if [ "$FRONTEND_DEV" = true ] ; then
 else
     echo -n "Waiting for frontend to start"
     CHECK_FRONTEND_SERVICE="docker compose exec frontend curl --fail -s --output /dev/null http://localhost:4200"
-    until $CHECK_BACKEND_SERVICE >> $FRONTEND_LOGFILE_PATH 2>&1
+    until $CHECK_FRONTEND_SERVICE >> $FRONTEND_LOGFILE_PATH 2>&1
     do
         echo -n "."
         sleep 5
