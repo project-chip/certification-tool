@@ -33,6 +33,17 @@ set -e
 BACKEND_COMPOSE_DEV="-f docker-compose.override-backend-dev.yml"
 FRONTEND_COMPOSE_DEV="-f docker-compose.override-frontend-dev.yml"
 
+DATE_STR=$(date +"%F-%H-%M-%S")
+
+BACKEND_LOGFILE_PATH="logs/backend_service_start_$DATE_STR.log"
+FRONTEND_LOGFILE_PATH="logs/frontend_service_start_$DATE_STR.log"
+
+print_start_container() {
+    echo "################################################################################" >> "$1" 2>&1
+    echo "start.sh: Starting..." >> "$1" 2>&1
+    echo "################################################################################" >> "$1" 2>&1
+}
+
 # Parse args for which docker compose overrides to use
 BACKEND_COMPOSE=""
 FRONTEND_COMPOSE=""
@@ -91,13 +102,15 @@ if [ $? -ne 0 ]; then
     exit 1
 fi
 
+print_start_container "$FRONTEND_LOGFILE_PATH"
+
 if [ "$FRONTEND_DEV" = true ] ; then
     echo "!!!! Matter TH frontend started in development mode."
     echo "!!!! Manually start frontend by connecting to the frontend container"
 else
     echo -n "Waiting for frontend to start"
     CHECK_FRONTEND_SERVICE="docker compose exec frontend curl --fail -s --output /dev/null http://localhost:4200"
-    until $CHECK_FRONTEND_SERVICE >> logs/frontend_service_start.log 2>&1 
+    until $CHECK_FRONTEND_SERVICE >> $FRONTEND_LOGFILE_PATH 2>&1
     do
         echo -n "."
         sleep 5
@@ -105,18 +118,26 @@ else
     echo " done"
 fi
 
+print_start_container "$BACKEND_LOGFILE_PATH"
+
 if [ "$BACKEND_DEV" = true ] ; then
     echo "!!!! Matter TH backend started in development mode."
     echo "!!!! Manually start backend by connecting to the backend container"
 else
     echo -n "Waiting for backend to start"
     CHECK_BACKEND_SERVICE="docker compose exec backend curl --fail -s --output /dev/null http://localhost/docs"
-    until $CHECK_BACKEND >> logs/backend_service_start.log 2>&1
+    until $CHECK_BACKEND_SERVICE >> $BACKEND_LOGFILE_PATH 2>&1
     do
         echo -n "."
         sleep 5
     done
     echo " done"
 fi
+
+echo "Backend startup process completed" >> $BACKEND_LOGFILE_PATH 2>&1
+docker logs certification-tool-backend-1 >>  $BACKEND_LOGFILE_PATH 2>&1
+
+echo "Frontend startup process completed" >> $FRONTEND_LOGFILE_PATH 2>&1
+docker logs certification-tool-frontend-1 >>  $FRONTEND_LOGFILE_PATH 2>&1
 
 echo "Script 'start.sh' completed successfully"
