@@ -123,9 +123,10 @@ endif::[]
 | 44          | 25-Feb-2025  | [Apple]Antonio Melo Jr.             | * Replacing the patch number with a 'x' in the supported Ubuntu version.
 | 45          | 13-Mar-2025  | [Apple]Romulo Quidute               | * Updated Test-Harness Links for v2.12+spring2025 release.
 | 46          | 31-Mar-2025  | [Apple]Romulo Quidute               | * Added mapping volume section inside SDK Python Tests.
-| 47          | 05-May-2025  | [Apple]Romulo Quidute               | * Changes for v2.13+summer2025 version:
-                                                                       Added the platform certification configuration section.
-                                                                       Updated the docker command in Factory-reset the DUT section
+| 47          | 05-May-2025  | [Apple]Romulo Quidute, [Apple]Antonio Melo| Changes for v2.13+summer2025 version: +
+                                                                     * Added the platform certification configuration section. +
+                                                                     * Updated the docker command in Factory-reset the DUT section +
+                                                                     * Added the Wi-Fi PAF section supported by Matter 1.5
 |===
 
 <<<
@@ -1047,6 +1048,101 @@ lo: flags=73<UP,LOOPBACK,RUNNING>  mtu 65536 +
 |===
 *If any interface matches tayga ip address, change the conflicting IP on host.*
 
+<<<
+== *Wi-Fi PAF Commissioning*
+
+This section provides a guide to enable Wi-Fi PAF commissioning tests.
+
+=== Components Needed for Tests
+To enable the Wi-Fi PAF Commissioning tests, the following hardware and software components are required.
+
+==== Hardware
+* *Raspberry Pi*: version [TBF: version number] permissible for CSA Matter Test Events, used as a platform for Test Harness(Pi 4 or higher).
+* *WLAN USB dongle*: compatible with the latest hostapd and
+wpa_supplicant, used as the Wi-Fi subsystem for transmitting and
+receiving Wi-Fi Un-Synchronized Discovery (USD) Public Action Frames
+(PAF), including one of the following kinds:
+** NETGEAR A6210: https://www.amazon.com/NETGEAR-Dual-Band-Adapter-A6210-10000S-Refurbished/dp/B00NSB0G66
+** NETGEAR WN111 802.11n Wireless LAN USB 2.0 Adapter: https://a.co/d/4I7YMez
+** Linksys AE6000 Dual-Band Wireless Mini USB Adapter: https://a.co/d/iyXXpIs
+** SANOXY USB Mini Wifi Wireless LAN Internet Adapter: https://www.amazon.com/SANOXY-150Mbps-Wireless-Network-802-11n/dp/B01HFRCUVM
+
+==== Software
+* *hostapd and wpa_supplicant*: download from the latest master branch. Make sure this exists: CONFIG_NAN_USD=y
+** Used to enable transmitting and receiving Wi-Fi Un-Synchronized
+Discovery (USD) Public Action Frames (PAF) on platforms for both
+Test Harness and DUT.
+** *Here is the procedure to configure the above*:
+*** git clone https://w1.fi/hostap.git
+*** cd hostap/wpa_supplicant
+*** git checkout master (Run this if you are in different branch)
+*** vi defconfig or nano defconfig
+*** Make sure "CONFIG_NAN_USD=y" is set (It should be at the last line)
+*** cp defconfig .config
+*** sudo apt update
+*** sudo apt install libnl-3-dev libnl-genl-3-dev
+*** make all
+
+=== Matter SDK
+* Matter 1.5 SDK is capable of Wi-Fi PAF commissioning
+* Regular build command with “chip_device_config_enable_wifipaf=true” (*This step is required only when building from the Master branch. If you're using the SDK provided in the apps folder of the TH, it's not needed*)
+* *Test commands on SDK as a Commissionee*:
+** `$ ./chip-all-clusters-app --wifi --wifipaf freq_list=2437` // for 2.4GHz.
+** `$ ./chip-all-clusters-app --wifi --wifipaf freq_list=2437,2412,5745,5220` // for default 2.4GHz CH6 + a list of channels in 2.4GHz + a list of 5GHz channels
+* *Test commands on SDK as a Commissioner*: +
+Use "wifipaf-wifi" to pair: +
+** `./chip-tool-paf pairing wifipaf-wifi [node_id] [ssid] [ap_pwd] [passcode] [discriminator]`
+** *Example*: `./chip-tool-paf pairing wifipaf-wifi 1 n_m_2g nxp12345 20202021 3840` // on default 2.4GHz
+** *Example*: `sudo ./chip-tool pairing wifipaf-wifi 1 n_m_2g nxp12345 20202021 3840 --freq 5220` // on 5GHz
+
+=== Baseline Test Harness (TH) Configuration for Testing DUT Commissionable Device
+1. If DUT commissionable device is 2.4 GHz-only, configure TH commissioner to create an active subscriber on Default Publish Channel (2.4GHz Channel 6) for a test.
+2. If DUT commissionable device is 2.4 + 5 GHz, to test 2.4GHz commissioning, configure TH commissioner to create an active subscriber on Default Publish Channel (2.4GHz Channel 6) for a test.
+3. If DUT commissionable device is 2.4 + 5 GHz, to test 5GHz commissioning, configure TH commissioner to create an active subscriber on CH 44 non-ETSI regulatory domains or CH 149 in ETSI regulatory for a test.
+
+=== Baseline Test Harness (TH) Configuration for Testing DUT Commissioner
+For non-ETSI regulatory domain, configure the TH Commissionee with the Default Publish Channel to be Channel 6 in 2.4 GHz and a Publish Channel List that includes all 20 MHz channels in 2.4 GHz band, Channel 44 and Channel 149 in 5 GHz band, and the Commissioner's network operating channel if the operating channel is not a DFS channel.
+
+=== Test Procedures and Test Commands
+The test procedures and test commands for Wi-Fi PAF commissioning are documented in “Matter_V_1_5_TestPlanVerification” on a Matter CSG folder:
+https://groups.csa-iot.org/wg/matter-csg/document/38834 *or* https://docs.google.com/spreadsheets/d/19ZAbIRObi1HcvbesI4tSVmQn7cxz-ZNyFH80onmae7Y/edit?gid=311763523#gid=311763523
+
+*The test steps are specifically in the following places*:
+
+* 3.2.1. [TC-DD-2.1] Announcement by Device Verification [DUT - Commissionee]: Steps: 8, 9, 10, and 11 with “MCORE.DD.DISCOVERY_PAF” enabled in PICS.
+** TH does not need any special setting, just need to connect to AP. It's ok even using ethernet. But Wi-Fi should be on that I always test by using Wi-Fi connecting to AP. Test wpa_supplicant configure file script is below:
+*** ctrl_interface=DIR=/run/wpa_supplicant
+*** update_config=1
+*** network={
+  +
+  ssid="n_m_2g"
+  +
+  key_mgmt=WPA-PSK
+  +
+  psk="nxp12345"
+  +
+}
+** *Before executing TC-DD-2.1 please read the “readme” file available in the TC-DD-2.1 folder and complete the configuration.*
+* 3.2.2. [TC-DD-2.2] Discovery by Commissioner Verification [DUT - Commissioner]: Steps: 3.a and 3.b with “MCORE.DD.DISCOVERY_PAF” enabled in PICS.
+* 3.3.11. [TC-DD-3.11] Commissioning Flow = 0 (Standard Flow) - QR Code [DUT - Commissioner]: Steps: 2.a, 2.b and 2.c with “MCORE.DD.DISCOVERY_PAF” enabled in PICS
+* 3.3.12. [TC-DD-3.12] Commissioning Flow = 1 (User-Intent Flow) - QR Code [DUT - Commissioner]: Steps: 2.a, 2.b, 2.c and 2.d with “MCORE.DD.DISCOVERY_PAF” enabled in PICS
+* 3.3.13. [TC-DD-3.13] Commissioning Flow = 2 (Custom Flow) - QR Code [DUT - Commissioner]: Steps: 2.a, 2.b, 2.c and 2.d with “MCORE.DD.DISCOVERY_PAF” enabled in PICS
+* 3.3.14. [TC-DD-3.14] Commissioning Flow - QR Code - Negative Scenario [DUT - Commissioner]: Steps: 4.a and 4.b with “MCORE.DD.DISCOVERY_PAF” enabled in PICS
+
+=== Configure the environment
+* *Configure it as commissionee*:
+** Configure the wpa_supplicant on the commissionee side using the
+provided example file named wpa_supplicant-def_comm.conf.
+** Run `./config_paf_env.sh comee` (*Make sure the “config_paf_env.sh” file from the “scripts” folder inside the provided ZIP archive is copied to the working directory before executing this command*).
+* *Configure it as commissioner*:
+** Configure the wpa_supplicant on the commissionee side using the
+provided example file named wpa_supplicant-def_comer.conf.
+** Set the ssid/password of AP to wpa_supplicant-def_comer.conf
+** Run `./config_paf_env.sh comer` (*Make sure the “config_paf_env.sh” file from the “scripts” folder inside the provided ZIP archive is copied to the working directory before executing this command*).
+* Renew the commissionee environment before running the test:
+** Run `./renew_paf_comee.sh` (*Make sure the “renew_paf_comee.sh file from the “scripts” folder inside the provided ZIP archive is copied to the working directory before executing this command*)
+** The above script is just clearing the tmp files and removing the
+existing networks.
 
 <<<
 == *Test Configuration*
