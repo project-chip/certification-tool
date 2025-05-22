@@ -17,7 +17,7 @@
 
 :ubuntu-version: 24.04.x
 :ubuntu-description: Ubuntu Server {ubuntu-version} LTS (64-bit)
-:th-version: v2.13-beta3.3+summer2025
+:th-version: v2.13-beta4+summer2025
 = Matter Test-Harness User Manual: {th-version}
 ifdef::env-github[]
 :tip-caption: :bulb:
@@ -50,8 +50,8 @@ endif::[]
 | Matter 1.2       | TH-Fall2023        | https://drive.google.com/file/d/1WTjhc7xbYt18RvpABU3_r47uqOLd7NN1/view?usp=drive_link[link] | https://groups.csa-iot.org/wg/members-all/document/folder/3045[Causeway Link] | 19771ed      | 
 | Matter 1.3       | v2.10.2+spring2024 | N/A                                                                                         | https://groups.csa-iot.org/wg/members-all/document/folder/3314[Causeway Link] | 50bcad1      | To install, use the tag "v2.10.2+spring2024" in the instructions of <<fresh_install>>
 | Matter 1.4       | v2.11+fall2024     | N/A                                                                                         | https://groups.csa-iot.org/wg/members-all/document/folder/4120[Causeway Link] | f2e5de7      | To install, use the tag "v2.11+fall2024" in the instructions of <<fresh_install>>
-| Matter 1.4.1     | v2.12+spring2025   | N/A                                                                                         | https://groups.csa-iot.org/wg/matter-csg/document/folder/4244[Causeway Link] | 91eab26      | To install, use the tag "v2.12+spring2025" in the instructions of <<fresh_install>>
-| Matter 1.5       | v2.13+summer2025   | N/A                                                                                         |                                                                               | a12250a      | To install, use the tag "v2.13-beta3.3+summer2025" in the instructions of <<fresh_install>>
+| Matter 1.4.1     | v2.12+spring2025   | N/A                                                                                         | https://groups.csa-iot.org/wg/members-all/document/folder/4497[Causeway Link] | 91eab26      | To install, use the tag "v2.12+spring2025" in the instructions of <<fresh_install>>
+| Matter 1.4.2       | v2.13+summer2025   | N/A                                                                                         |                                                                               | a12250a      | To install, use the tag "v2.13-beta4+summer2025" in the instructions of <<fresh_install>>
 |===
 
 
@@ -126,7 +126,7 @@ endif::[]
 | 47          | 05-May-2025  | [Apple]Romulo Quidute, [Apple]Antonio Melo| Changes for v2.13+summer2025 version: +
                                                                      * Added the platform certification configuration section. +
                                                                      * Updated the docker command in Factory-reset the DUT section +
-                                                                     * Added the Wi-Fi PAF section supported by Matter 1.5
+                                                                     * Added the Wi-Fi PAF section supported by Matter 1.4.2
 |===
 
 <<<
@@ -807,7 +807,7 @@ If the DUT supports Thread Transport, DUT vendors need to use the OTBR that is s
 Currently the OTBR in the TH works with either the Nordic RCP dongle or SiLabs RCP dongle. Refer to <<instructions-to-flash-the-firmware-nrf52840-rcpdongle, Section 7.1>> to flash the NRF52840 firmware or <<instructions-to-flash-silabs-rcp, Section 7.2>> to flash the SiLabs firmware and get the RCP’s ready. Once the RCP’s are programmed, the user needs to insert the RCP dongle on to the Raspberry Pi running the TH and reboot the Raspberry Pi.
 
 === Instructions to Flash the Firmware NRF52840 RCPDongle
-. Download RCP firmware package from the following link on the user’s system — https://groups.csa-iot.org/wg/matter-csg/document/34870[Thread RCP Firmware Package]
+. Download RCP firmware package from the following link on the user’s system — https://groups.csa-iot.org/wg/members-all/document/39226[Thread RCP Firmware Package]
 . nRF Util is a unified command line utility for Nordic products. For more details, refer to the following link— https://www.nordicsemi.com/Products/Development-tools/nrf-util[https://www.nordicsemi.com/Products/Development-tools/nrf-util]
 . Install the nRF Util dependencies on the user’s system using the following commands:
 
@@ -837,7 +837,7 @@ Example: +
 . In case any permission issue occurs during flashing, launch the terminal and retry in sudo mode.
 
 === Nrfconnect Sample APPs Firmwares to Flash on the NRF52840DK Kit
-The https://groups.csa-iot.org/wg/matter-csg/document/33943[Nrfconnect Sample apps binary Package] is available for download and should be flashed in the development kit NRF52840DK to use it as DUT in the Test-Harness tests.
+The https://groups.csa-iot.org/wg/members-all/document/folder/2269[Nrfconnect Sample apps binary Package] is available for download and should be flashed in the development kit NRF52840DK to use it as DUT in the Test-Harness tests.
 
 === Instructions to Flash SiLabs RCP
 
@@ -1104,8 +1104,8 @@ Use "wifipaf-wifi" to pair: +
 For non-ETSI regulatory domain, configure the TH Commissionee with the Default Publish Channel to be Channel 6 in 2.4 GHz and a Publish Channel List that includes all 20 MHz channels in 2.4 GHz band, Channel 44 and Channel 149 in 5 GHz band, and the Commissioner's network operating channel if the operating channel is not a DFS channel.
 
 === Test Procedures and Test Commands
-The test procedures and test commands for Wi-Fi PAF commissioning are documented in “Matter_V_1_5_TestPlanVerification” on a Matter CSG folder:
-https://groups.csa-iot.org/wg/matter-csg/document/38834 *or* https://docs.google.com/spreadsheets/d/19ZAbIRObi1HcvbesI4tSVmQn7cxz-ZNyFH80onmae7Y/edit?gid=311763523#gid=311763523
+The test procedures and test commands for Wi-Fi PAF commissioning are documented in Test Plan Verification spreadsheet on a Matter Specifications and Test Plans folder:
+https://groups.csa-iot.org/wg/members-all/document/folder/2269 *or* https://docs.google.com/spreadsheets/d/19ZAbIRObi1HcvbesI4tSVmQn7cxz-ZNyFH80onmae7Y/edit?gid=311763523#gid=311763523
 
 *The test steps are specifically in the following places*:
 
@@ -1730,7 +1730,7 @@ The above example will be used to define the following arguments when running th
 
 ====== Test Parameters Examples
 
-Access the spreadsheet via the https://groups.csa-iot.org/wg/matter-csg/document/36336[Verification Steps Document] and review the information provided. Based on this data, create the parameters set as requested. 
+Access the spreadsheet via the https://groups.csa-iot.org/wg/members-all/document/folder/2269[Verification Steps Document] and review the information provided. Based on this data, create the parameters set as requested. 
 
 Below are some specific examples assembled from data obtained from the spreadsheet.
 
