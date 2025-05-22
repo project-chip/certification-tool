@@ -1104,7 +1104,7 @@ Use "wifipaf-wifi" to pair: +
 For non-ETSI regulatory domain, configure the TH Commissionee with the Default Publish Channel to be Channel 6 in 2.4 GHz and a Publish Channel List that includes all 20 MHz channels in 2.4 GHz band, Channel 44 and Channel 149 in 5 GHz band, and the Commissioner's network operating channel if the operating channel is not a DFS channel.
 
 === Test Procedures and Test Commands
-The test procedures and test commands for Wi-Fi PAF commissioning are documented in Test Plan Verification spreadsheet on a Matter Specifications and Test Plans folder:
+The test procedures and test commands for Wi-Fi PAF commissioning are documented in the Test Plan Verification spreadsheet under the Matter Specifications and Test Plans folder:
 https://groups.csa-iot.org/wg/members-all/document/folder/2269 *or* https://docs.google.com/spreadsheets/d/19ZAbIRObi1HcvbesI4tSVmQn7cxz-ZNyFH80onmae7Y/edit?gid=311763523#gid=311763523
 
 *The test steps are specifically in the following places*:
