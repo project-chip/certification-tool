@@ -1084,7 +1084,6 @@ Test Harness and DUT.
 *** make all
 
 === Matter SDK
-* Matter 1.5 SDK is capable of Wi-Fi PAF commissioning
 * Regular build command with “chip_device_config_enable_wifipaf=true” (*This step is required only when building from the Master branch. If you're using the SDK provided in the apps folder of the TH, it's not needed*)
 * *Test commands on SDK as a Commissionee*:
 ** `$ ./chip-all-clusters-app --wifi --wifipaf freq_list=2437` // for 2.4GHz.
