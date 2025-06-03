@@ -1805,10 +1805,10 @@ image:images/img_67.png[SDK Python Tests - Reuse commissioning information  prom
 Platform certification is the process of validating that a hardware or software platform meets specific technical and compliance standards. Certifying the platform allows device manufacturers to build products using a pre-approved foundation, reducing development time and simplifying the certification process for their final products.
 
 === Selecting Test Cases Rules
-The Test Harness applies different rules to pre-select test cases depending on the type of certification being performed. The selection process takes into account the presence of specific flags in the PICS file and, in some cases, the content of additional configuration files such as the `platform-test.json` and `dmp-test-skip.xml` files.
+The Test Harness applies different rules to pre-select test cases depending on the type of certification being performed. The selection process considers specific flags present in the PICS file and, in certain cases—such as when PICS_PLAT_CERT or PICS_PLAT_CERT_DONE PICS are present, it also evaluates the contents of additional configuration files, namely `generated-platform-cert-test-list.json` and `dmp-test-skip.xml`.
 
-The `dmp-test-skip.xml` file is provided by the PICS Tool, while the `platform-test.json` file is a static file that the Test Harness automatically downloads in the background from the SDK repository at the `connectedhomeip` project.
 
+The `dmp-test-skip.xml` file is provided by the PICS Tool, while the `generated-platform-cert-test-list.json` file is a static file maintained by the Platform team. The `generated-platform-cert-test-list.json` file can be found in the `./backend/test_collections/matter/platform-cert` directory.
 
 The three selection modes are:
 
@@ -1824,7 +1824,7 @@ In this mode, the product is being certified as a platform. The behavior is defi
 
 * The PICS file must contain the `PICS_PLAT_CERT` flag set to `True`.
 * The TH will pre-select test cases that:
-** Are explicitly listed in the new `platform-test.json` file.
+** Are explicitly listed in the `generated-platform-cert-test-list.json` file.
 ** Comply with the standard PICS rules.
 
 ==== Derived Product Certification
