@@ -17,7 +17,7 @@
 
 :ubuntu-version: 24.04.x
 :ubuntu-description: Ubuntu Server {ubuntu-version} LTS (64-bit)
-:th-version: v2.13-beta4+summer2025
+:th-version: v2.13-beta4.1+summer2025
 = Matter Test-Harness User Manual: {th-version}
 ifdef::env-github[]
 :tip-caption: :bulb:
@@ -47,11 +47,11 @@ endif::[]
 | *Matter Version* | *TH Version*       | *TH image location*                                                                         | *Supporting Documentation*                                                    | *SDK commit* | *Comments*
 | Matter 1.0       | v2.6               | https://drive.google.com/file/d/10YkV4mDulhLoA6RJOKZNNKWhHTH1tOfu/view?usp=drive_link[link] | https://groups.csa-iot.org/wg/members-all/document/folder/2729[Causeway Link] | 96c9357      |
 | Matter 1.1       | v2.8.1             | https://drive.google.com/file/d/15fU3L7QE-MNBslf53A_6sFgn1Wq0Pvqd/view?usp=drive_link[link] | https://groups.csa-iot.org/wg/members-all/document/folder/2730[Causeway Link] | 5a21d17      |
-| Matter 1.2       | TH-Fall2023        | https://drive.google.com/file/d/1WTjhc7xbYt18RvpABU3_r47uqOLd7NN1/view?usp=drive_link[link] | https://groups.csa-iot.org/wg/members-all/document/folder/3045[Causeway Link] | 19771ed      | 
+| Matter 1.2       | TH-Fall2023        | https://drive.google.com/file/d/1WTjhc7xbYt18RvpABU3_r47uqOLd7NN1/view?usp=drive_l  ink[link] | https://groups.csa-iot.org/wg/members-all/document/folder/3045[Causeway Link] | 19771ed      | 
 | Matter 1.3       | v2.10.2+spring2024 | N/A                                                                                         | https://groups.csa-iot.org/wg/members-all/document/folder/3314[Causeway Link] | 50bcad1      | To install, use the tag "v2.10.2+spring2024" in the instructions of <<fresh_install>>
 | Matter 1.4       | v2.11+fall2024     | N/A                                                                                         | https://groups.csa-iot.org/wg/members-all/document/folder/4120[Causeway Link] | f2e5de7      | To install, use the tag "v2.11+fall2024" in the instructions of <<fresh_install>>
 | Matter 1.4.1     | v2.12+spring2025   | N/A                                                                                         | https://groups.csa-iot.org/wg/members-all/document/folder/4497[Causeway Link] | 91eab26      | To install, use the tag "v2.12+spring2025" in the instructions of <<fresh_install>>
-| Matter 1.4.2     | v2.13-beta4+summer2025   | N/A                                                                                         |                                                                               | 871b434      | To install, use the tag "v2.13-beta4+summer2025" in the instructions of <<fresh_install>>
+| Matter 1.4.2     | v2.13-beta4.1+summer2025   | N/A                                                                                         |                                                                               | 871b434      | To install, use the tag "v2.13-beta4.1+summer2025" in the instructions of <<fresh_install>>
 |===
 
 
@@ -1805,7 +1805,7 @@ image:images/img_67.png[SDK Python Tests - Reuse commissioning information  prom
 Platform certification is the process of validating that a hardware or software platform meets specific technical and compliance standards. Certifying the platform allows device manufacturers to build products using a pre-approved foundation, reducing development time and simplifying the certification process for their final products.
 
 === Selecting Test Cases Rules
-The Test Harness applies different rules to pre-select test cases depending on the type of certification being performed. The selection process considers specific flags present in the PICS file and, in certain cases—such as when PICS_PLAT_CERT or PICS_PLAT_CERT_DONE PICS are present, it also evaluates the contents of additional configuration files, namely `generated-platform-cert-test-list.json` and `dmp-test-skip.xml`.
+The Test Harness applies different rules to pre-select test cases depending on the type of certification being performed. The selection process considers specific flags present in the PICS file and, in certain cases—such as when PLAT.CERT or PLAT.CERT.TESTS.DONE PICS are present, it also evaluates the contents of additional configuration files, namely `generated-platform-cert-test-list.json` and `dmp-test-skip.xml`.
 
 
 The `dmp-test-skip.xml` file is provided by the PICS Tool, while the `generated-platform-cert-test-list.json` file is a static file maintained by the Platform team. The `generated-platform-cert-test-list.json` file can be found in the `./backend/test_collections/matter/platform-cert` directory.
@@ -1822,15 +1822,14 @@ Each mode is designed to ensure that only the relevant test cases are executed b
 ==== Platform Certification
 In this mode, the product is being certified as a platform. The behavior is defined as follows:
 
-* The PICS file must contain the `PICS_PLAT_CERT` flag set to `True`.
+* The PICS file must contain the `PLAT.CERT` flag set to `True`.
 * The TH will pre-select test cases that:
-** Are explicitly listed in the `generated-platform-cert-test-list.json` file.
-** Comply with the standard PICS rules.
+** Are explicitly listed in the `generated-platform-cert-test-list.json` file and also comply with the standard PICS rules.
 
 ==== Derived Product Certification
 This mode applies to products built on a previously certified platform. The behavior is:
 
-* The PICS file must contain the `PICS_PLAT_CERT_DONE` flag set to `True`, along with any product-specific PICS entries.
+* The PICS file must contain the `PLAT.CERT.TESTS.DONE` flag set to `True`, along with any product-specific PICS entries.
 * The TH will pre-select test cases that:
 ** Comply with the standard PICS rules.
 ** Are **not** listed in the `dmp-test-skip.xml` (DMP file).
@@ -1838,16 +1837,18 @@ This mode applies to products built on a previously certified platform. The beha
 ==== Full Product Certification
 This is the default mode when the product does not fall under the previous two categories:
 
-* The PICS file may contain any PICS entries, except `PICS_PLAT_CERT` and `PICS_PLAT_CERT_DONE`.
+* The PICS file may contain any PICS entries, except `PLAT.CERT` and `PLAT.CERT.TESTS.DONE`.
 * The TH will pre-select test cases according to standard PICS rules only.
 
 === Configuration Input
 
 On the project configuration screen, users can upload both the PICS file and the optional `dmp-test-skip.xml` file. Based on the content of the PICS file, the TH determines the certification mode by checking the values of the following flags:
 
-* `MCORE.PLAT_CERT = True` → Platform Certification
-* `MCORE.PLAT_CERT_DONE = True` → Derived Product Certification
+* `PLAT.CERT = True` → Platform Certification
+* `PLAT.CERT.TESTS.DONE = True` → Derived Product Certification
 * Neither flag set → Full Product Certification
+
+WARNING: PLAT.CERT and PLAT.CERT.TESTS.DONE are mutually exclusive. Please enable only one of them.
 
 This logic enables the TH to filter and pre-select the appropriate test cases based on the selected certification type.
 
