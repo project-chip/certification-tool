@@ -1162,7 +1162,7 @@ provided example file named wpa_supplicant-def_comer.conf.
 existing networks.
 
 [NOTE]
-It's required to run on commissionable device before running each tests
+It is required to run on commissionable device before running each test
 
 === Additional Trouble Shooting Helpful Notes
 * *Commissionee failed to connect to AP in running PAF commissioning*:
@@ -1181,15 +1181,15 @@ It's required to run on commissionable device before running each tests
 [1749462984.008] [3575:3575] [PAF]Shutdown PAF session (1, 0)
 ----
 
-**Reason**: There is a protect in SDK that it will stop sending PAF packets if device is scanning. The period is 15 seconds. If the environment is noisy, it's possible to hit the problem and failed to continue.
+**Reason**: There is a protecion in SDK that it will stop sending PAF packets if the device is scanning. The period is of 15 seconds. If the environment is noisy, it's possible to hit the problem and fail to continue.
 
-**Solution/WAR**: Need a cleaner environment. We will add patch to make this period configurable in SDK.
+**Solution/WAR**: Need a cleaner environment. We will add a patch to make this period configurable in SDK.
 
 * *Device failed to run after upgrading to v2.10 wpa_supplicant*:
 
-**Symptom**:Device can associate with AP, but failed at the last step if running Wi-Fi commissioning (including code-wifi, ble-wifi, wifipaf-wifi)
+**Symptom**:Device can associate with AP, but fails at the last step if running Wi-Fi commissioning (including code-wifi, ble-wifi, wifipaf-wifi)
 
-**Reason**:The problem will be observed if the `/etc/wpa_supplicant/wpa_supplicant.conf` has the ap information.
+**Reason**:The problem will be observed if the `/etc/wpa_supplicant/wpa_supplicant.conf` file has the AP information.
 
 **Solution/WAR:ref**: Renew the commissionee environment before running the test in **WiFi PAF Commissioning Test Readme CSA Matter** file.
 
