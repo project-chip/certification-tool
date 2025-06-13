@@ -1083,10 +1083,16 @@ Test Harness and DUT.
 *** sudo apt install libnl-3-dev libnl-genl-3-dev
 *** make all
 
-WARNING: Known problem: The latest version of wpa_supplicant (v2.11 or later) may cause compatibility issues with certain Wi-Fi chipsets on Raspberry-Pi. This can result in the wireless connection intermittently dropping and reconnecting. 
-Workaround to avoid the compatibility problem: 
-Modify the boot configuration by adding the setting to /boot/firmware/cmdline.txt file:
+[WARNING]
+====
+Known problem: The latest version of wpa_supplicant (v2.11 or later) may cause compatibility issues with certain Wi-Fi chipsets on Raspberry-Pi. This can result in the wireless connection intermittently dropping and reconnecting.
+
+Workaround to avoid the compatibility problem:
+Modify the boot configuration by adding the setting to `/boot/firmware/cmdline.txt` file:
+----
 console=serial0,115200 multipath=off dwc_otg.lpm_enable=0 console=tty1 root=LABEL=writable rootfstype=ext4 rootwait fixrtc brcmfmac.roamoff=1 brcmfmac.feature_disable=0x282000
+----
+====
 
 
 === Matter SDK
@@ -1142,8 +1148,8 @@ provided example file named wpa_supplicant-def_comm.conf.
 *** sudo ifconfig wlan0 down
 *** sudo rmmod brcmfmac_wcc
 *** sudo rmmod brcmfmac
-** Stop the network manage:
-***  sudo service NetworkManager stop
+** Stop the network manager:
+*** sudo service NetworkManager stop
 ** Run `./config_paf_env.sh comee` (*Make sure the “config_paf_env.sh” file from the “scripts” folder inside the provided ZIP archive is copied to the working directory before executing this command*).
 * *Configure it as commissioner*:
 ** Configure the wpa_supplicant on the commissionee side using the
@@ -1156,15 +1162,13 @@ provided example file named wpa_supplicant-def_comer.conf.
 existing networks.
 
 [NOTE]
-==== 
 It's required to run on commissionable device before running each tests
-==== 
 
 === Additional Trouble Shooting Helpful Notes
 * *Commissionee failed to connect to AP in running PAF commissioning*:
 
 **Symptom**: The messages are observed on the log:
-==============================================
+----
 [1749462967.571] [3575:3576] [DL] wpa_supplicant:PropertiesChanged:key:State -> 'scanning'
 [1749462969.775] [3575:3576] [DL] wpa_supplicant:PropertiesChanged:key:Scanning -> true
 [1749462983.051] [3575:3576] [DL] wpa_supplicant: network scan done
@@ -1175,7 +1179,8 @@ It's required to run on commissionable device before running each tests
 [1749462984.004] [3575:3576] [DL] Network Found: Qualitrix (b0:19:21:73:ee:78) Signal:-77
 [1749462984.008] [3575:3575] [PAF]Network resource has been unavailable for a long time
 [1749462984.008] [3575:3575] [PAF]Shutdown PAF session (1, 0)
-==============================================
+----
+
 **Reason**: There is a protect in SDK that it will stop sending PAF packets if device is scanning. The period is 15 seconds. If the environment is noisy, it's possible to hit the problem and failed to continue.
 
 **Solution/WAR**: Need a cleaner environment. We will add patch to make this period configurable in SDK.
