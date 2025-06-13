@@ -1162,6 +1162,7 @@ It's required to run on commissionable device before running each tests
 
 === Additional Trouble Shooting Helpful Notes
 * *Commissionee failed to connect to AP in running PAF commissioning*:
+
 **Symptom**: The messages are observed on the log:
 ==============================================
 [1749462967.571] [3575:3576] [DL] wpa_supplicant:PropertiesChanged:key:State -> 'scanning'
@@ -1175,12 +1176,16 @@ It's required to run on commissionable device before running each tests
 [1749462984.008] [3575:3575] [PAF]Network resource has been unavailable for a long time
 [1749462984.008] [3575:3575] [PAF]Shutdown PAF session (1, 0)
 ==============================================
-**Reason**: There is a protect in SDK that it will stop sending PAF packets if device is scanning. The period is 15 seconds. If the environment is noisy, it's possible to hit the problem and failed to continue
+**Reason**: There is a protect in SDK that it will stop sending PAF packets if device is scanning. The period is 15 seconds. If the environment is noisy, it's possible to hit the problem and failed to continue.
+
 **Solution/WAR**: Need a cleaner environment. We will add patch to make this period configurable in SDK.
 
 * *Device failed to run after upgrading to v2.10 wpa_supplicant*:
+
 **Symptom**:Device can associate with AP, but failed at the last step if running Wi-Fi commissioning (including code-wifi, ble-wifi, wifipaf-wifi)
+
 **Reason**:The problem will be observed if the `/etc/wpa_supplicant/wpa_supplicant.conf` has the ap information.
+
 **Solution/WAR:ref**: Renew the commissionee environment before running the test in **WiFi PAF Commissioning Test Readme CSA Matter** file.
 
 <<<
