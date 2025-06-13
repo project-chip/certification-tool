@@ -1083,6 +1083,18 @@ Test Harness and DUT.
 *** sudo apt install libnl-3-dev libnl-genl-3-dev
 *** make all
 
+[WARNING]
+====
+Known problem: The latest version of wpa_supplicant (v2.11 or later) may cause compatibility issues with certain Wi-Fi chipsets on Raspberry-Pi. This can result in the wireless connection intermittently dropping and reconnecting.
+
+Workaround to avoid the compatibility problem:
+Modify the boot configuration by adding the setting to `/boot/firmware/cmdline.txt` file:
+----
+console=serial0,115200 multipath=off dwc_otg.lpm_enable=0 console=tty1 root=LABEL=writable rootfstype=ext4 rootwait fixrtc brcmfmac.roamoff=1 brcmfmac.feature_disable=0x282000
+----
+====
+
+
 === Matter SDK
 * Regular build command with “chip_device_config_enable_wifipaf=true” (*This step is required only when building from the Master branch. If you're using the SDK provided in the apps folder of the TH, it's not needed*)
 * *Test commands on SDK as a Commissionee*:
@@ -1132,6 +1144,12 @@ https://groups.csa-iot.org/wg/members-all/document/folder/2269 *or* https://docs
 * *Configure it as commissionee*:
 ** Configure the wpa_supplicant on the commissionee side using the
 provided example file named wpa_supplicant-def_comm.conf.
+** Stop the default Wi-Fi interface of raspberry-pi:
+*** sudo ifconfig wlan0 down
+*** sudo rmmod brcmfmac_wcc
+*** sudo rmmod brcmfmac
+** Stop the network manager:
+*** sudo service NetworkManager stop
 ** Run `./config_paf_env.sh comee` (*Make sure the “config_paf_env.sh” file from the “scripts” folder inside the provided ZIP archive is copied to the working directory before executing this command*).
 * *Configure it as commissioner*:
 ** Configure the wpa_supplicant on the commissionee side using the
@@ -1142,6 +1160,38 @@ provided example file named wpa_supplicant-def_comer.conf.
 ** Run `./renew_paf_comee.sh` (*Make sure the “renew_paf_comee.sh file from the “scripts” folder inside the provided ZIP archive is copied to the working directory before executing this command*)
 ** The above script is just clearing the tmp files and removing the
 existing networks.
+
+[NOTE]
+It is required to run on commissionable device before running each test
+
+=== Additional Trouble Shooting Helpful Notes
+* *Commissionee failed to connect to AP in running PAF commissioning*:
+
+**Symptom**: The messages are observed on the log:
+----
+[1749462967.571] [3575:3576] [DL] wpa_supplicant:PropertiesChanged:key:State -> 'scanning'
+[1749462969.775] [3575:3576] [DL] wpa_supplicant:PropertiesChanged:key:Scanning -> true
+[1749462983.051] [3575:3576] [DL] wpa_supplicant: network scan done
+[1749462983.544] [3575:3576] [DL] Network Found: (1a:27:f5:37:4e:c7) Signal:-49
+[1749462983.549] [3575:3576] [DL] Network Found: Chip5 (dc:ea:e7:34:f5:5e) Signal:-51...
+
+[1749462983.999] [3575:3576] [DL] Network Found: GRL-Public (c6:06:c3:f9:5e:ce) Signal:-61
+[1749462984.004] [3575:3576] [DL] Network Found: Qualitrix (b0:19:21:73:ee:78) Signal:-77
+[1749462984.008] [3575:3575] [PAF]Network resource has been unavailable for a long time
+[1749462984.008] [3575:3575] [PAF]Shutdown PAF session (1, 0)
+----
+
+**Reason**: There is a protecion in SDK that it will stop sending PAF packets if the device is scanning. The period is of 15 seconds. If the environment is noisy, it's possible to hit the problem and fail to continue.
+
+**Solution/WAR**: Need a cleaner environment. We will add a patch to make this period configurable in SDK.
+
+* *Device failed to run after upgrading to v2.10 wpa_supplicant*:
+
+**Symptom**:Device can associate with AP, but fails at the last step if running Wi-Fi commissioning (including code-wifi, ble-wifi, wifipaf-wifi)
+
+**Reason**:The problem will be observed if the `/etc/wpa_supplicant/wpa_supplicant.conf` file has the AP information.
+
+**Solution/WAR:ref**: Renew the commissionee environment before running the test in **WiFi PAF Commissioning Test Readme CSA Matter** file.
 
 <<<
 == *Test Configuration*
