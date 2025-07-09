@@ -43,9 +43,7 @@ endif::[]
 | Matter 1.0       | v2.6               | https://drive.google.com/file/d/10YkV4mDulhLoA6RJOKZNNKWhHTH1tOfu/view?usp=drive_link[link] | https://groups.csa-iot.org/wg/matter-csg/document/folder/2947[Causeway Link] | 96c9357      |
 | Matter 1.1       | v2.8.1             | https://drive.google.com/file/d/15fU3L7QE-MNBslf53A_6sFgn1Wq0Pvqd/view?usp=drive_link[link] | https://groups.csa-iot.org/wg/matter-csg/document/folder/2470[Causeway Link] | 5a21d17      |
 | Matter 1.2       | TH-Fall2023        | https://drive.google.com/file/d/1WTjhc7xbYt18RvpABU3_r47uqOLd7NN1/view?usp=drive_link[link] | https://groups.csa-iot.org/wg/matter-csg/document/folder/2756[Causeway Link] | 19771ed      | 
-| Matter 1.3       | v2.10+spring2024   | N/A                                                                                         | https://groups.csa-iot.org/wg/matter-csg/document/folder/3314[Causeway Link] | 11f94c3      | To install, use the tag "v2.10+spring2024" in the instructions of <<fresh_install>>
-| Matter 1.3       | v2.10.1+spring2024 | N/A                                                                                         | https://groups.csa-iot.org/wg/matter-csg/document/folder/3314[Causeway Link] | 50bcad1      | To install, use the tag "v2.10.1+spring2024" in the instructions of <<fresh_install>>
-| Matter 1.3       | v2.10.2+spring2024 | N/A                                                                                         | https://groups.csa-iot.org/wg/matter-csg/document/folder/3314[Causeway Link] | 50bcad1      | To install, use the tag "v2.10.2+spring2024" in the instructions of <<fresh_install>>
+| Matter 1.3       | v2.10.4+spring2024 | N/A                                                                                         | https://groups.csa-iot.org/wg/matter-csg/document/folder/3314[Causeway Link] | 50bcad1      | To install, use the tag "v2.10.4+spring2024" in the instructions of <<fresh_install>>
 |===
 
 
