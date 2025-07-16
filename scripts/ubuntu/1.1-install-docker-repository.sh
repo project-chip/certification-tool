@@ -31,7 +31,7 @@ for i in {1..5}
 do
     status_code=$(sudo curl -sS -o /dev/null -w "%{http_code}" --connect-timeout 1 "https://download.docker.com" ${https_proxy+--proxy $https_proxy} )
     if [ $? -eq 0 ] && [ "$status_code" -lt 400 ]; then
-        echo "The download.docker.com is reacheable"
+        echo "The download.docker.com is reachable"
         break
     else
         echo "The download.docker.com is unreachable for try $i"
