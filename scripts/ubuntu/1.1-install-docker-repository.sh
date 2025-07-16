@@ -39,7 +39,7 @@ do
     fi
 
     if [ "$i" -eq '5' ]; then
-        echo "Failed to stablish connection with the download.docker.com service."
+        echo "Failed to establish connection with the download.docker.com service."
         echo "Please verify your connection or try again later."
         exit 1
     fi
