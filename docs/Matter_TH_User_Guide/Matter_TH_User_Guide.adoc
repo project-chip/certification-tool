@@ -17,7 +17,7 @@
 
 :ubuntu-version: 24.04.x
 :ubuntu-description: Ubuntu Server {ubuntu-version} LTS (64-bit)
-:th-version: v2.14-beta1+fall2025
+:th-version: v2.14-beta1.1+winter2025
 = Matter Test-Harness User Manual: {th-version}
 ifdef::env-github[]
 :tip-caption: :bulb:
@@ -52,7 +52,7 @@ endif::[]
 | Matter 1.4       | v2.11+fall2024     | N/A                                                                                         | https://groups.csa-iot.org/wg/members-all/document/folder/4120[Causeway Link] | f2e5de7      | To install, use the tag "v2.11+fall2024" in the instructions of <<fresh_install>>
 | Matter 1.4.1     | v2.12+spring2025   | N/A                                                                                         | https://groups.csa-iot.org/wg/members-all/document/folder/4497[Causeway Link] | 91eab26      | To install, use the tag "v2.12+spring2025" in the instructions of <<fresh_install>>
 | Matter 1.4.2       | v2.13+summer2025   | N/A                                                                                         | https://groups.csa-iot.org/wg/members-all/document/folder/4651[Causeway Link] | a12250a      | To install, use the tag "v2.13-beta4+summer2025" in the instructions of <<fresh_install>>
-| Matter 1.5     | v2.14-beta1+fall2025   | N/A                                                                                         |  | 4da9496      | To install, use the tag "v2.14-beta1+fall2025" in the instructions of <<fresh_install>>
+| Matter 1.5     | v2.14-beta1.1+winter2025   | N/A                                                                                         |  | 4da9496      | To install, use the tag "v2.14-beta1.1+winter2025" in the instructions of <<fresh_install>>
 |===
 
 
@@ -345,7 +345,7 @@ To run TH on a machine using the 'linux/amd64' platform, you will need to first 
 * Get the SDK commit SHA
 
 |===
-|Value for variable `SDK_DOCKER_TAG` in TH repository path `certification-tool/backend/app/core/config.py`
+|Value for variable `SDK_DOCKER_TAG` in TH repository path `certification-tool/backend/test_collections/matter/config.py`
 |===
 
 * Download the Dockerfile for chip-cert-bins from the commit you need
