@@ -52,7 +52,7 @@ endif::[]
 | Matter 1.4       | v2.11+fall2024     | N/A                                                                                         | https://groups.csa-iot.org/wg/members-all/document/folder/4120[Causeway Link] | f2e5de7      | To install, use the tag "v2.11+fall2024" in the instructions of <<fresh_install>>
 | Matter 1.4.1     | v2.12+spring2025   | N/A                                                                                         | https://groups.csa-iot.org/wg/members-all/document/folder/4497[Causeway Link] | 91eab26      | To install, use the tag "v2.12+spring2025" in the instructions of <<fresh_install>>
 | Matter 1.4.2       | v2.13+summer2025   | N/A                                                                                         | https://groups.csa-iot.org/wg/members-all/document/folder/4651[Causeway Link] | a12250a      | To install, use the tag "v2.13-beta4+summer2025" in the instructions of <<fresh_install>>
-| Matter 1.5     | v2.14-beta1.1+winter2025   | N/A                                                                                         |  | 4da9496      | To install, use the tag "v2.14-beta1.1+winter2025" in the instructions of <<fresh_install>>
+| Matter 1.5     | v2.14-beta1.1+winter2025   | N/A                                                                                         |  | 7b24545      | To install, use the tag "v2.14-beta1.1+winter2025" in the instructions of <<fresh_install>>
 |===
 
 
