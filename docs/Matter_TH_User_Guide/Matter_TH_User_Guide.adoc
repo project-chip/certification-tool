@@ -1803,7 +1803,53 @@ The TH is now storing the last commissioning information, so a prompt will prese
 image:images/img_67.png[SDK Python Tests - Reuse commissioning information  prompt]
 
 <<<
-== *Platform certification configuration*
+== *Matter Test Harness Cameras*
+
+Please follow the instructions below to use the camera feature in the Test Harness for certification purposes. The camera feature allows users to run test cases that require a camera stream, such as those related to video streaming or image capture.
+
+=== Prerequisites
+Before using the camera feature for the certification, please make sure there is a functional Raspberry Pi TH environment setup. Refer to the <<th-installation-on-raspberry-pi, Section 4.1.2, TH Installation on Raspberry Pi>> for the installation of the TH environment.
+
+==== Install GStreamer
+The camera feature requires GStreamer to be installed on the Raspberry Pi. Use the following linux command to install into the system: 
+
+```shell
+sudo apt-get install libgstreamer1.0-dev libgstreamer-plugins-base1.0-dev libgstreamer-plugins-bad1.0-dev gstreamer1.0-plugins-base gstreamer1.0-plugins-good gstreamer1.0-plugins-bad gstreamer1.0-plugins-ugly gstreamer1.0-libav gstreamer1.0-tools gstreamer1.0-x gstreamer1.0-alsa gstreamer1.0-gl gstreamer1.0-gtk3 gstreamer1.0-qt5 gstreamer1.0-pulseaudio
+```
+
+==== Chrome Browser Configuration
+The camera feature requires the Chrome browser to be configured to allow a camera stream be shown in the video popup of the Test Harness. For that, it's necessary to enable the configuration flag “Insecure origins treated as secure” with an existing http address running the Test Harness application. 
+
+Follow the following steps to enable this required flag:
+
+1. Open the Chrome browser and type and go to `chrome://flags/ in a new tab
+2. Search for “Insecure origins treated as secure” flag
+3. Enter the IP of the Test Harness into the field and enable the flag as shown in the image below
+4. Relaunch the Browser 
+
+image:images/img_69.png[Chrome Browser - Insecure origins treated as secure flag]
+
+=== Setup Environment
+
+Auto-update and start Test Harness with the camera feature (`v2.14-beta1.1+winter202` or later) with the following linux commands: 
+
+- `cd ~/certification-tool`
+- `./scripts/ubuntu/auto-update.sh v2.14-beta1.1+winter2025`
+- `./scripts/start.sh`
+
+=== Running Camera Test Cases 
+
+Since the Test Harness IP address can be used to launch the TH user interface on any system on the same network as the Test Harness using the browser. Then, you may use the camera application to run a camera related Test Case.
+
+==== Running chip-camera-app with USB Camera
+
+The chip-camera-app that is shared internally is compiled for arm64 and should be executed in a machine that is in the same network as the Test Harness. To run the camera application, use the linux command below:
+
+1. `rm -rf /tmp/chip_*`
+2. `./chip-camera-app` (use `./chip-camera-app --camera-deferred-offer` for the TC_WEBRTC_1_3 test case)
+
+<<<
+== *Platform Certification Configuration*
 Platform certification is the process of validating that a hardware or software platform meets specific technical and compliance standards. Certifying the platform allows device manufacturers to build products using a pre-approved foundation, reducing development time and simplifying the certification process for their final products.
 
 === Selecting Test Cases Rules
