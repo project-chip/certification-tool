@@ -1854,7 +1854,7 @@ Auto-update and start Test Harness with the camera feature (`v2.14-beta1.1+winte
 
 === Running Camera Test Cases 
 
-Since the Test Harness IP address can be used to launch the TH user interface on any system on the same network as the Test Harness using the browser. Then, you may use the camera application to run a camera related Test Case.
+The Test Harness UI can be launched from a browser on any system on the same network by using the TH IP address. You can then use the camera application to run a camera-related Test Case.
 
 ==== Running chip-camera-app with USB Camera
 
