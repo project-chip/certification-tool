@@ -1858,10 +1858,11 @@ The Test Harness UI can be launched from a browser on any system on the same net
 
 ==== Running chip-camera-app with USB Camera
 
-The chip-camera-app that is shared internally is compiled for arm64 and should be executed in a machine that is in the same network as the Test Harness. To run the camera application, use the linux commands below:
+The chip-camera-app located in the ~/apps directory can be executed using the following linux commands:
 
 1. `rm -rf /tmp/chip_*`
-2. `./chip-camera-app` (use `./chip-camera-app --camera-deferred-offer` for the TC_WEBRTC_1_3 test case)
+2. `cd ~/apps`
+3. `./chip-camera-app` (use `./chip-camera-app --camera-deferred-offer` for the *TC_WEBRTC_1_3* test case)
 
 <<<
 == *Platform Certification Configuration*
