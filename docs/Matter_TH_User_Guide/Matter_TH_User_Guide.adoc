@@ -151,7 +151,7 @@ The TH tool can be used by any DUT vendor to run the Matter certification tests,
 
 <<<
 == *References*
-. Matter Specification:  https://groups.csa-iot.org/wg/members-all/document/folder/4651[Matter Specification (Causeway)] / https://github.com/CHIP-Specifications/connectedhomeip-spec[Matter Specification (Github)]
+. Matter Specification: https://groups.csa-iot.org/wg/members-all/document/folder/4651[Matter Specification (Causeway)] / https://github.com/CHIP-Specifications/connectedhomeip-spec[Matter Specification (Github)]
 . Matter SDK Repo github: https://github.com/project-chip/connectedhomeip[https://github.com/project-chip/connectedhomeip]  
 . Matter Test Plans: https://groups.csa-iot.org/wg/members-all/document/folder/4651[Matter Test Plans (Causeway)] / https://github.com/CHIP-Specifications/chip-test-plans[Matter Test Plans (GitHub)]
 . PICS Tool: https://picstool.csa-iot.org/#userguide[PICS Tool - Connectivity Standards Alliance (csa-iot.org)]
