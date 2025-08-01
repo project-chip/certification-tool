@@ -51,8 +51,8 @@ endif::[]
 | Matter 1.3       | v2.10.4+spring2024 | N/A                                                                                         | https://groups.csa-iot.org/wg/members-all/document/folder/3314[Causeway Link] | 50bcad1      | To install, use the tag "v2.10.4+spring2024" in the instructions of <<fresh_install>>
 | Matter 1.4       | v2.11+fall2024     | N/A                                                                                         | https://groups.csa-iot.org/wg/members-all/document/folder/4120[Causeway Link] | f2e5de7      | To install, use the tag "v2.11+fall2024" in the instructions of <<fresh_install>>
 | Matter 1.4.1     | v2.12+spring2025   | N/A                                                                                         | https://groups.csa-iot.org/wg/members-all/document/folder/4497[Causeway Link] | 91eab26      | To install, use the tag "v2.12+spring2025" in the instructions of <<fresh_install>>
-| Matter 1.4.2       | v2.13+summer2025   | N/A                                                                                         | https://groups.csa-iot.org/wg/members-all/document/folder/4651[Causeway Link] | a12250a      | To install, use the tag "v2.13-beta4+summer2025" in the instructions of <<fresh_install>>
-| Matter 1.5     | v2.14-beta1.1+winter2025   | N/A                                                                                         |  | 7b24545      | To install, use the tag "v2.14-beta1.1+winter2025" in the instructions of <<fresh_install>>
+| Matter 1.4.2       | v2.13+summer2025   | N/A                                                                                         | https://groups.csa-iot.org/wg/members-all/document/folder/4651[Causeway Link] | 1b2b3fd      | To install, use the tag "v2.13+summer2025" in the instructions of <<fresh_install>>
+| Matter 1.5     | v2.14-beta1.1+winter2025   | N/A                                                                                         | TBD | 7b24545      | To install, use the tag "v2.14-beta1.1+winter2025" in the instructions of <<fresh_install>>
 |===
 
 
@@ -152,12 +152,12 @@ The TH tool can be used by any DUT vendor to run the Matter certification tests,
 
 <<<
 == *References*
-. Matter Specification: https://groups.csa-iot.org/wg/members-all/document/folder/4120[Matter Specification (Causeway)] / https://github.com/CHIP-Specifications/connectedhomeip-spec[Matter Specification (Github)]
-. Matter SDK Repo github: https://github.com/project-chip/connectedhomeip[https://github.com/project-chip/connectedhomeip]  
-. Matter Test Plans: https://groups.csa-iot.org/wg/members-all/document/folder/4120[Matter Test Plans (Causeway)] / https://github.com/CHIP-Specifications/chip-test-plans[Matter Test Plans (GitHub)]
-. PICS Tool: https://picstool.csa-iot.org/#userguide[PICS Tool - Connectivity Standards Alliance (csa-iot.org)]
-. XML Files: https://groups.csa-iot.org/wg/members-all/document/folder/4120
-. TEDS Matter tool: https://groups.csa-iot.org/wg/matter-wg/document/28545
+. Matter Specification: https://groups.csa-iot.org/wg/members-all/document/folder/4651[Matter Specification (Causeway)] / https://github.com/CHIP-Specifications/connectedhomeip-spec[Matter Specification (GitHub)]
+. Matter SDK GitHub Repository: https://github.com/project-chip/connectedhomeip[Connectedhomeip GitHub Repository]
+. Matter Test Plans: https://groups.csa-iot.org/wg/members-all/document/folder/4651[Matter Test Plans (Causeway)] / https://github.com/CHIP-Specifications/chip-test-plans[Matter Test Plans (GitHub)]
+. Matter PICS Tool: https://picstool.csa-iot.org/#userguide[PICS Tool - Connectivity Standards Alliance (csa-iot.org)]
+. Matter XML Files: https://groups.csa-iot.org/wg/members-all/document/folder/4651[XML Files - Connectivity Standards Alliance (csa-iot.org)]
+. TEDS Matter Tool: https://groups.csa-iot.org/wg/matter-wg/document/28545[TEDS Matter Tool - Connectivity Standards Alliance (csa-iot.org)]
 
 
 *Important:*
