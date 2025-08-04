@@ -25,7 +25,6 @@ ifdef::env-github[]
 :important-caption: :heavy_exclamation_mark:
 :caution-caption: :fire:
 :warning-caption: :warning:
-:imagesdir: https://github.com/project-chip/certification-tool/tree/main/docs/Matter_TH_User_Guide
 endif::[]
 ifndef::env-github[]
 :icons: font
