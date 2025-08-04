@@ -126,7 +126,7 @@ endif::[]
                                                                      * Added the platform certification configuration section. +
                                                                      * Updated the docker command in Factory-reset the DUT section +
                                                                      * Added the Wi-Fi PAF section supported by Matter 1.4.2 +
-                                                                     * Fixed links format and URLs
+                                                                     * Fixed links format and URLs +
                                                                      * Fixed adoc's broken images removing the absolute path imagesdir
 |===
 
