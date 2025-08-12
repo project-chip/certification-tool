@@ -15,9 +15,9 @@
  * limitations under the License.
 ////
 
-:ubuntu-version: 24.04.2
+:ubuntu-version: 24.04.x
 :ubuntu-description: Ubuntu Server {ubuntu-version} LTS (64-bit)
-:th-version: v2.12+spring2025
+:th-version: v2.13+summer2025
 = Matter Test-Harness User Manual: {th-version}
 ifdef::env-github[]
 :tip-caption: :bulb:
@@ -25,7 +25,6 @@ ifdef::env-github[]
 :important-caption: :heavy_exclamation_mark:
 :caution-caption: :fire:
 :warning-caption: :warning:
-:imagesdir: https://github.com/project-chip/certification-tool/tree/main/docs/Matter_TH_User_Guide
 endif::[]
 ifndef::env-github[]
 :icons: font
@@ -50,7 +49,8 @@ endif::[]
 | Matter 1.2       | TH-Fall2023        | https://drive.google.com/file/d/1WTjhc7xbYt18RvpABU3_r47uqOLd7NN1/view?usp=drive_link[link] | https://groups.csa-iot.org/wg/members-all/document/folder/3045[Causeway Link] | 19771ed      | 
 | Matter 1.3       | v2.10.2+spring2024 | N/A                                                                                         | https://groups.csa-iot.org/wg/members-all/document/folder/3314[Causeway Link] | 50bcad1      | To install, use the tag "v2.10.2+spring2024" in the instructions of <<fresh_install>>
 | Matter 1.4       | v2.11+fall2024     | N/A                                                                                         | https://groups.csa-iot.org/wg/members-all/document/folder/4120[Causeway Link] | f2e5de7      | To install, use the tag "v2.11+fall2024" in the instructions of <<fresh_install>>
-| Matter 1.4.1     | v2.12+spring2025   | N/A                                                                                         | https://groups.csa-iot.org/wg/matter-csg/document/folder/4244[Causeway Link] | 91eab26      | To install, use the tag "v2.12+spring2025" in the instructions of <<fresh_install>>
+| Matter 1.4.1     | v2.12+spring2025   | N/A                                                                                         | https://groups.csa-iot.org/wg/members-all/document/folder/4497[Causeway Link] | 91eab26      | To install, use the tag "v2.12+spring2025" in the instructions of <<fresh_install>>
+| Matter 1.4.2     | v2.13+summer2025   | N/A                                                                                         | https://groups.csa-iot.org/wg/members-all/document/folder/4651[Causeway Link]  | 1b2b3fd      | To install, use the tag "v2.13+summer2025" in the instructions of <<fresh_install>>
 |===
 
 
@@ -118,8 +118,16 @@ endif::[]
 | 41          | 14-Oct-2024  | [Apple]Romulo Quidute               | * Added Warning for WIFI_SSID with special chars or empty spaces. +
                                                                      * Updated Test-Harness Links for v2.11+fall2024 release.
 | 42          | 03-Jan-2025  | [Apple]Romulo Quidute               | * Added Reuse commissioning information section.
-| 43          | 25-Feb-2025  | [Apple]Romulo Quidute               | * Updated supported Ubuntu version to 24.04.2
-| 44          | 13-Mar-2025  | [Apple]Romulo Quidute               | * Updated Test-Harness Links for v2.12+spring2025 release.
+| 43          | 25-Feb-2025  | [Apple]Romulo Quidute               | * Updated supported Ubuntu version to 24.04.2.
+| 44          | 25-Feb-2025  | [Apple]Antonio Melo Jr.             | * Replacing the patch number with a 'x' in the supported Ubuntu version.
+| 45          | 13-Mar-2025  | [Apple]Romulo Quidute               | * Updated Test-Harness Links for v2.12+spring2025 release.
+| 46          | 31-Mar-2025  | [Apple]Romulo Quidute               | * Added mapping volume section inside SDK Python Tests.
+| 47          | 05-May-2025  | [Apple]Romulo Quidute, [Apple]Antonio Melo| Changes for v2.13+summer2025 version: +
+                                                                     * Added the platform certification configuration section. +
+                                                                     * Updated the docker command in Factory-reset the DUT section +
+                                                                     * Added the Wi-Fi PAF section supported by Matter 1.4.2 +
+                                                                     * Fixed links format and URLs +
+                                                                     * Fixed adoc's broken images removing the absolute path imagesdir
 |===
 
 <<<
@@ -144,12 +152,12 @@ The TH tool can be used by any DUT vendor to run the Matter certification tests,
 
 <<<
 == *References*
-. Matter Specification: https://groups.csa-iot.org/wg/members-all/document/folder/4120[Matter Specification (Causeway)] / https://github.com/CHIP-Specifications/connectedhomeip-spec[Matter Specification (Github)]
-. Matter SDK Repo github: https://github.com/project-chip/connectedhomeip[https://github.com/project-chip/connectedhomeip]  
-. Matter Test Plans: https://groups.csa-iot.org/wg/members-all/document/folder/4120[Matter Test Plans (Causeway)] / https://github.com/CHIP-Specifications/chip-test-plans[Matter Test Plans (GitHub)]
-. PICS Tool: https://picstool.csa-iot.org/#userguide[PICS Tool - Connectivity Standards Alliance (csa-iot.org)]
-. XML Files: https://groups.csa-iot.org/wg/members-all/document/folder/4120
-. TEDS Matter tool: https://groups.csa-iot.org/wg/matter-wg/document/28545
+. Matter Specification: https://groups.csa-iot.org/wg/members-all/document/folder/4651[Matter Specification (Causeway)] / https://github.com/CHIP-Specifications/connectedhomeip-spec[Matter Specification (GitHub)]
+. Matter SDK Repository GitHub: https://github.com/project-chip/connectedhomeip[Matter SDK Repository Connectedhomeip]
+. Matter Test Plans: https://groups.csa-iot.org/wg/members-all/document/folder/4651[Matter Test Plans (Causeway)] / https://github.com/CHIP-Specifications/chip-test-plans[Matter Test Plans (GitHub)]
+. Matter PICS Tool: https://picstool.csa-iot.org/#userguide[PICS Tool - Connectivity Standards Alliance (csa-iot.org)]
+. Matter XML Files: https://groups.csa-iot.org/wg/members-all/document/folder/4651[XML Files - Connectivity Standards Alliance (csa-iot.org)]
+. TEDS Matter tool: https://groups.csa-iot.org/wg/matter-wg/document/28545[TEDS Matter Tool - Connectivity Standards Alliance (csa-iot.org)]
 
 
 *Important:*
@@ -800,7 +808,7 @@ If the DUT supports Thread Transport, DUT vendors need to use the OTBR that is s
 Currently the OTBR in the TH works with either the Nordic RCP dongle or SiLabs RCP dongle. Refer to <<instructions-to-flash-the-firmware-nrf52840-rcpdongle, Section 7.1>> to flash the NRF52840 firmware or <<instructions-to-flash-silabs-rcp, Section 7.2>> to flash the SiLabs firmware and get the RCP’s ready. Once the RCP’s are programmed, the user needs to insert the RCP dongle on to the Raspberry Pi running the TH and reboot the Raspberry Pi.
 
 === Instructions to Flash the Firmware NRF52840 RCPDongle
-. Download RCP firmware package from the following link on the user’s system — https://groups.csa-iot.org/wg/matter-csg/document/34870[Thread RCP Firmware Package]
+. Download RCP firmware package from the following link on the user’s system — https://groups.csa-iot.org/wg/members-all/document/39226[Thread RCP Firmware Package]
 . nRF Util is a unified command line utility for Nordic products. For more details, refer to the following link— https://www.nordicsemi.com/Products/Development-tools/nrf-util[https://www.nordicsemi.com/Products/Development-tools/nrf-util]
 . Install the nRF Util dependencies on the user’s system using the following commands:
 
@@ -830,7 +838,7 @@ Example: +
 . In case any permission issue occurs during flashing, launch the terminal and retry in sudo mode.
 
 === Nrfconnect Sample APPs Firmwares to Flash on the NRF52840DK Kit
-The https://groups.csa-iot.org/wg/matter-csg/document/33943[Nrfconnect Sample apps binary Package] is available for download and should be flashed in the development kit NRF52840DK to use it as DUT in the Test-Harness tests.
+The https://groups.csa-iot.org/wg/members-all/document/folder/2269[Nrfconnect Sample apps binary Package] is available for download and should be flashed in the development kit NRF52840DK to use it as DUT in the Test-Harness tests.
 
 === Instructions to Flash SiLabs RCP
 
@@ -1041,6 +1049,150 @@ lo: flags=73<UP,LOOPBACK,RUNNING>  mtu 65536 +
 |===
 *If any interface matches tayga ip address, change the conflicting IP on host.*
 
+<<<
+== *Wi-Fi PAF Commissioning*
+
+This section provides a guide to enable Wi-Fi PAF commissioning tests.
+
+=== Components Needed for Tests
+To enable the Wi-Fi PAF Commissioning tests, the following hardware and software components are required.
+
+==== Hardware
+* *Raspberry Pi*: version [TBF: version number] permissible for CSA Matter Test Events, used as a platform for Test Harness(Pi 4 or higher).
+* *WLAN USB dongle*: compatible with the latest hostapd and
+wpa_supplicant, used as the Wi-Fi subsystem for transmitting and
+receiving Wi-Fi Un-Synchronized Discovery (USD) Public Action Frames
+(PAF), including one of the following kinds:
+** NETGEAR A6210: https://www.amazon.com/NETGEAR-Dual-Band-Adapter-A6210-10000S-Refurbished/dp/B00NSB0G66
+** NETGEAR WN111 802.11n Wireless LAN USB 2.0 Adapter: https://a.co/d/4I7YMez
+** Linksys AE6000 Dual-Band Wireless Mini USB Adapter: https://a.co/d/iyXXpIs
+** SANOXY USB Mini Wifi Wireless LAN Internet Adapter: https://www.amazon.com/SANOXY-150Mbps-Wireless-Network-802-11n/dp/B01HFRCUVM
+
+==== Software
+* *hostapd and wpa_supplicant*: download from the latest master branch. Make sure this exists: CONFIG_NAN_USD=y
+** Used to enable transmitting and receiving Wi-Fi Un-Synchronized
+Discovery (USD) Public Action Frames (PAF) on platforms for both
+Test Harness and DUT.
+** *Here is the procedure to configure the above*:
+*** git clone https://w1.fi/hostap.git
+*** cd hostap/wpa_supplicant
+*** git checkout master (Run this if you are in different branch)
+*** vi defconfig or nano defconfig
+*** Make sure "CONFIG_NAN_USD=y" is set (It should be at the last line)
+*** cp defconfig .config
+*** sudo apt update
+*** sudo apt install libnl-3-dev libnl-genl-3-dev
+*** make all
+
+[WARNING]
+====
+Known problem: The latest version of wpa_supplicant (v2.11 or later) may cause compatibility issues with certain Wi-Fi chipsets on Raspberry-Pi. This can result in the wireless connection intermittently dropping and reconnecting.
+
+Workaround to avoid the compatibility problem:
+Modify the boot configuration by adding the setting to `/boot/firmware/cmdline.txt` file:
+----
+console=serial0,115200 multipath=off dwc_otg.lpm_enable=0 console=tty1 root=LABEL=writable rootfstype=ext4 rootwait fixrtc brcmfmac.roamoff=1 brcmfmac.feature_disable=0x282000
+----
+====
+
+
+=== Matter SDK
+* Regular build command with “chip_device_config_enable_wifipaf=true” (*This step is required only when building from the Master branch. If you're using the SDK provided in the apps folder of the TH, it's not needed*)
+* *Test commands on SDK as a Commissionee*:
+** `$ ./chip-all-clusters-app --wifi --wifipaf freq_list=2437` // for 2.4GHz.
+** `$ ./chip-all-clusters-app --wifi --wifipaf freq_list=2437,2412,5745,5220` // for default 2.4GHz CH6 + a list of channels in 2.4GHz + a list of 5GHz channels
+* *Test commands on SDK as a Commissioner*: +
+Use "wifipaf-wifi" to pair: +
+** `./chip-tool-paf pairing wifipaf-wifi [node_id] [ssid] [ap_pwd] [passcode] [discriminator]`
+** *Example*: `./chip-tool-paf pairing wifipaf-wifi 1 n_m_2g nxp12345 20202021 3840` // on default 2.4GHz
+** *Example*: `sudo ./chip-tool pairing wifipaf-wifi 1 n_m_2g nxp12345 20202021 3840 --freq 5220` // on 5GHz
+
+=== Baseline Test Harness (TH) Configuration for Testing DUT Commissionable Device
+1. If DUT commissionable device is 2.4 GHz-only, configure TH commissioner to create an active subscriber on Default Publish Channel (2.4GHz Channel 6) for a test.
+2. If DUT commissionable device is 2.4 + 5 GHz, to test 2.4GHz commissioning, configure TH commissioner to create an active subscriber on Default Publish Channel (2.4GHz Channel 6) for a test.
+3. If DUT commissionable device is 2.4 + 5 GHz, to test 5GHz commissioning, configure TH commissioner to create an active subscriber on CH 44 non-ETSI regulatory domains or CH 149 in ETSI regulatory for a test.
+
+=== Baseline Test Harness (TH) Configuration for Testing DUT Commissioner
+For non-ETSI regulatory domain, configure the TH Commissionee with the Default Publish Channel to be Channel 6 in 2.4 GHz and a Publish Channel List that includes all 20 MHz channels in 2.4 GHz band, Channel 44 and Channel 149 in 5 GHz band, and the Commissioner's network operating channel if the operating channel is not a DFS channel.
+
+=== Test Procedures and Test Commands
+The test procedures and test commands for Wi-Fi PAF commissioning are documented in the Test Plan Verification spreadsheet under the Matter Specifications and Test Plans folder:
+https://groups.csa-iot.org/wg/members-all/document/folder/2269 *or* https://docs.google.com/spreadsheets/d/19ZAbIRObi1HcvbesI4tSVmQn7cxz-ZNyFH80onmae7Y/edit?gid=311763523#gid=311763523
+
+*The test steps are specifically in the following places*:
+
+* 3.2.1. [TC-DD-2.1] Announcement by Device Verification [DUT - Commissionee]: Steps: 8, 9, 10, and 11 with “MCORE.DD.DISCOVERY_PAF” enabled in PICS.
+** TH does not need any special setting, just need to connect to AP. It's ok even using ethernet. But Wi-Fi should be on that I always test by using Wi-Fi connecting to AP. Test wpa_supplicant configure file script is below:
+*** ctrl_interface=DIR=/run/wpa_supplicant
+*** update_config=1
+*** network={
+  +
+  ssid="n_m_2g"
+  +
+  key_mgmt=WPA-PSK
+  +
+  psk="nxp12345"
+  +
+}
+** *Before executing TC-DD-2.1 please read the “readme” file available in the TC-DD-2.1 folder and complete the configuration.*
+* 3.2.2. [TC-DD-2.2] Discovery by Commissioner Verification [DUT - Commissioner]: Steps: 3.a and 3.b with “MCORE.DD.DISCOVERY_PAF” enabled in PICS.
+* 3.3.11. [TC-DD-3.11] Commissioning Flow = 0 (Standard Flow) - QR Code [DUT - Commissioner]: Steps: 2.a, 2.b and 2.c with “MCORE.DD.DISCOVERY_PAF” enabled in PICS
+* 3.3.12. [TC-DD-3.12] Commissioning Flow = 1 (User-Intent Flow) - QR Code [DUT - Commissioner]: Steps: 2.a, 2.b, 2.c and 2.d with “MCORE.DD.DISCOVERY_PAF” enabled in PICS
+* 3.3.13. [TC-DD-3.13] Commissioning Flow = 2 (Custom Flow) - QR Code [DUT - Commissioner]: Steps: 2.a, 2.b, 2.c and 2.d with “MCORE.DD.DISCOVERY_PAF” enabled in PICS
+* 3.3.14. [TC-DD-3.14] Commissioning Flow - QR Code - Negative Scenario [DUT - Commissioner]: Steps: 4.a and 4.b with “MCORE.DD.DISCOVERY_PAF” enabled in PICS
+
+=== Configure the environment
+* *Configure it as commissionee*:
+** Configure the wpa_supplicant on the commissionee side using the
+provided example file named wpa_supplicant-def_comm.conf.
+** Stop the default Wi-Fi interface of raspberry-pi:
+*** sudo ifconfig wlan0 down
+*** sudo rmmod brcmfmac_wcc
+*** sudo rmmod brcmfmac
+** Stop the network manager:
+*** sudo service NetworkManager stop
+** Run `./config_paf_env.sh comee` (*Make sure the “config_paf_env.sh” file from the “scripts” folder inside the provided ZIP archive is copied to the working directory before executing this command*).
+* *Configure it as commissioner*:
+** Configure the wpa_supplicant on the commissionee side using the
+provided example file named wpa_supplicant-def_comer.conf.
+** Set the ssid/password of AP to wpa_supplicant-def_comer.conf
+** Run `./config_paf_env.sh comer` (*Make sure the “config_paf_env.sh” file from the “scripts” folder inside the provided ZIP archive is copied to the working directory before executing this command*).
+* Renew the commissionee environment before running the test:
+** Run `./renew_paf_comee.sh` (*Make sure the “renew_paf_comee.sh file from the “scripts” folder inside the provided ZIP archive is copied to the working directory before executing this command*)
+** The above script is just clearing the tmp files and removing the
+existing networks.
+
+[NOTE]
+It is required to run on commissionable device before running each test
+
+=== Additional Trouble Shooting Helpful Notes
+* *Commissionee failed to connect to AP in running PAF commissioning*:
+
+**Symptom**: The messages are observed on the log:
+----
+[1749462967.571] [3575:3576] [DL] wpa_supplicant:PropertiesChanged:key:State -> 'scanning'
+[1749462969.775] [3575:3576] [DL] wpa_supplicant:PropertiesChanged:key:Scanning -> true
+[1749462983.051] [3575:3576] [DL] wpa_supplicant: network scan done
+[1749462983.544] [3575:3576] [DL] Network Found: (1a:27:f5:37:4e:c7) Signal:-49
+[1749462983.549] [3575:3576] [DL] Network Found: Chip5 (dc:ea:e7:34:f5:5e) Signal:-51...
+
+[1749462983.999] [3575:3576] [DL] Network Found: GRL-Public (c6:06:c3:f9:5e:ce) Signal:-61
+[1749462984.004] [3575:3576] [DL] Network Found: Qualitrix (b0:19:21:73:ee:78) Signal:-77
+[1749462984.008] [3575:3575] [PAF]Network resource has been unavailable for a long time
+[1749462984.008] [3575:3575] [PAF]Shutdown PAF session (1, 0)
+----
+
+**Reason**: There is a protecion in SDK that it will stop sending PAF packets if the device is scanning. The period is of 15 seconds. If the environment is noisy, it's possible to hit the problem and fail to continue.
+
+**Solution/WAR**: Need a cleaner environment. We will add a patch to make this period configurable in SDK.
+
+* *Device failed to run after upgrading to v2.10 wpa_supplicant*:
+
+**Symptom**:Device can associate with AP, but fails at the last step if running Wi-Fi commissioning (including code-wifi, ble-wifi, wifipaf-wifi)
+
+**Reason**:The problem will be observed if the `/etc/wpa_supplicant/wpa_supplicant.conf` file has the AP information.
+
+**Solution/WAR:ref**: Renew the commissionee environment before running the test in **WiFi PAF Commissioning Test Readme CSA Matter** file.
 
 <<<
 == *Test Configuration*
@@ -1256,6 +1408,15 @@ Only one of the following parameter is allowed, also when one of them is configu
 +
 WARNING: This is an invalid configuration. TH will not accept both parameters set at the same time.
 
+.. Overwrite the default timeout. Value in [s]:
++
+[source,xml]
+----
+"test_parameters": {
+  "timeout": 300
+}
+----
+
 On completion of the "network" and the "dut_config" configuration, select the *Update* and then *Create* button to create the Test Project. 
 
 
@@ -1464,6 +1625,14 @@ Follow the instructions below to execute the test cases.
 
 . After execution of the above commands ensure that the PAA’s are available locally at */var/paa-root-certs* .
 
+
+===== Mapped Volumes
+The following host directories are mapped into the cert-bins container:
+
+* `/root/python_testing` -> `/home/ubuntu/certification-tool/backend/test_collections/matter/sdk_tests/sdk_checkout/python_testing`
+* `/paa-root-certs` -> `/var/paa-root-certs`
+* `/credentials/development` -> `/var/credentials/development`
+
 ===== Placeholders for Steps
 
 Device-specific configuration is shown as shell variables. *PLEASE REPLACE THOSE WITH THE CORRECT VALUE* in the steps below.
@@ -1611,7 +1780,7 @@ The above example will be used to define the following arguments when running th
 
 ====== Test Parameters Examples
 
-Access the spreadsheet via the https://groups.csa-iot.org/wg/matter-csg/document/36336[Verification Steps Document] and review the information provided. Based on this data, create the parameters set as requested. 
+Access the spreadsheet via the https://groups.csa-iot.org/wg/members-all/document/folder/2269[Verification Steps Document] and review the information provided. Based on this data, create the parameters set as requested. 
 
 Below are some specific examples assembled from data obtained from the spreadsheet.
 
@@ -1681,3 +1850,66 @@ This allows users to perform multiple test run executions without the need to pe
 The TH is now storing the last commissioning information, so a prompt will presented asking user to reuse those previous commissioning information or if he wants to perform a new commissioning procedure.
 
 image:images/img_67.png[SDK Python Tests - Reuse commissioning information  prompt]
+
+<<<
+== *Platform certification configuration*
+Platform certification is the process of validating that a hardware or software platform meets specific technical and compliance standards. Certifying the platform allows device manufacturers to build products using a pre-approved foundation, reducing development time and simplifying the certification process for their final products.
+
+=== Selecting Test Cases Rules
+The Test Harness applies different rules to pre-select test cases depending on the type of certification being performed. The selection process considers specific flags present in the PICS file and, in certain cases—such as when PLAT.CERT or PLAT.CERT.TESTS.DONE PICS are present, it also evaluates the contents of additional configuration files, namely `generated-platform-cert-test-list.json` and `dmp-test-skip.xml`.
+
+
+The `dmp-test-skip.xml` file is provided by the PICS Tool, while the `generated-platform-cert-test-list.json` file is a static file maintained by the Platform team. The `generated-platform-cert-test-list.json` file can be found in the `./backend/test_collections/matter/platform-cert` directory.
+
+The three selection modes are:
+
+* *Platform Certification*
+* *Derived Product Certification* 
+* *Full Product Certification*
+  
+Each mode is designed to ensure that only the relevant test cases are executed based on the scope and purpose of the certification.
+
+
+==== Platform Certification
+In this mode, the product is being certified as a platform. The behavior is defined as follows:
+
+* The PICS file must contain the `PLAT.CERT` flag set to `True`.
+* The TH will pre-select test cases that:
+** Are explicitly listed in the `generated-platform-cert-test-list.json` file and also comply with the standard PICS rules.
+
+==== Derived Product Certification
+This mode applies to products built on a previously certified platform. The behavior is:
+
+* The PICS file must contain the `PLAT.CERT.TESTS.DONE` flag set to `True`, along with any product-specific PICS entries.
+* The TH will pre-select test cases that:
+** Comply with the standard PICS rules.
+** Are **not** listed in the `dmp-test-skip.xml` (DMP file).
+
+==== Full Product Certification
+This is the default mode when the product does not fall under the previous two categories:
+
+* The PICS file may contain any PICS entries, except `PLAT.CERT` and `PLAT.CERT.TESTS.DONE`.
+* The TH will pre-select test cases according to standard PICS rules only.
+
+=== Configuration Input
+
+On the project configuration screen, users can upload both the PICS file and the optional `dmp-test-skip.xml` file. Based on the content of the PICS file, the TH determines the certification mode by checking the values of the following flags:
+
+* `PLAT.CERT = True` → Platform Certification
+* `PLAT.CERT.TESTS.DONE = True` → Derived Product Certification
+* Neither flag set → Full Product Certification
+
+WARNING: PLAT.CERT and PLAT.CERT.TESTS.DONE are mutually exclusive. Please enable only one of them.
+
+This logic enables the TH to filter and pre-select the appropriate test cases based on the selected certification type.
+
+The `dmp-test-skip.xml` file can be uploaded either by dragging and dropping the file into the upload area or by manually selecting it. Note that only one DMP file is accepted at a time. If a second DMP file is uploaded, the previous configuration will be discarded. 
+
+[NOTE]
+====
+The file must be named exactly `dmp-test-skip.xml`. Renaming the file will result in it being ignored by the Test Harness.
+====
+
+Once the DMP file is uploaded, its content can be viewed in the panel on the left under the "dmp_test_skip" item, as shown in the figure.
+
+image:images/img_68.png[Platform Certification - Upload dmp-test-skip.xml file]
