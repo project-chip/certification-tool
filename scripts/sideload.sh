@@ -57,7 +57,7 @@ docker restart "$CONTAINER_ID"
 # Check if the restart process was successful
 if [ $? -eq 0 ]; then
     echo -n "Waiting for backend to start"
-    CHECK_BACKEND_SERVICE="docker exec -i certification-tool-backend-1 curl --fail -s --output /dev/null http://localhost/docs"
+    CHECK_BACKEND_SERVICE="docker exec -i $CONTAINER_NAME curl --fail -s --output /dev/null http://localhost/docs"
     until $CHECK_BACKEND_SERVICE
     do
         echo -n "."
