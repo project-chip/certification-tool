@@ -15,7 +15,6 @@
  # See the License for the specific language governing permissions and
  # limitations under the License.
 
-#!/bin/bash
 ROOT_DIR=$(realpath $(dirname "$0")/..)
 SCRIPT_DIR="$ROOT_DIR/scripts"
 
@@ -35,7 +34,7 @@ source "$SCRIPT_DIR/utils.sh"
 print_start_of_script
 
 print_script_step "Updating tests information"
-docker exec -it $CONTAINER_NAME python3 /app/test_collections/matter/sdk_tests/support/python_testing/list_python_tests_classes.py
+docker exec -i $CONTAINER_NAME python3 /app/test_collections/matter/sdk_tests/support/python_testing/list_python_tests_classes.py
 if [ $? -ne 0 ]; then
     echo "Unable to execute command in backend container. Could you please check if it is running?"
     exit 1
@@ -58,7 +57,7 @@ docker restart "$CONTAINER_ID"
 # Check if the restart process was successful
 if [ $? -eq 0 ]; then
     echo -n "Waiting for backend to start"
-    CHECK_BACKEND_SERVICE="docker exec -it certification-tool-backend-1 curl --fail -s --output /dev/null http://localhost/docs"
+    CHECK_BACKEND_SERVICE="docker exec -i certification-tool-backend-1 curl --fail -s --output /dev/null http://localhost/docs"
     until $CHECK_BACKEND_SERVICE
     do
         echo -n "."
