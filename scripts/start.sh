@@ -135,7 +135,7 @@ else
 fi
 
 echo "Backend startup process completed" >> $BACKEND_LOGFILE_PATH 2>&1
-docker logs certification-tool-backend-1 >> $BACKEND_LOGFILE_PATH 2>&1
+docker compose logs backend >> $BACKEND_LOGFILE_PATH 2>&1
 
 echo "Frontend startup process completed" >> $FRONTEND_LOGFILE_PATH 2>&1
 docker logs certification-tool-frontend-1 >> $FRONTEND_LOGFILE_PATH 2>&1
