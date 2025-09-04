@@ -17,6 +17,8 @@ services:
 
   proxy:
     image: traefik:v2.2
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
     ports:
       - "80:80"
       - "8090:8080"

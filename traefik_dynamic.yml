@@ -9,7 +9,7 @@ http:
     pushav-service:
       loadBalancer:
         servers:
-          - url: "https://172.17.0.1:1234"
+          - url: "https://host.docker.internal:1234"
   middlewares:
     pushav-stripprefix:
       stripPrefix:
