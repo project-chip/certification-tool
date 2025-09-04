@@ -1,0 +1,17 @@
+http:
+  routers:
+    pushav-router:
+      rule: "PathPrefix(`/pushav`)"
+      service: pushav-service
+      middlewares:
+        - pushav-stripprefix
+  services:
+    pushav-service:
+      loadBalancer:
+        servers:
+          - url: "https://host.docker.internal:1234"
+  middlewares:
+    pushav-stripprefix:
+      stripPrefix:
+        prefixes:
+          - "/pushav"

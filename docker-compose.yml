@@ -17,6 +17,8 @@ services:
 
   proxy:
     image: traefik:v2.2
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
     ports:
       - "80:80"
       - "8090:8080"
@@ -26,6 +28,7 @@ services:
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
       - ./backend:/app
+      - ./traefik_dynamic.yml:/etc/traefik/traefik_dynamic.yml
     command:
       # Enable Docker in Traefik, so that it reads labels from Docker services
       - --providers.docker
@@ -34,6 +37,12 @@ services:
       - --providers.docker.constraints=Label(`traefik.constraint-label-stack`, `${TRAEFIK_TAG?Variable not set}`)
       # Do not expose all Docker services, only the ones explicitly exposed
       - --providers.docker.exposedbydefault=false
+      # Enable file provider for push-av server
+      - --providers.file.filename=/etc/traefik/traefik_dynamic.yml
+      # insecureSkipVerify is enabled for push_av_server as it uses a self-signed certificate.
+      # This ensures Traefik can proxy requests HTTP -> HTTPS without failing certificate validation.
+      # service specific transport is not supported in v2.2 and was introduced in v2.4 hence enabling it here.
+      - --serversTransport.insecureSkipVerify=true
       # Enable the access log, with HTTP requests
       - --accesslog
       # Enable the Traefik log, for configurations and errors
