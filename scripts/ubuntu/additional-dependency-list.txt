@@ -1,11 +1,11 @@
-libgstreamer1.0-dev
-libgstreamer-plugins-base1.0-dev
-gstreamer1.0-plugins-base
-gstreamer1.0-plugins-good
-gstreamer1.0-plugins-bad
-libatomic1
-libavformat60
-libavcodec60
-libavutil58
-libswresample4
-libswscale7
+libgstreamer1.0-dev (>=1.16.0)
+libgstreamer-plugins-base1.0-dev (>=1.16.0)
+gstreamer1.0-plugins-base (>=1.16.0)
+gstreamer1.0-plugins-good (>=1.16.0)
+gstreamer1.0-plugins-bad (>=1.16.0)
+libatomic1 (>=10.0.0)
+libavformat60 (>=7:6.0)
+libavcodec60 (>=7:6.0)
+libavutil58 (>=7:6.0)
+libswresample4 (>=7:6.0)
+libswscale7 (>=7:6.0)
