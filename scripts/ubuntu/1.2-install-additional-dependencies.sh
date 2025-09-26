@@ -26,14 +26,14 @@ print_start_of_script
 
 print_script_step "Install additional dependencies"
 
-readarray packagelist < "$UBUNTU_SCRIPT_DIR/additional-dependency-list.txt"
+readarray -t packagelist < "$UBUNTU_SCRIPT_DIR/additional-dependency-list.txt"
 
-SAVEIFS=$IFS
-IFS=$(echo -en "\r")
-for package in ${packagelist[@]}; do
-  print_script_step "Installing additional package: ${package[@]}"
-  sudo DEBIAN_FRONTEND=noninteractive apt-get satisfy ${package[@]} -y --allow-downgrades
+for package in "${packagelist[@]}"; do
+  [ -z "$package" ] && continue
+
+  print_script_step "Installing additional package: $package"
+
+  sudo DEBIAN_FRONTEND=noninteractive apt-get satisfy "$package" -y --allow-downgrades
 done
-IFS=$SAVEIFS
 
 print_end_of_script
