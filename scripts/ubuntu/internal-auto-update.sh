@@ -46,6 +46,9 @@ $SCRIPT_DIR/update.sh "$BRANCH_NAME"
 verify_return_code
 
 print_script_step "Installing Additional Dependencies"
+echo "DEBUG: UBUNTU_SCRIPT_DIR = '$UBUNTU_SCRIPT_DIR'"
+echo "DEBUG: Full path = '$UBUNTU_SCRIPT_DIR/1.2-install-additional-dependencies.sh'"
+ls -la "$UBUNTU_SCRIPT_DIR/1.2-install-additional-dependencies.sh"
 $UBUNTU_SCRIPT_DIR/1.2-install-additional-dependencies.sh
 verify_return_code
 
