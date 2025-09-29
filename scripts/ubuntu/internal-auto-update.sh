@@ -16,6 +16,7 @@
  # limitations under the License.
 ROOT_DIR=$(realpath $(dirname "$0")/../..)
 SCRIPT_DIR="$ROOT_DIR/scripts"
+UBUNTU_SCRIPT_DIR="$SCRIPT_DIR/ubuntu"
 
 source "$SCRIPT_DIR/utils.sh"
 
