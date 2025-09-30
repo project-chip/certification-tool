@@ -25,21 +25,10 @@ print_start_of_script
 check_installation_prerequisites
 verify_return_code
 
-if [ $# != 1 ] || [ $1 = "--help" ]; then
-  echo "Usage:"
-  echo "./scripts/ubuntu/auto-update.sh <branch_name>"
-  echo "Mandatory: <branch_name>  branch name"
-  exit 1
-fi
-
 print_script_step "Stopping Containers"
 $SCRIPT_DIR/stop.sh
 
 BRANCH_NAME=$1
-
-print_script_step "Update Test Harness code"
-$SCRIPT_DIR/update-th-code.sh "$BRANCH_NAME"
-verify_return_code
 
 print_script_step "Update Test Harness Setup"
 $SCRIPT_DIR/update.sh "$BRANCH_NAME"

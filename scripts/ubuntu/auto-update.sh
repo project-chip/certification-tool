@@ -18,5 +18,19 @@ ROOT_DIR=$(realpath $(dirname "$0")/../..)
 UBUNTU_SCRIPT_DIR="$ROOT_DIR/scripts/ubuntu"
 LOG_FILENAME=$(date +"log-ubuntu-auto-update_%F-%H-%M-%S")
 LOG_PATH="$ROOT_DIR/logs/$LOG_FILENAME"
+SCRIPT_DIR="$ROOT_DIR/scripts"
+
+if [ $# != 1 ] || [ $1 = "--help" ]; then
+  echo "Usage:"
+  echo "./scripts/ubuntu/auto-update.sh <branch_name>"
+  echo "Mandatory: <branch_name>  branch name"
+  exit 1
+fi
+
+BRANCH_NAME=$1
+
+print_script_step "Update Test Harness code"
+$SCRIPT_DIR/update-th-code.sh "$BRANCH_NAME"
+verify_return_code
 
 $UBUNTU_SCRIPT_DIR/internal-auto-update.sh $* | tee $LOG_PATH
