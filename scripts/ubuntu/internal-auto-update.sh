@@ -32,21 +32,14 @@ if [ $# != 1 ] || [ $1 = "--help" ]; then
   exit 1
 fi
 
-# Re-execute script with updated code to ensure latest version is used
-if [ "$REEXECUTED" != "true" ]; then
-  print_script_step "Stopping Containers"
-  $SCRIPT_DIR/stop.sh
+print_script_step "Stopping Containers"
+$SCRIPT_DIR/stop.sh
 
-  BRANCH_NAME=$1
+BRANCH_NAME=$1
 
-  print_script_step "Update Test Harness code"
-  $SCRIPT_DIR/update-th-code.sh "$BRANCH_NAME"
-  verify_return_code
-
-  print_script_step "Re-executing script with updated code"
-  export REEXECUTED=true
-  exec "$0" "$@"
-fi
+print_script_step "Update Test Harness code"
+$SCRIPT_DIR/update-th-code.sh "$BRANCH_NAME"
+verify_return_code
 
 print_script_step "Update Test Harness Setup"
 $SCRIPT_DIR/update.sh "$BRANCH_NAME"
