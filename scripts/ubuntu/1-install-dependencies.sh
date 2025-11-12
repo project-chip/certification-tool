@@ -39,7 +39,7 @@ readarray packagelist < "$UBUNTU_SCRIPT_DIR/package-dependency-list.txt"
 SAVEIFS=$IFS
 IFS=$(echo -en "\r")
 for package in ${packagelist[@]}; do
-  print_script_step "Instaling package: ${package[@]}"
+  print_script_step "Installing package: ${package[@]}"
 
   # Special handling for docker-ce to avoid version 29.x
   if [[ "${package%%[[:space:]]}" == docker-ce* ]]; then
