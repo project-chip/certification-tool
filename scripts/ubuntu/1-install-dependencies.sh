@@ -42,9 +42,9 @@ for package in ${packagelist[@]}; do
   print_script_step "Instaling package: ${package[@]}"
 
   # Special handling for docker-ce to avoid version 29.x
-  if [[ ${package[@]} == docker-ce* ]]; then
+  if [[ "${package%%[[:space:]]}" == docker-ce* ]]; then
     # Get the latest version that is not 29.x
-    DOCKER_VERSION=$(apt-cache madison docker-ce | awk '{print $3}' | grep -v '^5:29\.' | head -1)
+    DOCKER_VERSION=$(apt-cache madison docker-ce | awk '$3 !~ /^5:29\./ {print $3; exit}')
     if [ -n "$DOCKER_VERSION" ]; then
       print_script_step "Installing docker-ce version $DOCKER_VERSION (excluding 29.x)"
       sudo DEBIAN_FRONTEND=noninteractive apt-get install -y --allow-downgrades docker-ce=$DOCKER_VERSION docker-ce-cli=$DOCKER_VERSION containerd.io
@@ -54,7 +54,7 @@ for package in ${packagelist[@]}; do
       exit 1
     fi
   else
-    sudo DEBIAN_FRONTEND=noninteractive apt-get satisfy ${package[@]} -y --allow-downgrades
+    sudo DEBIAN_FRONTEND=noninteractive apt-get satisfy "${package%%[[:space:]]}" -y --allow-downgrades
   fi
 done
 IFS=$SAVEIFS 
