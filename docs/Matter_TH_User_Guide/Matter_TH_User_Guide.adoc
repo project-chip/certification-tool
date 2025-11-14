@@ -17,7 +17,7 @@
 
 :ubuntu-version: 24.04.x
 :ubuntu-description: Ubuntu Server {ubuntu-version} LTS (64-bit)
-:th-version: v2.14+fall2025
+:th-version: v2.15-beta1+winter2025
 = Matter Test-Harness User Manual: {th-version}
 ifdef::env-github[]
 :tip-caption: :bulb:
@@ -52,6 +52,7 @@ endif::[]
 | Matter 1.4.1     | v2.12+spring2025   | N/A                                                                                         | https://groups.csa-iot.org/wg/members-all/document/folder/4497[Causeway Link] | 91eab26      | To install, use the tag "v2.12+spring2025" in the instructions of <<fresh_install>>
 | Matter 1.4.2     | v2.13+summer2025   | N/A                                                                                         | https://groups.csa-iot.org/wg/members-all/document/folder/4651[Causeway Link] | 1b2b3fd      | To install, use the tag "v2.13+summer2025" in the instructions of <<fresh_install>>
 | Matter 1.5       | v2.14+fall2025     | N/A                                                                                         | https://groups.csa-iot.org/wg/members-all/document/folder/4825[Causeway Link] | ca9d111      | To install, use the tag "v2.14+fall2025" in the instructions of <<fresh_install>>
+| Matter 1.6       | v2.15-beta1+winter2025     | N/A                                                                                         | TBD | TBD      | To install, use the tag "v2.15-beta1+winter2025" in the instructions of <<fresh_install>>
 |===
 
 
@@ -1801,6 +1802,29 @@ This allows users to perform multiple test run executions without the need to pe
 The TH is now storing the last commissioning information, so a prompt will presented asking user to reuse those previous commissioning information or if he wants to perform a new commissioning procedure.
 
 image:images/img_67.png[SDK Python Tests - Reuse commissioning information  prompt]
+
+===== Python Test Logging Configuration
+The TH supports two modes for displaying Python test logs:
+
+* *Real-time logging*: Logs are displayed incrementally as each test step completes
+* *Batch logging (default)*: All logs are displayed at once after test execution completes
+
+To configure the logging mode, set the `ENABLE_REALTIME_PYTHON_TEST_LOGS` environment variable in the `./backend/app/core/config.py` file:
+
+[source,shell]
+----
+# Enable real-time logging
+ENABLE_REALTIME_PYTHON_TEST_LOGS=True
+
+# Enable batch logging (default)
+ENABLE_REALTIME_PYTHON_TEST_LOGS=False
+----
+
+After changing this configuration, restart the TH backend container:
+[source,shell]
+----
+docker restart certification-tool_backend_1
+----
 
 <<<
 == *Matter Test Harness Cameras*
