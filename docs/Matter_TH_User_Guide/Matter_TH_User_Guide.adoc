@@ -128,7 +128,7 @@ endif::[]
                                                                      * Added the platform certification configuration section. +
                                                                      * Updated the docker command in Factory-reset the DUT section +
                                                                      * Added the Wi-Fi PAF section supported by Matter 1.4.2.
-| 48          | 10-Nov-2025  | [Apple]Romulo Quidute, [Apple]Antonio Melo| * Changes for v2.14+fall2025 version. +
+| 48          | 10-Nov-2025  | [Apple]Romulo Quidute, [Apple]Antonio Melo| * Changes for v2.14+fall2025 version.
 | 49          | 14-Nov-2025  | [Apple]Antonio Melo Jr.             | * Adding the Side Load feature instructions to the custom Test Cases section. +
                                                                      * Fixing the Causeway links in the references section. +
                                                                      * Fixing the REPL command in the Matter Python REPL section.
