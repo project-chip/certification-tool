@@ -10,8 +10,12 @@ http:
       loadBalancer:
         servers:
           - url: "https://host.docker.internal:1234"
+        serversTransport: insecure-transport
   middlewares:
     pushav-stripprefix:
       stripPrefix:
         prefixes:
           - "/pushav"
+  serversTransports:
+    insecure-transport:
+      insecureSkipVerify: true

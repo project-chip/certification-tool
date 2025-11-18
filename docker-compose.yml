@@ -39,10 +39,11 @@ services:
       - --providers.docker.exposedbydefault=false
       # Enable file provider for push-av server
       - --providers.file.filename=/etc/traefik/traefik_dynamic.yml
-      # insecureSkipVerify is enabled for push_av_server as it uses a self-signed certificate.
-      # This ensures Traefik can proxy requests HTTP -> HTTPS without failing certificate validation.
-      # service specific transport is not supported in v2.2 and was introduced in v2.4 hence enabling it here.
-      - --serversTransport.insecureSkipVerify=true
+      # insecureSkipVerify is now configured per-service in traefik_dynamic.yml
+      # using serversTransports for push_av_server which uses a self-signed certificate
+      # Define entrypoints
+      - --entrypoints.web.address=:80
+      - --entrypoints.traefik.address=:8080
       # Enable the access log, with HTTP requests
       - --accesslog
       # Enable the Traefik log, for configurations and errors
