@@ -127,7 +127,10 @@ endif::[]
                                                                      * Added the platform certification configuration section. +
                                                                      * Updated the docker command in Factory-reset the DUT section +
                                                                      * Added the Wi-Fi PAF section supported by Matter 1.4.2.
-| 48          | 10-Nov-2025  | [Apple]Romulo Quidute, [Apple]Antonio Melo| * Changes for v2.14+fall2025 version.
+| 48          | 10-Nov-2025  | [Apple]Romulo Quidute, [Apple]Antonio Melo| * Changes for v2.14+fall2025 version. +
+| 49          | 14-Nov-2025  | [Apple]Antonio Melo Jr.             | * Adding the Side Load feature instructions to the custom Test Cases section. +
+                                                                     * Fixing the Causeway links in the references section. +
+                                                                     * Fixing the REPL command in the Matter Python REPL section.
 |===
 
 <<<
@@ -152,11 +155,11 @@ The TH tool can be used by any DUT vendor to run the Matter certification tests,
 
 <<<
 == *References*
-. Matter Specification: https://groups.csa-iot.org/wg/members-all/document/folder/4651[Matter Specification (Causeway)] / https://github.com/CHIP-Specifications/connectedhomeip-spec[Matter Specification (GitHub)]
+. Matter Specification: https://groups.csa-iot.org/wg/members-all/document/folder/4825[Matter Specification (Causeway)] / https://github.com/CHIP-Specifications/connectedhomeip-spec[Matter Specification (GitHub)]
 . Matter SDK GitHub Repository: https://github.com/project-chip/connectedhomeip[Connectedhomeip GitHub Repository]
-. Matter Test Plans: https://groups.csa-iot.org/wg/members-all/document/folder/4651[Matter Test Plans (Causeway)] / https://github.com/CHIP-Specifications/chip-test-plans[Matter Test Plans (GitHub)]
+. Matter Test Plans: https://groups.csa-iot.org/wg/members-all/document/folder/4825[Matter Test Plans (Causeway)] / https://github.com/CHIP-Specifications/chip-test-plans[Matter Test Plans (GitHub)]
 . Matter PICS Tool: https://picstool.csa-iot.org/#userguide[PICS Tool - Connectivity Standards Alliance (csa-iot.org)]
-. Matter XML Files: https://groups.csa-iot.org/wg/members-all/document/folder/4651[XML Files - Connectivity Standards Alliance (csa-iot.org)]
+. Matter XML Files: https://groups.csa-iot.org/wg/members-all/document/folder/4825[XML Files - Connectivity Standards Alliance (csa-iot.org)]
 . TEDS Matter Tool: https://groups.csa-iot.org/wg/matter-wg/document/28545[TEDS Matter Tool - Connectivity Standards Alliance (csa-iot.org)]
 
 
@@ -454,9 +457,22 @@ Custom Python files folder are located at:
 .Test-Harness displaying the custom tests.
 image::images/img_60.png[]
 
-|===
-|Hint: You can copy the original SDK Yaml/Python test to Custom Yaml/Python folder and do any changes on it.
-|===
+[NOTE]
+.*Experimenting with Test Cases:*
+====
+You can copy the original SDK Yaml/Python test to Custom Yaml/Python folder and do any changes on it.
+====
+
+==== Test-Harness Side Load Feature with Custom Test Cases
+For the Side Load feature, the user may benefit from the *custom* Test Cases feature mentioned above.
+To Side Load any desired script, follow the steps below:
+
+1. Stop the Test-Harness by executing the script `stop.sh` located at `certification-tool/scripts/` folder
+2. Download the latest Test Case script from the SDK's master branch (https://github.com/project-chip/connectedhomeip[connectedhomeip] repository)
+3. Place the desired script on the appropriate *custom* folder (depending if the script is Yaml or Python)
+4. Start the Test-Harness by executing the script `start.sh` located at `certification-tool/scripts/` folder
+5. Change the Project's configuration as required to run the Side Loaded script (e.g. updating `test_parameters`)
+6. The Side Loaded script will be available on the Test Cases list in the Custom tab (refer to the image above)
 
 === Troubleshooting
 
@@ -794,9 +810,9 @@ Remember to set `PATH_TO_PAA_ROOTS` and substitute `<SDK SHA RECOMMENDED>`
 |`source python_env/bin/activate`
 |===
 
-* Run chip-repl:
+* Run matter-repl:
 |===
-|`python3 python_env/bin/chip-repl`
+|`python3 python_env/bin/matter-repl`
 |===
 
 
