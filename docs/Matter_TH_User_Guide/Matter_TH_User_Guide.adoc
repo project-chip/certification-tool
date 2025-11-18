@@ -473,7 +473,7 @@ To Side Load any desired script, follow the steps below:
 2. Download the latest Test Case script from the SDK's master branch (https://github.com/project-chip/connectedhomeip[connectedhomeip] repository)
 3. Place the desired script on the appropriate *custom* folder (depending if the script is Yaml or Python)
 4. Start the Test-Harness by executing the script `start.sh` located at `certification-tool/scripts/` folder
-5. Change the Project's configuration as required to run the Side Loaded script
+5. Change the Project's configuration as required to run the Side Loaded script (e.g. updating `test_parameters`)
 6. The Side Loaded script will be available on the Test Cases list in the Custom tab (refer to the image above)
 
 === Troubleshooting
