@@ -131,8 +131,8 @@ endif::[]
 | 48          | 10-Nov-2025  | [Apple]Romulo Quidute, [Apple]Antonio Melo| * Changes for v2.14+fall2025 version. +
 | 49          | 14-Nov-2025  | [Apple]Antonio Melo Jr.             | * Adding the Side Load feature instructions to the custom Test Cases section. +
                                                                      * Fixing the Causeway links in the references section. +
-                                                                     * Using the TH version variable in the Test-Harness Links table. +
                                                                      * Fixing the REPL command in the Matter Python REPL section.
+| 50          | 18-Nov-2025  | [Apple]Antonio Melo Jr.             | * Using the TH version variable in the Test-Harness Links table.
 |===
 
 <<<
@@ -458,6 +458,7 @@ Custom Python files folder are located at:
 
 .Test-Harness displaying the custom tests.
 image::images/img_60.png[]
+
 
 [NOTE]
 .*Experimenting with Test Cases:*
