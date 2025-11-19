@@ -40,7 +40,7 @@ SAVEIFS=$IFS
 IFS=$(echo -en "\r")
 for package in ${packagelist[@]}; do
   print_script_step "Installing package: ${package[@]}"
-  sudo DEBIAN_FRONTEND=noninteractive apt-get satisfy ${package[@]} -y --allow-downgrades
+  sudo DEBIAN_FRONTEND=noninteractive apt-get satisfy "${package%%[[:space:]]}" -y --allow-downgrades
 done
 IFS=$SAVEIFS 
 
