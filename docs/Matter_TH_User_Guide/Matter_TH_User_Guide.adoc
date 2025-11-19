@@ -460,8 +460,9 @@ Custom Python files folder are located at:
 [NOTE]
 .*Use the Custom Folders Symbolic Links:*
 ====
-At `~/certification-tool/backend/`, you may access the folder link `custom_yaml` as shortcut to access the Custom Yaml files folder. +
-Similarly, you can use the `custom_python` link to access the Custom Python files folder as well. +
+At `~/certification-tool/backend/`, you may use the following symbolic links as shortcuts: +
+* `custom_yaml`: to access the Custom Yaml files folder. +
+* `custom_python`: to access the Custom Python files folder.
 ====
 
 .Test-Harness displaying the custom tests.
