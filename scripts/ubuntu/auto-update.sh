@@ -20,6 +20,8 @@ LOG_FILENAME=$(date +"log-ubuntu-auto-update_%F-%H-%M-%S")
 LOG_PATH="$ROOT_DIR/logs/$LOG_FILENAME"
 SCRIPT_DIR="$ROOT_DIR/scripts"
 
+source "$SCRIPT_DIR/utils.sh"
+
 if [ $# != 1 ] || [ $1 = "--help" ]; then
   echo "Usage:"
   echo "./scripts/ubuntu/auto-update.sh <branch_name>"
