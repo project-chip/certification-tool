@@ -40,7 +40,22 @@ SAVEIFS=$IFS
 IFS=$(echo -en "\r")
 for package in ${packagelist[@]}; do
   print_script_step "Installing package: ${package[@]}"
-  sudo DEBIAN_FRONTEND=noninteractive apt-get satisfy "${package%%[[:space:]]}" -y --allow-downgrades
+
+  # Special handling for docker-ce to avoid version 29.x
+  if [[ "${package%%[[:space:]]}" == docker-ce* ]]; then
+    # Get the latest version that is not 29.x
+    DOCKER_VERSION=$(apt-cache madison docker-ce | awk '$3 !~ /^5:29\./ {print $3; exit}')
+    if [ -n "$DOCKER_VERSION" ]; then
+      print_script_step "Installing docker-ce version $DOCKER_VERSION (excluding 29.x)"
+      sudo DEBIAN_FRONTEND=noninteractive apt-get install -y --allow-downgrades docker-ce=$DOCKER_VERSION docker-ce-cli=$DOCKER_VERSION containerd.io docker-buildx-plugin docker-compose-plugin
+      sudo apt-mark hold docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin
+    else
+      echo "ERROR: No suitable docker-ce version found (excluding 29.x)"
+      exit 1
+    fi
+  else
+    sudo DEBIAN_FRONTEND=noninteractive apt-get satisfy "${package%%[[:space:]]}" -y --allow-downgrades
+  fi
 done
 IFS=$SAVEIFS 
 
