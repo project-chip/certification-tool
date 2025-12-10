@@ -51,7 +51,7 @@ if [ -f "$SCRIPT_DIR/stop.sh" ]; then
     $SCRIPT_DIR/stop.sh
     echo "Services stopped successfully."
 else
-    echo "Warning: stop.sh not found, continuing with Docker fix..."
+    echo "Warning: $SCRIPT_DIR/stop.sh not found, continuing with Docker fix..."
 fi
 
 echo ""
@@ -61,7 +61,7 @@ if [ -f "$SCRIPT_DIR/fix-docker-compatibility.sh" ]; then
     $SCRIPT_DIR/fix-docker-compatibility.sh
     echo "Docker compatibility fix completed."
 else
-    echo "Error: fix-docker-compatibility.sh not found!"
+    echo "Error: $SCRIPT_DIR/fix-docker-compatibility.sh not found!"
     echo "Please ensure the script exists and try again."
     exit 1
 fi
@@ -104,7 +104,7 @@ if [ -f "$SCRIPT_DIR/start.sh" ]; then
     $SCRIPT_DIR/start.sh
     echo "Services started successfully."
 else
-    echo "Warning: start.sh not found. Please start services manually."
+    echo "Warning: $SCRIPT_DIR/start.sh not found. Please start services manually."
     exit 1
 fi
 
