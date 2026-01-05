@@ -29,7 +29,7 @@ print_script_step "Install additional dependencies"
 # First, ensure all dev packages are up to date to match installed library versions
 print_script_step "Updating development packages to match installed library versions"
 sudo DEBIAN_FRONTEND=noninteractive apt-get update
-sudo DEBIAN_FRONTEND=noninteractive apt-get install --only-upgrade -y libmount-dev libzstd-dev libblkid-dev 2>/dev/null || true
+sudo DEBIAN_FRONTEND=noninteractive apt-get install --only-upgrade -y libmount-dev libzstd-dev libblkid-dev || true
 
 readarray -t packagelist < "$UBUNTU_SCRIPT_DIR/additional-dependency-list.txt"
 
