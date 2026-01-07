@@ -1926,6 +1926,8 @@ cd ~/certification-tool/cli
 ./scripts/th_cli_install.sh
 ----
 
+Note: The CLI instalation script is automatically executed when setting up the Matter Test-Harness. If you have not set up the Test-Harness yet, refer to <<matter-test-harness-setup, Section 4, Matter Test-Harness Setup>>. Otherwise, you can run the above command to install or update the CLI whenever needed.
+
 . Configure connection to Test-Harness:
 +
 Edit `~/certification-tool/cli/config.json`:
@@ -1975,10 +1977,16 @@ th-cli test-runner-status
 # List all tests (YAML format - default)
 th-cli available-tests
 
+# List tests with compact format
+th-cli available-tests --compact
+
 # List tests in JSON format
 th-cli available-tests --json
 
-# Filter by test suite
+# Filter by cluster
+th-cli available-tests --cluster ACE
+
+# Filter by test case
 th-cli available-tests | grep "TC-ACE"
 ----
 
@@ -2002,7 +2010,7 @@ th-cli run-tests --tests-list TC-ACE-1.1 --title "Door Lock Test Run"
 
 [source,bash]
 ----
-# Use custom config file
+# Use custom project configuration file
 th-cli run-tests --tests-list TC-ACE-1.1 --config my_config.json
 
 # Use PICS configuration
@@ -2011,6 +2019,9 @@ th-cli run-tests --tests-list TC-ACE-1.1 --pics-config-folder ./pics_files/
 # Assign to existing project
 th-cli run-tests --tests-list TC-ACE-1.1 --project-id 5
 ----
+
+WARNING: If the *project-id* is not specified, a default project called *CLI Project Execution* will be used (*or* created if not presented) for the test run. Please make sure to use the appropriate project-id if you want to assign the test run to a specific project. +
+You can verify to the existing projects using the `th-cli project list` command, referred at <<project-management, Section 11.3.4, Project Management>>.
 
 ==== Project Management
 
@@ -2021,9 +2032,13 @@ th-cli run-tests --tests-list TC-ACE-1.1 --project-id 5
 # Create new project with name
 th-cli project create --name "My DUT Tests"
 
-# Create with configuration file
+# Create with project configuration file
 th-cli project create --name "Door Lock Project" --config project_config.json
 ----
+
+NOTE: *Tip:* +
+The project configuration structure from an existing project may be verified using the following CLI command `th-cli project list --id <PROJECT-ID> --json`. +
+That way it's possile to create new projects and update based on existing configurations.
 
 **List projects:**
 
@@ -2055,13 +2070,16 @@ th-cli project delete --id 5
 [source,bash]
 ----
 # List recent test runs
-th-cli test-run-execution list
+th-cli test-run-execution
 
-# View specific test run details
-th-cli test-run-execution list --id 123
+# List all test runs
+th-cli test-run-execution --all
+
+# Sort by ascending order
+th-cli test-run-execution --sort asc
 
 # View test execution logs
-th-cli test-run-execution log --id 123
+th-cli test-run-execution --log --id 123
 ----
 
 ==== Abort Running Tests
