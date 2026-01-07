@@ -134,7 +134,9 @@ endif::[]
                                                                      * Fixing the REPL command in the Matter Python REPL section.
 | 50          | 18-Nov-2025  | [Apple]Antonio Melo Jr.             | * Using the TH version variable in the Test-Harness Links table.
 | 51          | 19-Nov-2025  | [Apple]Antonio Melo Jr.             | * Adding symbolic links to the custom folder paths in the custom Test Cases section.
-| 52          | 05-Jan-2026  | [Apple]Antonio Melo Jr.             | * Adding the Test-Harness CLI section.
+| 52          | 05-Jan-2026  | [Apple]Antonio Melo Jr.             | * Adding the Test-Harness CLI section. +
+                                                                     * Fixing some git clone commands to include the recursive submodules flag.
+| 53          | 07-Jan-2026  | [Apple]Romulo Quidute               | * Adding Troubleshooting for the hanging with ModuleNotFoundError issue.
 |===
 
 <<<
@@ -571,6 +573,43 @@ Once the SSH connection is successful, clean the environment using the command: 
 Finally, execute a new installation with the following command: +
 *$* `./certification-tool/scripts/pi-setup/auto-install.sh`
 |===
+
+==== Test Harness Startup Hanging with ModuleNotFoundError
+
+This issue typically occurs when the `./scripts/start.sh` script takes a long time to complete and appears to hang during startup.
+
+===== Symptoms
+* The `start.sh` script does not complete after a reasonable time
+* Backend container fails to initialize properly
+
+===== Diagnosis
+To check if this is the issue, run the following command:
+
+|===
+|`docker logs certification-tool-backend-1`
+|===
+
+Look for an error message similar to:
+
+|===
+|`ModuleNotFoundError: No module named 'chipyaml'`
+|===
+
+===== Solution
+If you find the `ModuleNotFoundError` in the logs, follow these steps:
+
+|===
+|Stop the Test-Harness: +
+*$* `./scripts/stop.sh`
+
+Remove the SDK version file: +
+*$* `rm ~/certification-tool/backend/test_collections/matter/sdk_tests/sdk_checkout/.version`
+
+Start the Test-Harness again: +
+*$* `./scripts/start.sh`
+|===
+
+This will force the SDK dependencies to be reinstalled during the next startup.
 
 <<<
 == *Bringing Up of Matter Node (DUT) for Certification Testing*
