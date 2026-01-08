@@ -17,7 +17,7 @@
 
 :ubuntu-version: 24.04.x
 :ubuntu-description: Ubuntu Server {ubuntu-version} LTS (64-bit)
-:th-version: v2.15-beta1+winter2025
+:th-version: v2.15-beta2+spring2026
 = Matter Test-Harness User Manual: {th-version}
 ifdef::env-github[]
 :tip-caption: :bulb:
@@ -134,6 +134,9 @@ endif::[]
                                                                      * Fixing the REPL command in the Matter Python REPL section.
 | 50          | 18-Nov-2025  | [Apple]Antonio Melo Jr.             | * Using the TH version variable in the Test-Harness Links table.
 | 51          | 19-Nov-2025  | [Apple]Antonio Melo Jr.             | * Adding symbolic links to the custom folder paths in the custom Test Cases section.
+| 52          | 05-Jan-2026  | [Apple]Antonio Melo Jr.             | * Adding the Test-Harness CLI section. +
+                                                                     * Fixing some git clone commands to include the recursive submodules flag.
+| 53          | 07-Jan-2026  | [Apple]Romulo Quidute               | * Adding Troubleshooting for the hanging with ModuleNotFoundError issue.
 |===
 
 <<<
@@ -267,7 +270,7 @@ WARNING: **The username must be 'ubuntu'. Changing the name may cause problems r
 . Enter the username and password.
 . Install the TH system:
 * Clone the TH repository: 
-** `$git clone -b <Target_Branch/Tag> https://github.com/project-chip/certification-tool.git`
+** `$git clone -b <Target_Branch/Tag> https://github.com/project-chip/certification-tool.git --recurse-submodules`
 * Goto to TH folder: 
 ** `$cd certification-tool`
 * Install/configure the TH dependencies: 
@@ -319,7 +322,7 @@ Seems like bridged network is not available, so you will not be able to test wit
 * Clone git repo
 
 |===
-|`git clone -b <Target_Branch/Tag> https://github.com/project-chip/certification-tool.git`
+|`git clone -b <Target_Branch/Tag> https://github.com/project-chip/certification-tool.git --recurse-submodules`
 |===
 
 * Go into the repo directory
@@ -570,6 +573,43 @@ Once the SSH connection is successful, clean the environment using the command: 
 Finally, execute a new installation with the following command: +
 *$* `./certification-tool/scripts/pi-setup/auto-install.sh`
 |===
+
+==== Test Harness Startup Hanging with ModuleNotFoundError
+
+This issue typically occurs when the `./scripts/start.sh` script takes a long time to complete and appears to hang during startup.
+
+===== Symptoms
+* The `start.sh` script does not complete after a reasonable time
+* Backend container fails to initialize properly
+
+===== Diagnosis
+To check if this is the issue, run the following command:
+
+|===
+|`docker logs certification-tool-backend-1`
+|===
+
+Look for an error message similar to:
+
+|===
+|`ModuleNotFoundError: No module named 'chipyaml'`
+|===
+
+===== Solution
+If you find the `ModuleNotFoundError` in the logs, follow these steps:
+
+|===
+|Stop the Test-Harness: +
+*$* `./scripts/stop.sh`
+
+Remove the SDK version file: +
+*$* `rm ~/certification-tool/backend/test_collections/matter/sdk_tests/sdk_checkout/.version`
+
+Start the Test-Harness again: +
+*$* `./scripts/start.sh`
+|===
+
+This will force the SDK dependencies to be reinstalled during the next startup.
 
 <<<
 == *Bringing Up of Matter Node (DUT) for Certification Testing*
@@ -1854,6 +1894,322 @@ docker restart certification-tool_backend_1
 ----
 
 <<<
+[#matter-test-harness-cli]
+== *Matter Test-Harness Command Line Interface (CLI)*
+
+=== Overview
+
+The Matter Test-Harness Command Line Interface (CLI) provides a powerful command-line tool for automated test execution, project management, and test monitoring. The CLI has been significantly enhanced with improved usability features including colorized output, auto-completion, camera test support, and real-time execution monitoring.
+
+**Key Features:**
+
+* Enhanced output formatting with JSON/YAML options
+* Automatic Manual Pairing Code generation and display
+* Colorized terminal output for better readability
+* Command auto-completion support for faster workflow
+* Real-time test execution log monitoring
+* Camera test support for video verification tests
+* Node ID display in output for commissioning
+* Advanced project management capabilities
+* Improved PICS parser with better error handling
+* Abort command to stop running tests
+
+=== Quick-Start Guide
+
+This quick guide shows you how to start testing in 5 minutes:
+
+. Install the CLI:
++
+[source,bash]
+----
+cd ~/certification-tool/cli
+./scripts/th_cli_install.sh
+----
+
+Note: The CLI instalation script is automatically executed when setting up the Matter Test-Harness. If you have not set up the Test-Harness yet, refer to <<matter-test-harness-setup, Section 4, Matter Test-Harness Setup>>. Otherwise, you can run the above command to install or update the CLI whenever needed.
+
+. Configure connection to Test-Harness:
++
+Edit `~/certification-tool/cli/config.json`:
++
+[source,json]
+----
+{
+    "hostname": "192.168.1.100"
+}
+----
+
+. View available tests:
++
+[source,bash]
+----
+th-cli available-tests
+----
+
+. Run your first test:
++
+[source,bash]
+----
+th-cli run-tests --tests-list TC-ACE-1.1
+----
+
+. View test results:
++
+The output will display real-time logs with color-coded test results.
+
+=== Essential Commands
+
+==== Check Version and Status
+
+[source,bash]
+----
+# Display CLI and Test-Harness versions
+th-cli --version
+
+# Check Test-Harness runner status
+th-cli test-runner-status
+----
+
+==== View Available Tests
+
+[source,bash]
+----
+# List all tests (YAML format - default)
+th-cli available-tests
+
+# List tests with compact format
+th-cli available-tests --compact
+
+# List tests in JSON format
+th-cli available-tests --json
+
+# Filter by cluster
+th-cli available-tests --cluster ACE
+
+# Filter by test case
+th-cli available-tests | grep "TC-ACE"
+----
+
+==== Running Tests
+
+**Basic test execution:**
+
+[source,bash]
+----
+# Run single test
+th-cli run-tests --tests-list TC-ACE-1.1
+
+# Run multiple tests
+th-cli run-tests --tests-list TC-ACE-1.1,TC-ACE-1.2,TC-DRLK-1.1
+
+# Run with custom title
+th-cli run-tests --tests-list TC-ACE-1.1 --title "Door Lock Test Run"
+----
+
+**With configuration files:**
+
+[source,bash]
+----
+# Use custom project configuration file
+th-cli run-tests --tests-list TC-ACE-1.1 --config my_config.json
+
+# Use PICS configuration
+th-cli run-tests --tests-list TC-ACE-1.1 --pics-config-folder ./pics_files/
+
+# Assign to existing project
+th-cli run-tests --tests-list TC-ACE-1.1 --project-id 5
+----
+
+WARNING: If the *project-id* is not specified, a default project called *CLI Project Execution* will be used (*or* created if not presented) for the test run. Please make sure to use the appropriate project-id if you want to assign the test run to a specific project. +
+You can verify to the existing projects using the `th-cli project list` command, referred at <<project-management, Section 11.3.4, Project Management>>.
+
+==== Project Management
+
+**Create project:**
+
+[source,bash]
+----
+# Create new project with name
+th-cli project create --name "My DUT Tests"
+
+# Create with project configuration file
+th-cli project create --name "Door Lock Project" --config project_config.json
+----
+
+NOTE: *Tip:* +
+The project configuration structure from an existing project may be verified using the following CLI command `th-cli project list --id <PROJECT-ID> --json`. +
+That way it's possile to create new projects and update based on existing configurations.
+
+**List projects:**
+
+[source,bash]
+----
+# List all projects
+th-cli project list
+
+# List with JSON output
+th-cli project list --json
+
+# View specific project details
+th-cli project list --id 5
+----
+
+**Update and delete:**
+
+[source,bash]
+----
+# Update project configuration
+th-cli project update --id 5 --config updated_config.json
+
+# Delete project
+th-cli project delete --id 5
+----
+
+==== View Test Execution History
+
+[source,bash]
+----
+# List recent test runs
+th-cli test-run-execution
+
+# List all test runs
+th-cli test-run-execution --all
+
+# Sort by ascending order
+th-cli test-run-execution --sort asc
+
+# View test execution logs
+th-cli test-run-execution --log --id 123
+----
+
+==== Abort Running Tests
+
+[source,bash]
+----
+# Stop current test execution
+th-cli abort-testing
+----
+
+=== Advanced Features
+
+==== Camera Test Support
+
+The CLI now supports video verification tests for camera-enabled devices. When running camera tests, the CLI automatically:
+
+* Captures live video stream from the DUT camera
+* Hosts a web interface for video verification on port 8999
+* Saves video recordings in MP4 format
+* Provides interactive prompts for test verification
+
+**Running Camera Tests:**
+
+[source,bash]
+----
+# Run a camera test case
+th-cli run-tests --tests-list TC-WEBRTC-1.1
+----
+
+**During Test Execution:**
+
+. The CLI will display a URL to access the video verification interface
+. Open the URL in a web browser (e.g., http://<your-ip>:8999)
+. View the live video stream from the camera
+. Respond to verification prompts through the web interface
+. Video recordings are automatically saved to `./videos/` directory
+
+**Camera Test Requirements:**
+
+* GStreamer must be installed (see <<matter-test-harness-cameras, Section 12, Matter Test Harness Cameras>>)
+* Chrome browser with "Insecure origins treated as secure" flag enabled for the TH IP
+* Network connectivity between CLI machine and Test-Harness
+
+NOTE: For detailed camera setup instructions, refer to <<matter-test-harness-cameras, Section 12, Matter Test Harness Cameras>> in this guide.
+
+==== Auto-Completion
+
+Enable command auto-completion for faster typing:
+
+[source,bash]
+----
+# The installation script sets this up automatically
+# Press TAB to auto-complete commands and options
+th-cli run-<TAB>  # Shows: run-tests
+----
+
+==== Colorized Output
+
+The CLI automatically colorizes output for better readability:
+
+* Green: Success/Pass
+* Red: Errors/Failures
+* Yellow: Warnings/Running
+* Blue: Information
+
+Disable colors if needed:
+
+[source,bash]
+----
+th-cli run-tests --tests-list TC-ACE-1.1 --no-color
+
+# Or use environment variable
+export TH_CLI_NO_COLOR=1
+th-cli run-tests --tests-list TC-ACE-1.1
+----
+
+==== Manual Test Cases
+
+When commissioning devices, the CLI now automatically displays the *Manual Pairing Code* along with the *Node ID* for easier device setup while executing Simulated Test Cases.
+
+=== Troubleshooting
+
+**Connection Issues:**
+
+[source,bash]
+----
+# Verify Test-Harness is reachable
+ping <raspberry-pi-ip>
+
+# Check th-cli configuration
+cat ~/certification-tool/cli/config.json
+----
+
+**Command Not Found:**
+
+[source,bash]
+----
+# Reinstall CLI
+cd ~/certification-tool/cli
+./scripts/th_cli_install.sh
+----
+
+**Test Execution Fails:**
+
+[source,bash]
+----
+# Check Test-Harness status
+th-cli test-runner-status
+
+# View execution logs
+th-cli test-run-execution log --id <execution-id>
+----
+
+**Camera Test Issues:**
+
+[source,bash]
+----
+# Verify GStreamer is installed
+gst-inspect-1.0 --version
+
+# Check if port 8999 is available
+netstat -an | grep 8999
+
+# Verify camera stream connectivity
+# Access http://<your-ip>:8999 in browser
+----
+
+
+<<<
+[#matter-test-harness-cameras]
 == *Matter Test Harness Cameras*
 
 Please follow the instructions below to use the camera feature in the Test Harness for certification purposes. The camera feature allows users to run test cases that require a camera stream, such as those related to video streaming or image capture.
