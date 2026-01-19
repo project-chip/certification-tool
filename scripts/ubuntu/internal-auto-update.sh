@@ -28,9 +28,6 @@ verify_return_code
 print_script_step "Stopping Containers"
 $SCRIPT_DIR/stop.sh
 
-print_script_step "Check and fix Docker compatibility"
-$SCRIPT_DIR/fix-docker-compatibility.sh
-verify_return_code
 
 BRANCH_NAME=$1
 
