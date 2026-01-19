@@ -136,7 +136,8 @@ endif::[]
 | 51          | 19-Nov-2025  | [Apple]Antonio Melo Jr.             | * Adding symbolic links to the custom folder paths in the custom Test Cases section.
 | 52          | 05-Jan-2026  | [Apple]Antonio Melo Jr.             | * Adding the Test-Harness CLI section. +
                                                                      * Fixing some git clone commands to include the recursive submodules flag.
-| 53          | 07-Jan-2026  | [Apple]Romulo Quidute               | * Adding Troubleshooting for the hanging with ModuleNotFoundError issue.
+| 53          | 19-Jan-2026  | [Apple]Romulo Quidute               | * Adding Troubleshooting for the hanging with ModuleNotFoundError issue.
+                                                                       Added Container Logging Configuration section.
 |===
 
 <<<
@@ -1886,6 +1887,36 @@ ENABLE_REALTIME_PYTHON_TEST_LOGS=True
 # Enable batch logging (default)
 ENABLE_REALTIME_PYTHON_TEST_LOGS=False
 ----
+
+After changing this configuration, restart the TH backend container:
+[source,shell]
+----
+docker restart certification-tool_backend_1
+----
+
+===== Container Logging Configuration
+The TH supports optional logging of container operations for debugging and troubleshooting purposes:
+
+* *Container logging disabled (default)*: No container operation logs are displayed
+* *Container logging enabled*: Displays detailed Docker container operations including creation, destruction, and file copy operations
+
+To configure container logging, set the `ENABLE_CONTAINER_LOGS` environment variable in the `./backend/app/core/config.py` file:
+
+[source,shell]
+----
+# Enable container logging
+ENABLE_CONTAINER_LOGS=True
+
+# Disable container logging (default)
+ENABLE_CONTAINER_LOGS=False
+----
+
+When enabled, the following container information will be logged:
+
+* Container creation and docker run commands
+* Container destruction (kill and remove commands)
+* File copy operations between host and container
+* Container execution commands
 
 After changing this configuration, restart the TH backend container:
 [source,shell]
