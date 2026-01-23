@@ -1589,7 +1589,7 @@ Copy the generated `ota-requestor-app.ota` image to the Test Harness apps/images
 
 [source,shell]
 ----
-cp ota-requestor-app.ota ~/apps/images/
+cp ota-requestor-app.ota ~/apps
 ----
 
 === Important Notes
