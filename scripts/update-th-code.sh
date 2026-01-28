@@ -35,8 +35,8 @@ fi
 cd $ROOT_DIR
 
 print_script_step "Stashing local changes"
-git stash
-git submodule foreach 'git stash'
+git stash --include-untracked
+git submodule foreach 'git stash --include-untracked'
 
 print_script_step "Pulling Test Harness code"
 git fetch
