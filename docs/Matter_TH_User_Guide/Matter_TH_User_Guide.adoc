@@ -1525,7 +1525,7 @@ ATLs should follow these steps when preparing for OTA-related test cases:
 
 . Generate the OTA image using the Matter `ota_image_tool` with the updated Software Version.
 
-. Provide/Copy the generated `ota-requestor-app.ota` image to the Test Harness `apps/images` directory.
+. Provide/Copy the generated `ota-requestor-app.ota` image to the Test Harness `apps` directory.
 
 . Execute OTA-related test cases using the Test Harness.
 
