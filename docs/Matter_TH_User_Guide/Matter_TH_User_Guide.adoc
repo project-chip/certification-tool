@@ -139,6 +139,7 @@ endif::[]
 | 53          | 19-Jan-2026  | [Apple]Romulo Quidute               | * Adding Troubleshooting for the hanging with ModuleNotFoundError issue. +
                                                                      * Added Container Logging Configuration section.
 | 54          | 22-Jan-2026  | [Apple]Romulo Quidute               | * Added OTA Image Build Procedure section with manual workflow for generating OTA requestor images.
+| 55          | 05-Feb-2026  | [Apple]Romulo Quidute               | * Added Thread Pairing Mode section.
 |===
 
 <<<
@@ -1224,11 +1225,12 @@ When the DUT is a client, refer to <<simulated-tests>>. The TH brings up the exa
 
 In the case where the DUT is a server, the TH spins up the controller, the DUT bring-up procedure should be completed and has to be paired with the controller. 
 
-Depending on the DUT’s network transport, any one of the appropriate pairing modes can be opted:
+Depending on the DUT's network transport, any one of the appropriate pairing modes can be opted:
 
-* *‘ble-wifi* ’ to complete the pairing for the DUT using BLE Wi-Fi 
-* *‘onnetwork’* to complete the pairing for the DUT that is already on the operational network (e.g., the device is already present on the same Ethernet network of the TH) connection
-* *‘ble-thread’* to complete the pairing for the Thread Device
+* *'ble-wifi* ' to complete the pairing for the DUT using BLE Wi-Fi
+* *'onnetwork'* to complete the pairing for the DUT that is already on the operational network (e.g., the device is already present on the same Ethernet network of the TH) connection
+* *'ble-thread'* to complete the pairing for the Thread Device using BLE
+* *'thread'* to complete the pairing for the Thread Device using Border Agent (without BLE)
 
 Follow the sections below for the project configuration and test execution.
 
@@ -1322,7 +1324,7 @@ image:images/img_15.png[]
 }
 ----
 
-==== Thread Device Mode
+===== Thread Device Mode
 .. Input the DUT configuration details like discriminator: "3840", setup_code:"20202021", and *pairing_mode as "ble-thread"*.
 +
 [source,xml]
@@ -1369,6 +1371,55 @@ NOTE: _The OTBR docker is contained in the TH and runs automatically upon the st
 ----
 +
 WARNING: _OTBR needs to be configured and running. TH will not start any OTBR docker containers._
+
+==== Thread Pairing Mode (using Border Agent)
+.. Input the DUT configuration details like discriminator: "3840", setup_code:"20202021", and *pairing_mode as "thread"*.
++
+[source,xml]
+----
+"dut_config": {
+  "discriminator": "3840",
+  "setup_code": "20202021",
+  "pairing_mode": "thread",
+  "chip_timeout": null,
+  "chip_use_paa_certs": false,
+  "trace_log": true
+}
+----
+
+.. For Thread pairing mode, Border Agent parameters `ba_host` and `ba_port` are mandatory.
++
+[source,xml]
+----
+"thread": {
+  "rcp_serial_path": "/dev/ttyACM0",
+  "rcp_baudrate": 115200,
+  "on_mesh_prefix": "fd11:22::/64",
+  "network_interface": "eth0",
+  "ba_host": "127.0.0.1",
+  "ba_port": 5684,
+  "dataset": {
+    "channel": "15",
+    "panid": "0x1234",
+    "extpanid": "1111111122222222",
+    "networkkey": "00112233445566778899aabbccddeeff",
+    "networkname": "DEMO"
+  },
+  "otbr_docker_image": null
+}
+----
++
+Or using operational dataset:
++
+[source,xml]
+----
+"thread": {
+  "operational_dataset_hex": "0e08000000000001000035060004001fffe00708fd5270f26ee4c02c041064dc641d7195508d7cd17ce22db711420c0402a0f7f8000300000f0102123402081111111122222222030444454d4f051000112233445566778899aabbccddeeff",
+  "ba_host": "192.168.1.100",
+  "ba_port": 5684
+}
+----
++
 
 ==== PAA Certificates
 For the case that the DUT requires a PAA certificate to perform a pairing operation, input "true" for the flag "chip_tool_use_paa_certs" to configure the Test-Harness to use them.
