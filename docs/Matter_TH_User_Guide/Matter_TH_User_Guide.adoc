@@ -1227,7 +1227,7 @@ In the case where the DUT is a server, the TH spins up the controller, the DUT b
 
 Depending on the DUT's network transport, any one of the appropriate pairing modes can be opted:
 
-* *'ble-wifi* ' to complete the pairing for the DUT using BLE Wi-Fi
+* *'ble-wifi'* to complete the pairing for the DUT using BLE Wi-Fi
 * *'onnetwork'* to complete the pairing for the DUT that is already on the operational network (e.g., the device is already present on the same Ethernet network of the TH) connection
 * *'ble-thread'* to complete the pairing for the Thread Device using BLE
 * *'thread'* to complete the pairing for the Thread Device using Border Agent (without BLE)
@@ -1387,29 +1387,7 @@ WARNING: _OTBR needs to be configured and running. TH will not start any OTBR do
 }
 ----
 
-.. For Thread pairing mode, Border Agent parameters `ba_host` and `ba_port` are mandatory.
-+
-[source,xml]
-----
-"thread": {
-  "rcp_serial_path": "/dev/ttyACM0",
-  "rcp_baudrate": 115200,
-  "on_mesh_prefix": "fd11:22::/64",
-  "network_interface": "eth0",
-  "ba_host": "127.0.0.1",
-  "ba_port": 5684,
-  "dataset": {
-    "channel": "15",
-    "panid": "0x1234",
-    "extpanid": "1111111122222222",
-    "networkkey": "00112233445566778899aabbccddeeff",
-    "networkname": "DEMO"
-  },
-  "otbr_docker_image": null
-}
-----
-+
-Or using operational dataset:
+.. For Thread pairing mode, Border Agent parameters `operational_dataset_hex`, `ba_host` and `ba_port` are mandatory.
 +
 [source,xml]
 ----
