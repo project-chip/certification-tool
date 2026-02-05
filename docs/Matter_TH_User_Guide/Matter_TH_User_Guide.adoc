@@ -1308,7 +1308,7 @@ image:images/img_15.png[]
 }
 ----
 
-===== On Network Mode
+==== On Network Mode
 .. If the DUT is already present on the operational network (e.g., connected to the same network as the controller via Ethernet) then the user can select this mode. 
 .. Configure the DUT by providing details like discriminator, setup_code and set the *pairing_mode as "onnetwork"*.
 +
@@ -1324,7 +1324,7 @@ image:images/img_15.png[]
 }
 ----
 
-===== Thread Device Mode
+==== Thread Device Mode
 .. Input the DUT configuration details like discriminator: "3840", setup_code:"20202021", and *pairing_mode as "ble-thread"*.
 +
 [source,xml]
@@ -1419,7 +1419,6 @@ Or using operational dataset:
   "ba_port": 5684
 }
 ----
-+
 
 ==== PAA Certificates
 For the case that the DUT requires a PAA certificate to perform a pairing operation, input "true" for the flag "chip_tool_use_paa_certs" to configure the Test-Harness to use them.
