@@ -2371,10 +2371,10 @@ image:images/img_69.png[Chrome Browser - Insecure origins treated as secure flag
 
 === Setup Environment
 
-Auto-update and start Test Harness with the camera feature (`v2.14-beta1.1+winter2025` or later) with the following linux commands: 
+Auto-update and start Test Harness with the camera feature (`v2.14+fall2025` or later) with the following linux commands: 
 
 - `cd ~/certification-tool`
-- `./scripts/ubuntu/auto-update.sh v2.14-beta1.1+winter2025`
+- `./scripts/ubuntu/auto-update.sh v2.14+fall2025`
 - `./scripts/start.sh`
 
 === Running Camera Test Cases 
