@@ -26,21 +26,23 @@ print_start_of_script
 
 print_script_step "Install additional dependencies"
 
-# First, ensure all dev packages are up to date to match installed library versions.
-# apt-get upgrade in the previous step may update runtime libraries (libmount1, libzstd1,
-# libpcre2-8-0, libselinux1, zlib1g) to security-patch point releases (e.g. -9ubuntu6.4)
-# while their -dev counterparts remain at the pre-upgrade version.  This causes
-# "held broken packages" errors when apt-get satisfy tries to install libgstreamer1.0-dev
-# and its transitive -dev dependencies (which carry strict = version constraints).
-# Upgrading all affected -dev packages first realigns them with the runtime libraries.
-print_script_step "Updating development packages to match installed library versions"
+# Ensure noble-updates is present in apt sources.
+# On minimal Ubuntu 24.04 images (e.g. Raspberry Pi), the sources file may only contain
+# noble and noble-security.  Security point releases update runtime libraries
+# (libmount1, zlib1g, libpcre2-8-0, etc.) to patch versions (e.g. -9ubuntu6.4), but the
+# matching -dev packages that accept those versions only exist in noble-updates.
+# Without this repo, apt-get satisfy fails with "held broken packages" when resolving
+# transitive -dev dependencies for libgstreamer1.0-dev.
+print_script_step "Ensuring noble-updates apt repository is configured"
+SOURCES_FILE="/etc/apt/sources.list.d/ubuntu-sources.list"
+if [ ! -f "$SOURCES_FILE" ]; then
+    SOURCES_FILE="/etc/apt/sources.list"
+fi
+if ! grep -q "noble-updates" "$SOURCES_FILE" /etc/apt/sources.list.d/*.list 2>/dev/null; then
+    echo "deb http://ports.ubuntu.com/ubuntu-ports/ noble-updates main restricted universe multiverse" \
+        | sudo tee -a "$SOURCES_FILE"
+fi
 sudo DEBIAN_FRONTEND=noninteractive apt-get update
-sudo DEBIAN_FRONTEND=noninteractive apt-get install --only-upgrade -y \
-    libmount-dev libblkid-dev \
-    libzstd-dev \
-    libpcre2-dev \
-    libselinux1-dev \
-    zlib1g-dev || true
 
 readarray -t packagelist < "$UBUNTU_SCRIPT_DIR/additional-dependency-list.txt"
 
