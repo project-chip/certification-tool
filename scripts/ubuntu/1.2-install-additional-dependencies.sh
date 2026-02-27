@@ -26,20 +26,21 @@ print_start_of_script
 
 print_script_step "Install additional dependencies"
 
-# Ensure noble-updates is present in apt sources.
-# On minimal Ubuntu 24.04 images (e.g. Raspberry Pi), the sources file may only contain
-# noble and noble-security.  Security point releases update runtime libraries
+# Ensure <codename>-updates is present in apt sources.
+# On minimal Ubuntu images (e.g. Raspberry Pi), the sources file may only contain
+# <codename> and <codename>-security.  Security point releases update runtime libraries
 # (libmount1, zlib1g, libpcre2-8-0, etc.) to patch versions (e.g. -9ubuntu6.4), but the
-# matching -dev packages that accept those versions only exist in noble-updates.
+# matching -dev packages that accept those versions only exist in <codename>-updates.
 # Without this repo, apt-get satisfy fails with "held broken packages" when resolving
 # transitive -dev dependencies for libgstreamer1.0-dev.
-print_script_step "Ensuring noble-updates apt repository is configured"
-SOURCES_FILE="/etc/apt/sources.list.d/ubuntu-sources.list"
+print_script_step "Ensuring <codename>-updates apt repository is configured"
+UBUNTU_CODENAME=$(lsb_release -cs)
+SOURCES_FILE="/etc/apt/sources.list.d/ubuntu-sources"
 if [ ! -f "$SOURCES_FILE" ]; then
     SOURCES_FILE="/etc/apt/sources.list"
 fi
-if ! grep -q "noble-updates" "$SOURCES_FILE" /etc/apt/sources.list.d/*.list 2>/dev/null; then
-    echo "deb http://ports.ubuntu.com/ubuntu-ports/ noble-updates main restricted universe multiverse" \
+if ! grep -q "${UBUNTU_CODENAME}-updates" "$SOURCES_FILE" /etc/apt/sources.list.d/*.list 2>/dev/null; then
+    echo "deb http://ports.ubuntu.com/ubuntu-ports/ ${UBUNTU_CODENAME}-updates main restricted universe multiverse" \
         | sudo tee -a "$SOURCES_FILE"
 fi
 sudo DEBIAN_FRONTEND=noninteractive apt-get update
