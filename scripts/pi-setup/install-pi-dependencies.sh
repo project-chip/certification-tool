@@ -23,6 +23,16 @@ source "$SCRIPT_DIR/utils.sh"
 
 print_start_of_script
 
+if ! is_running_on_raspberry_pi; then
+    if is_running_in_wsl; then
+        print_script_step "Skipping Raspberry Pi dependencies (running in WSL)"
+    else
+        print_script_step "Skipping Raspberry Pi dependencies (not running on Raspberry Pi)"
+    fi
+    print_end_of_script
+    exit 0
+fi
+
 print_script_step "Silence user prompts about reboot and service restart required (script will prompt user to reboot in the end)"
 sudo sed -i "s/#\$nrconf{kernelhints} = -1;/\$nrconf{kernelhints} = -1;/g" /etc/needrestart/needrestart.conf
 sudo sed -i "s/#\$nrconf{restart} = 'i';/\$nrconf{restart} = 'a';/" /etc/needrestart/needrestart.conf

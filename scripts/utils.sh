@@ -112,3 +112,14 @@ check_installation_prerequisites()
         exit 1
     fi
 }
+
+is_running_on_raspberry_pi()
+{
+    [ -f /sys/firmware/devicetree/base/model ] && \
+        grep -qi "raspberry pi" /sys/firmware/devicetree/base/model 2>/dev/null
+}
+
+is_running_in_wsl()
+{
+    grep -qi microsoft /proc/version 2>/dev/null
+}

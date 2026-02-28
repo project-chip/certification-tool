@@ -33,10 +33,11 @@ sudo groupadd docker
 sudo usermod -a -G docker $USER
 sudo service docker restart
 
-# Setup Wifi
-print_script_step "Create System Service for wpa_suppliant"
-printf "\n Writing: /etc/systemd/system/dbus-fi.w1.wpa_supplicant1.service"
-cat << EOF | sudo tee /etc/systemd/system/dbus-fi.w1.wpa_supplicant1.service
+# Setup Wifi (Raspberry Pi only)
+if is_running_on_raspberry_pi; then
+    print_script_step "Create System Service for wpa_suppliant"
+    printf "\n Writing: /etc/systemd/system/dbus-fi.w1.wpa_supplicant1.service"
+    cat << EOF | sudo tee /etc/systemd/system/dbus-fi.w1.wpa_supplicant1.service
 [Unit]
 Description=WPA supplicant
 Before=network.target
@@ -53,20 +54,25 @@ ExecStart=/sbin/wpa_supplicant -u -s -i $WLAN_INTERFACE -c /etc/wpa_supplicant/w
 WantedBy=multi-user.target
 Alias=dbus-fi.w1.wpa_supplicant1.service
 EOF
-sudo systemctl daemon-reload
-sudo systemctl enable dbus-fi.w1.wpa_supplicant1
+    sudo systemctl daemon-reload
+    sudo systemctl enable dbus-fi.w1.wpa_supplicant1
 
-WPA_SUPPLICANT_FILE=/etc/wpa_supplicant/wpa_supplicant.conf
-WPA_SUPPLICANT_SETTINGS=(
-    "ctrl_interface=DIR=/run/wpa_supplicant"
-    "update_config=1"
-)
-printf "\n Updating: $WPA_SUPPLICANT_FILE\n"
-sudo touch "$WPA_SUPPLICANT_FILE"
-for setting in ${WPA_SUPPLICANT_SETTINGS[@]}; do
-    echo "  setting: $setting"
-    grep -qxF "$setting" "$WPA_SUPPLICANT_FILE" || echo "$setting" | sudo tee -a "$WPA_SUPPLICANT_FILE"
-done
+    WPA_SUPPLICANT_FILE=/etc/wpa_supplicant/wpa_supplicant.conf
+    WPA_SUPPLICANT_SETTINGS=(
+        "ctrl_interface=DIR=/run/wpa_supplicant"
+        "update_config=1"
+    )
+    printf "\n Updating: $WPA_SUPPLICANT_FILE\n"
+    sudo touch "$WPA_SUPPLICANT_FILE"
+    for setting in ${WPA_SUPPLICANT_SETTINGS[@]}; do
+        echo "  setting: $setting"
+        grep -qxF "$setting" "$WPA_SUPPLICANT_FILE" || echo "$setting" | sudo tee -a "$WPA_SUPPLICANT_FILE"
+    done
+elif is_running_in_wsl; then
+    print_script_step "Skipping WiFi configuration (running in WSL)"
+else
+    print_script_step "Skipping WiFi configuration (not running on Raspberry Pi)"
+fi
 
 # Setup Network
 print_script_step "Accept Router Advertisements on network interfaces"
@@ -74,9 +80,16 @@ SYSCTL_FILE=/etc/sysctl.conf
 SYSCTL_SETTINGS=(
     "net.ipv6.conf.eth0.accept_ra=2"
     "net.ipv6.conf.eth0.accept_ra_rt_info_max_plen=64"
-    "net.ipv6.conf.$WLAN_INTERFACE.accept_ra=2"
-    "net.ipv6.conf.$WLAN_INTERFACE.accept_ra_rt_info_max_plen=64"
 )
+
+# WLAN sysctl settings are only relevant on Raspberry Pi
+if is_running_on_raspberry_pi; then
+    SYSCTL_SETTINGS+=(
+        "net.ipv6.conf.$WLAN_INTERFACE.accept_ra=2"
+        "net.ipv6.conf.$WLAN_INTERFACE.accept_ra_rt_info_max_plen=64"
+    )
+fi
+
 printf "\n Updating: $SYSCTL_FILE\n"
 sudo touch "$SYSCTL_FILE"
 for setting in ${SYSCTL_SETTINGS[@]}; do
