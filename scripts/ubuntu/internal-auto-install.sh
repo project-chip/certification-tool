@@ -47,11 +47,40 @@ print_end_of_script
 
 print_installation_success
 
-print_script_step "You need to reboot to finish setup"
-printf "Do you want to reboot now? (Press 1 to reboot now)\n"
-select yn in "Yes" "No"; do
-    case $yn in
-        Yes ) sudo reboot; break;;
-        No ) exit;;
-    esac
-done
+if is_running_in_wsl; then
+    print_script_step "Applying configuration changes (WSL - no reboot needed)"
+
+    echo "Applying sysctl settings..."
+    sudo sysctl -p
+
+    echo "Loading ip6table_filter kernel module..."
+    sudo modprobe ip6table_filter 2>/dev/null || echo "  (module not available in WSL kernel - this is OK)"
+
+    echo "Refreshing docker group membership..."
+    newgrp docker << END
+    echo "  Docker group active"
+END
+
+    echo ""
+    echo "********************************************************************************"
+    echo "Setup complete."
+    echo ""
+    echo "REMINDER: Sample apps were not installed for your architecture."
+    echo "You can build them manually from the Matter SDK source and copy the"
+    echo "resulting binaries to ~/apps/"
+    echo "Example: cp ~/connectedhomeip/out/<target>/<app-binary> ~/apps/"
+    echo ""
+    echo "To start the Test Harness, run:"
+    echo "  cd $ROOT_DIR && ./scripts/start.sh"
+    echo "********************************************************************************"
+    echo ""
+else
+    print_script_step "You need to reboot to finish setup"
+    printf "Do you want to reboot now? (Press 1 to reboot now)\n"
+    select yn in "Yes" "No"; do
+        case $yn in
+            Yes ) sudo reboot; break;;
+            No ) exit;;
+        esac
+    done
+fi
