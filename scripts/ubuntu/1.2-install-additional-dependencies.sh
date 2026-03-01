@@ -35,7 +35,7 @@ print_script_step "Install additional dependencies"
 # transitive -dev dependencies for libgstreamer1.0-dev.
 print_script_step "Ensuring <codename>-updates apt repository is configured"
 UBUNTU_CODENAME=$(lsb_release -cs)
-SOURCES_FILE="/etc/apt/sources.list.d/ubuntu-sources"
+SOURCES_FILE="/etc/apt/sources.list.d/ubuntu.sources"
 if [ ! -f "$SOURCES_FILE" ]; then
     SOURCES_FILE="/etc/apt/sources.list"
 fi
