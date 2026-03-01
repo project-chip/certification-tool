@@ -61,14 +61,23 @@ if is_running_in_wsl; then
     echo "  Docker group active"
 END
 
+    SDK_DOCKER_TAG=$(cat $ROOT_DIR/backend/test_collections/matter/config.py | grep SDK_DOCKER_TAG | cut -d'"' -f 2 | cut -d"'" -f 2)
+
     echo ""
     echo "********************************************************************************"
     echo "Setup complete."
     echo ""
     echo "REMINDER: Sample apps were not installed for your architecture."
-    echo "You can build them manually from the Matter SDK source and copy the"
-    echo "resulting binaries to ~/apps/"
-    echo "Example: cp ~/connectedhomeip/out/<target>/<app-binary> ~/apps/"
+    echo "You can build them manually from the Matter SDK source"
+    echo "(commit: $SDK_DOCKER_TAG) and copy the resulting binaries to ~/apps/"
+    echo ""
+    echo "  cd ~/connectedhomeip"
+    echo "  git checkout $SDK_DOCKER_TAG"
+    echo "  git submodule update --init --recursive"
+    echo "  . scripts/bootstrap.sh"
+    echo "  . scripts/activate.sh"
+    echo "  ./scripts/build/build_examples.py --target linux-x64-all-clusters build"
+    echo "  cp out/linux-x64-all-clusters/chip-all-clusters-app ~/apps/"
     echo ""
     echo "To start the Test Harness, run:"
     echo "  cd $ROOT_DIR && ./scripts/start.sh"
