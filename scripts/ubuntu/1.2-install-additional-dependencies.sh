@@ -36,12 +36,10 @@ print_script_step "Install additional dependencies"
 print_script_step "Ensuring <codename>-updates apt repository is configured"
 UBUNTU_CODENAME=$(lsb_release -cs)
 SOURCES_FILE="/etc/apt/sources.list.d/ubuntu.sources"
-if [ ! -f "$SOURCES_FILE" ]; then
-    SOURCES_FILE="/etc/apt/sources.list"
-fi
-if ! grep -q "${UBUNTU_CODENAME}-updates" "$SOURCES_FILE" /etc/apt/sources.list.d/*.list 2>/dev/null; then
-    echo "deb http://ports.ubuntu.com/ubuntu-ports/ ${UBUNTU_CODENAME}-updates main restricted universe multiverse" \
-        | sudo tee -a "$SOURCES_FILE"
+if [ -f "$SOURCES_FILE" ] && grep -q "^Suites:" "$SOURCES_FILE"; then
+    if ! grep -q "${UBUNTU_CODENAME}-updates" "$SOURCES_FILE"; then
+        sudo sed -i "/^Suites:.*${UBUNTU_CODENAME}\([^-]\|$\)/ s/$/ ${UBUNTU_CODENAME}-updates/" "$SOURCES_FILE"
+    fi
 fi
 sudo DEBIAN_FRONTEND=noninteractive apt-get update
 
