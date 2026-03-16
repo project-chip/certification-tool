@@ -38,15 +38,16 @@ UBUNTU_CODENAME=$(lsb_release -cs)
 SOURCES_FILE="/etc/apt/sources.list.d/ubuntu.sources"
 if [ -f "$SOURCES_FILE" ] && grep -q "^Suites:" "$SOURCES_FILE"; then
     if ! grep -q "${UBUNTU_CODENAME}-updates" "$SOURCES_FILE"; then
-        sudo sed -i "/^Suites:.*${UBUNTU_CODENAME}\([^-]\|$\)/ s/$/ ${UBUNTU_CODENAME}-updates/" "$SOURCES_FILE"
+        sudo sed -i -E "/^Suites:.*\b(${UBUNTU_CODENAME}|${UBUNTU_CODENAME}-security)\b/ s/$/ ${UBUNTU_CODENAME}-updates/" "$SOURCES_FILE"
     fi
 fi
-sudo DEBIAN_FRONTEND=noninteractive apt-get update || true
+sudo DEBIAN_FRONTEND=noninteractive apt-get update || \
+    echo "Warning: apt-get update encountered errors, proceeding with existing package index"
 
 # First, ensure all dev packages are up to date to match installed library versions.
 # apt-get upgrade in the previous step may update runtime libraries (libmount1, libzstd1,
 # libpcre2-8-0, libselinux1, zlib1g) to security-patch point releases (e.g. -9ubuntu6.4)
-# while their -dev counterparts remain at the pre-upgrade version. This cau ses
+# while their -dev counterparts remain at the pre-upgrade version. This causes
 # "held broken packages" errors when apt-get satisfy tries to install libgstreamer1.0-dev
 # and its transitive -dev dependencies (which carry strict = version constraints).
 # Upgrading all affected -dev packages first realigns them with the runtime libraries.
