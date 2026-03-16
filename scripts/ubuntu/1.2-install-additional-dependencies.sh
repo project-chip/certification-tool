@@ -38,7 +38,7 @@ UBUNTU_CODENAME=$(lsb_release -cs)
 SOURCES_FILE="/etc/apt/sources.list.d/ubuntu.sources"
 if [ -f "$SOURCES_FILE" ] && grep -q "^Suites:" "$SOURCES_FILE"; then
     if ! grep -q "${UBUNTU_CODENAME}-updates" "$SOURCES_FILE"; then
-        sudo sed -i "/^Suites:.*${UBUNTU_CODENAME}\([^-]\|$\)/ s/$/ ${UBUNTU_CODENAME}-updates/" "$SOURCES_FILE"
+        sudo sed -i -E "/^Suites:.*\b${UBUNTU_CODENAME}\b([^-]|$)/ s/$/ ${UBUNTU_CODENAME}-updates/" "$SOURCES_FILE"
     fi
 fi
 sudo DEBIAN_FRONTEND=noninteractive apt-get update
