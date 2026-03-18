@@ -44,7 +44,7 @@ while sudo fuser /var/lib/dpkg/lock-frontend >/dev/null 2>&1 || \
     sleep 10
     WAIT_COUNT=$((WAIT_COUNT + 1))
 done
-echo "No package manager locks detected, proceeding..."
+[ $WAIT_COUNT -gt 0 ] && echo "Package manager locks cleared, proceeding..."
 
 print_script_step "Check and repair dpkg state if interrupted"
 # Check if dpkg is in a consistent state, fix if needed
