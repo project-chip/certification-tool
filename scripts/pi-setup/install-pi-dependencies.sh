@@ -27,6 +27,18 @@ print_script_step "Silence user prompts about reboot and service restart require
 sudo sed -i "s/#\$nrconf{kernelhints} = -1;/\$nrconf{kernelhints} = -1;/g" /etc/needrestart/needrestart.conf
 sudo sed -i "s/#\$nrconf{restart} = 'i';/\$nrconf{restart} = 'a';/" /etc/needrestart/needrestart.conf
 
+print_script_step "Ensure package manager is ready"
+# Wait up to 5 minutes for automatic updates to complete
+wait_count=0
+while sudo fuser /var/lib/dpkg/lock-frontend >/dev/null 2>&1 || \
+      sudo fuser /var/lib/apt/lists/lock >/dev/null 2>&1; do
+    [ "$wait_count" -ge 30 ] && { echo "ERROR: Timeout waiting for package manager"; exit 1; }
+    echo "Waiting for package manager... ($((wait_count * 10))s)"
+    sleep 10
+    ((wait_count++))
+done
+sudo dpkg --configure -a || { echo "ERROR: Failed to repair dpkg. Run 'sudo dpkg --configure -a' manually"; exit 1; }
+
 print_script_step "Upgrade OS"
 sudo DEBIAN_FRONTEND=noninteractive apt-get update -y
 sudo DEBIAN_FRONTEND=noninteractive apt-get upgrade -y
