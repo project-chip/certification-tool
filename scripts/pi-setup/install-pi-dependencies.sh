@@ -29,13 +29,13 @@ sudo sed -i "s/#\$nrconf{restart} = 'i';/\$nrconf{restart} = 'a';/" /etc/needres
 
 print_script_step "Ensure package manager is ready"
 # Wait up to 5 minutes for automatic updates to complete
-WAIT_COUNT=0
+wait_count=0
 while sudo fuser /var/lib/dpkg/lock-frontend >/dev/null 2>&1 || \
       sudo fuser /var/lib/apt/lists/lock >/dev/null 2>&1; do
-    [ $WAIT_COUNT -ge 30 ] && { echo "ERROR: Timeout waiting for package manager"; exit 1; }
-    echo "Waiting for package manager... ($((WAIT_COUNT * 10))s)"
+    [ "$wait_count" -ge 30 ] && { echo "ERROR: Timeout waiting for package manager"; exit 1; }
+    echo "Waiting for package manager... ($((wait_count * 10))s)"
     sleep 10
-    WAIT_COUNT=$((WAIT_COUNT + 1))
+    ((wait_count++))
 done
 sudo dpkg --configure -a || { echo "ERROR: Failed to repair dpkg. Run 'sudo dpkg --configure -a' manually"; exit 1; }
 
