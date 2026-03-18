@@ -27,35 +27,17 @@ print_script_step "Silence user prompts about reboot and service restart require
 sudo sed -i "s/#\$nrconf{kernelhints} = -1;/\$nrconf{kernelhints} = -1;/g" /etc/needrestart/needrestart.conf
 sudo sed -i "s/#\$nrconf{restart} = 'i';/\$nrconf{restart} = 'a';/" /etc/needrestart/needrestart.conf
 
-print_script_step "Wait for automatic system updates to complete"
-# On fresh Ubuntu installs, unattended-upgrades and other services run automatically
-# Wait for these to complete to avoid dpkg lock issues (max 5 minutes)
-echo "Checking for running package managers..."
+print_script_step "Ensure package manager is ready"
+# Wait up to 5 minutes for automatic updates to complete
 WAIT_COUNT=0
 while sudo fuser /var/lib/dpkg/lock-frontend >/dev/null 2>&1 || \
-      sudo fuser /var/lib/apt/lists/lock >/dev/null 2>&1 || \
-      sudo fuser /var/cache/apt/archives/lock >/dev/null 2>&1; do
-    if [ $WAIT_COUNT -ge 30 ]; then
-        echo "WARNING: Package manager still locked after 5 minutes."
-        echo "If this persists, you may need to reboot and try again."
-        exit 1
-    fi
-    echo "Waiting for automatic updates to complete... ($((WAIT_COUNT * 10))s elapsed)"
+      sudo fuser /var/lib/apt/lists/lock >/dev/null 2>&1; do
+    [ $WAIT_COUNT -ge 30 ] && { echo "ERROR: Timeout waiting for package manager"; exit 1; }
+    echo "Waiting for package manager... ($((WAIT_COUNT * 10))s)"
     sleep 10
     WAIT_COUNT=$((WAIT_COUNT + 1))
 done
-[ $WAIT_COUNT -gt 0 ] && echo "Package manager locks cleared, proceeding..."
-
-print_script_step "Check and repair dpkg state if interrupted"
-# Check if dpkg is in a consistent state, fix if needed
-if ! sudo dpkg --audit >/dev/null 2>&1; then
-    echo "Detected interrupted dpkg, attempting to repair..."
-    sudo dpkg --configure -a || {
-        echo "ERROR: Failed to repair dpkg. Please run 'sudo dpkg --configure -a' manually"
-        exit 1
-    }
-    echo "dpkg state repaired successfully"
-fi
+sudo dpkg --configure -a || { echo "ERROR: Failed to repair dpkg. Run 'sudo dpkg --configure -a' manually"; exit 1; }
 
 print_script_step "Upgrade OS"
 sudo DEBIAN_FRONTEND=noninteractive apt-get update -y
