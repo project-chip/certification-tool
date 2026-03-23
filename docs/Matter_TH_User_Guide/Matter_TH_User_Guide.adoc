@@ -140,6 +140,7 @@ endif::[]
                                                                      * Added Container Logging Configuration section.
 | 54          | 22-Jan-2026  | [Apple]Romulo Quidute               | * Added OTA Image Build Procedure section with manual workflow for generating OTA requestor images.
 | 55          | 05-Feb-2026  | [Apple]Romulo Quidute               | * Added Thread Pairing Mode section.
+| 55          | 23-Mar-2026  | [Apple]Romulo Quidute               | * Updated Python Test Logging Configuration section.
 |===
 
 <<<
@@ -426,7 +427,7 @@ To update an existing Yaml test script: (e.g. `Test_TC_ACE_1_1.yaml`)
 
 * Restart TH's backend container:
 |===
-|`$docker restart certification-tool_backend_1`
+|`$docker compose restart backend`
 |===
 
 * Changes will be available on the next execution of the yaml test.
@@ -1998,7 +1999,7 @@ The TH supports two modes for displaying Python test logs:
 * *Real-time logging*: Logs are displayed incrementally as each test step completes
 * *Batch logging (default)*: All logs are displayed at once after test execution completes
 
-To configure the logging mode, set the `ENABLE_REALTIME_PYTHON_TEST_LOGS` environment variable in the `./backend/app/core/config.py` file:
+To configure the logging mode, add or update the `ENABLE_REALTIME_PYTHON_TEST_LOGS` environment variable in the `.env` file located in the *root* of the certification-tool directory (i.e. `certification-tool/.env`). Note: do *not* edit `certification-tool/backend/.env` — that file is not used by the backend container:
 
 [source,shell]
 ----
@@ -2015,7 +2016,7 @@ The TH supports optional logging of container operations for debugging and troub
 * *Container logging disabled (default)*: No container operation logs are displayed
 * *Container logging enabled*: Displays detailed Docker container operations including creation, destruction, and file copy operations
 
-To configure container logging, set the `ENABLE_CONTAINER_LOGS` environment variable in the `./backend/app/core/config.py` file:
+To configure container logging, add or update the `ENABLE_CONTAINER_LOGS` environment variable in the same `certification-tool/.env` file:
 
 [source,shell]
 ----
@@ -2033,10 +2034,10 @@ When enabled, the following container information will be logged:
 * File copy operations between host and container
 * Container execution commands
 
-NOTE: After changing any configuration in `./backend/app/core/config.py`, restart the TH backend container:
+NOTE: After changing any configuration in `./.env`, recreate the TH backend container to apply the new environment variables. Use `docker compose up` instead of `docker restart` — `docker restart` does not re-read the `.env` file:
 [source,shell]
 ----
-docker restart certification-tool_backend_1
+docker compose up -d backend
 ----
 
 <<<
