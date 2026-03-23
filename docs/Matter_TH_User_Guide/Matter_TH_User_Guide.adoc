@@ -52,7 +52,7 @@ endif::[]
 | Matter 1.4.1     | v2.12+spring2025   | N/A                                                                                         | https://groups.csa-iot.org/wg/members-all/document/folder/4497[Causeway Link] | 91eab26      | To install, use the tag "v2.12+spring2025" in the instructions of <<fresh_install>>
 | Matter 1.4.2     | v2.13+summer2025   | N/A                                                                                         | https://groups.csa-iot.org/wg/members-all/document/folder/4651[Causeway Link] | 1b2b3fd      | To install, use the tag "v2.13+summer2025" in the instructions of <<fresh_install>>
 | Matter 1.5       | v2.14+fall2025     | N/A                                                                                         | https://groups.csa-iot.org/wg/members-all/document/folder/4825[Causeway Link] | ca9d111      | To install, use the tag "v2.14+fall2025" in the instructions of <<fresh_install>>
-| Matter 1.5.1     | {th-version}       | N/A                                                                                         | TBD | e9ecfc2      | To install, use the branch "{th-version}" in the instructions of <<fresh_install>>
+| Matter 1.5.1     | {th-version}       | N/A                                                                                         | https://groups.csa-iot.org/wg/members-all/document/folder/5210[Causeway Link] | e9ecfc2      | To install, use the branch "{th-version}" in the instructions of <<fresh_install>>
 |===
 
 
@@ -164,11 +164,11 @@ The TH tool can be used by any DUT vendor to run the Matter certification tests,
 
 <<<
 == *References*
-. Matter Specification: https://groups.csa-iot.org/wg/members-all/document/folder/4825[Matter Specification (Causeway)] / https://github.com/CHIP-Specifications/connectedhomeip-spec[Matter Specification (GitHub)]
+. Matter Specification: https://groups.csa-iot.org/wg/members-all/document/folder/5210[Matter Specification (Causeway)] / https://github.com/CHIP-Specifications/connectedhomeip-spec[Matter Specification (GitHub)]
 . Matter SDK GitHub Repository: https://github.com/project-chip/connectedhomeip[Connectedhomeip GitHub Repository]
-. Matter Test Plans: https://groups.csa-iot.org/wg/members-all/document/folder/4825[Matter Test Plans (Causeway)] / https://github.com/CHIP-Specifications/chip-test-plans[Matter Test Plans (GitHub)]
+. Matter Test Plans: https://groups.csa-iot.org/wg/members-all/document/folder/5210[Matter Test Plans (Causeway)] / https://github.com/CHIP-Specifications/chip-test-plans[Matter Test Plans (GitHub)]
 . Matter PICS Tool: https://picstool.csa-iot.org/#userguide[PICS Tool - Connectivity Standards Alliance (csa-iot.org)]
-. Matter XML Files: https://groups.csa-iot.org/wg/members-all/document/folder/4825[XML Files - Connectivity Standards Alliance (csa-iot.org)]
+. Matter XML Files: https://groups.csa-iot.org/wg/members-all/document/folder/5210[XML Files - Connectivity Standards Alliance (csa-iot.org)]
 . TEDS Matter Tool: https://groups.csa-iot.org/wg/matter-wg/document/28545[TEDS Matter Tool - Connectivity Standards Alliance (csa-iot.org)]
 
 
