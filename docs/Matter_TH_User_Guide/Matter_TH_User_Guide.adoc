@@ -1220,6 +1220,59 @@ provided example file named wpa_supplicant-def_comer.conf.
 existing networks.
 
 <<<
+== *NFC Setup*
+
+This section provides a guide to enable NFC commissioning tests. NFC interface can be used to commission many kind of Matter devices (Thread, Wi-Fi, Ethernet...).
+
+=== Components Needed for Tests
+To enable the NFC Commissioning tests, the following hardware and software components are required.
+
+==== Hardware
+
+[cols="1,1,1", options="header"]
+|===
+| Component | Note
+
+| *Raspberry Pi*
+| version permissible for CSA Matter Test Events, used as a platform for Test Harness(Pi 4 or higher).
+
+| https://www.st.com/en/evaluation-tools/stm32wba65i-dk1.html [STM32WBA65I-DK1]
+| STMicroelectronics's STM32WBA65I Discovery Kit (mother board)
+
+| X-NUCLEO-NFC11A1-S
+a| STMicroelectronics's NFC expansion board.
+NB: This board is not yet available on the market. Please contact tania.guidet@st.com to obtain it.
+
+| HID OMNIKEY 5022 CL
+a| NFC/RFID contactless reader. Connected to the Raspberry Pi via USB. Host uses the PC/SC driver to communicate with it.
+This NFC Reader shall be used when testing NFC commissioning on a *DUT as Commissionee*.
+
+|===
+
+In case of nfc-thread commissioning, an nRF52840 Dongle, from Nordic, should also be setup.
+
+The STM32WBA65I-DK1 and X-NUCLEO-NFC11A1-S boards form the reference design for nfc-thread tests for a *DUT as commissioner*.
+
+==== Software
+
+STM32WBA65I-DK1 firmware ("STM32WBA65I-DK1-lighting_v2.1.0forDV0.8.1.bin") is available in Matter 1.6 SVE package.
+
+This firmware can be flashed with the tool https://www.st.com/en/development-tools/stm32cubeprog.html [STM32 Cube Programmer]
+
+An virtual COM port connection can be setup either to check the Software version or to see the debug traces:
+* Speed: 921600
+* Data: 8 bit
+* Parity: None
+* Stop bits: 1 bit
+* Flow control: None
+
+=== Test Procedures and Test Commands
+The test procedures and test commands for NFC commissioning are documented in the Test Plan Verification spreadsheet under the Matter Specifications and Test Plans folder (eg: TC_DD_1_5, TC_DD_3_22, TC_DD_3_23, TC_DD_3_24):
+https://groups.csa-iot.org/wg/members-all/document/folder/2269 *or* https://docs.google.com/spreadsheets/d/19ZAbIRObi1HcvbesI4tSVmQn7cxz-ZNyFH80onmae7Y/edit?gid=311763523#gid=311763523
+
+When running NFC Commissioning tests in Docker, refer to <<for-nfc-pairing>> for instructions about PC/SC smartcard daemon initialization.
+
+<<<
 == *Test Configuration*
 
 === Project Configuration
@@ -1804,6 +1857,20 @@ This downloads a Docker image with the test environment, and runs the environmen
 * You will be shown a *#* root prompt
 
 NOTE: *The first time running docker will be SLOW (around 5 minutes) due to the need to download data. Every other run after that will be instant.*
+
+[[for-nfc-pairing]]
+===== For NFC Pairing
+
+The Test Harness implementation relies on a PC/SC (https://en.wikipedia.org/wiki/PC/SC[Personal Computer/Smart Card]) driver. In our setup, the NFC device used for commissioning is exposed and managed as a contactless smart card.
+
+A PC/SC reader must be connected to the Raspberry Pi.
+
+Once the Docker container is running, start the PC/SC smartcard daemon with Polkit authorization disabled using the following command:
+|===
+|pcscd --disable-polkit
+|===
+
+The tests for NFC-based commissioning and NFC onboarding can then be executed.
 
 ===== For On-Network Pairing
 
