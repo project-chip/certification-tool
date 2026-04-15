@@ -1397,10 +1397,10 @@ WARNING: _OTBR needs to be configured and running. TH will not start any OTBR do
 ----
 - "int-arg": "NFC_Reader_index:<value>"
 ----
+e.g., 
 +
 [source,xml]
 ----
-e.g., 
 "test_parameters": {
   "int-arg": "NFC_Reader_index:0"
 }
