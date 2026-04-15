@@ -1378,7 +1378,8 @@ NOTE: _The OTBR docker is contained in the TH and runs automatically upon the st
 WARNING: _OTBR needs to be configured and running. TH will not start any OTBR docker containers._
 
 ==== NFC Device Mode
-.. Input the DUT configuration details like discriminator: "3840", setup_code:"20202021", and *pairing_mode as "nfc-thread"*.
+.. NFC-Thread Device Mode:
+Input the DUT configuration details like discriminator: "3840", setup_code:"20202021", and *pairing_mode as "nfc-thread"*.
 +
 [source,xml]
 ----
@@ -1386,6 +1387,21 @@ WARNING: _OTBR needs to be configured and running. TH will not start any OTBR do
   "discriminator": "3840",
   "setup_code": "20202021",
   "pairing_mode": "nfc-thread",
+  "chip_timeout": null,
+  "chip_use_paa_certs": false,
+  "trace_log": true
+}
+----
+
+.. NFC-WiFi Device Mode:
+Input the DUT configuration details like discriminator: "3840", setup_code:"20202021", and *pairing_mode as "nfc-wifi"*.
++
+[source,xml]
+----
+"dut_config": {
+  "discriminator": "3840",
+  "setup_code": "20202021",
+  "pairing_mode": "nfc-wifi",
   "chip_timeout": null,
   "chip_use_paa_certs": false,
   "trace_log": true
