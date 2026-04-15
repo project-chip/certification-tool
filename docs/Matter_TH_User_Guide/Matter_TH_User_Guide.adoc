@@ -1406,7 +1406,7 @@ e.g.,
   "int-arg": "NFC_Reader_index:0"
 }
 ----
-NFC_Reader_index tells the test which NFC reader hardware to use, and must be set correctly based on the ATL setup
+NFC_Reader_index tells the test which NFC reader hardware to use (in case there are multiple NFC Readers), and must be set correctly based on the ATL setup. If there is only one NFC reader, its index is 0.
 
 
 ==== Thread Pairing Mode (using Border Agent)
