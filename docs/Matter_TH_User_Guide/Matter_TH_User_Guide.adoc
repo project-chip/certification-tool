@@ -1234,7 +1234,8 @@ Depending on the DUT's network transport, any one of the appropriate pairing mod
 * *'onnetwork'* to complete the pairing for the DUT that is already on the operational network (e.g., the device is already present on the same Ethernet network of the TH) connection
 * *'ble-thread'* to complete the pairing for the Thread Device using BLE
 * *'thread-meshcop'* to complete the pairing for the Thread Device using Border Agent (without BLE)
-* *'nfc-thread'* to complete the pairing for the NFC Device using nfc payloads and Thread Device using Border Router.
+* *'nfc-thread'* to complete the pairing for the Thread Device using NFC Transport Layer (NTL).
+* *'nfc-wifi'* to complete the pairing for the Wi-Fi Device using NFC Transport Layer (NTL). 
 
 Follow the sections below for the project configuration and test execution.
 
@@ -1391,7 +1392,7 @@ WARNING: _OTBR needs to be configured and running. TH will not start any OTBR do
 }
 ----
 
-.. To validate test cases using *nfc-thread*, the following parameter must be included in the test parameters, irrespective of the test case-specific arguments:
+.. To validate test cases using *nfc-thread* or *nfc-wifi*, the following parameter must be included in the test parameters, irrespective of the test case-specific arguments:
 +
 [source,xml]
 ----
