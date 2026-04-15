@@ -1234,7 +1234,7 @@ Depending on the DUT's network transport, any one of the appropriate pairing mod
 * *'onnetwork'* to complete the pairing for the DUT that is already on the operational network (e.g., the device is already present on the same Ethernet network of the TH) connection
 * *'ble-thread'* to complete the pairing for the Thread Device using BLE
 * *'thread-meshcop'* to complete the pairing for the Thread Device using Border Agent (without BLE)
-* *‘nfc-thread’* to complete the pairing for the NFC Device using nfc payloads and Thread Device using Border Router.
+* *'nfc-thread'* to complete the pairing for the NFC Device using nfc payloads and Thread Device using Border Router.
 
 Follow the sections below for the project configuration and test execution.
 
@@ -1396,7 +1396,14 @@ WARNING: _OTBR needs to be configured and running. TH will not start any OTBR do
 [source,xml]
 ----
 - "int-arg": "NFC_Reader_index:<value>"
-e.g., "int-arg": "NFC_Reader_index:0"
+----
++
+[source,xml]
+----
+e.g., 
+"test_parameters": {
+  "int-arg": "NFC_Reader_index:0"
+}
 ----
 NFC_Reader_index tells the test which NFC reader hardware to use, and must be set correctly based on the ATL setup
 
@@ -1494,6 +1501,7 @@ WARNING: This is an invalid configuration. TH will not accept both parameters se
   "timeout": 300
 }
 ----
+
 
 On completion of the "network" and the "dut_config" configuration, select the *Update* and then *Create* button to create the Test Project. 
 
