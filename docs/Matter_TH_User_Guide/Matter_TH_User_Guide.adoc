@@ -143,6 +143,8 @@ endif::[]
 | 55          | 05-Feb-2026  | [Apple]Romulo Quidute               | * Added Thread Pairing Mode section.
 | 56          | 20-Mar-2026  | [Apple]Romulo Quidute               | * Fixed docker container name to use Docker Compose V2 naming convention (hyphen separator). +
                                                                      * Updated Python Test Logging Configuration section.
+| 57          | 15-Apr-2026  | [GRL]Pradeep G                      | * Added nfc-thread and nfc-wifi pairing mode details under the Project Configuration section. +
+                                                                     * Added NFC Device Mode (including NFC-Thread Device Mode and NFC-WiFi Device Mode) within the Project Configuration section.
 |===
 
 <<<
