@@ -1243,7 +1243,7 @@ To enable the NFC Commissioning tests, the following hardware and software compo
 | https://www.st.com/en/evaluation-tools/stm32wba65i-dk1.html[STM32WBA65I-DK1]
 | STMicroelectronics's STM32WBA65I Discovery Kit (mother board)
 
-| X-NUCLEO-NFC11A1-S
+| X-NUCLEO-NFC11B2
 | STMicroelectronics's NFC expansion board. +
 Note: This board is not yet available on the market. Please contact tania.guidet@st.com to obtain it.
 
