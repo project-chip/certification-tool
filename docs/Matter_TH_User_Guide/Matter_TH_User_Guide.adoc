@@ -46,7 +46,7 @@ endif::[]
 | *Matter Version* | *TH Version*       | *TH image location*                                                                         | *Supporting Documentation*                                                    | *SDK commit* | *Comments*
 | Matter 1.0       | v2.6               | https://drive.google.com/file/d/10YkV4mDulhLoA6RJOKZNNKWhHTH1tOfu/view?usp=drive_link[link] | https://groups.csa-iot.org/wg/members-all/document/folder/2729[Causeway Link] | 96c9357      |
 | Matter 1.1       | v2.8.1             | https://drive.google.com/file/d/15fU3L7QE-MNBslf53A_6sFgn1Wq0Pvqd/view?usp=drive_link[link] | https://groups.csa-iot.org/wg/members-all/document/folder/2730[Causeway Link] | 5a21d17      |
-| Matter 1.2       | TH-Fall2023        | https://drive.google.com/file/d/1WTjhc7xbYt18RvpABU3_r47uqOLd7NN1/view?usp=drive_link[link] | https://groups.csa-iot.org/wg/members-all/document/folder/3045[Causeway Link] | 19771ed      | 
+| Matter 1.2       | TH-Fall2023        | https://drive.google.com/file/d/1WTjhc7xbYt18RvpABU3_r47uqOLd7NN1/view?usp=drive_link[link] | https://groups.csa-iot.org/wg/members-all/document/folder/3045[Causeway Link] | 19771ed      |
 | Matter 1.3       | v2.10.4+spring2024 | N/A                                                                                         | https://groups.csa-iot.org/wg/members-all/document/folder/3314[Causeway Link] | 50bcad1      | To install, use the tag "v2.10.4+spring2024" in the instructions of <<fresh_install>>
 | Matter 1.4       | v2.11+fall2024     | N/A                                                                                         | https://groups.csa-iot.org/wg/members-all/document/folder/4120[Causeway Link] | f2e5de7      | To install, use the tag "v2.11+fall2024" in the instructions of <<fresh_install>>
 | Matter 1.4.1     | v2.12+spring2025   | N/A                                                                                         | https://groups.csa-iot.org/wg/members-all/document/folder/4497[Causeway Link] | 91eab26      | To install, use the tag "v2.12+spring2025" in the instructions of <<fresh_install>>
@@ -63,8 +63,8 @@ endif::[]
 
 [cols=".^11%,.^13%,.^20%,.^56%"]
 |===
-| *Revision*  | *Date*       | *Author*                            | *Description*                                                                                                       
-| 1           | 11-Jan-2022  | [GRL]Suraj Seenivasan               | * Initial version of the user manual used for V1.0.                                                                 
+| *Revision*  | *Date*       | *Author*                            | *Description*
+| 1           | 11-Jan-2022  | [GRL]Suraj Seenivasan               | * Initial version of the user manual used for V1.0.
 | 2           | 22-Aug-2022  | [GRL]Suraj Seenivasan               | * Updated the steps required to run the Python script inside docker: Input given by Tennessee Carmel-Veilleux.
 | 3           | 06-Feb-2023  | [GRL]Suraj Seenivasan               | * Added instructions to update the existing image and personal access token: How to execute simulated test cases.
 | 4           | 09-Feb-2023  | [GRL]Suma                           | * Structuring the user manual. +
@@ -143,8 +143,10 @@ endif::[]
 | 55          | 05-Feb-2026  | [Apple]Romulo Quidute               | * Added Thread Pairing Mode section.
 | 56          | 20-Mar-2026  | [Apple]Romulo Quidute               | * Fixed docker container name to use Docker Compose V2 naming convention (hyphen separator). +
                                                                      * Updated Python Test Logging Configuration section.
+
 | 57          | 15-Apr-2026  | [GRL]Pradeep G                      | * Added nfc-thread and nfc-wifi pairing mode details under the Project Configuration section. +
                                                                      * Added NFC Device Mode (including NFC-Thread Device Mode and NFC-WiFi Device Mode) within the Project Configuration section.
+| 58          | 15-Apr-2026  | [ST]Olivier Lorente                 | * Added NFC commissioning description.
 |===
 
 <<<
@@ -156,15 +158,15 @@ toc::[]
 
 == *Introduction*
 
-The Matter Test-Harness is a comprehensive test tool used for certification testing of Matter devices in accordance with the Matter protocol as defined in the https://groups.csa-iot.org/wg/members-all/document/folder/2269[Matter specification]. 
+The Matter Test-Harness is a comprehensive test tool used for certification testing of Matter devices in accordance with the Matter protocol as defined in the https://groups.csa-iot.org/wg/members-all/document/folder/2269[Matter specification].
 
 This user guide serves as the primary user documentation to work with the Test-Harness ( *TH* ) tool, providing high-level architecture of the tool, how to use the tool to execute certification tests and submit the test results to CSA for certification.
 
-The TH tool runs on the Raspberry Pi platform, providing an intuitive Web user interface to create a test project, configure the project/Device Under Test ( *DUT* ) settings, load the required test cases using the PICS xml file and execute test cases for various devices (commissioner, controller and controlee) as defined in the Matter specification. 
+The TH tool runs on the Raspberry Pi platform, providing an intuitive Web user interface to create a test project, configure the project/Device Under Test ( *DUT* ) settings, load the required test cases using the PICS xml file and execute test cases for various devices (commissioner, controller and controlee) as defined in the Matter specification.
 
 The TH tool provides an option to execute the following test scripts— Automated, Semi Automated, Python, Manual and Simulated. Upon completion of the test execution, detailed logs and test results will be available for user analysis. The user will also be able to submit logs to ATL’s for review to obtain device certification.
 
-The TH tool can be used by any DUT vendor to run the Matter certification tests, or by any hobby developer to get acquainted with the Matter certification testing tools or technologies. 
+The TH tool can be used by any DUT vendor to run the Matter certification tests, or by any hobby developer to get acquainted with the Matter certification testing tools or technologies.
 
 
 <<<
@@ -199,7 +201,7 @@ In addition to the four main containers described above, which get created and d
 
 === Data Model
 .The Data Model
-image::images/img_1.png[Data Model] 
+image::images/img_1.png[Data Model]
 
 The data model diagram in Figure 2 shows the various data objects that the Test Execution consumes and maintains and the relationship between these data objects.
 
@@ -222,9 +224,9 @@ image::images/img_2.png[Data Flow]
 <<<
 == *Getting Started with Matter Test-Harness (TH)*
 
-The Matter Node (DUT) that is used for certification testing can either be a commissioner, controller or controlee. 
+The Matter Node (DUT) that is used for certification testing can either be a commissioner, controller or controlee.
 
-If the DUT is a controlee (e.g., light bulb), the TH spins a reference commissioner/controller using chip-tool binary shipped with the SDK. The TH commissioner provisions the DUT and is used to execute the certification tests on the controlee. 
+If the DUT is a controlee (e.g., light bulb), the TH spins a reference commissioner/controller using chip-tool binary shipped with the SDK. The TH commissioner provisions the DUT and is used to execute the certification tests on the controlee.
 
 If the DUT is a commissioner/controller, the Test TH spins an example accessory that is shipped with the SDK and uses that for the DUT to provision, control and run certification tests.
 
@@ -253,7 +255,7 @@ The TH will be installed on Raspberry PI. The TH contains couple of docker conta
 
 * *Windows or Linux System (Laptop/Desktop/Mac)*
 
-The Mac/PC will be used to flash the Ubuntu image on the SD card to be used on Raspberry Pi. Download the https://www.raspberrypi.com/software/[Raspberry Pi Imager] or https://www.balena.io/etcher/[Balena Etcher] tool. The same can be used to set up the required build environment for the Matter SDK or building Matter reference apps for various platforms. 
+The Mac/PC will be used to flash the Ubuntu image on the SD card to be used on Raspberry Pi. Download the https://www.raspberrypi.com/software/[Raspberry Pi Imager] or https://www.balena.io/etcher/[Balena Etcher] tool. The same can be used to set up the required build environment for the Matter SDK or building Matter reference apps for various platforms.
 
 * *RCP dongle*
 
@@ -263,9 +265,9 @@ If the DUT supports thread transport, an RCP dongle provisioned with a recommend
 
 NOTE: **Starting with version v2.10 we have moved from distributing TH as an SD-Card image to publishing the TH Docker containers at Github Container Registry and pulling them at install time. By doing that the release process has been made much faster and less error-prone, while at the same time installation time has gone shorter.**
 
-. Place the blank SD card into the user’s system USB slot. 
+. Place the blank SD card into the user’s system USB slot.
 . Open the https://www.raspberrypi.com/software/[Raspberry Pi Imager] or https://www.balena.io/etcher/[Balena Etcher] tool on the Mac/PC and select the '{ubuntu-description}'.
-* Edit the SO custom settings to: 
+* Edit the SO custom settings to:
 ** username: ubuntu
 +
 WARNING: **The username must be 'ubuntu'. Changing the name may cause problems running TH.**
@@ -277,14 +279,14 @@ WARNING: **The username must be 'ubuntu'. Changing the name may cause problems r
 . Power on the Raspberry Pi and ensure that the local area network, display monitor and keyboard are connected.
 . Enter the username and password.
 . Install the TH system:
-* Clone the TH repository: 
+* Clone the TH repository:
 ** `$git clone -b <Target_Branch/Tag> https://github.com/project-chip/certification-tool.git --recurse-submodules`
-* Goto to TH folder: 
+* Goto to TH folder:
 ** `$cd certification-tool`
-* Install/configure the TH dependencies: 
+* Install/configure the TH dependencies:
 ** `$./scripts/pi-setup/auto-install.sh`
 ** At the end of the script, select option 1 to restart the RaspberryPi.
-. Wait about 10 minutes. 
+. Wait about 10 minutes.
 . Using the _ifconfig_ command, obtain the IP address of the Raspberry Pi. The same IP address will be used to launch the TH user interface on the user's system using the browser.
 . Proceed with test configuration and execution (refer to <<test-configuration, Section 8, Test Configuration>> and <<test-case-execution, Section 9, Test Case Execution>> respectively).
 
@@ -626,13 +628,13 @@ A Matter node can either be a commissioner, controller, controlee, software comp
 
 DUT vendors need to get the device flashed with the production firmware revision that they want to get their device certified and execute all the applicable TC’s for their products using the TH. DUT vendors can skip the below sections as the TH brings up the reference applications automatically during the certification tests execution.
 
-A hobby developer can build Matter reference apps either using a Raspberry Pi or Nordic DK board (if the user wants to use thread transport). Follow the instructions below for the <<bringing-up-of-reference-matter-node-dut-on-raspberry-pi, Raspberry Pi>> and <<bringing-up-of-reference-matter-node-dut-on-thread-platform, Nordic>> platforms. 
+A hobby developer can build Matter reference apps either using a Raspberry Pi or Nordic DK board (if the user wants to use thread transport). Follow the instructions below for the <<bringing-up-of-reference-matter-node-dut-on-raspberry-pi, Raspberry Pi>> and <<bringing-up-of-reference-matter-node-dut-on-thread-platform, Nordic>> platforms.
 
 === Bringing Up of Reference Matter Node (DUT) on Raspberry Pi
 
 In the case where a device maker/hobby developer needs to bring up a sample/reference DUT, i.e. light bulb, door lock, etc. using the example apps provided in SDK and verify provisioning of the DUT over the Bluetooth LE, Wi-Fi and Ethernet interfaces, follow the below steps to set up the DUT.
 
-Users can either use the example apps (i.e. light bulb, door lock, etc.) that are shipped with the TH OR build the apps from the latest SDK source. 
+Users can either use the example apps (i.e. light bulb, door lock, etc.) that are shipped with the TH OR build the apps from the latest SDK source.
 
 To use the apps that are shipped with the TH, follow the instructions below:
 
@@ -641,7 +643,7 @@ To use the apps that are shipped with the TH, follow the instructions below:
 
 image:images/img_3.png[]
 
-To build the example apps from the latest SDK source, follow the instructions below: 
+To build the example apps from the latest SDK source, follow the instructions below:
 
 * User to acquire Raspberry Pi Version (4 or 5) with SD card of minimum 64 GB memory.
 * Do a fresh install of the {ubuntu-description} image and install all the required dependencies as outlined in https://github.com/project-chip/connectedhomeip/blob/master/docs/guides/BUILDING.md[https://github.com/project-chip/connectedhomeip/blob/master/docs/guides/BUILDING.md].
@@ -652,7 +654,7 @@ To build the example apps from the latest SDK source, follow the instructions be
 |*$* `git clone pass:[git@github.com:project-chip/connectedhomeip.git] --recursive` +
 *$* `cd connectedhome` +
 *$* `source scripts/bootstrap.sh` +
-*$* `source scripts/activate.sh`  
+*$* `source scripts/activate.sh`
 |===
 
 
@@ -711,7 +713,7 @@ NOTE: _The nRF52840-DK setup can be performed in two methods either by flashing 
 +
 NOTE: _The J-Link driver needs to be separately installed on macOS and Linux. Download and install it from https://www.segger.com/downloads/jlink[SEGGER] under the section J-Link Software and Documentation Pack._
 
-. Download thread binary files which are released along with the TH. 
+. Download thread binary files which are released along with the TH.
 
 .. From the User Interface:
 . Connect nRF52840-DK to the USB port of the user’s operating system.
@@ -733,9 +735,9 @@ image:images/img_8.png[]
 . Check the log for successful flash. +
 image:images/img_9.png[]
 
-. Connect the nRF52840-Dongle to the USB port of the Raspberry Pi having the latest TH. 
+. Connect the nRF52840-Dongle to the USB port of the Raspberry Pi having the latest TH.
 . For the Thread DUT, enable discoverable over Bluetooth LE (e.g., on nRF52840 DK: select Button 4) and start the Thread Setup Test execution by referring to <<test-configuration, Section 8, Test Configuration>> .
-      
+
 ===== Instructions to Set Up nRF52840-DK Using Docker Environment
 . To build the sample apps for nRF-Connect, check out the Matter repository and bootstrap using following commands:
 
@@ -778,13 +780,13 @@ source scripts/activate.sh`
 +
 |===
 |*~/nrfconnect* can be replaced with an absolute path to the nRF-Connect SDK source directory. +
-*~/connectedhomeip* can be replaced with an absolute path to the CHIP source directory.  
+*~/connectedhomeip* can be replaced with an absolute path to the CHIP source directory.
 |===
 +
 
 +
 |===
-|-v /dev/bus/usb:/dev/bus/usb --device-cgroup-rule "c 189: rmw"*  
+|-v /dev/bus/usb:/dev/bus/usb --device-cgroup-rule "c 189: rmw"*
 |===
 +
 
@@ -793,7 +795,7 @@ NOTE: _Parameters can be omitted if flashing the example app onto the hardware i
 +
 |===
 |*--rm* can be omitted if you do not want the container to be auto-removed when you exit the container shell session. +
-*-e RUNAS=$(id -u)* is needed to start the container session as the current user instead of root.  
+*-e RUNAS=$(id -u)* is needed to start the container session as the current user instead of root.
 |===
 
 . Update the nRF-Connect SDK to the most recent supported revision, by running the following command:
@@ -833,11 +835,11 @@ Perform the following procedure, regardless of the method used for setting up th
 
 +
 |===
-| *Target Name*            | *Compatible Kit*          
-| nRF52840 DK              | nrf52840dk_nrf52840       
-|  nRF5340 DK              | nrf5340dk_nrf5340_cpuapp  
-| nRF52840 Dongle          | nrf52840dongle_nrf52840   
-|  nRF7002 DK	           | nrf7002dk_nrf5340_cpuapp  
+| *Target Name*            | *Compatible Kit*
+| nRF52840 DK              | nrf52840dk_nrf52840
+|  nRF5340 DK              | nrf5340dk_nrf5340_cpuapp
+| nRF52840 Dongle          | nrf52840dongle_nrf52840
+|  nRF7002 DK	           | nrf7002dk_nrf5340_cpuapp
 |===
 
 . To flash the application to the device, use the west tool and run the following command from the example directory:
@@ -848,7 +850,7 @@ Perform the following procedure, regardless of the method used for setting up th
 |===
 
 
-. Connect the nRF52840-Dongle to the USB port of the Raspberry Pi having the latest TH. 
+. Connect the nRF52840-Dongle to the USB port of the Raspberry Pi having the latest TH.
 . For the Thread DUT, enable discoverable over Bluetooth LE (e.g., On nRF52840 DK: Press Button 4) and start the Thread Setup Test execution by referring to <<test-configuration, Section 8, Test Configuration>>.
 
 
@@ -900,7 +902,7 @@ nrfutil install nrf5sdk-tools
 +
 image:images/img_10.png[]
 
-. To install the RCP firmware package on to the dongle, run the following command from the path where the firmware package was downloaded: 
+. To install the RCP firmware package on to the dongle, run the following command from the path where the firmware package was downloaded:
 
 +
 |===
@@ -918,7 +920,7 @@ The https://groups.csa-iot.org/wg/members-all/document/folder/2269[Nrfconnect Sa
 
 === Instructions to Flash SiLabs RCP
 
-Download the latest version of ot-rcp-binaries from the assets list of the latest release: https://github.com/SiliconLabs/matter/tags[Silicon Labs Matter GitHub] 
+Download the latest version of ot-rcp-binaries from the assets list of the latest release: https://github.com/SiliconLabs/matter/tags[Silicon Labs Matter GitHub]
 
 For detailed RCP firmware usage, refer to: https://www.silabs.com/documents/public/application-notes/an1256-using-sl-rcp-with-openthread-border-router.pdf[https://www.silabs.com/documents/public/application-notes/an1256-using-sl-rcp-with-openthread-border-router.pdf]
 
@@ -951,11 +953,11 @@ From CLI:
 
 TH spins the OTBR docker image automatically when executing the thread related test cases. Follow the steps below if the user wants to start OTBR with custom parameters. The user needs to generate a dataset for the custom OTBR. To generate hexadecimal code required for manual Thread pairing procedure, use the instructions below. +
 ssh the Raspberry-Pi in the User System using the command "*ssh ubuntu@IP_address*" +
-Example output for the above command to generate the dataset value: 
+Example output for the above command to generate the dataset value:
 |===
-|ubuntu@ubuntu:~*$* ./certification-tool/backend/test_collections/matter/scripts/OTBR/otbr_start.sh 
+|ubuntu@ubuntu:~*$* ./certification-tool/backend/test_collections/matter/scripts/OTBR/otbr_start.sh
 nrfconnect/otbr             9185bda                                       083c8472bc52   10 months ago   1.21GB +
-otbr image nrfconnect/otbr:9185bda already installed 
+otbr image nrfconnect/otbr:9185bda already installed
 54d868724cbb0c05c155983d5df5e9a3c1b61cbdafdf38eef2d8d1928f305a
 
 waiting 10 seconds to give the docker container enough time to start up... +
@@ -984,10 +986,10 @@ Done +
 Param: 'dataset active -x 0e080000000000010000000300001935060004001fffe002085b35dead5b35beef0708fd902fb12bca8af9051000112233445566778899aabbccddeeff03043562333501025b350410cdfe3b9ac95afd445e659161b03b3c4a0c0402a0f7f8 +
 Done +
 Simple Dataset: +
-000300001902085b35dead5b35beef051000112233445566778899aabbccddeeff01025b35  
+000300001902085b35dead5b35beef051000112233445566778899aabbccddeeff01025b35
 |===
 
-If any issue occurs while using *otbr_start.sh*, follow the steps below to generate the dataset value manually: 
+If any issue occurs while using *otbr_start.sh*, follow the steps below to generate the dataset value manually:
 
 *On Terminal 1:*
 
@@ -1013,7 +1015,7 @@ If any issue occurs while using *otbr_start.sh*, follow the steps below to gener
 |`sudo docker run -it --rm --privileged --network otbr -p 8080:80 --sysctl "net.ipv6.conf.all.disable_ipv6=0 net.ipv6.conf.all.forwarding=1" --name otbr -e NAT64=0 --volume /dev/ttyACM0:/dev/ttyACM0 nrfconnect/otbr:9185bda --radio-url spinel+hdlc+uart:///dev/ttyACM0`
 |===
 
-. Generate the Thread form for dataset by entering ‘<Raspberry-Pi IP>:8080’ on the user’s system browser. The OTBR form will be generated as shown below. 
+. Generate the Thread form for dataset by entering ‘<Raspberry-Pi IP>:8080’ on the user’s system browser. The OTBR form will be generated as shown below.
 . Click on the *Form* option and follow the sequence to generate the OTBR form.
 +
 image:images/img_13.png[]
@@ -1222,13 +1224,67 @@ provided example file named wpa_supplicant-def_comer.conf.
 existing networks.
 
 <<<
+== *NFC Setup*
+
+This section provides a guide to enable NFC commissioning tests. The NFC interface can be used to commission many kinds of Matter devices, including Thread, Wi-Fi, and Ethernet devices.
+
+=== Components Needed for Tests
+To enable the NFC Commissioning tests, the following hardware and software components are required.
+
+==== Hardware
+
+[cols="1,3", options="header"]
+|===
+| Component | Note
+
+| *Raspberry Pi*
+| Version permissible for CSA Matter Test Events, used as a platform for Test Harness (Pi 4 or higher).
+
+| https://www.st.com/en/evaluation-tools/stm32wba65i-dk1.html[STM32WBA65I-DK1]
+| STMicroelectronics's STM32WBA65I Discovery Kit (mother board)
+
+| X-NUCLEO-NFC11B2
+| STMicroelectronics's NFC expansion board. +
+Note: This board is not yet available on the market. Please contact tania.guidet@st.com to obtain it.
+
+| HID OMNIKEY 5022 CL
+| NFC/RFID contactless reader. Connected to the Raspberry Pi via USB. Host uses the PC/SC driver to communicate with it. +
+This NFC Reader shall be used when testing NFC commissioning on a *DUT as Commissionee*.
+
+|===
+
+In case of *'nfc-thread'* commissioning, an nRF52840 Dongle, from Nordic, should also be set up.
+
+The STM32WBA65I-DK1 and X-NUCLEO-NFC11A1-S boards form the reference design for *'nfc-thread'* tests for a *DUT as Commissioner*.
+
+==== Software
+
+STM32WBA65I-DK1 firmware will be available in Matter CSG release directory(https://groups.csa-iot.org/wg/matter-csg/document/folder/3023[matter-csg])
+
+This firmware can be flashed with the tool https://www.st.com/en/development-tools/stm32cubeprog.html[STM32 Cube Programmer].
+
+A virtual COM port connection can be setup either to check the Software version or to see the debug traces:
+
+* Speed: 921600
+* Data: 8 bit
+* Parity: None
+* Stop bits: 1 bit
+* Flow control: None
+
+=== Test Procedures and Test Commands
+
+Refer to "_Python Script Validation Procedure_" sheet of TestPlanVerification XLS document (e.g.: TC_DD_1_5, TC_DD_3_22, TC_DD_3_23, TC_DD_3_24).
+
+When running NFC Commissioning tests in Docker, refer to <<for-nfc-pairing>> for instructions about PC/SC smartcard daemon initialization.
+
+<<<
 == *Test Configuration*
 
 === Project Configuration
 
 When the DUT is a client, refer to <<simulated-tests>>. The TH brings up the example accessory using chip-app1 binary. The user will be prompted to commission the device. Once the commissioning process is completed, proceed with the test execution.
 
-In the case where the DUT is a server, the TH spins up the controller, the DUT bring-up procedure should be completed and has to be paired with the controller. 
+In the case where the DUT is a server, the TH spins up the controller, the DUT bring-up procedure should be completed and has to be paired with the controller.
 
 Depending on the DUT's network transport, any one of the appropriate pairing modes can be opted:
 
@@ -1237,17 +1293,17 @@ Depending on the DUT's network transport, any one of the appropriate pairing mod
 * *'ble-thread'* to complete the pairing for the Thread Device using BLE
 * *'thread-meshcop'* to complete the pairing for the Thread Device using Border Agent (without BLE)
 * *'nfc-thread'* to complete the pairing for the Thread Device using NFC Transport Layer (NTL).
-* *'nfc-wifi'* to complete the pairing for the Wi-Fi Device using NFC Transport Layer (NTL). 
+* *'nfc-wifi'* to complete the pairing for the Wi-Fi Device using NFC Transport Layer (NTL).
 
 Follow the sections below for the project configuration and test execution.
 
 ==== Projects Menu
-. Open a Web browser from the user's system and enter the IP address of the Raspberry Pi as given in <<th-installation-on-raspberry-pi, Section 4.1.2, TH Installation on Raspberry Pi>>. 
+. Open a Web browser from the user's system and enter the IP address of the Raspberry Pi as given in <<th-installation-on-raspberry-pi, Section 4.1.2, TH Installation on Raspberry Pi>>.
 . In case the TH user interface does not launch, refer to <<bringing-up-of-docker-containers-manually, Section 4.2.3, Bringing Up of Docker Containers Manually>>.
 +
 image:images/img_15.png[]
 
-. A new window will be opened as "Matter Test Harness". 
+. A new window will be opened as "Matter Test Harness".
 . Click on the *Create New Project* button. Enter the project name as "Test Project" and edit the Project Config settings to provide additional details.
 +
 
@@ -1316,12 +1372,12 @@ image:images/img_15.png[]
 ----
 
 ==== On Network Mode
-.. If the DUT is already present on the operational network (e.g., connected to the same network as the controller via Ethernet) then the user can select this mode. 
+.. If the DUT is already present on the operational network (e.g., connected to the same network as the controller via Ethernet) then the user can select this mode.
 .. Configure the DUT by providing details like discriminator, setup_code and set the *pairing_mode as "onnetwork"*.
 +
 [source,xml]
 ----
-"dut_config": {  
+"dut_config": {
   "discriminator": "3840",
   "setup_code": "20202021",
   "pairing_mode": "onnetwork",
@@ -1416,7 +1472,7 @@ Input the DUT configuration details like discriminator: "3840", setup_code:"2020
 ----
 - "int-arg": "NFC_Reader_index:<value>"
 ----
-e.g., 
+e.g.,
 +
 [source,xml]
 ----
@@ -1522,7 +1578,7 @@ WARNING: This is an invalid configuration. TH will not accept both parameters se
 ----
 
 
-On completion of the "network" and the "dut_config" configuration, select the *Update* and then *Create* button to create the Test Project. 
+On completion of the "network" and the "dut_config" configuration, select the *Update* and then *Create* button to create the Test Project.
 
 ==== Upload PICS File
 The newly created project will be listed under the Project details column. +
@@ -1556,7 +1612,7 @@ Example command to be used to launch the sample apps (e.g., all-cluster-app):
 
 Onnetwork: ./chip-all-clusters-app
 
-Thread: Enable discoverable over Bluetooth LE (ex: On nRF52840 DK: Press Button 4 to start BLE advertisements)  
+Thread: Enable discoverable over Bluetooth LE (ex: On nRF52840 DK: Press Button 4 to start BLE advertisements)
 |===
 +
 image:images/img_27.png[]
@@ -1836,7 +1892,7 @@ Device-specific configuration is shown as shell variables. *PLEASE REPLACE THOSE
 * *$PATH_TO_PAA_ROOTS*: Path on host where PAA roots are located. Failure to provide a correct path will cause early failure during commissioning (e.g., /var/paa-root-certs/)
 * *$DISCRIMINATOR*: Long discriminator for DUT (e.g., 3840 for Linux examples)
 * *$SETUP_PASSCODE*: Setup passcode for DUT (e.g., 20202021 for Linux examples)
-* *$WIFI_SSID*: SSID of Wi-Fi AP to which to attempt connection 
+* *$WIFI_SSID*: SSID of Wi-Fi AP to which to attempt connection
 +
 WARNING: Currently, WIFI_SSID with special characters or empty spaces is not supported.
 * *$WIFI_PASSPHRASE*: Passphrase of Wi-Fi AP to which to attempt connection
@@ -1857,6 +1913,20 @@ This downloads a Docker image with the test environment, and runs the environmen
 
 NOTE: *The first time running docker will be SLOW (around 5 minutes) due to the need to download data. Every other run after that will be instant.*
 
+[[for-nfc-pairing]]
+===== For NFC Pairing
+
+The Test Harness implementation relies on a PC/SC (https://en.wikipedia.org/wiki/PC/SC[Personal Computer/Smart Card]) driver. In our setup, the NFC device used for commissioning is exposed and managed as a contactless smart card.
+
+A PC/SC reader must be connected to the Raspberry Pi.
+
+Once the Docker container is running, start the PC/SC smartcard daemon with 'Polkit authorization disabled' using the following command:
+|===
+|`pcscd --disable-polkit`
+|===
+
+The tests for NFC-based commissioning and NFC onboarding can then be executed.
+
 ===== For On-Network Pairing
 
 Execute the following command:
@@ -1873,7 +1943,7 @@ To test this against a Linux target running on the same network as the host:
 
 
 [NOTE]
-==== 
+====
 * The $DISCRIMINATOR to be used will be 3842 in this example.
 * The *rm -f kvs1* is a factory reset.
 ====
@@ -1976,7 +2046,7 @@ The above example will be used to define the following arguments when running th
 
 ====== Test Parameters Examples
 
-Access the spreadsheet via the https://groups.csa-iot.org/wg/members-all/document/folder/2269[Verification Steps Document] and review the information provided. Based on this data, create the parameters set as requested. 
+Access the spreadsheet via the https://groups.csa-iot.org/wg/members-all/document/folder/2269[Verification Steps Document] and review the information provided. Based on this data, create the parameters set as requested.
 
 Below are some specific examples assembled from data obtained from the spreadsheet.
 
@@ -2419,7 +2489,7 @@ Please follow the instructions below to use the camera feature in the Test Harne
 Before using the camera feature for the certification, please make sure there is a functional Raspberry Pi TH environment setup. Refer to the <<th-installation-on-raspberry-pi, Section 4.1.2, TH Installation on Raspberry Pi>> for the installation of the TH environment.
 
 ==== Install GStreamer
-The camera feature requires GStreamer to be installed on the Raspberry Pi. Use the following linux command to install into the system: 
+The camera feature requires GStreamer to be installed on the Raspberry Pi. Use the following linux command to install into the system:
 
 ```shell
 sudo apt-get install \
@@ -2441,26 +2511,26 @@ sudo apt-get install \
 ```
 
 ==== Chrome Browser Configuration
-The camera feature requires the Chrome browser to be configured to allow a camera stream be shown in the video popup of the Test Harness. For that, it's necessary to enable the configuration flag “Insecure origins treated as secure” with an existing http address running the Test Harness application. 
+The camera feature requires the Chrome browser to be configured to allow a camera stream be shown in the video popup of the Test Harness. For that, it's necessary to enable the configuration flag “Insecure origins treated as secure” with an existing http address running the Test Harness application.
 
 Follow the following steps to enable this required flag:
 
 1. Open the Chrome browser and navigate to `chrome://flags/` in a new tab
 2. Search for `Insecure origins treated as secure` flag
 3. Enter the IP of the Test Harness into the field and enable the flag as shown in the image below
-4. Relaunch the Browser 
+4. Relaunch the Browser
 
 image:images/img_69.png[Chrome Browser - Insecure origins treated as secure flag]
 
 === Setup Environment
 
-Auto-update and start Test Harness with the camera feature (`v2.14+fall2025` or later) with the following linux commands: 
+Auto-update and start Test Harness with the camera feature (`v2.14+fall2025` or later) with the following linux commands:
 
 - `cd ~/certification-tool`
 - `./scripts/ubuntu/auto-update.sh v2.14+fall2025`
 - `./scripts/start.sh`
 
-=== Running Camera Test Cases 
+=== Running Camera Test Cases
 
 The Test Harness UI can be launched from a browser on any system on the same network by using the TH IP address. You can then use the camera application to run a camera-related Test Case.
 
@@ -2485,9 +2555,9 @@ The `dmp-test-skip.xml` file is provided by the PICS Tool, while the `platform-t
 The three selection modes are:
 
 * *Platform Certification*
-* *Derived Product Certification* 
+* *Derived Product Certification*
 * *Full Product Certification*
-  
+
 Each mode is designed to ensure that only the relevant test cases are executed based on the scope and purpose of the certification.
 
 
@@ -2523,7 +2593,7 @@ On the project configuration screen, users can upload both the PICS file and the
 
 This logic enables the TH to filter and pre-select the appropriate test cases based on the selected certification type.
 
-The `dmp-test-skip.xml` file can be uploaded either by dragging and dropping the file into the upload area or by manually selecting it. Note that only one DMP file is accepted at a time. If a second DMP file is uploaded, the previous configuration will be discarded. 
+The `dmp-test-skip.xml` file can be uploaded either by dragging and dropping the file into the upload area or by manually selecting it. Note that only one DMP file is accepted at a time. If a second DMP file is uploaded, the previous configuration will be discarded.
 
 [NOTE]
 ====
