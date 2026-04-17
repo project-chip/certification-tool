@@ -143,7 +143,10 @@ endif::[]
 | 55          | 05-Feb-2026  | [Apple]Romulo Quidute               | * Added Thread Pairing Mode section.
 | 56          | 20-Mar-2026  | [Apple]Romulo Quidute               | * Fixed docker container name to use Docker Compose V2 naming convention (hyphen separator). +
                                                                      * Updated Python Test Logging Configuration section.
-| 57          | 15-Apr-2026  | [ST]Olivier Lorente                 | * Added NFC commissioning description.
+
+| 57          | 15-Apr-2026  | [GRL]Pradeep G                      | * Added nfc-thread and nfc-wifi pairing mode details under the Project Configuration section. +
+                                                                     * Added NFC Device Mode (including NFC-Thread Device Mode and NFC-WiFi Device Mode) within the Project Configuration section.
+| 58          | 15-Apr-2026  | [ST]Olivier Lorente                 | * Added NFC commissioning description.
 |===
 
 <<<
@@ -1289,6 +1292,8 @@ Depending on the DUT's network transport, any one of the appropriate pairing mod
 * *'onnetwork'* to complete the pairing for the DUT that is already on the operational network (e.g., the device is already present on the same Ethernet network of the TH) connection
 * *'ble-thread'* to complete the pairing for the Thread Device using BLE
 * *'thread-meshcop'* to complete the pairing for the Thread Device using Border Agent (without BLE)
+* *'nfc-thread'* to complete the pairing for the Thread Device using NFC Transport Layer (NTL).
+* *'nfc-wifi'* to complete the pairing for the Wi-Fi Device using NFC Transport Layer (NTL).
 
 Follow the sections below for the project configuration and test execution.
 
@@ -1430,6 +1435,54 @@ NOTE: _The OTBR docker is contained in the TH and runs automatically upon the st
 +
 WARNING: _OTBR needs to be configured and running. TH will not start any OTBR docker containers._
 
+==== NFC Device Mode
+.. NFC-Thread Device Mode:
+Input the DUT configuration details like discriminator: "3840", setup_code:"20202021", and *pairing_mode as "nfc-thread"*.
++
+[source,xml]
+----
+"dut_config": {
+  "discriminator": "3840",
+  "setup_code": "20202021",
+  "pairing_mode": "nfc-thread",
+  "chip_timeout": null,
+  "chip_use_paa_certs": false,
+  "trace_log": true
+}
+----
+
+.. NFC-WiFi Device Mode:
+Input the DUT configuration details like discriminator: "3840", setup_code:"20202021", and *pairing_mode as "nfc-wifi"*.
++
+[source,xml]
+----
+"dut_config": {
+  "discriminator": "3840",
+  "setup_code": "20202021",
+  "pairing_mode": "nfc-wifi",
+  "chip_timeout": null,
+  "chip_use_paa_certs": false,
+  "trace_log": true
+}
+----
+
+.. To validate test cases using *nfc-thread* or *nfc-wifi*, the following parameter must be included in the test parameters, irrespective of the test case-specific arguments:
++
+[source,xml]
+----
+- "int-arg": "NFC_Reader_index:<value>"
+----
+e.g.,
++
+[source,xml]
+----
+"test_parameters": {
+  "int-arg": "NFC_Reader_index:0"
+}
+----
+NFC_Reader_index tells the test which NFC reader hardware to use (in case there are multiple NFC Readers), and must be set correctly based on the ATL setup. If there is only one NFC reader, its index is 0.
+
+
 ==== Thread Pairing Mode (using Border Agent)
 .. Input the DUT configuration details like discriminator: "3840", setup_code:"20202021", and *pairing_mode as "thread-meshcop"*.
 +
@@ -1524,8 +1577,8 @@ WARNING: This is an invalid configuration. TH will not accept both parameters se
 }
 ----
 
-On completion of the "network" and the "dut_config" configuration, select the *Update* and then *Create* button to create the Test Project.
 
+On completion of the "network" and the "dut_config" configuration, select the *Update* and then *Create* button to create the Test Project.
 
 ==== Upload PICS File
 The newly created project will be listed under the Project details column. +
