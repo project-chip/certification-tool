@@ -497,7 +497,14 @@ To Side Load any desired script, follow the steps below:
 3. Place the desired script on the appropriate *custom* folder (depending if the script is Yaml or Python)
 4. Start the Test-Harness by executing the script `start.sh` located at `certification-tool/scripts/` folder
 5. Change the Project's configuration as required to run the Side Loaded script (e.g. updating `test_parameters`)
-6. The Side Loaded script will be available on the Test Cases list in the Custom tab (refer to the image above)
+6. The Side Loaded script will be available on the Test Cases list in the *Custom tab* (refer to the image above)
+7. When executing side-loaded test cases using the CLI, it is mandatory to append the -custom suffix to the Test  Case ID. This suffix ensures that the Test-Harness correctly identifies and executes the script from the custom directory. Test cases invoked without this suffix will not be recognized as side-loaded and may fail to execute as expected.
+
+Example Command:
+ 
+`th-cli run-tests --tests-list TC-JFADMIN-1_1-custom --project-id <id> -c default_config.json --title <Name of  the test run execution>  -p <pics-file-path>`
+ 
+This requirement applies to all test cases placed in the *custom* YAML or Python directories.
 
 === Troubleshooting
 
