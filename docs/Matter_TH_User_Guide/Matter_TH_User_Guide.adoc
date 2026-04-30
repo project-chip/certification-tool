@@ -147,6 +147,7 @@ endif::[]
 | 57          | 15-Apr-2026  | [GRL]Pradeep G                      | * Added nfc-thread and nfc-wifi pairing mode details under the Project Configuration section. +
                                                                      * Added NFC Device Mode (including NFC-Thread Device Mode and NFC-WiFi Device Mode) within the Project Configuration section.
 | 58          | 15-Apr-2026  | [ST]Olivier Lorente                 | * Added NFC commissioning description.
+| 59          | 29-Apr-2026  | [GRL]Sumith D                       | * Updated Section 4.5.1 to include CLI usage guidance for side-loaded test cases, including the -custom                                                                            suffix.
 |===
 
 <<<
