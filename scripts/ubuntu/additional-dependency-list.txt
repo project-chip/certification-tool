@@ -11,4 +11,4 @@ libswresample4 (>=7:6.0)
 libswscale7 (>=7:6.0)
 libevent-2.1-7t64
 libevent-pthreads-2.1-7t64
-+libpcsclite1
+libpcsclite1
