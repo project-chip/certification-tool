@@ -33,8 +33,8 @@ print_script_step "Install additional dependencies"
 # matching -dev packages that accept those versions only exist in <codename>-updates.
 # Without this repo, apt-get satisfy fails with "held broken packages" when resolving
 # transitive -dev dependencies for libgstreamer1.0-dev.
-print_script_step "Ensuring <codename>-updates apt repository is configured"
 UBUNTU_CODENAME=$(lsb_release -cs)
+print_script_step "Ensuring ${UBUNTU_CODENAME}-updates apt repository is configured"
 SOURCES_FILE="/etc/apt/sources.list.d/ubuntu.sources"
 if [ -f "$SOURCES_FILE" ] && grep -q "^Suites:" "$SOURCES_FILE"; then
     if ! grep -q "${UBUNTU_CODENAME}-updates" "$SOURCES_FILE"; then
