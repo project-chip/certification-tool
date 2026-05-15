@@ -2388,7 +2388,7 @@ th-cli test-run-execution log --id 123 --grouped --output-file run_123_logs.zip
 When `--output-file` is omitted with `--grouped`, the filename is derived automatically from the test run execution title (e.g. `MyTestRun.zip`).
 
 NOTE: The `--log` flag on the base `test-run-execution` command is deprecated. Use the `log` subcommand instead. The following syntax still works but will emit a deprecation warning:
-+
+
 [source,bash]
 ----
 # Deprecated: use `th-cli test-run-execution log --id 123` instead
