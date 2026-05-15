@@ -2388,8 +2388,6 @@ th-cli test-run-execution log --id 123 --grouped --output-file run_123_logs.zip
 
 When `--output-file` is omitted with `--grouped`, the filename is derived automatically from the test run execution title (e.g. `MyTestRun.zip`).
 
-NOTE: The `--log` flag on the base `test-run-execution` command is still supported for backwards compatibility, but the `log` subcommand is preferred.
-
 NOTE: The `--grouped` option downloads a `.zip` archive with logs organised by test case. For large runs the server may take several minutes to generate the archive.
 
 ==== Abort Running Tests
