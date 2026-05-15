@@ -149,6 +149,7 @@ endif::[]
 | 58          | 15-Apr-2026  | [ST]Olivier Lorente                 | * Added NFC commissioning description.
 | 59          | 29-Apr-2026  | [GRL]Sumith D                       | * Updated Section 4.5.1 to include CLI usage guidance for side-loaded test cases, including the -custom                                                                            suffix.
 | 60          | 08-May-2026  | [Apple]Romulo Quidute               | * Updated Raspberry Pi prerequisites to specify minimum 8 GB RAM requirement.
+| 61          | 15-May-2026  | [Apple]Romulo Quidute               | * Added grouped log download documentation using CLI.
 |===
 
 <<<
@@ -2362,10 +2363,39 @@ th-cli test-run-execution --all
 
 # Sort by ascending order
 th-cli test-run-execution --sort asc
-
-# View test execution logs
-th-cli test-run-execution --log --id 123
 ----
+
+[#cli-download-logs]
+==== Download Test Execution Logs
+
+The `test-run-execution log` subcommand fetches logs for a specific test run execution.
+
+[source,bash]
+----
+# Print the flattened JSON log to stdout
+th-cli test-run-execution log --id 123
+
+# Save the flattened JSON log to a file
+th-cli test-run-execution log --id 123 --output-file run_123.log
+
+# Download a grouped log ZIP archive (one file per test case)
+th-cli test-run-execution log --id 123 --grouped
+
+# Download grouped logs to a specific file
+th-cli test-run-execution log --id 123 --grouped --output-file run_123_logs.zip
+----
+
+When `--output-file` is omitted with `--grouped`, the filename is derived automatically from the test run execution title (e.g. `MyTestRun.zip`).
+
+NOTE: The `--log` flag on the base `test-run-execution` command is deprecated. Use the `log` subcommand instead. The following syntax still works but will emit a deprecation warning:
+
+[source,bash]
+----
+# Deprecated: use `th-cli test-run-execution log --id 123` instead
+th-cli test-run-execution --log --id 123
+----  
+
+NOTE: The `--grouped` option downloads a `.zip` archive with logs organized by test case. For large runs the server may take several minutes to generate the archive.
 
 ==== Abort Running Tests
 
