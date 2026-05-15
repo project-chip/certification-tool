@@ -149,6 +149,7 @@ endif::[]
 | 58          | 15-Apr-2026  | [ST]Olivier Lorente                 | * Added NFC commissioning description.
 | 59          | 29-Apr-2026  | [GRL]Sumith D                       | * Updated Section 4.5.1 to include CLI usage guidance for side-loaded test cases, including the -custom                                                                            suffix.
 | 60          | 08-May-2026  | [Apple]Romulo Quidute               | * Updated Raspberry Pi prerequisites to specify minimum 8 GB RAM requirement.
+| 61          | 15-May-2026  | [Apple]Romulo Quidute               | * Added grouped log download documentation using CLI.
 |===
 
 <<<
@@ -1638,6 +1639,7 @@ image:images/img_28.png[]
 . Once the test execution is completed, click on
 * The Yellow icon to download the test logs
 * The Blue icon to save the test reports
++
 
 . Click on the *Result* button and select the test that was executed and click on *Show Report* to view the reports. The user can also select previously executed tests and view the reports and logs. There is an option provided to re-run the test cases. Refer to <<collect-logs-and-submit-to-teds, Section 10, Collect Logs and Submit to TEDS>> to collect the logs and submit the reports to TEDS.
 +
@@ -2362,10 +2364,33 @@ th-cli test-run-execution --all
 
 # Sort by ascending order
 th-cli test-run-execution --sort asc
-
-# View test execution logs
-th-cli test-run-execution --log --id 123
 ----
+
+[#cli-download-logs]
+==== Download Test Execution Logs
+
+The `test-run-execution log` subcommand fetches logs for a specific test run execution.
+
+[source,bash]
+----
+# Print the flattened JSON log to stdout
+th-cli test-run-execution log --id 123
+
+# Save the flattened JSON log to a file
+th-cli test-run-execution log --id 123 --output-file run_123.log
+
+# Download a grouped log ZIP archive (one file per test case)
+th-cli test-run-execution log --id 123 --grouped
+
+# Download grouped logs to a specific file
+th-cli test-run-execution log --id 123 --grouped --output-file run_123_logs.zip
+----
+
+When `--output-file` is omitted with `--grouped`, the filename is derived automatically from the test run execution title (e.g. `MyTestRun.zip`).
+
+NOTE: The `--log` flag on the base `test-run-execution` command is still supported for backwards compatibility, but the `log` subcommand is preferred.
+
+NOTE: The `--grouped` option downloads a `.zip` archive with logs organised by test case. For large runs the server may take several minutes to generate the archive.
 
 ==== Abort Running Tests
 
