@@ -150,6 +150,7 @@ endif::[]
 | 59          | 29-Apr-2026  | [GRL]Sumith D                       | * Updated Section 4.5.1 to include CLI usage guidance for side-loaded test cases, including the -custom                                                                            suffix.
 | 60          | 08-May-2026  | [Apple]Romulo Quidute               | * Updated Raspberry Pi prerequisites to specify minimum 8 GB RAM requirement.
 | 61          | 15-May-2026  | [Apple]Romulo Quidute               | * Added grouped log download documentation using CLI.
+| 62          | 20-May-2026  | [Apple]Romulo Quidute               | * Updated NFC Device Mode section to clarify that discriminator and setup_code are optional for nfc-thread and nfc-wifi pairing modes — onboarding data is read from the NFC tag at runtime.
 |===
 
 <<<
@@ -1451,13 +1452,11 @@ WARNING: _OTBR needs to be configured and running. TH will not start any OTBR do
 
 ==== NFC Device Mode
 .. NFC-Thread Device Mode:
-Input the DUT configuration details like discriminator: "3840", setup_code:"20202021", and *pairing_mode as "nfc-thread"*.
+Set *pairing_mode as "nfc-thread"*. The `discriminator` and `setup_code` fields are optional — onboarding data is read directly from the NFC tag at runtime and these values are ignored if present.
 +
 [source,xml]
 ----
 "dut_config": {
-  "discriminator": "3840",
-  "setup_code": "20202021",
   "pairing_mode": "nfc-thread",
   "chip_timeout": null,
   "chip_use_paa_certs": false,
@@ -1466,13 +1465,11 @@ Input the DUT configuration details like discriminator: "3840", setup_code:"2020
 ----
 
 .. NFC-WiFi Device Mode:
-Input the DUT configuration details like discriminator: "3840", setup_code:"20202021", and *pairing_mode as "nfc-wifi"*.
+Set *pairing_mode as "nfc-wifi"*. The `discriminator` and `setup_code` fields are optional — onboarding data is read directly from the NFC tag at runtime and these values are ignored if present.
 +
 [source,xml]
 ----
 "dut_config": {
-  "discriminator": "3840",
-  "setup_code": "20202021",
   "pairing_mode": "nfc-wifi",
   "chip_timeout": null,
   "chip_use_paa_certs": false,
