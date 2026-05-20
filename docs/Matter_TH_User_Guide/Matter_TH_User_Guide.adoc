@@ -152,6 +152,7 @@ endif::[]
 | 61          | 15-May-2026  | [Apple]Romulo Quidute               | * Added grouped log download documentation using CLI.
 | 62          | 20-May-2026  | [Apple]Romulo Quidute               | * Updated NFC Device Mode section to clarify that discriminator and setup_code are optional for nfc-thread and nfc-wifi pairing modes — onboarding data is read from the NFC tag at runtime. +
                                                                      * Added note on qr-code behavior: ignored for commissioning tests under NFC modes, preserved for non-commissioning tests.
+| 63          | 20-May-2026  | [Apple]Romulo Quidute               | * Renamed Python Testing Suite categories for clarity: "Python Testing Suite" is now "Python Testing Suite - Auto commissioning" and "Python Testing Suite - No commissioning" is now "Python Testing Suite - No auto commissioning".
 |===
 
 <<<
@@ -2127,11 +2128,11 @@ TH expects the SDK Python Tests to follow a certain template. New tests are bein
 
 image:images/img_61.png[SDK Python Tests - Suites]
 
-. Python Testing Suite
+. Python Testing Suite - Auto commissioning
   * For test cases that follow the expected template and have a commissioning first step.
   * The user will be asked to make sure that the DUT is in Commissioning Mode at the start of the test suite setup and then the DUT will be commissioned.
   * The commissioning will be kept throughout the execution of all its tests.
-. Python Testing Suite - No commissioning
+. Python Testing Suite - No auto commissioning
   * For test cases that follow the expected template but don't have a commissioning first step.
   * The selected tests will be executed without commissioning the DUT.
   * The user will be asked to make sure that the DUT is in Commissioning Mode at the start of each test.
