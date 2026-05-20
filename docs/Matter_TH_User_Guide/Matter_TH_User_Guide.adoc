@@ -1310,6 +1310,7 @@ Depending on the DUT's network transport, any one of the appropriate pairing mod
 * *'thread-meshcop'* to complete the pairing for the Thread Device using Border Agent (without BLE)
 * *'nfc-thread'* to complete the pairing for the Thread Device using NFC Transport Layer (NTL).
 * *'nfc-wifi'* to complete the pairing for the Wi-Fi Device using NFC Transport Layer (NTL).
+* *'nfc-ethernet'* to complete the pairing for the Ethernet Device using NFC Transport Layer (NTL).
 
 Follow the sections below for the project configuration and test execution.
 
@@ -1478,7 +1479,20 @@ Set *pairing_mode as "nfc-wifi"*. The `discriminator` and `setup_code` fields ar
 }
 ----
 
-.. To validate test cases using *nfc-thread* or *nfc-wifi*, the following parameter must be included in the test parameters, irrespective of the test case-specific arguments:
+.. NFC-Ethernet Device Mode:
+Set *pairing_mode as "nfc-ethernet"*. The `discriminator` and `setup_code` fields are optional — onboarding data is read directly from the NFC tag at runtime and these values are ignored if present.
++
+[source,xml]
+----
+"dut_config": {
+  "pairing_mode": "nfc-ethernet",
+  "chip_timeout": null,
+  "chip_use_paa_certs": false,
+  "trace_log": true
+}
+----
+
+.. To validate test cases using *nfc-thread*, *nfc-wifi*, or *nfc-ethernet*, the following parameter must be included in the test parameters, irrespective of the test case-specific arguments:
 +
 [source,xml]
 ----
