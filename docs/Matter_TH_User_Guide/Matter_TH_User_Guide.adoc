@@ -150,7 +150,8 @@ endif::[]
 | 59          | 29-Apr-2026  | [GRL]Sumith D                       | * Updated Section 4.5.1 to include CLI usage guidance for side-loaded test cases, including the -custom                                                                            suffix.
 | 60          | 08-May-2026  | [Apple]Romulo Quidute               | * Updated Raspberry Pi prerequisites to specify minimum 8 GB RAM requirement.
 | 61          | 15-May-2026  | [Apple]Romulo Quidute               | * Added grouped log download documentation using CLI.
-| 62          | 20-May-2026  | [Apple]Romulo Quidute               | * Updated NFC Device Mode section to clarify that discriminator and setup_code are optional for nfc-thread and nfc-wifi pairing modes — onboarding data is read from the NFC tag at runtime.
+| 62          | 20-May-2026  | [Apple]Romulo Quidute               | * Updated NFC Device Mode section to clarify that discriminator and setup_code are optional for nfc-thread and nfc-wifi pairing modes — onboarding data is read from the NFC tag at runtime. +
+                                                                     * Added note on qr-code behavior: ignored for commissioning tests under NFC modes, preserved for non-commissioning tests.
 |===
 
 <<<
@@ -1492,6 +1493,12 @@ e.g.,
 }
 ----
 NFC_Reader_index tells the test which NFC reader hardware to use (in case there are multiple NFC Readers), and must be set correctly based on the ATL setup. If there is only one NFC reader, its index is 0.
+
+.. `qr-code` in test parameters:
++
+For *commissioning* test cases under NFC pairing modes, the `qr-code` field in `test_parameters` is automatically ignored — onboarding data comes from the NFC tag, not from a QR code. Including it will not cause an error but it will not be used.
++
+For *non-commissioning* test cases (e.g., `TC_DD_1_5`), `qr-code` is a legitimate test input and must be preserved. It is passed to the test as-is and is not stripped.
 
 
 ==== Thread Pairing Mode (using Border Agent)
