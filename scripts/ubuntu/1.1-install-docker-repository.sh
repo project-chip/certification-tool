@@ -23,13 +23,18 @@ source "$SCRIPT_DIR/utils.sh"
 
 print_start_of_script
 
+# Expands to `--proxy <url>` when https_proxy is set, empty otherwise.
+# Unquoted at use sites so it splits into 0 or 2 args. Passed as args (not env)
+# because sudo strips https_proxy by default.
+proxy_opt="${https_proxy+--proxy $https_proxy}"
+
 set +e
 print_script_step "Verify download.docker.com is reachable"
 # Verify download.docker.com is reachable before attempting to install the
 # Docker Package Repo (network randomly fails after service restarts).
 for i in {1..5}
 do
-    status_code=$(sudo curl -sS -o /dev/null -w "%{http_code}" --connect-timeout 1 "https://download.docker.com" ${https_proxy+--proxy $https_proxy} )
+    status_code=$(sudo curl -sS -o /dev/null -w "%{http_code}" --connect-timeout 1 "https://download.docker.com" $proxy_opt)
     if [ $? -eq 0 ] && [ "$status_code" -lt 400 ]; then
         echo "The download.docker.com is reachable"
         break
@@ -51,7 +56,7 @@ print_script_step "Add Docker's official GPG key"
 sudo apt-get update -y
 sudo apt-get install ca-certificates curl -y
 sudo install -m 0755 -d /etc/apt/keyrings
-sudo curl -fsSL https://download.docker.com/linux/ubuntu/gpg -o /etc/apt/keyrings/docker.asc ${https_proxy+--proxy $https_proxy}
+sudo curl -fsSL https://download.docker.com/linux/ubuntu/gpg -o /etc/apt/keyrings/docker.asc $proxy_opt
 sudo chmod a+r /etc/apt/keyrings/docker.asc
 
 print_script_step "Add the repository to Apt sources"
