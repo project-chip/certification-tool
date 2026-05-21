@@ -10,14 +10,14 @@
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either   express or implied.
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
 ////
 
 :ubuntu-version: 24.04.x
 :ubuntu-description: Ubuntu Server {ubuntu-version} LTS (64-bit)
-:th-version: v2.13+summer2025
+:th-version: v2.15+spring2026
 = Matter Test-Harness User Manual: {th-version}
 ifdef::env-github[]
 :tip-caption: :bulb:
@@ -46,11 +46,14 @@ endif::[]
 | *Matter Version* | *TH Version*       | *TH image location*                                                                         | *Supporting Documentation*                                                    | *SDK commit* | *Comments*
 | Matter 1.0       | v2.6               | https://drive.google.com/file/d/10YkV4mDulhLoA6RJOKZNNKWhHTH1tOfu/view?usp=drive_link[link] | https://groups.csa-iot.org/wg/members-all/document/folder/2729[Causeway Link] | 96c9357      |
 | Matter 1.1       | v2.8.1             | https://drive.google.com/file/d/15fU3L7QE-MNBslf53A_6sFgn1Wq0Pvqd/view?usp=drive_link[link] | https://groups.csa-iot.org/wg/members-all/document/folder/2730[Causeway Link] | 5a21d17      |
-| Matter 1.2       | TH-Fall2023        | https://drive.google.com/file/d/1WTjhc7xbYt18RvpABU3_r47uqOLd7NN1/view?usp=drive_link[link] | https://groups.csa-iot.org/wg/members-all/document/folder/3045[Causeway Link] | 19771ed      | 
-| Matter 1.3       | v2.10.2+spring2024 | N/A                                                                                         | https://groups.csa-iot.org/wg/members-all/document/folder/3314[Causeway Link] | 50bcad1      | To install, use the tag "v2.10.2+spring2024" in the instructions of <<fresh_install>>
+| Matter 1.2       | TH-Fall2023        | https://drive.google.com/file/d/1WTjhc7xbYt18RvpABU3_r47uqOLd7NN1/view?usp=drive_link[link] | https://groups.csa-iot.org/wg/members-all/document/folder/3045[Causeway Link] | 19771ed      |
+| Matter 1.3       | v2.10.4+spring2024 | N/A                                                                                         | https://groups.csa-iot.org/wg/members-all/document/folder/3314[Causeway Link] | 50bcad1      | To install, use the tag "v2.10.4+spring2024" in the instructions of <<fresh_install>>
 | Matter 1.4       | v2.11+fall2024     | N/A                                                                                         | https://groups.csa-iot.org/wg/members-all/document/folder/4120[Causeway Link] | f2e5de7      | To install, use the tag "v2.11+fall2024" in the instructions of <<fresh_install>>
 | Matter 1.4.1     | v2.12+spring2025   | N/A                                                                                         | https://groups.csa-iot.org/wg/members-all/document/folder/4497[Causeway Link] | 91eab26      | To install, use the tag "v2.12+spring2025" in the instructions of <<fresh_install>>
-| Matter 1.4.2     | v2.13+summer2025   | N/A                                                                                         | https://groups.csa-iot.org/wg/members-all/document/folder/4651[Causeway Link]  | 1b2b3fd      | To install, use the tag "v2.13+summer2025" in the instructions of <<fresh_install>>
+| Matter 1.4.2     | v2.13+summer2025   | N/A                                                                                         | https://groups.csa-iot.org/wg/members-all/document/folder/4651[Causeway Link] | 1b2b3fd      | To install, use the tag "v2.13+summer2025" in the instructions of <<fresh_install>>
+| Matter 1.5       | v2.14+fall2025     | N/A                                                                                         | https://groups.csa-iot.org/wg/members-all/document/folder/4825[Causeway Link] | ca9d111      | To install, use the tag "v2.14+fall2025" in the instructions of <<fresh_install>>
+| Matter 1.5.1     | v2.14.1+winter2026       | N/A                                                                                         | https://groups.csa-iot.org/wg/members-all/document/folder/5210[Causeway Link] | e9ecfc2      | To install, use the branch "v2.14.1+winter2026" in the instructions of <<fresh_install>>
+| Matter 1.6     | {th-version}       | N/A                                                                                         | TBD | ad9cf71      | To install, use the branch "{th-version}" in the instructions of <<fresh_install>>
 |===
 
 
@@ -60,8 +63,8 @@ endif::[]
 
 [cols=".^11%,.^13%,.^20%,.^56%"]
 |===
-| *Revision*  | *Date*       | *Author*                            | *Description*                                                                                                       
-| 1           | 11-Jan-2022  | [GRL]Suraj Seenivasan               | * Initial version of the user manual used for V1.0.                                                                 
+| *Revision*  | *Date*       | *Author*                            | *Description*
+| 1           | 11-Jan-2022  | [GRL]Suraj Seenivasan               | * Initial version of the user manual used for V1.0.
 | 2           | 22-Aug-2022  | [GRL]Suraj Seenivasan               | * Updated the steps required to run the Python script inside docker: Input given by Tennessee Carmel-Veilleux.
 | 3           | 06-Feb-2023  | [GRL]Suraj Seenivasan               | * Added instructions to update the existing image and personal access token: How to execute simulated test cases.
 | 4           | 09-Feb-2023  | [GRL]Suma                           | * Structuring the user manual. +
@@ -125,9 +128,28 @@ endif::[]
 | 47          | 05-May-2025  | [Apple]Romulo Quidute, [Apple]Antonio Melo| Changes for v2.13+summer2025 version: +
                                                                      * Added the platform certification configuration section. +
                                                                      * Updated the docker command in Factory-reset the DUT section +
-                                                                     * Added the Wi-Fi PAF section supported by Matter 1.4.2 +
-                                                                     * Fixed links format and URLs +
-                                                                     * Fixed adoc's broken images removing the absolute path imagesdir
+                                                                     * Added the Wi-Fi PAF section supported by Matter 1.4.2.
+| 48          | 10-Nov-2025  | [Apple]Romulo Quidute, [Apple]Antonio Melo| * Changes for v2.14+fall2025 version.
+| 49          | 14-Nov-2025  | [Apple]Antonio Melo Jr.             | * Adding the Side Load feature instructions to the custom Test Cases section. +
+                                                                     * Fixing the Causeway links in the references section. +
+                                                                     * Fixing the REPL command in the Matter Python REPL section.
+| 50          | 18-Nov-2025  | [Apple]Antonio Melo Jr.             | * Using the TH version variable in the Test-Harness Links table.
+| 51          | 19-Nov-2025  | [Apple]Antonio Melo Jr.             | * Adding symbolic links to the custom folder paths in the custom Test Cases section.
+| 52          | 05-Jan-2026  | [Apple]Antonio Melo Jr.             | * Adding the Test-Harness CLI section. +
+                                                                     * Fixing some git clone commands to include the recursive submodules flag.
+| 53          | 19-Jan-2026  | [Apple]Romulo Quidute               | * Adding Troubleshooting for the hanging with ModuleNotFoundError issue. +
+                                                                     * Added Container Logging Configuration section.
+| 54          | 22-Jan-2026  | [Apple]Romulo Quidute               | * Added OTA Image Build Procedure section with manual workflow for generating OTA requestor images.
+| 55          | 05-Feb-2026  | [Apple]Romulo Quidute               | * Added Thread Pairing Mode section.
+| 56          | 20-Mar-2026  | [Apple]Romulo Quidute               | * Fixed docker container name to use Docker Compose V2 naming convention (hyphen separator). +
+                                                                     * Updated Python Test Logging Configuration section.
+
+| 57          | 15-Apr-2026  | [GRL]Pradeep G                      | * Added nfc-thread and nfc-wifi pairing mode details under the Project Configuration section. +
+                                                                     * Added NFC Device Mode (including NFC-Thread Device Mode and NFC-WiFi Device Mode) within the Project Configuration section.
+| 58          | 15-Apr-2026  | [ST]Olivier Lorente                 | * Added NFC commissioning description.
+| 59          | 29-Apr-2026  | [GRL]Sumith D                       | * Updated Section 4.5.1 to include CLI usage guidance for side-loaded test cases, including the -custom                                                                            suffix.
+| 60          | 08-May-2026  | [Apple]Romulo Quidute               | * Updated Raspberry Pi prerequisites to specify minimum 8 GB RAM requirement.
+| 61          | 15-May-2026  | [Apple]Romulo Quidute               | * Added grouped log download documentation using CLI.
 |===
 
 <<<
@@ -139,25 +161,25 @@ toc::[]
 
 == *Introduction*
 
-The Matter Test-Harness is a comprehensive test tool used for certification testing of Matter devices in accordance with the Matter protocol as defined in the https://groups.csa-iot.org/wg/members-all/document/folder/2269[Matter specification]. 
+The Matter Test-Harness is a comprehensive test tool used for certification testing of Matter devices in accordance with the Matter protocol as defined in the https://groups.csa-iot.org/wg/members-all/document/folder/2269[Matter specification].
 
 This user guide serves as the primary user documentation to work with the Test-Harness ( *TH* ) tool, providing high-level architecture of the tool, how to use the tool to execute certification tests and submit the test results to CSA for certification.
 
-The TH tool runs on the Raspberry Pi platform, providing an intuitive Web user interface to create a test project, configure the project/Device Under Test ( *DUT* ) settings, load the required test cases using the PICS xml file and execute test cases for various devices (commissioner, controller and controlee) as defined in the Matter specification. 
+The TH tool runs on the Raspberry Pi platform, providing an intuitive Web user interface to create a test project, configure the project/Device Under Test ( *DUT* ) settings, load the required test cases using the PICS xml file and execute test cases for various devices (commissioner, controller and controlee) as defined in the Matter specification.
 
 The TH tool provides an option to execute the following test scripts— Automated, Semi Automated, Python, Manual and Simulated. Upon completion of the test execution, detailed logs and test results will be available for user analysis. The user will also be able to submit logs to ATL’s for review to obtain device certification.
 
-The TH tool can be used by any DUT vendor to run the Matter certification tests, or by any hobby developer to get acquainted with the Matter certification testing tools or technologies. 
+The TH tool can be used by any DUT vendor to run the Matter certification tests, or by any hobby developer to get acquainted with the Matter certification testing tools or technologies.
 
 
 <<<
 == *References*
-. Matter Specification: https://groups.csa-iot.org/wg/members-all/document/folder/4651[Matter Specification (Causeway)] / https://github.com/CHIP-Specifications/connectedhomeip-spec[Matter Specification (GitHub)]
-. Matter SDK Repository GitHub: https://github.com/project-chip/connectedhomeip[Matter SDK Repository Connectedhomeip]
-. Matter Test Plans: https://groups.csa-iot.org/wg/members-all/document/folder/4651[Matter Test Plans (Causeway)] / https://github.com/CHIP-Specifications/chip-test-plans[Matter Test Plans (GitHub)]
+. Matter Specification: https://groups.csa-iot.org/wg/members-all/document/folder/4825[Matter Specification (Causeway)] / https://github.com/CHIP-Specifications/connectedhomeip-spec[Matter Specification (GitHub)]
+. Matter SDK GitHub Repository: https://github.com/project-chip/connectedhomeip[Connectedhomeip GitHub Repository]
+. Matter Test Plans: https://groups.csa-iot.org/wg/members-all/document/folder/4825[Matter Test Plans (Causeway)] / https://github.com/CHIP-Specifications/chip-test-plans[Matter Test Plans (GitHub)]
 . Matter PICS Tool: https://picstool.csa-iot.org/#userguide[PICS Tool - Connectivity Standards Alliance (csa-iot.org)]
-. Matter XML Files: https://groups.csa-iot.org/wg/members-all/document/folder/4651[XML Files - Connectivity Standards Alliance (csa-iot.org)]
-. TEDS Matter tool: https://groups.csa-iot.org/wg/matter-wg/document/28545[TEDS Matter Tool - Connectivity Standards Alliance (csa-iot.org)]
+. Matter XML Files: https://groups.csa-iot.org/wg/members-all/document/folder/4825[XML Files - Connectivity Standards Alliance (csa-iot.org)]
+. TEDS Matter Tool: https://groups.csa-iot.org/wg/matter-wg/document/28545[TEDS Matter Tool - Connectivity Standards Alliance (csa-iot.org)]
 
 
 *Important:*
@@ -182,7 +204,7 @@ In addition to the four main containers described above, which get created and d
 
 === Data Model
 .The Data Model
-image::images/img_1.png[Data Model] 
+image::images/img_1.png[Data Model]
 
 The data model diagram in Figure 2 shows the various data objects that the Test Execution consumes and maintains and the relationship between these data objects.
 
@@ -205,9 +227,9 @@ image::images/img_2.png[Data Flow]
 <<<
 == *Getting Started with Matter Test-Harness (TH)*
 
-The Matter Node (DUT) that is used for certification testing can either be a commissioner, controller or controlee. 
+The Matter Node (DUT) that is used for certification testing can either be a commissioner, controller or controlee.
 
-If the DUT is a controlee (e.g., light bulb), the TH spins a reference commissioner/controller using chip-tool binary shipped with the SDK. The TH commissioner provisions the DUT and is used to execute the certification tests on the controlee. 
+If the DUT is a controlee (e.g., light bulb), the TH spins a reference commissioner/controller using chip-tool binary shipped with the SDK. The TH commissioner provisions the DUT and is used to execute the certification tests on the controlee.
 
 If the DUT is a commissioner/controller, the Test TH spins an example accessory that is shipped with the SDK and uses that for the DUT to provision, control and run certification tests.
 
@@ -230,13 +252,13 @@ NOTE: This instruction applies to the latest version of the Test Harness this do
 
 The following equipment will be required to have a complete TH setup:
 
-* *Raspberry Pi Version (4 or 5) with SD card of minimum 64 GB Memory*
+* *Raspberry Pi Version (4 or 5) with minimum 8 GB RAM and SD card of minimum 64 GB storage*
 
 The TH will be installed on Raspberry PI. The TH contains couple of docker container(s) with all the required dependencies for certification tests execution.
 
 * *Windows or Linux System (Laptop/Desktop/Mac)*
 
-The Mac/PC will be used to flash the Ubuntu image on the SD card to be used on Raspberry Pi. Download the https://www.raspberrypi.com/software/[Raspberry Pi Imager] or https://www.balena.io/etcher/[Balena Etcher] tool. The same can be used to set up the required build environment for the Matter SDK or building Matter reference apps for various platforms. 
+The Mac/PC will be used to flash the Ubuntu image on the SD card to be used on Raspberry Pi. Download the https://www.raspberrypi.com/software/[Raspberry Pi Imager] or https://www.balena.io/etcher/[Balena Etcher] tool. The same can be used to set up the required build environment for the Matter SDK or building Matter reference apps for various platforms.
 
 * *RCP dongle*
 
@@ -246,9 +268,9 @@ If the DUT supports thread transport, an RCP dongle provisioned with a recommend
 
 NOTE: **Starting with version v2.10 we have moved from distributing TH as an SD-Card image to publishing the TH Docker containers at Github Container Registry and pulling them at install time. By doing that the release process has been made much faster and less error-prone, while at the same time installation time has gone shorter.**
 
-. Place the blank SD card into the user’s system USB slot. 
+. Place the blank SD card into the user’s system USB slot.
 . Open the https://www.raspberrypi.com/software/[Raspberry Pi Imager] or https://www.balena.io/etcher/[Balena Etcher] tool on the Mac/PC and select the '{ubuntu-description}'.
-* Edit the SO custom settings to: 
+* Edit the SO custom settings to:
 ** username: ubuntu
 +
 WARNING: **The username must be 'ubuntu'. Changing the name may cause problems running TH.**
@@ -260,14 +282,14 @@ WARNING: **The username must be 'ubuntu'. Changing the name may cause problems r
 . Power on the Raspberry Pi and ensure that the local area network, display monitor and keyboard are connected.
 . Enter the username and password.
 . Install the TH system:
-* Clone the TH repository: 
-** `$git clone -b <Target_Branch/Tag> https://github.com/project-chip/certification-tool.git`
-* Goto to TH folder: 
+* Clone the TH repository:
+** `$git clone -b <Target_Branch/Tag> https://github.com/project-chip/certification-tool.git --recurse-submodules`
+* Goto to TH folder:
 ** `$cd certification-tool`
-* Install/configure the TH dependencies: 
+* Install/configure the TH dependencies:
 ** `$./scripts/pi-setup/auto-install.sh`
 ** At the end of the script, select option 1 to restart the RaspberryPi.
-. Wait about 10 minutes. 
+. Wait about 10 minutes.
 . Using the _ifconfig_ command, obtain the IP address of the Raspberry Pi. The same IP address will be used to launch the TH user interface on the user's system using the browser.
 . Proceed with test configuration and execution (refer to <<test-configuration, Section 8, Test Configuration>> and <<test-case-execution, Section 9, Test Case Execution>> respectively).
 
@@ -313,7 +335,7 @@ Seems like bridged network is not available, so you will not be able to test wit
 * Clone git repo
 
 |===
-|`git clone -b <Target_Branch/Tag> https://github.com/project-chip/certification-tool.git`
+|`git clone -b <Target_Branch/Tag> https://github.com/project-chip/certification-tool.git --recurse-submodules`
 |===
 
 * Go into the repo directory
@@ -345,7 +367,7 @@ To run TH on a machine using the 'linux/amd64' platform, you will need to first 
 * Get the SDK commit SHA
 
 |===
-|Value for variable `SDK_DOCKER_TAG` in TH repository path `certification-tool/backend/app/core/config.py`
+|Value for variable `SDK_DOCKER_TAG` in TH repository path `certification-tool/backend/test_collections/matter/config.py`
 |===
 
 * Download the Dockerfile for chip-cert-bins from the commit you need
@@ -414,7 +436,7 @@ To update an existing Yaml test script: (e.g. `Test_TC_ACE_1_1.yaml`)
 
 * Restart TH's backend container:
 |===
-|`$docker restart certification-tool_backend_1`
+|`$docker restart certification-tool-backend-1`
 |===
 
 * Changes will be available on the next execution of the yaml test.
@@ -451,12 +473,45 @@ Custom Python files folder are located at:
 |`~/certification-tool/backend/test_collections/matter/sdk_tests/sdk_checkout/python_testing/scripts/custom/`
 |===
 
+[NOTE]
+.*Use the Custom Folders Symbolic Links:*
+====
+At `~/certification-tool/backend/`, you may use the following symbolic links as shortcuts: +
+* `custom_yaml`: to access the Custom Yaml files folder. +
+* `custom_python`: to access the Custom Python files folder.
+====
+
 .Test-Harness displaying the custom tests.
 image::images/img_60.png[]
 
-|===
-|Hint: You can copy the original SDK Yaml/Python test to Custom Yaml/Python folder and do any changes on it.
-|===
+
+[NOTE]
+.*Experimenting with Test Cases:*
+====
+You can copy the original SDK Yaml/Python test to Custom Yaml/Python folder and do any changes on it.
+====
+
+==== Test-Harness Side Load Feature with Custom Test Cases
+For the Side Load feature, the user may benefit from the *custom* Test Cases feature mentioned above.
+To Side Load any desired script, follow the steps below:
+
+1. Stop the Test-Harness by executing the script `stop.sh` located at `certification-tool/scripts/` folder
+2. Download the latest Test Case script from the SDK's master branch (https://github.com/project-chip/connectedhomeip[connectedhomeip] repository)
+3. Place the desired script on the appropriate *custom* folder (depending if the script is Yaml or Python)
+4. Start the Test-Harness by executing the script `start.sh` located at `certification-tool/scripts/` folder
+5. Change the Project's configuration as required to run the Side Loaded script (e.g. updating `test_parameters`)
+6. The Side Loaded script will be available on the Test Cases list in the Custom tab (refer to the image above)
+7. When executing side-loaded test cases using the CLI, it is mandatory to append the -custom suffix to the Test  Case ID. This suffix ensures that the Test-Harness correctly identifies and executes the script from the custom directory. Test cases invoked without this suffix will not be recognized as side-loaded and may fail to execute as expected.
+
++
+[source,xml]
+----
+ Example Command:
+
+  th-cli run-tests --tests-list TC-JFADMIN-1_1-custom --project-id <id> --config my_config.json --title <Name of the test run execution>  --pics-config-folder ./pics_files/
+----
+This requirement applies to all test cases placed in the *custom* YAML or Python directories.
+
 
 === Troubleshooting
 
@@ -543,6 +598,43 @@ Finally, execute a new installation with the following command: +
 *$* `./certification-tool/scripts/pi-setup/auto-install.sh`
 |===
 
+==== Test Harness Startup Hanging with ModuleNotFoundError
+
+This issue typically occurs when the `./scripts/start.sh` script takes a long time to complete and appears to hang during startup.
+
+===== Symptoms
+* The `start.sh` script does not complete after a reasonable time
+* Backend container fails to initialize properly
+
+===== Diagnosis
+To check if this is the issue, run the following command:
+
+|===
+|`docker logs certification-tool-backend-1`
+|===
+
+Look for an error message similar to:
+
+|===
+|`ModuleNotFoundError: No module named 'chipyaml'`
+|===
+
+===== Solution
+If you find the `ModuleNotFoundError` in the logs, follow these steps:
+
+|===
+|Stop the Test-Harness: +
+*$* `./scripts/stop.sh`
+
+Remove the SDK version file: +
+*$* `rm ~/certification-tool/backend/test_collections/matter/sdk_tests/sdk_checkout/.version`
+
+Start the Test-Harness again: +
+*$* `./scripts/start.sh`
+|===
+
+This will force the SDK dependencies to be reinstalled during the next startup.
+
 <<<
 == *Bringing Up of Matter Node (DUT) for Certification Testing*
 
@@ -550,13 +642,13 @@ A Matter node can either be a commissioner, controller, controlee, software comp
 
 DUT vendors need to get the device flashed with the production firmware revision that they want to get their device certified and execute all the applicable TC’s for their products using the TH. DUT vendors can skip the below sections as the TH brings up the reference applications automatically during the certification tests execution.
 
-A hobby developer can build Matter reference apps either using a Raspberry Pi or Nordic DK board (if the user wants to use thread transport). Follow the instructions below for the <<bringing-up-of-reference-matter-node-dut-on-raspberry-pi, Raspberry Pi>> and <<bringing-up-of-reference-matter-node-dut-on-thread-platform, Nordic>> platforms. 
+A hobby developer can build Matter reference apps either using a Raspberry Pi or Nordic DK board (if the user wants to use thread transport). Follow the instructions below for the <<bringing-up-of-reference-matter-node-dut-on-raspberry-pi, Raspberry Pi>> and <<bringing-up-of-reference-matter-node-dut-on-thread-platform, Nordic>> platforms.
 
 === Bringing Up of Reference Matter Node (DUT) on Raspberry Pi
 
 In the case where a device maker/hobby developer needs to bring up a sample/reference DUT, i.e. light bulb, door lock, etc. using the example apps provided in SDK and verify provisioning of the DUT over the Bluetooth LE, Wi-Fi and Ethernet interfaces, follow the below steps to set up the DUT.
 
-Users can either use the example apps (i.e. light bulb, door lock, etc.) that are shipped with the TH OR build the apps from the latest SDK source. 
+Users can either use the example apps (i.e. light bulb, door lock, etc.) that are shipped with the TH OR build the apps from the latest SDK source.
 
 To use the apps that are shipped with the TH, follow the instructions below:
 
@@ -565,7 +657,7 @@ To use the apps that are shipped with the TH, follow the instructions below:
 
 image:images/img_3.png[]
 
-To build the example apps from the latest SDK source, follow the instructions below: 
+To build the example apps from the latest SDK source, follow the instructions below:
 
 * User to acquire Raspberry Pi Version (4 or 5) with SD card of minimum 64 GB memory.
 * Do a fresh install of the {ubuntu-description} image and install all the required dependencies as outlined in https://github.com/project-chip/connectedhomeip/blob/master/docs/guides/BUILDING.md[https://github.com/project-chip/connectedhomeip/blob/master/docs/guides/BUILDING.md].
@@ -576,7 +668,7 @@ To build the example apps from the latest SDK source, follow the instructions be
 |*$* `git clone pass:[git@github.com:project-chip/connectedhomeip.git] --recursive` +
 *$* `cd connectedhome` +
 *$* `source scripts/bootstrap.sh` +
-*$* `source scripts/activate.sh`  
+*$* `source scripts/activate.sh`
 |===
 
 
@@ -635,7 +727,7 @@ NOTE: _The nRF52840-DK setup can be performed in two methods either by flashing 
 +
 NOTE: _The J-Link driver needs to be separately installed on macOS and Linux. Download and install it from https://www.segger.com/downloads/jlink[SEGGER] under the section J-Link Software and Documentation Pack._
 
-. Download thread binary files which are released along with the TH. 
+. Download thread binary files which are released along with the TH.
 
 .. From the User Interface:
 . Connect nRF52840-DK to the USB port of the user’s operating system.
@@ -657,9 +749,9 @@ image:images/img_8.png[]
 . Check the log for successful flash. +
 image:images/img_9.png[]
 
-. Connect the nRF52840-Dongle to the USB port of the Raspberry Pi having the latest TH. 
+. Connect the nRF52840-Dongle to the USB port of the Raspberry Pi having the latest TH.
 . For the Thread DUT, enable discoverable over Bluetooth LE (e.g., on nRF52840 DK: select Button 4) and start the Thread Setup Test execution by referring to <<test-configuration, Section 8, Test Configuration>> .
-      
+
 ===== Instructions to Set Up nRF52840-DK Using Docker Environment
 . To build the sample apps for nRF-Connect, check out the Matter repository and bootstrap using following commands:
 
@@ -702,13 +794,13 @@ source scripts/activate.sh`
 +
 |===
 |*~/nrfconnect* can be replaced with an absolute path to the nRF-Connect SDK source directory. +
-*~/connectedhomeip* can be replaced with an absolute path to the CHIP source directory.  
+*~/connectedhomeip* can be replaced with an absolute path to the CHIP source directory.
 |===
 +
 
 +
 |===
-|-v /dev/bus/usb:/dev/bus/usb --device-cgroup-rule "c 189: rmw"*  
+|-v /dev/bus/usb:/dev/bus/usb --device-cgroup-rule "c 189: rmw"*
 |===
 +
 
@@ -717,7 +809,7 @@ NOTE: _Parameters can be omitted if flashing the example app onto the hardware i
 +
 |===
 |*--rm* can be omitted if you do not want the container to be auto-removed when you exit the container shell session. +
-*-e RUNAS=$(id -u)* is needed to start the container session as the current user instead of root.  
+*-e RUNAS=$(id -u)* is needed to start the container session as the current user instead of root.
 |===
 
 . Update the nRF-Connect SDK to the most recent supported revision, by running the following command:
@@ -757,11 +849,11 @@ Perform the following procedure, regardless of the method used for setting up th
 
 +
 |===
-| *Target Name*            | *Compatible Kit*          
-| nRF52840 DK              | nrf52840dk_nrf52840       
-|  nRF5340 DK              | nrf5340dk_nrf5340_cpuapp  
-| nRF52840 Dongle          | nrf52840dongle_nrf52840   
-|  nRF7002 DK	           | nrf7002dk_nrf5340_cpuapp  
+| *Target Name*            | *Compatible Kit*
+| nRF52840 DK              | nrf52840dk_nrf52840
+|  nRF5340 DK              | nrf5340dk_nrf5340_cpuapp
+| nRF52840 Dongle          | nrf52840dongle_nrf52840
+|  nRF7002 DK	           | nrf7002dk_nrf5340_cpuapp
 |===
 
 . To flash the application to the device, use the west tool and run the following command from the example directory:
@@ -772,7 +864,7 @@ Perform the following procedure, regardless of the method used for setting up th
 |===
 
 
-. Connect the nRF52840-Dongle to the USB port of the Raspberry Pi having the latest TH. 
+. Connect the nRF52840-Dongle to the USB port of the Raspberry Pi having the latest TH.
 . For the Thread DUT, enable discoverable over Bluetooth LE (e.g., On nRF52840 DK: Press Button 4) and start the Thread Setup Test execution by referring to <<test-configuration, Section 8, Test Configuration>>.
 
 
@@ -794,9 +886,9 @@ Remember to set `PATH_TO_PAA_ROOTS` and substitute `<SDK SHA RECOMMENDED>`
 |`source python_env/bin/activate`
 |===
 
-* Run chip-repl:
+* Run matter-repl:
 |===
-|`python3 python_env/bin/chip-repl`
+|`python3 python_env/bin/matter-repl`
 |===
 
 
@@ -824,7 +916,7 @@ nrfutil install nrf5sdk-tools
 +
 image:images/img_10.png[]
 
-. To install the RCP firmware package on to the dongle, run the following command from the path where the firmware package was downloaded: 
+. To install the RCP firmware package on to the dongle, run the following command from the path where the firmware package was downloaded:
 
 +
 |===
@@ -842,7 +934,7 @@ The https://groups.csa-iot.org/wg/members-all/document/folder/2269[Nrfconnect Sa
 
 === Instructions to Flash SiLabs RCP
 
-Download the latest version of ot-rcp-binaries from the assets list of the latest release: https://github.com/SiliconLabs/matter/tags[Silicon Labs Matter GitHub] 
+Download the latest version of ot-rcp-binaries from the assets list of the latest release: https://github.com/SiliconLabs/matter/tags[Silicon Labs Matter GitHub]
 
 For detailed RCP firmware usage, refer to: https://www.silabs.com/documents/public/application-notes/an1256-using-sl-rcp-with-openthread-border-router.pdf[https://www.silabs.com/documents/public/application-notes/an1256-using-sl-rcp-with-openthread-border-router.pdf]
 
@@ -875,11 +967,11 @@ From CLI:
 
 TH spins the OTBR docker image automatically when executing the thread related test cases. Follow the steps below if the user wants to start OTBR with custom parameters. The user needs to generate a dataset for the custom OTBR. To generate hexadecimal code required for manual Thread pairing procedure, use the instructions below. +
 ssh the Raspberry-Pi in the User System using the command "*ssh ubuntu@IP_address*" +
-Example output for the above command to generate the dataset value: 
+Example output for the above command to generate the dataset value:
 |===
-|ubuntu@ubuntu:~*$* ./certification-tool/backend/test_collections/matter/scripts/OTBR/otbr_start.sh 
+|ubuntu@ubuntu:~*$* ./certification-tool/backend/test_collections/matter/scripts/OTBR/otbr_start.sh
 nrfconnect/otbr             9185bda                                       083c8472bc52   10 months ago   1.21GB +
-otbr image nrfconnect/otbr:9185bda already installed 
+otbr image nrfconnect/otbr:9185bda already installed
 54d868724cbb0c05c155983d5df5e9a3c1b61cbdafdf38eef2d8d1928f305a
 
 waiting 10 seconds to give the docker container enough time to start up... +
@@ -908,10 +1000,10 @@ Done +
 Param: 'dataset active -x 0e080000000000010000000300001935060004001fffe002085b35dead5b35beef0708fd902fb12bca8af9051000112233445566778899aabbccddeeff03043562333501025b350410cdfe3b9ac95afd445e659161b03b3c4a0c0402a0f7f8 +
 Done +
 Simple Dataset: +
-000300001902085b35dead5b35beef051000112233445566778899aabbccddeeff01025b35  
+000300001902085b35dead5b35beef051000112233445566778899aabbccddeeff01025b35
 |===
 
-If any issue occurs while using *otbr_start.sh*, follow the steps below to generate the dataset value manually: 
+If any issue occurs while using *otbr_start.sh*, follow the steps below to generate the dataset value manually:
 
 *On Terminal 1:*
 
@@ -937,7 +1029,7 @@ If any issue occurs while using *otbr_start.sh*, follow the steps below to gener
 |`sudo docker run -it --rm --privileged --network otbr -p 8080:80 --sysctl "net.ipv6.conf.all.disable_ipv6=0 net.ipv6.conf.all.forwarding=1" --name otbr -e NAT64=0 --volume /dev/ttyACM0:/dev/ttyACM0 nrfconnect/otbr:9185bda --radio-url spinel+hdlc+uart:///dev/ttyACM0`
 |===
 
-. Generate the Thread form for dataset by entering ‘<Raspberry-Pi IP>:8080’ on the user’s system browser. The OTBR form will be generated as shown below. 
+. Generate the Thread form for dataset by entering ‘<Raspberry-Pi IP>:8080’ on the user’s system browser. The OTBR form will be generated as shown below.
 . Click on the *Form* option and follow the sequence to generate the OTBR form.
 +
 image:images/img_13.png[]
@@ -1058,7 +1150,7 @@ This section provides a guide to enable Wi-Fi PAF commissioning tests.
 To enable the Wi-Fi PAF Commissioning tests, the following hardware and software components are required.
 
 ==== Hardware
-* *Raspberry Pi*: version [TBF: version number] permissible for CSA Matter Test Events, used as a platform for Test Harness(Pi 4 or higher).
+* *Raspberry Pi*: version permissible for CSA Matter Test Events, used as a platform for Test Harness(Pi 4 or higher).
 * *WLAN USB dongle*: compatible with the latest hostapd and
 wpa_supplicant, used as the Wi-Fi subsystem for transmitting and
 receiving Wi-Fi Un-Synchronized Discovery (USD) Public Action Frames
@@ -1084,19 +1176,8 @@ Test Harness and DUT.
 *** sudo apt install libnl-3-dev libnl-genl-3-dev
 *** make all
 
-[WARNING]
-====
-Known problem: The latest version of wpa_supplicant (v2.11 or later) may cause compatibility issues with certain Wi-Fi chipsets on Raspberry-Pi. This can result in the wireless connection intermittently dropping and reconnecting.
-
-Workaround to avoid the compatibility problem:
-Modify the boot configuration by adding the setting to `/boot/firmware/cmdline.txt` file:
-----
-console=serial0,115200 multipath=off dwc_otg.lpm_enable=0 console=tty1 root=LABEL=writable rootfstype=ext4 rootwait fixrtc brcmfmac.roamoff=1 brcmfmac.feature_disable=0x282000
-----
-====
-
-
 === Matter SDK
+* Matter 1.5 SDK is capable of Wi-Fi PAF commissioning
 * Regular build command with “chip_device_config_enable_wifipaf=true” (*This step is required only when building from the Master branch. If you're using the SDK provided in the apps folder of the TH, it's not needed*)
 * *Test commands on SDK as a Commissionee*:
 ** `$ ./chip-all-clusters-app --wifi --wifipaf freq_list=2437` // for 2.4GHz.
@@ -1145,12 +1226,6 @@ https://groups.csa-iot.org/wg/members-all/document/folder/2269 *or* https://docs
 * *Configure it as commissionee*:
 ** Configure the wpa_supplicant on the commissionee side using the
 provided example file named wpa_supplicant-def_comm.conf.
-** Stop the default Wi-Fi interface of raspberry-pi:
-*** sudo ifconfig wlan0 down
-*** sudo rmmod brcmfmac_wcc
-*** sudo rmmod brcmfmac
-** Stop the network manager:
-*** sudo service NetworkManager stop
 ** Run `./config_paf_env.sh comee` (*Make sure the “config_paf_env.sh” file from the “scripts” folder inside the provided ZIP archive is copied to the working directory before executing this command*).
 * *Configure it as commissioner*:
 ** Configure the wpa_supplicant on the commissionee side using the
@@ -1162,37 +1237,59 @@ provided example file named wpa_supplicant-def_comer.conf.
 ** The above script is just clearing the tmp files and removing the
 existing networks.
 
-[NOTE]
-It is required to run on commissionable device before running each test
+<<<
+== *NFC Setup*
 
-=== Additional Trouble Shooting Helpful Notes
-* *Commissionee failed to connect to AP in running PAF commissioning*:
+This section provides a guide to enable NFC commissioning tests. The NFC interface can be used to commission many kinds of Matter devices, including Thread, Wi-Fi, and Ethernet devices.
 
-**Symptom**: The messages are observed on the log:
-----
-[1749462967.571] [3575:3576] [DL] wpa_supplicant:PropertiesChanged:key:State -> 'scanning'
-[1749462969.775] [3575:3576] [DL] wpa_supplicant:PropertiesChanged:key:Scanning -> true
-[1749462983.051] [3575:3576] [DL] wpa_supplicant: network scan done
-[1749462983.544] [3575:3576] [DL] Network Found: (1a:27:f5:37:4e:c7) Signal:-49
-[1749462983.549] [3575:3576] [DL] Network Found: Chip5 (dc:ea:e7:34:f5:5e) Signal:-51...
+=== Components Needed for Tests
+To enable the NFC Commissioning tests, the following hardware and software components are required.
 
-[1749462983.999] [3575:3576] [DL] Network Found: GRL-Public (c6:06:c3:f9:5e:ce) Signal:-61
-[1749462984.004] [3575:3576] [DL] Network Found: Qualitrix (b0:19:21:73:ee:78) Signal:-77
-[1749462984.008] [3575:3575] [PAF]Network resource has been unavailable for a long time
-[1749462984.008] [3575:3575] [PAF]Shutdown PAF session (1, 0)
-----
+==== Hardware
 
-**Reason**: There is a protecion in SDK that it will stop sending PAF packets if the device is scanning. The period is of 15 seconds. If the environment is noisy, it's possible to hit the problem and fail to continue.
+[cols="1,3", options="header"]
+|===
+| Component | Note
 
-**Solution/WAR**: Need a cleaner environment. We will add a patch to make this period configurable in SDK.
+| *Raspberry Pi*
+| Version permissible for CSA Matter Test Events, used as a platform for Test Harness (Pi 4 or higher).
 
-* *Device failed to run after upgrading to v2.10 wpa_supplicant*:
+| https://www.st.com/en/evaluation-tools/stm32wba65i-dk1.html[STM32WBA65I-DK1]
+| STMicroelectronics's STM32WBA65I Discovery Kit (mother board)
 
-**Symptom**:Device can associate with AP, but fails at the last step if running Wi-Fi commissioning (including code-wifi, ble-wifi, wifipaf-wifi)
+| X-NUCLEO-NFC11B2
+| STMicroelectronics's NFC expansion board. +
+Note: This board is not yet available on the market. Please contact tania.guidet@st.com to obtain it.
 
-**Reason**:The problem will be observed if the `/etc/wpa_supplicant/wpa_supplicant.conf` file has the AP information.
+| HID OMNIKEY 5022 CL
+| NFC/RFID contactless reader. Connected to the Raspberry Pi via USB. Host uses the PC/SC driver to communicate with it. +
+This NFC Reader shall be used when testing NFC commissioning on a *DUT as Commissionee*.
 
-**Solution/WAR:ref**: Renew the commissionee environment before running the test in **WiFi PAF Commissioning Test Readme CSA Matter** file.
+|===
+
+In case of *'nfc-thread'* commissioning, an nRF52840 Dongle, from Nordic, should also be set up.
+
+The STM32WBA65I-DK1 and X-NUCLEO-NFC11A1-S boards form the reference design for *'nfc-thread'* tests for a *DUT as Commissioner*.
+
+==== Software
+
+STM32WBA65I-DK1 firmware will be available in Matter CSG release directory(https://groups.csa-iot.org/wg/matter-csg/document/folder/3023[matter-csg])
+
+This firmware can be flashed with the tool https://www.st.com/en/development-tools/stm32cubeprog.html[STM32 Cube Programmer].
+
+A virtual COM port connection can be setup either to check the Software version or to see the debug traces:
+
+* Speed: 921600
+* Data: 8 bit
+* Parity: None
+* Stop bits: 1 bit
+* Flow control: None
+
+=== Test Procedures and Test Commands
+
+Refer to "_Python Script Validation Procedure_" sheet of TestPlanVerification XLS document (e.g.: TC_DD_1_5, TC_DD_3_22, TC_DD_3_23, TC_DD_3_24).
+
+When running NFC Commissioning tests in Docker, refer to <<for-nfc-pairing>> for instructions about PC/SC smartcard daemon initialization.
 
 <<<
 == *Test Configuration*
@@ -1201,23 +1298,26 @@ It is required to run on commissionable device before running each test
 
 When the DUT is a client, refer to <<simulated-tests>>. The TH brings up the example accessory using chip-app1 binary. The user will be prompted to commission the device. Once the commissioning process is completed, proceed with the test execution.
 
-In the case where the DUT is a server, the TH spins up the controller, the DUT bring-up procedure should be completed and has to be paired with the controller. 
+In the case where the DUT is a server, the TH spins up the controller, the DUT bring-up procedure should be completed and has to be paired with the controller.
 
-Depending on the DUT’s network transport, any one of the appropriate pairing modes can be opted:
+Depending on the DUT's network transport, any one of the appropriate pairing modes can be opted:
 
-* *‘ble-wifi* ’ to complete the pairing for the DUT using BLE Wi-Fi 
-* *‘onnetwork’* to complete the pairing for the DUT that is already on the operational network (e.g., the device is already present on the same Ethernet network of the TH) connection
-* *‘ble-thread’* to complete the pairing for the Thread Device
+* *'ble-wifi'* to complete the pairing for the DUT using BLE Wi-Fi
+* *'onnetwork'* to complete the pairing for the DUT that is already on the operational network (e.g., the device is already present on the same Ethernet network of the TH) connection
+* *'ble-thread'* to complete the pairing for the Thread Device using BLE
+* *'thread-meshcop'* to complete the pairing for the Thread Device using Border Agent (without BLE)
+* *'nfc-thread'* to complete the pairing for the Thread Device using NFC Transport Layer (NTL).
+* *'nfc-wifi'* to complete the pairing for the Wi-Fi Device using NFC Transport Layer (NTL).
 
 Follow the sections below for the project configuration and test execution.
 
 ==== Projects Menu
-. Open a Web browser from the user's system and enter the IP address of the Raspberry Pi as given in <<th-installation-on-raspberry-pi, Section 4.1.2, TH Installation on Raspberry Pi>>. 
+. Open a Web browser from the user's system and enter the IP address of the Raspberry Pi as given in <<th-installation-on-raspberry-pi, Section 4.1.2, TH Installation on Raspberry Pi>>.
 . In case the TH user interface does not launch, refer to <<bringing-up-of-docker-containers-manually, Section 4.2.3, Bringing Up of Docker Containers Manually>>.
 +
 image:images/img_15.png[]
 
-. A new window will be opened as "Matter Test Harness". 
+. A new window will be opened as "Matter Test Harness".
 . Click on the *Create New Project* button. Enter the project name as "Test Project" and edit the Project Config settings to provide additional details.
 +
 
@@ -1285,13 +1385,13 @@ image:images/img_15.png[]
 }
 ----
 
-===== On Network Mode
-.. If the DUT is already present on the operational network (e.g., connected to the same network as the controller via Ethernet) then the user can select this mode. 
+==== On Network Mode
+.. If the DUT is already present on the operational network (e.g., connected to the same network as the controller via Ethernet) then the user can select this mode.
 .. Configure the DUT by providing details like discriminator, setup_code and set the *pairing_mode as "onnetwork"*.
 +
 [source,xml]
 ----
-"dut_config": {  
+"dut_config": {
   "discriminator": "3840",
   "setup_code": "20202021",
   "pairing_mode": "onnetwork",
@@ -1349,6 +1449,80 @@ NOTE: _The OTBR docker is contained in the TH and runs automatically upon the st
 +
 WARNING: _OTBR needs to be configured and running. TH will not start any OTBR docker containers._
 
+==== NFC Device Mode
+.. NFC-Thread Device Mode:
+Input the DUT configuration details like discriminator: "3840", setup_code:"20202021", and *pairing_mode as "nfc-thread"*.
++
+[source,xml]
+----
+"dut_config": {
+  "discriminator": "3840",
+  "setup_code": "20202021",
+  "pairing_mode": "nfc-thread",
+  "chip_timeout": null,
+  "chip_use_paa_certs": false,
+  "trace_log": true
+}
+----
+
+.. NFC-WiFi Device Mode:
+Input the DUT configuration details like discriminator: "3840", setup_code:"20202021", and *pairing_mode as "nfc-wifi"*.
++
+[source,xml]
+----
+"dut_config": {
+  "discriminator": "3840",
+  "setup_code": "20202021",
+  "pairing_mode": "nfc-wifi",
+  "chip_timeout": null,
+  "chip_use_paa_certs": false,
+  "trace_log": true
+}
+----
+
+.. To validate test cases using *nfc-thread* or *nfc-wifi*, the following parameter must be included in the test parameters, irrespective of the test case-specific arguments:
++
+[source,xml]
+----
+- "int-arg": "NFC_Reader_index:<value>"
+----
+e.g.,
++
+[source,xml]
+----
+"test_parameters": {
+  "int-arg": "NFC_Reader_index:0"
+}
+----
+NFC_Reader_index tells the test which NFC reader hardware to use (in case there are multiple NFC Readers), and must be set correctly based on the ATL setup. If there is only one NFC reader, its index is 0.
+
+
+==== Thread Pairing Mode (using Border Agent)
+.. Input the DUT configuration details like discriminator: "3840", setup_code:"20202021", and *pairing_mode as "thread-meshcop"*.
++
+[source,xml]
+----
+"dut_config": {
+  "discriminator": "3840",
+  "setup_code": "20202021",
+  "pairing_mode": "thread-meshcop",
+  "chip_timeout": null,
+  "chip_use_paa_certs": false,
+  "trace_log": true
+}
+----
+
+.. For Thread pairing mode, Border Agent parameters `operational_dataset_hex`, `ba_host` and `ba_port` are mandatory.
++
+[source,xml]
+----
+"thread": {
+  "operational_dataset_hex": "0e08000000000001000035060004001fffe00708fd5270f26ee4c02c041064dc641d7195508d7cd17ce22db711420c0402a0f7f8000300000f0102123402081111111122222222030444454d4f051000112233445566778899aabbccddeeff",
+  "ba_host": "192.168.1.100",
+  "ba_port": 5684
+}
+----
+
 ==== PAA Certificates
 For the case that the DUT requires a PAA certificate to perform a pairing operation, input "true" for the flag "chip_tool_use_paa_certs" to configure the Test-Harness to use them.
 [source,xml]
@@ -1362,6 +1536,7 @@ For the case that the DUT requires a PAA certificate to perform a pairing operat
   "trace_log": true
 }
 ----
+
 
 NOTE: Make sure to include the desired PAA certificates in the default path "*/var/paa-root-certs/*", in the Raspberry-Pi.
 
@@ -1417,8 +1592,8 @@ WARNING: This is an invalid configuration. TH will not accept both parameters se
 }
 ----
 
-On completion of the "network" and the "dut_config" configuration, select the *Update* and then *Create* button to create the Test Project. 
 
+On completion of the "network" and the "dut_config" configuration, select the *Update* and then *Create* button to create the Test Project.
 
 ==== Upload PICS File
 The newly created project will be listed under the Project details column. +
@@ -1452,7 +1627,7 @@ Example command to be used to launch the sample apps (e.g., all-cluster-app):
 
 Onnetwork: ./chip-all-clusters-app
 
-Thread: Enable discoverable over Bluetooth LE (ex: On nRF52840 DK: Press Button 4 to start BLE advertisements)  
+Thread: Enable discoverable over Bluetooth LE (ex: On nRF52840 DK: Press Button 4 to start BLE advertisements)
 |===
 +
 image:images/img_27.png[]
@@ -1484,6 +1659,98 @@ image:images/img_30.png[]
 
 Click on the "*Select theme*" option drop-down to select the different theme for the user interface.
 
+
+<<<
+== *OTA Image Build Procedure*
+
+=== Overview
+
+For validating OTA-related test cases using the Test Harness (TH), the `ota-requestor-app.ota` image is required. Currently, the Test Harness does not natively generate this image, and ATLs (Authorized Test Laboratories) must follow a manual OTA image build workflow.
+
+=== High-Level Workflow Steps
+
+ATLs should follow these steps when preparing for OTA-related test cases:
+
+. Identify that OTA-related test cases require an OTA requestor image (`ota-requestor-app.ota`).
+
+. Build the OTA Provider applications on the DUT/Reference platform.
+
+. Update the Software Version on the DUT (for example, from the default value 1 to a higher version such as 2) to enable OTA upgrade validation.
+
+. Generate the OTA image using the Matter `ota_image_tool` with the updated Software Version.
+
+. Provide/Copy the generated `ota-requestor-app.ota` image to the Test Harness `apps` directory.
+
+. Execute OTA-related test cases using the Test Harness.
+
+=== Reference Commands (Raspberry Pi Platform)
+
+NOTE: The commands below are provided as a reference implementation for RPi-based setups. Other platforms may require different build commands.
+
+==== Build OTA Provider
+
+[source,shell]
+----
+scripts/examples/gn_build_example.sh examples/ota-provider-app/linux out/debug chip_config_network_layer_ble=false
+----
+
+==== Update Software Version
+
+. Edit the configuration file to update the software version:
++
+[source,shell]
+----
+vi config/standalone/CHIPProjectConfig.h
+----
++
+Update the software version value from the default (e.g., 1) to a higher version (e.g., 2).
+
+==== Build OTA Requestor
+
+[source,shell]
+----
+scripts/examples/gn_build_example.sh examples/ota-requestor-app/linux out/debug chip_config_network_layer_ble=false
+----
+
+==== Generate OTA Image
+
+. Navigate to the output directory:
++
+[source,shell]
+----
+cd out/debug
+----
+
+. Run the OTA image tool to create the OTA image:
++
+[source,shell]
+----
+../../src/app/ota_image_tool.py create -v 0xDEAD -p 0xBEEF -vn 2 -vs "2.0" -da sha256 chip-ota-requestor-app ota-requestor-app.ota
+----
++
+Where:
+* `-v 0xDEAD`: Vendor ID
+* `-p 0xBEEF`: Product ID
+* `-vn 2`: Version Number
+* `-vs "2.0"`: Version String
+* `-da sha256`: Digest Algorithm
+* `chip-ota-requestor-app`: Input binary file
+* `ota-requestor-app.ota`: Output OTA image file
+
+==== Deploy OTA Image to Test Harness
+
+Copy the generated `ota-requestor-app.ota` image to the Test Harness apps/images directory:
+
+[source,shell]
+----
+cp ota-requestor-app.ota ~/apps
+----
+
+=== Important Notes
+
+* This procedure is **not documented** in earlier versions of the Test Harness User Guide, which may lead to confusion or inconsistent validation results across ATLs.
+* The software version specified in the OTA image must be higher than the version running on the DUT to trigger the OTA upgrade process.
+* Ensure that the Vendor ID and Product ID match your DUT configuration.
 
 <<<
 == *Test Case Execution*
@@ -1640,7 +1907,7 @@ Device-specific configuration is shown as shell variables. *PLEASE REPLACE THOSE
 * *$PATH_TO_PAA_ROOTS*: Path on host where PAA roots are located. Failure to provide a correct path will cause early failure during commissioning (e.g., /var/paa-root-certs/)
 * *$DISCRIMINATOR*: Long discriminator for DUT (e.g., 3840 for Linux examples)
 * *$SETUP_PASSCODE*: Setup passcode for DUT (e.g., 20202021 for Linux examples)
-* *$WIFI_SSID*: SSID of Wi-Fi AP to which to attempt connection 
+* *$WIFI_SSID*: SSID of Wi-Fi AP to which to attempt connection
 +
 WARNING: Currently, WIFI_SSID with special characters or empty spaces is not supported.
 * *$WIFI_PASSPHRASE*: Passphrase of Wi-Fi AP to which to attempt connection
@@ -1652,7 +1919,7 @@ WARNING: Currently, WIFI_SSID with special characters or empty spaces is not sup
 |===
 |Factory-reset the DUT
 
-`docker run -v $PATH_TO_PAA_ROOTS:/paa_roots -v /var/run/dbus/system_bus_socket:/var/run/dbus/system_bus_socket -v mapped_data_model:/root/python_testing/data_model -v /home/ubuntu/certification-tool/backend/test_collections/matter/sdk_tests/sdk_checkout/python_testing:/root/python_testing -v $(pwd):/launch_dir --privileged --network host -it connectedhomeip/chip-cert-bins:<SDK SHA RECOMMENDED>`
+`docker run -v $PATH_TO_PAA_ROOTS:/paa_roots -v /var/run/dbus/system_bus_socket:/var/run/dbus/system_bus_socket -v /home/ubuntu/certification-tool/backend/test_collections/matter/sdk_tests/sdk_checkout/python_testing:/root/python_testing -v $(pwd):/launch_dir --privileged --network host -it connectedhomeip/chip-cert-bins:<SDK SHA RECOMMENDED>`
 |===
 
 This downloads a Docker image with the test environment, and runs the environment including mounting the PAA trust store in */paa_roots* and mounts the local Avahi socket so that Avahi in the VM can run against its host.
@@ -1660,6 +1927,20 @@ This downloads a Docker image with the test environment, and runs the environmen
 * You will be shown a *#* root prompt
 
 NOTE: *The first time running docker will be SLOW (around 5 minutes) due to the need to download data. Every other run after that will be instant.*
+
+[[for-nfc-pairing]]
+===== For NFC Pairing
+
+The Test Harness implementation relies on a PC/SC (https://en.wikipedia.org/wiki/PC/SC[Personal Computer/Smart Card]) driver. In our setup, the NFC device used for commissioning is exposed and managed as a contactless smart card.
+
+A PC/SC reader must be connected to the Raspberry Pi.
+
+Once the Docker container is running, start the PC/SC smartcard daemon with 'Polkit authorization disabled' using the following command:
+|===
+|`pcscd --disable-polkit`
+|===
+
+The tests for NFC-based commissioning and NFC onboarding can then be executed.
 
 ===== For On-Network Pairing
 
@@ -1677,7 +1958,7 @@ To test this against a Linux target running on the same network as the host:
 
 
 [NOTE]
-==== 
+====
 * The $DISCRIMINATOR to be used will be 3842 in this example.
 * The *rm -f kvs1* is a factory reset.
 ====
@@ -1780,7 +2061,7 @@ The above example will be used to define the following arguments when running th
 
 ====== Test Parameters Examples
 
-Access the spreadsheet via the https://groups.csa-iot.org/wg/members-all/document/folder/2269[Verification Steps Document] and review the information provided. Based on this data, create the parameters set as requested. 
+Access the spreadsheet via the https://groups.csa-iot.org/wg/members-all/document/folder/2269[Verification Steps Document] and review the information provided. Based on this data, create the parameters set as requested.
 
 Below are some specific examples assembled from data obtained from the spreadsheet.
 
@@ -1851,36 +2132,491 @@ The TH is now storing the last commissioning information, so a prompt will prese
 
 image:images/img_67.png[SDK Python Tests - Reuse commissioning information  prompt]
 
+===== Python Test Logging Configuration
+The TH supports two modes for displaying Python test logs:
+
+* *Real-time logging*: Logs are displayed incrementally as each test step completes
+* *Batch logging (default)*: All logs are displayed at once after test execution completes
+
+To configure the logging mode, add or update the `ENABLE_REALTIME_PYTHON_TEST_LOGS` environment variable in the `.env` file located in the *root* of the certification-tool directory (i.e. `certification-tool/.env`). Note: do *not* edit `certification-tool/backend/.env` — that file is not used by the backend container:
+
+[source,shell]
+----
+# Enable real-time logging
+ENABLE_REALTIME_PYTHON_TEST_LOGS=True
+
+# Enable batch logging (default)
+ENABLE_REALTIME_PYTHON_TEST_LOGS=False
+----
+
+===== Container Logging Configuration
+The TH supports optional logging of container operations for debugging and troubleshooting purposes:
+
+* *Container logging disabled (default)*: No container operation logs are displayed
+* *Container logging enabled*: Displays detailed Docker container operations including creation, destruction, and file copy operations
+
+To configure container logging, add or update the `ENABLE_CONTAINER_LOGS` environment variable in the same `certification-tool/.env` file:
+
+[source,shell]
+----
+# Enable container logging
+ENABLE_CONTAINER_LOGS=True
+
+# Disable container logging (default)
+ENABLE_CONTAINER_LOGS=False
+----
+
+When enabled, the following container information will be logged:
+
+* Container creation and docker run commands
+* Container destruction (kill and remove commands)
+* File copy operations between host and container
+* Container execution commands
+
+NOTE: After changing any configuration in `./.env`, recreate the TH backend container to apply the new environment variables. Use `docker compose up` instead of `docker restart` — `docker restart` does not re-read the `.env` file:
+[source,shell]
+----
+docker compose up -d backend
+----
+
 <<<
-== *Platform certification configuration*
+[#matter-test-harness-cli]
+== *Matter Test-Harness Command Line Interface (CLI)*
+
+=== Overview
+
+The Matter Test-Harness Command Line Interface (CLI) provides a powerful command-line tool for automated test execution, project management, and test monitoring. The CLI has been significantly enhanced with improved usability features including colorized output, auto-completion, camera test support, and real-time execution monitoring.
+
+**Key Features:**
+
+* Enhanced output formatting with JSON/YAML options
+* Automatic Manual Pairing Code generation and display
+* Colorized terminal output for better readability
+* Command auto-completion support for faster workflow
+* Real-time test execution log monitoring
+* Camera test support for video verification tests
+* Node ID display in output for commissioning
+* Advanced project management capabilities
+* Improved PICS parser with better error handling
+* Abort command to stop running tests
+
+=== Quick-Start Guide
+
+This quick guide shows you how to start testing in 5 minutes:
+
+. Install the CLI:
++
+[source,bash]
+----
+cd ~/certification-tool/cli
+./scripts/th_cli_install.sh
+----
+
+Note: The CLI instalation script is automatically executed when setting up the Matter Test-Harness. If you have not set up the Test-Harness yet, refer to <<matter-test-harness-setup, Section 4, Matter Test-Harness Setup>>. Otherwise, you can run the above command to install or update the CLI whenever needed.
+
+. Configure connection to Test-Harness:
++
+Edit `~/certification-tool/cli/config.json`:
++
+[source,json]
+----
+{
+    "hostname": "192.168.1.100"
+}
+----
+
+. View available tests:
++
+[source,bash]
+----
+th-cli available-tests
+----
+
+. Run your first test:
++
+[source,bash]
+----
+th-cli run-tests --tests-list TC-ACE-1.1
+----
+
+. View test results:
++
+The output will display real-time logs with color-coded test results.
+
+=== Essential Commands
+
+==== Check Version and Status
+
+[source,bash]
+----
+# Display CLI and Test-Harness versions
+th-cli --version
+
+# Check Test-Harness runner status
+th-cli test-runner-status
+----
+
+==== View Available Tests
+
+[source,bash]
+----
+# List all tests (YAML format - default)
+th-cli available-tests
+
+# List tests with compact format
+th-cli available-tests --compact
+
+# List tests in JSON format
+th-cli available-tests --json
+
+# Filter by cluster
+th-cli available-tests --cluster ACE
+
+# Filter by test case
+th-cli available-tests | grep "TC-ACE"
+----
+
+==== Running Tests
+
+**Basic test execution:**
+
+[source,bash]
+----
+# Run single test
+th-cli run-tests --tests-list TC-ACE-1.1
+
+# Run multiple tests
+th-cli run-tests --tests-list TC-ACE-1.1,TC-ACE-1.2,TC-DRLK-1.1
+
+# Run with custom title
+th-cli run-tests --tests-list TC-ACE-1.1 --title "Door Lock Test Run"
+----
+
+**With configuration files:**
+
+[source,bash]
+----
+# Use custom project configuration file
+th-cli run-tests --tests-list TC-ACE-1.1 --config my_config.json
+
+# Use PICS configuration
+th-cli run-tests --tests-list TC-ACE-1.1 --pics-config-folder ./pics_files/
+
+# Assign to existing project
+th-cli run-tests --tests-list TC-ACE-1.1 --project-id 5
+----
+
+WARNING: If the *project-id* is not specified, a default project called *CLI Project Execution* will be used (*or* created if not presented) for the test run. Please make sure to use the appropriate project-id if you want to assign the test run to a specific project. +
+You can verify to the existing projects using the `th-cli project list` command, referred at <<project-management, Section 11.3.4, Project Management>>.
+
+==== Project Management
+
+**Create project:**
+
+[source,bash]
+----
+# Create new project with name
+th-cli project create --name "My DUT Tests"
+
+# Create with project configuration file
+th-cli project create --name "Door Lock Project" --config project_config.json
+----
+
+NOTE: *Tip:* +
+The project configuration structure from an existing project may be verified using the following CLI command `th-cli project list --id <PROJECT-ID> --json`. +
+That way it's possile to create new projects and update based on existing configurations.
+
+**List projects:**
+
+[source,bash]
+----
+# List all projects
+th-cli project list
+
+# List with JSON output
+th-cli project list --json
+
+# View specific project details
+th-cli project list --id 5
+----
+
+**Update and delete:**
+
+[source,bash]
+----
+# Update project configuration
+th-cli project update --id 5 --config updated_config.json
+
+# Delete project
+th-cli project delete --id 5
+----
+
+==== View Test Execution History
+
+[source,bash]
+----
+# List recent test runs
+th-cli test-run-execution
+
+# List all test runs
+th-cli test-run-execution --all
+
+# Sort by ascending order
+th-cli test-run-execution --sort asc
+----
+
+[#cli-download-logs]
+==== Download Test Execution Logs
+
+The `test-run-execution log` subcommand fetches logs for a specific test run execution.
+
+[source,bash]
+----
+# Print the flattened JSON log to stdout
+th-cli test-run-execution log --id 123
+
+# Save the flattened JSON log to a file
+th-cli test-run-execution log --id 123 --output-file run_123.log
+
+# Download a grouped log ZIP archive (one file per test case)
+th-cli test-run-execution log --id 123 --grouped
+
+# Download grouped logs to a specific file
+th-cli test-run-execution log --id 123 --grouped --output-file run_123_logs.zip
+----
+
+When `--output-file` is omitted with `--grouped`, the filename is derived automatically from the test run execution title (e.g. `MyTestRun.zip`).
+
+NOTE: The `--log` flag on the base `test-run-execution` command is deprecated. Use the `log` subcommand instead. The following syntax still works but will emit a deprecation warning:
+
+[source,bash]
+----
+# Deprecated: use `th-cli test-run-execution log --id 123` instead
+th-cli test-run-execution --log --id 123
+----  
+
+NOTE: The `--grouped` option downloads a `.zip` archive with logs organized by test case. For large runs the server may take several minutes to generate the archive.
+
+==== Abort Running Tests
+
+[source,bash]
+----
+# Stop current test execution
+th-cli abort-testing
+----
+
+=== Advanced Features
+
+==== Camera Test Support
+
+The CLI now supports video verification tests for camera-enabled devices. When running camera tests, the CLI automatically:
+
+* Captures live video stream from the DUT camera
+* Hosts a web interface for video verification on port 8999
+* Saves video recordings in MP4 format
+* Provides interactive prompts for test verification
+
+**Running Camera Tests:**
+
+[source,bash]
+----
+# Run a camera test case
+th-cli run-tests --tests-list TC-WEBRTC-1.1
+----
+
+**During Test Execution:**
+
+. The CLI will display a URL to access the video verification interface
+. Open the URL in a web browser (e.g., http://<your-ip>:8999)
+. View the live video stream from the camera
+. Respond to verification prompts through the web interface
+. Video recordings are automatically saved to `./videos/` directory
+
+**Camera Test Requirements:**
+
+* GStreamer must be installed (see <<matter-test-harness-cameras, Section 12, Matter Test Harness Cameras>>)
+* Chrome browser with "Insecure origins treated as secure" flag enabled for the TH IP
+* Network connectivity between CLI machine and Test-Harness
+
+NOTE: For detailed camera setup instructions, refer to <<matter-test-harness-cameras, Section 12, Matter Test Harness Cameras>> in this guide.
+
+==== Auto-Completion
+
+Enable command auto-completion for faster typing:
+
+[source,bash]
+----
+# The installation script sets this up automatically
+# Press TAB to auto-complete commands and options
+th-cli run-<TAB>  # Shows: run-tests
+----
+
+==== Colorized Output
+
+The CLI automatically colorizes output for better readability:
+
+* Green: Success/Pass
+* Red: Errors/Failures
+* Yellow: Warnings/Running
+* Blue: Information
+
+Disable colors if needed:
+
+[source,bash]
+----
+th-cli run-tests --tests-list TC-ACE-1.1 --no-color
+
+# Or use environment variable
+export TH_CLI_NO_COLOR=1
+th-cli run-tests --tests-list TC-ACE-1.1
+----
+
+==== Manual Test Cases
+
+When commissioning devices, the CLI now automatically displays the *Manual Pairing Code* along with the *Node ID* for easier device setup while executing Simulated Test Cases.
+
+=== Troubleshooting
+
+**Connection Issues:**
+
+[source,bash]
+----
+# Verify Test-Harness is reachable
+ping <raspberry-pi-ip>
+
+# Check th-cli configuration
+cat ~/certification-tool/cli/config.json
+----
+
+**Command Not Found:**
+
+[source,bash]
+----
+# Reinstall CLI
+cd ~/certification-tool/cli
+./scripts/th_cli_install.sh
+----
+
+**Test Execution Fails:**
+
+[source,bash]
+----
+# Check Test-Harness status
+th-cli test-runner-status
+
+# View execution logs
+th-cli test-run-execution log --id <execution-id>
+----
+
+**Camera Test Issues:**
+
+[source,bash]
+----
+# Verify GStreamer is installed
+gst-inspect-1.0 --version
+
+# Check if port 8999 is available
+netstat -an | grep 8999
+
+# Verify camera stream connectivity
+# Access http://<your-ip>:8999 in browser
+----
+
+
+<<<
+[#matter-test-harness-cameras]
+== *Matter Test Harness Cameras*
+
+Please follow the instructions below to use the camera feature in the Test Harness for certification purposes. The camera feature allows users to run test cases that require a camera stream, such as those related to video streaming or image capture.
+
+=== Prerequisites
+Before using the camera feature for the certification, please make sure there is a functional Raspberry Pi TH environment setup. Refer to the <<th-installation-on-raspberry-pi, Section 4.1.2, TH Installation on Raspberry Pi>> for the installation of the TH environment.
+
+==== Install GStreamer
+The camera feature requires GStreamer to be installed on the Raspberry Pi. Use the following linux command to install into the system:
+
+```shell
+sudo apt-get install \
+    libgstreamer1.0-dev \
+    libgstreamer-plugins-base1.0-dev \
+    libgstreamer-plugins-bad1.0-dev \
+    gstreamer1.0-plugins-base \
+    gstreamer1.0-plugins-good \
+    gstreamer1.0-plugins-bad \
+    gstreamer1.0-plugins-ugly \
+    gstreamer1.0-libav \
+    gstreamer1.0-tools \
+    gstreamer1.0-x \
+    gstreamer1.0-alsa \
+    gstreamer1.0-gl \
+    gstreamer1.0-gtk3 \
+    gstreamer1.0-qt5 \
+    gstreamer1.0-pulseaudio
+```
+
+==== Chrome Browser Configuration
+The camera feature requires the Chrome browser to be configured to allow a camera stream be shown in the video popup of the Test Harness. For that, it's necessary to enable the configuration flag “Insecure origins treated as secure” with an existing http address running the Test Harness application.
+
+Follow the following steps to enable this required flag:
+
+1. Open the Chrome browser and navigate to `chrome://flags/` in a new tab
+2. Search for `Insecure origins treated as secure` flag
+3. Enter the IP of the Test Harness into the field and enable the flag as shown in the image below
+4. Relaunch the Browser
+
+image:images/img_69.png[Chrome Browser - Insecure origins treated as secure flag]
+
+=== Setup Environment
+
+Auto-update and start Test Harness with the camera feature (`v2.14+fall2025` or later) with the following linux commands:
+
+- `cd ~/certification-tool`
+- `./scripts/ubuntu/auto-update.sh v2.14+fall2025`
+- `./scripts/start.sh`
+
+=== Running Camera Test Cases
+
+The Test Harness UI can be launched from a browser on any system on the same network by using the TH IP address. You can then use the camera application to run a camera-related Test Case.
+
+==== Running chip-camera-app with USB Camera
+
+The chip-camera-app located in the ~/apps directory can be executed using the following linux commands:
+
+1. `rm -rf /tmp/chip_*`
+2. `cd ~/apps`
+3. `./chip-camera-app` (use `./chip-camera-app --camera-deferred-offer` for the *TC_WEBRTC_1_3* test case)
+
+<<<
+== *Platform Certification Configuration*
 Platform certification is the process of validating that a hardware or software platform meets specific technical and compliance standards. Certifying the platform allows device manufacturers to build products using a pre-approved foundation, reducing development time and simplifying the certification process for their final products.
 
 === Selecting Test Cases Rules
-The Test Harness applies different rules to pre-select test cases depending on the type of certification being performed. The selection process considers specific flags present in the PICS file and, in certain cases—such as when PLAT.CERT or PLAT.CERT.TESTS.DONE PICS are present, it also evaluates the contents of additional configuration files, namely `generated-platform-cert-test-list.json` and `dmp-test-skip.xml`.
+The Test Harness applies different rules to pre-select test cases depending on the type of certification being performed. The selection process takes into account the presence of specific flags in the PICS file and, in some cases, the content of additional configuration files such as the `platform-test.json` and `dmp-test-skip.xml` files.
 
+The `dmp-test-skip.xml` file is provided by the PICS Tool, while the `platform-test.json` file is a static file that the Test Harness automatically downloads in the background from the SDK repository at the `connectedhomeip` project.
 
-The `dmp-test-skip.xml` file is provided by the PICS Tool, while the `generated-platform-cert-test-list.json` file is a static file maintained by the Platform team. The `generated-platform-cert-test-list.json` file can be found in the `./backend/test_collections/matter/platform-cert` directory.
 
 The three selection modes are:
 
 * *Platform Certification*
-* *Derived Product Certification* 
+* *Derived Product Certification*
 * *Full Product Certification*
-  
+
 Each mode is designed to ensure that only the relevant test cases are executed based on the scope and purpose of the certification.
 
 
 ==== Platform Certification
 In this mode, the product is being certified as a platform. The behavior is defined as follows:
 
-* The PICS file must contain the `PLAT.CERT` flag set to `True`.
+* The PICS file must contain the `PICS_PLAT_CERT` flag set to `True`.
 * The TH will pre-select test cases that:
-** Are explicitly listed in the `generated-platform-cert-test-list.json` file and also comply with the standard PICS rules.
+** Are explicitly listed in the new `platform-test.json` file.
+** Comply with the standard PICS rules.
 
 ==== Derived Product Certification
 This mode applies to products built on a previously certified platform. The behavior is:
 
-* The PICS file must contain the `PLAT.CERT.TESTS.DONE` flag set to `True`, along with any product-specific PICS entries.
+* The PICS file must contain the `PICS_PLAT_CERT_DONE` flag set to `True`, along with any product-specific PICS entries.
 * The TH will pre-select test cases that:
 ** Comply with the standard PICS rules.
 ** Are **not** listed in the `dmp-test-skip.xml` (DMP file).
@@ -1888,22 +2624,20 @@ This mode applies to products built on a previously certified platform. The beha
 ==== Full Product Certification
 This is the default mode when the product does not fall under the previous two categories:
 
-* The PICS file may contain any PICS entries, except `PLAT.CERT` and `PLAT.CERT.TESTS.DONE`.
+* The PICS file may contain any PICS entries, except `PICS_PLAT_CERT` and `PICS_PLAT_CERT_DONE`.
 * The TH will pre-select test cases according to standard PICS rules only.
 
 === Configuration Input
 
 On the project configuration screen, users can upload both the PICS file and the optional `dmp-test-skip.xml` file. Based on the content of the PICS file, the TH determines the certification mode by checking the values of the following flags:
 
-* `PLAT.CERT = True` → Platform Certification
-* `PLAT.CERT.TESTS.DONE = True` → Derived Product Certification
+* `MCORE.PLAT_CERT = True` → Platform Certification
+* `MCORE.PLAT_CERT_DONE = True` → Derived Product Certification
 * Neither flag set → Full Product Certification
-
-WARNING: PLAT.CERT and PLAT.CERT.TESTS.DONE are mutually exclusive. Please enable only one of them.
 
 This logic enables the TH to filter and pre-select the appropriate test cases based on the selected certification type.
 
-The `dmp-test-skip.xml` file can be uploaded either by dragging and dropping the file into the upload area or by manually selecting it. Note that only one DMP file is accepted at a time. If a second DMP file is uploaded, the previous configuration will be discarded. 
+The `dmp-test-skip.xml` file can be uploaded either by dragging and dropping the file into the upload area or by manually selecting it. Note that only one DMP file is accepted at a time. If a second DMP file is uploaded, the previous configuration will be discarded.
 
 [NOTE]
 ====

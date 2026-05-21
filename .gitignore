@@ -17,6 +17,8 @@ npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
 /logs
+output_logs/
+run_logs/
 
 # Editor directories and files
 .idea
