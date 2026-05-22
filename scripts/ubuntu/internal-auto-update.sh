@@ -16,6 +16,7 @@
  # limitations under the License.
 ROOT_DIR=$(realpath $(dirname "$0")/../..)
 SCRIPT_DIR="$ROOT_DIR/scripts"
+UBUNTU_SCRIPT_DIR="$SCRIPT_DIR/ubuntu"
 
 source "$SCRIPT_DIR/utils.sh"
 
@@ -24,24 +25,21 @@ print_start_of_script
 check_installation_prerequisites
 verify_return_code
 
-if [ $# != 1 ] || [ $1 = "--help" ]; then
-  echo "Usage:"
-  echo "./scripts/ubuntu/auto-update.sh <branch_name>"
-  echo "Mandatory: <branch_name>  branch name"
-  exit 1
-fi
-
 print_script_step "Stopping Containers"
 $SCRIPT_DIR/stop.sh
 
-BRANCH_NAME=$1
-
-print_script_step "Update Test Harness code"
-$SCRIPT_DIR/update-th-code.sh "$BRANCH_NAME"
+print_script_step "Check and fix Docker compatibility"
+$SCRIPT_DIR/fix-docker-compatibility.sh
 verify_return_code
+
+BRANCH_NAME=$1
 
 print_script_step "Update Test Harness Setup"
 $SCRIPT_DIR/update.sh "$BRANCH_NAME"
+verify_return_code
+
+print_script_step "Installing Additional Dependencies"
+$UBUNTU_SCRIPT_DIR/1.2-install-additional-dependencies.sh
 verify_return_code
 
 print_end_of_script

@@ -16,7 +16,9 @@
 services:
 
   proxy:
-    image: traefik:v2.2
+    image: traefik:v3.6.1
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
     ports:
       - "80:80"
       - "8090:8080"
@@ -26,6 +28,7 @@ services:
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
       - ./backend:/app
+      - ./traefik_dynamic.yml:/etc/traefik/traefik_dynamic.yml
     command:
       # Enable Docker in Traefik, so that it reads labels from Docker services
       - --providers.docker
@@ -34,6 +37,13 @@ services:
       - --providers.docker.constraints=Label(`traefik.constraint-label-stack`, `${TRAEFIK_TAG?Variable not set}`)
       # Do not expose all Docker services, only the ones explicitly exposed
       - --providers.docker.exposedbydefault=false
+      # Enable file provider for push-av server
+      - --providers.file.filename=/etc/traefik/traefik_dynamic.yml
+      # insecureSkipVerify is now configured per-service in traefik_dynamic.yml
+      # using serversTransports for push_av_server which uses a self-signed certificate
+      # Define entrypoints
+      - --entrypoints.web.address=:80
+      - --entrypoints.traefik.address=:8080
       # Enable the access log, with HTTP requests
       - --accesslog
       # Enable the Traefik log, for configurations and errors
@@ -68,11 +78,12 @@ services:
           - node.labels.${STACK_NAME?Variable not set}.app-db-data == true
 
   backend:
-    image: 'ghcr.io/project-chip/csa-certification-tool-backend:9bf5d9f'
+    image: 'ghcr.io/project-chip/csa-certification-tool-backend:2ac562d'
 
     ports:
       - "8888:8888"
       - "50000:50000"
+      - "5000:5000/udp" #To receive H264 packets from camera-controller
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
       - /usr/bin/docker:/usr/bin/docker
@@ -97,7 +108,7 @@ services:
       - traefik.http.services.${STACK_NAME?Variable not set}-backend.loadbalancer.server.port=80
 
   frontend:
-    image: 'ghcr.io/project-chip/csa-certification-tool-frontend:e3af91a'
+    image: 'ghcr.io/project-chip/csa-certification-tool-frontend:5be5818'
     build:
       context: ./frontend
     labels:

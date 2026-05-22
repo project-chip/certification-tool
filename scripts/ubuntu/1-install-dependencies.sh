@@ -39,8 +39,8 @@ readarray packagelist < "$UBUNTU_SCRIPT_DIR/package-dependency-list.txt"
 SAVEIFS=$IFS
 IFS=$(echo -en "\r")
 for package in ${packagelist[@]}; do
-  print_script_step "Instaling package: ${package[@]}"
-  sudo DEBIAN_FRONTEND=noninteractive apt-get satisfy ${package[@]} -y --allow-downgrades
+  print_script_step "Installing package: ${package[@]}"
+  sudo DEBIAN_FRONTEND=noninteractive apt-get satisfy "${package%%[[:space:]]}" -y --allow-downgrades
 done
 IFS=$SAVEIFS 
 
