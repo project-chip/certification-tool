@@ -150,7 +150,7 @@ endif::[]
 | 59          | 29-Apr-2026  | [GRL]Sumith D                       | * Updated Section 4.5.1 to include CLI usage guidance for side-loaded test cases, including the -custom                                                                            suffix.
 | 60          | 08-May-2026  | [Apple]Romulo Quidute               | * Updated Raspberry Pi prerequisites to specify minimum 8 GB RAM requirement.
 | 61          | 15-May-2026  | [Apple]Romulo Quidute               | * Added grouped log download documentation using CLI.
-| 62          | 20-May-2026  | [Apple]Romulo Quidute               | * Updated NFC Device Mode section to clarify that discriminator and setup_code are optional for nfc-thread and nfc-wifi pairing modes — onboarding data is read from the NFC tag at runtime. +
+| 62          | 20-May-2026  | [Apple]Romulo Quidute               | * Updated NFC Device Mode section to clarify that discriminator and setup_code are optional for nfc-thread, nfc-wifi and nfc-ethernet pairing modes — onboarding data is read from the NFC tag at runtime. +
                                                                      * Added note on qr-code behavior: ignored for commissioning tests under NFC modes, preserved for non-commissioning tests.
 |===
 
