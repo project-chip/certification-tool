@@ -1454,7 +1454,7 @@ WARNING: _OTBR needs to be configured and running. TH will not start any OTBR do
 
 ==== NFC Device Mode
 .. NFC-Thread Device Mode:
-Set *pairing_mode as "nfc-thread"*. The `discriminator` and `setup_code` fields are optional — onboarding data is read directly from the NFC tag at runtime and these values are ignored if present.
+Set *pairing_mode as "nfc-thread"*. The `discriminator` and `setup_code` fields are not required — onboarding data is read directly from the NFC tag at runtime and these values are ignored if present.
 +
 [source,xml]
 ----
@@ -1467,7 +1467,7 @@ Set *pairing_mode as "nfc-thread"*. The `discriminator` and `setup_code` fields 
 ----
 
 .. NFC-WiFi Device Mode:
-Set *pairing_mode as "nfc-wifi"*. The `discriminator` and `setup_code` fields are optional — onboarding data is read directly from the NFC tag at runtime and these values are ignored if present.
+Set *pairing_mode as "nfc-wifi"*. The `discriminator` and `setup_code` fields are not required — onboarding data is read directly from the NFC tag at runtime and these values are ignored if present.
 +
 [source,xml]
 ----
@@ -1480,7 +1480,7 @@ Set *pairing_mode as "nfc-wifi"*. The `discriminator` and `setup_code` fields ar
 ----
 
 .. NFC-Ethernet Device Mode:
-Set *pairing_mode as "nfc-ethernet"*. The `discriminator` and `setup_code` fields are optional — onboarding data is read directly from the NFC tag at runtime and these values are ignored if present.
+Set *pairing_mode as "nfc-ethernet"*. The `discriminator` and `setup_code` fields are not required — onboarding data is read directly from the NFC tag at runtime and these values are ignored if present.
 +
 [source,xml]
 ----
@@ -1510,7 +1510,7 @@ NFC_Reader_index tells the test which NFC reader hardware to use (in case there 
 
 .. `qr-code` in test parameters:
 +
-For *commissioning* test cases under NFC pairing modes, the `qr-code` field in `test_parameters` is automatically ignored — onboarding data comes from the NFC tag, not from a QR code. Including it will not cause an error but it will not be used.
+For *commissioning* test cases under NFC pairing modes, the `qr-code` field in `test_parameters` is automatically ignored — onboarding data comes from the NFC tag, not from a QR code. Including it will not cause an error, but it will be ignored.
 +
 For *non-commissioning* test cases (e.g., `TC_DD_1_5`), `qr-code` is a legitimate test input and must be preserved. It is passed to the test as-is and is not stripped.
 
