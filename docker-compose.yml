@@ -102,8 +102,8 @@ services:
     deploy:
       resources:
         limits:
-          cpus: '2.5'        # cap at 2.5 cores, leave 1.5 for OS + other services
-          memory: 1500M
+          cpus: '${BACKEND_CPU_LIMIT:-2.5}'        # If no environment variables is provided, cap at 2.5 cores
+          memory: '${BACKEND_MEMORY_LIMIT:-2000M}' # If no environment variables is provided, cap at 2.0 GB
     command: bash -c "./prestart.sh; python3 ./app/main.py"
     labels:
       - traefik.enable=true
