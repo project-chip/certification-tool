@@ -79,7 +79,6 @@ services:
 
   backend:
     image: 'ghcr.io/project-chip/csa-certification-tool-backend:2ac562d'
-
     ports:
       - "8888:8888"
       - "50000:50000"
@@ -100,6 +99,11 @@ services:
     privileged: true
     build:
       context: ./backend
+    deploy:
+      resources:
+        limits:
+          cpus: '2.5'        # cap at 2.5 cores, leave 1.5 for OS + other services
+          memory: 1500M
     command: bash -c "./prestart.sh; python3 ./app/main.py"
     labels:
       - traefik.enable=true
