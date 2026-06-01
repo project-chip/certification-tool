@@ -36,26 +36,36 @@ BUILD_FRONTEND=false
 set +e
 
 print_script_step "Downloading backend Docker image"
+BACKEND_ERR=$(mktemp)
 newgrp docker << END
-docker compose pull backend 2>/dev/null
+docker compose pull backend 2>$BACKEND_ERR
 END
 if [ $? -ne 0 ]; then
     BUILD_BACKEND=true
-    printf "\n  NOTE: Pre-built backend image not found in the registry for this branch/tag.\n"
-    printf "  Pre-built images are not published for all branches and releases.\n"
-    printf "  The image will be built locally instead.\n\n"
+    if grep -q -E "manifest unknown|not found" "$BACKEND_ERR"; then
+        printf "\n  NOTE: Pre-built backend image not found in the registry for this branch/tag.\n"
+        printf "  The image will be built locally instead.\n\n"
+    else
+        cat "$BACKEND_ERR" >&2
+    fi
 fi
+rm -f "$BACKEND_ERR"
 
 print_script_step "Downloading frontend Docker image"
+FRONTEND_ERR=$(mktemp)
 newgrp docker << END
-docker compose pull frontend 2>/dev/null
+docker compose pull frontend 2>$FRONTEND_ERR
 END
 if [ $? -ne 0 ]; then
     BUILD_FRONTEND=true
-    printf "\n  NOTE: Pre-built frontend image not found in the registry for this branch/tag.\n"
-    printf "  Pre-built images are not published for all branches and releases.\n"
-    printf "  The image will be built locally instead.\n\n"
+    if grep -q -E "manifest unknown|not found" "$FRONTEND_ERR"; then
+        printf "\n  NOTE: Pre-built frontend image not found in the registry for this branch/tag.\n"
+        printf "  The image will be built locally instead.\n\n"
+    else
+        cat "$FRONTEND_ERR" >&2
+    fi
 fi
+rm -f "$FRONTEND_ERR"
 set -e
 
 print_script_step "Downloading proxy and db Docker images"
