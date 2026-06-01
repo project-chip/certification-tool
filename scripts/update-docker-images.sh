@@ -37,18 +37,24 @@ set +e
 
 print_script_step "Downloading backend Docker image"
 newgrp docker << END
-docker compose pull backend
+docker compose pull backend 2>/dev/null
 END
 if [ $? -ne 0 ]; then
     BUILD_BACKEND=true
+    printf "\n  NOTE: Pre-built backend image not found in the registry for this branch/tag.\n"
+    printf "  Pre-built images are not published for all branches and releases.\n"
+    printf "  The image will be built locally instead.\n\n"
 fi
 
 print_script_step "Downloading frontend Docker image"
 newgrp docker << END
-docker compose pull frontend
+docker compose pull frontend 2>/dev/null
 END
 if [ $? -ne 0 ]; then
     BUILD_FRONTEND=true
+    printf "\n  NOTE: Pre-built frontend image not found in the registry for this branch/tag.\n"
+    printf "  Pre-built images are not published for all branches and releases.\n"
+    printf "  The image will be built locally instead.\n\n"
 fi
 set -e
 
@@ -59,12 +65,14 @@ END
 
 # In case of failure, the images will be built locally
 if $BUILD_BACKEND; then
+    print_script_step "Building backend Docker image locally"
 newgrp docker << END
     $ROOT_DIR/backend/scripts/build-docker-image.sh
 END
 fi
 
 if $BUILD_FRONTEND; then
+    print_script_step "Building frontend Docker image locally"
 newgrp docker << END
     $ROOT_DIR/frontend/scripts/build-docker-image.sh
 END
