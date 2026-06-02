@@ -73,9 +73,11 @@ if version_greater_than "$CURRENT_VERSION" "28.9.9"; then
     # Install Docker version using the same logic as the working fix
     print_script_step "Installing latest Docker 28.x"
 
-    # Match the 5:28. prefix explicitly so future major versions (e.g. 30.x)
-    # are not silently picked up as a downgrade target.
-    DOCKER_VERSION=$(apt-cache madison docker-ce | awk '$3 ~ /^5:28\./ {print $3; exit}')
+    # Match the 28. major version explicitly so future major versions
+    # (e.g. 30.x) are not silently picked up as a downgrade target.
+    # The Debian/Ubuntu package epoch (e.g. 5:) is treated as optional so
+    # mirrors or custom repositories that omit it still match.
+    DOCKER_VERSION=$(apt-cache madison docker-ce | awk '$3 ~ /^([0-9]+:)?28\./ {print $3; exit}')
 
     if [ -n "$DOCKER_VERSION" ]; then
         print_script_step "Installing docker-ce version $DOCKER_VERSION"
