@@ -71,16 +71,17 @@ if version_greater_than "$CURRENT_VERSION" "28.9.9"; then
     sudo apt-get update -y
 
     # Install Docker version using the same logic as the working fix
-    print_script_step "Installing Docker (excluding version 29.x)"
+    print_script_step "Installing latest Docker 28.x"
 
-    # Get the latest version that is not 29.x (same logic as working fix)
-    DOCKER_VERSION=$(apt-cache madison docker-ce | awk '$3 !~ /^5:29\./ {print $3; exit}')
+    # Match the 5:28. prefix explicitly so future major versions (e.g. 30.x)
+    # are not silently picked up as a downgrade target.
+    DOCKER_VERSION=$(apt-cache madison docker-ce | awk '$3 ~ /^5:28\./ {print $3; exit}')
 
     if [ -n "$DOCKER_VERSION" ]; then
-        print_script_step "Installing docker-ce version $DOCKER_VERSION (excluding 29.x)"
+        print_script_step "Installing docker-ce version $DOCKER_VERSION"
         sudo DEBIAN_FRONTEND=noninteractive apt-get install -y --allow-downgrades docker-ce=$DOCKER_VERSION docker-ce-cli=$DOCKER_VERSION containerd.io docker-buildx-plugin docker-compose-plugin
     else
-        echo "ERROR: No suitable docker-ce version found (excluding 29.x)"
+        echo "ERROR: No suitable docker-ce 28.x version found"
         exit 1
     fi
 
