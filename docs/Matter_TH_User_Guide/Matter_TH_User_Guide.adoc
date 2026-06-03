@@ -513,7 +513,7 @@ To Side Load any desired script, follow the steps below:
 ----
  Example Command:
 
-  th-cli run-tests --tests-list TC-JFADMIN-1_1-custom --project-id <id> --config my_config.json --title <Name of the test run execution>  --pics-config-folder ./pics_files/
+  th-cli run-tests --tests-list TC-JFADMIN-1.1-custom --project-id <id> --config my_config.json --title <Name of the test run execution>  --pics-config-folder ./pics_files/
 ----
 This requirement applies to all test cases placed in the *custom* YAML or Python directories.
 
