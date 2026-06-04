@@ -1,72 +1,111 @@
 #!/usr/bin/env bash
+set -euo pipefail
 # pics_to_xml.sh — Convert PICS log data to XML PICS files.
 #
 # Accepts two input formats:
 #   1. Python dict log:  PICSItem(number='KEY', enabled=True/False)
 #   2. KEY=0/1 lines (raw or inside an "echo '...'" block)
 #
+# Surrounding log noise ("Sending command to SDK container:", timestamps, etc.)
+# is ignored — only valid PICS lines are extracted.
+#
 # Usage:
 #   ./pics_to_xml.sh <input_file> [output_dir]
-#   ./pics_to_xml.sh --text "MCORE.S=1\nMCORE.C=0" [-o output_dir]
+#   ./pics_to_xml.sh --text <any pasted text> [-o output_dir]
+#
+# With --text, paste the log snippet directly — no quoting needed.
+# Everything after --text up to (but not including) -o/--output-dir is the text.
+#
+# Examples:
+#   ./pics_to_xml.sh run.log ./out
+#   ./pics_to_xml.sh --text AVSM.S=1 AVSM.C=0 AVSM.S.A0000=1 -o ./out
+#   ./pics_to_xml.sh --text Sending command ... echo 'AVSM.S=1 ...' -o ./out
 #
 # Options:
-#   --text "..."   Inline PICS text instead of a file (use \n to separate lines)
-#   -o <dir>       Output directory (default: alongside input file, or cwd for --text)
+#   --text       Everything after this flag (until -o) is treated as PICS text
+#   -o <dir>     Output directory (default: alongside input file, or cwd for --text)
 #
 # One XML file is produced per cluster prefix (MCORE, JFADMIN, JFDS, ...).
 
 usage() {
     echo "Usage: $0 <input_file> [output_dir]"
-    echo "       $0 --text \"KEY=0/1 ...\" [-o output_dir]"
+    echo "       $0 --text <pasted log text> [-o output_dir]"
     exit 1
 }
 
-[ $# -eq 0 ] && usage
+if [ $# -eq 0 ]; then
+    usage
+fi
 
 # ---------------------------------------------------------------------------
 # Argument parsing
 # ---------------------------------------------------------------------------
 TEXT_MODE=0
-INLINE_TEXT=""
 INPUT_FILE=""
 OUTPUT_DIR=""
+TEXT_ARGS=()
 
-while [ $# -gt 0 ]; do
-    case "$1" in
-        --text)
-            [ -z "$2" ] && { echo "ERROR: --text requires a value" >&2; exit 1; }
-            TEXT_MODE=1
-            INLINE_TEXT="$2"
-            shift 2
-            ;;
-        -o|--output-dir)
-            [ -z "$2" ] && { echo "ERROR: -o requires a value" >&2; exit 1; }
-            OUTPUT_DIR="$2"
-            shift 2
-            ;;
-        -*)
-            echo "ERROR: Unknown option: $1" >&2; usage
-            ;;
-        *)
-            if [ -z "$INPUT_FILE" ]; then
-                INPUT_FILE="$1"
-            elif [ -z "$OUTPUT_DIR" ]; then
-                OUTPUT_DIR="$1"   # positional second arg kept for back-compat
-            else
-                echo "ERROR: Unexpected argument: $1" >&2; usage
-            fi
-            shift
-            ;;
-    esac
-done
-
-if [ "$TEXT_MODE" -eq 0 ]; then
-    [ -z "$INPUT_FILE" ] && usage
-    [ ! -f "$INPUT_FILE" ] && { echo "ERROR: File not found: $INPUT_FILE" >&2; exit 1; }
-    OUTPUT_DIR="${OUTPUT_DIR:-$(dirname "$INPUT_FILE")}"
-else
-    [ -n "$INPUT_FILE" ] && { echo "ERROR: --text and a file path are mutually exclusive" >&2; exit 1; }
+    # First pass: check if --text mode
+if [ "$1" = "--text" ]; then
+    TEXT_MODE=1
+    shift
+    # Collect everything into TEXT_ARGS until we hit -o / --output-dir
+    while [ $# -gt 0 ]; do
+        case "$1" in
+            -o|--output-dir)
+                if [ $# -lt 2 ]; then
+                    echo "ERROR: -o requires a value" >&2
+                    exit 1
+                fi
+                OUTPUT_DIR="$2"
+                shift 2
+                ;;
+            *)
+                TEXT_ARGS+=("$1")
+                shift
+                ;;
+        esac
+    done
+    # Rejoin all collected tokens with newlines so KEY=1 words become lines
+    INLINE_TEXT=$(printf '%s\n' "${TEXT_ARGS[@]}")
     OUTPUT_DIR="${OUTPUT_DIR:-$(pwd)}"
+else
+    # File mode
+    while [ $# -gt 0 ]; do
+        case "$1" in
+            -o|--output-dir)
+                if [ $# -lt 2 ]; then
+                    echo "ERROR: -o requires a value" >&2
+                    exit 1
+                fi
+                OUTPUT_DIR="$2"
+                shift 2
+                ;;
+            -*)
+                echo "ERROR: Unknown option: $1" >&2
+                usage
+                ;;
+            *)
+                if [ -z "$INPUT_FILE" ]; then
+                    INPUT_FILE="$1"
+                elif [ -z "$OUTPUT_DIR" ]; then
+                    OUTPUT_DIR="$1"   # positional second arg kept for back-compat
+                else
+                    echo "ERROR: Unexpected argument: $1" >&2
+                    usage
+                fi
+                shift
+                ;;
+        esac
+    done
+    if [ -z "$INPUT_FILE" ]; then
+        usage
+    fi
+    if [ ! -f "$INPUT_FILE" ]; then
+        echo "ERROR: File not found: $INPUT_FILE" >&2
+        exit 1
+    fi
+    OUTPUT_DIR="${OUTPUT_DIR:-$(dirname "$INPUT_FILE")}"
 fi
 
 mkdir -p "$OUTPUT_DIR"
@@ -76,11 +115,10 @@ SRCFILE=$(mktemp)
 trap 'rm -f "$TMPFILE" "$SRCFILE"' EXIT
 
 # ---------------------------------------------------------------------------
-# Populate SRCFILE from either --text or the input file
+# Populate SRCFILE
 # ---------------------------------------------------------------------------
 if [ "$TEXT_MODE" -eq 1 ]; then
-    # Interpret \n escape sequences so the user can pass multi-line text inline
-    printf '%b' "$INLINE_TEXT" > "$SRCFILE"
+    printf '%s\n' "$INLINE_TEXT" > "$SRCFILE"
 else
     cp "$INPUT_FILE" "$SRCFILE"
 fi
@@ -88,7 +126,7 @@ fi
 # ---------------------------------------------------------------------------
 # Parse into TMPFILE: one line per item  KEY=true|false
 # ---------------------------------------------------------------------------
-if grep -q "PICSItem(" "$SRCFILE"; then
+if grep -q "PICSItem(" "$SRCFILE" 2>/dev/null; then
     # Python-dict format: PICSItem(number='KEY', enabled=True/False)
     perl -nle '
         while (/PICSItem\(number='"'"'([^'"'"']+)'"'"',\s*enabled=(True|False)\)/g) {
@@ -97,13 +135,16 @@ if grep -q "PICSItem(" "$SRCFILE"; then
         }
     ' "$SRCFILE" > "$TMPFILE"
 else
-    # KEY=0/1 format
+    # KEY=0/1 format — extract from anywhere in the text, ignoring surrounding noise
     grep -E '^[A-Za-z0-9_.]+=[01]$' "$SRCFILE" \
         | awk -F= '{print $1 "=" ($2=="1" ? "true" : "false")}' \
-        > "$TMPFILE"
+        > "$TMPFILE" || true
 fi
 
-[ -s "$TMPFILE" ] || { echo "ERROR: No PICS items found in input." >&2; exit 1; }
+if [ ! -s "$TMPFILE" ]; then
+    echo "ERROR: No PICS items found in input." >&2
+    exit 1
+fi
 
 # ---------------------------------------------------------------------------
 # Use awk to build each cluster's XML
