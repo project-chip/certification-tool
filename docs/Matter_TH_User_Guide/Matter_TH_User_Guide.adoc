@@ -17,7 +17,7 @@
 
 :ubuntu-version: 24.04.x
 :ubuntu-description: Ubuntu Server {ubuntu-version} LTS (64-bit)
-:th-version: v2.15+spring2026
+:th-version: v2.16-beta1+spring2026
 = Matter Test-Harness User Manual: {th-version}
 ifdef::env-github[]
 :tip-caption: :bulb:
@@ -53,7 +53,8 @@ endif::[]
 | Matter 1.4.2     | v2.13+summer2025   | N/A                                                                                         | https://groups.csa-iot.org/wg/members-all/document/folder/4651[Causeway Link] | 1b2b3fd      | To install, use the tag "v2.13+summer2025" in the instructions of <<fresh_install>>
 | Matter 1.5       | v2.14+fall2025     | N/A                                                                                         | https://groups.csa-iot.org/wg/members-all/document/folder/4825[Causeway Link] | ca9d111      | To install, use the tag "v2.14+fall2025" in the instructions of <<fresh_install>>
 | Matter 1.5.1     | v2.14.1+winter2026       | N/A                                                                                         | https://groups.csa-iot.org/wg/members-all/document/folder/5210[Causeway Link] | e9ecfc2      | To install, use the branch "v2.14.1+winter2026" in the instructions of <<fresh_install>>
-| Matter 1.6     | {th-version}       | N/A                                                                                         | https://groups.csa-iot.org/wg/members-all/document/folder/2269[Causeway Link] | ad9cf71      | To install, use the branch "{th-version}" in the instructions of <<fresh_install>>
+| Matter 1.6     | v2.15+spring2026     | N/A                                                                                         | https://groups.csa-iot.org/wg/members-all/document/folder/2269[Causeway Link] | b91b83f      | To install, use the branch "v2.15+spring2026" in the instructions of <<fresh_install>>
+| Matter 1.7     | {th-version}       | N/A                                                                                         | TBD | TBD      | To install, use the branch "{th-version}" in the instructions of <<fresh_install>>
 |===
 
 
@@ -155,6 +156,7 @@ endif::[]
 | 63          | 20-May-2026  | [Apple]Romulo Quidute               | * Renamed Python Testing Suite categories for clarity: "Python Testing Suite" is now "Python Testing Suite - Auto commissioning" and "Python Testing Suite - No commissioning" is now "Python Testing Suite - No auto commissioning".
 | 64          | 02-Jun-2026  | [GRL]Kishok G                       | * Updated the all members causeway location url in reference section. +
                                                                      * Modified the specific release url to Matter Specifications and Test Plans(home path)
+| 65          | 15-Jun-2026  | [Apple]Romulo Quidute               | * Added TC Parameters Mapping File (`--tc-params-file` / `-m`) documentation in the CLI section.
 |===
 
 <<<
@@ -2329,6 +2331,48 @@ th-cli run-tests --tests-list TC-ACE-1.1 --project-id 5
 
 WARNING: If the *project-id* is not specified, a default project called *CLI Project Execution* will be used (*or* created if not presented) for the test run. Please make sure to use the appropriate project-id if you want to assign the test run to a specific project. +
 You can verify to the existing projects using the `th-cli project list` command, referred at <<project-management, Section 11.3.4, Project Management>>.
+
+==== TC Parameters Mapping File (`--tc-params-file` / `-m`)
+
+When running multiple test cases that each require different PIXIT parameters (e.g. `endpoint`, `int-arg`, `string-arg`), you can consolidate all parameter definitions into a single JSON mapping file instead of manually updating the project configuration before each run.
+
+The mapping file is a JSON object whose keys are TC IDs and whose values are `test_parameters` dicts, using the same format accepted by the project configuration.
+
+**Mapping file format:**
+
+[source,json]
+----
+{
+  "TC-ACE-1.1":      { "int-arg": "PIXIT.ACE.APPENDPOINT:1", "timeout": "300" },
+  "TC-ACE-1.3":      { "endpoint": "1" },
+  "TC-MCORE-FS-1.3": { "string-arg": "PIXIT.MCORE.ENDPOINT:3" },
+  "TC-AVSM-2.10":    { "int-arg": "PIXIT.AVSM.ENDPOINT:1 PIXIT.AVSM.STREAMTYPE:1" }
+}
+----
+
+**Usage:**
+
+[source,bash]
+----
+# Run a single test, supplying its parameters from the mapping file
+th-cli run-tests --tests-list TC-ACE-1.3 --project-id 10 -m mapping_tc.json
+
+# Run multiple tests; only the entries present in the mapping file are applied
+th-cli run-tests --tests-list TC-ACE-1.1,TC-ACE-1.3,TC-MCORE-FS-1.3 -m mapping_tc.json
+----
+
+**Parameter priority (lowest → highest):**
+
+[cols="1,3", options="header"]
+|===
+| Source | Description
+| Project configuration | Values stored in the TH project (persistent baseline)
+| `--tc-params-file` | Parameters from the mapping file — override the project config for matched TC IDs
+| `--config` file | Execution-only config file passed via `--config` — overrides the mapping file
+| `-- inline args` | Arguments passed after `--` on the command line — always take precedence
+|===
+
+This means the mapping file values *win over the project config* but are still overridden by an explicit `--config` file or inline `--` arguments, giving you full flexibility to fine-tune individual runs without touching the project.
 
 ==== Project Management
 
