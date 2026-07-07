@@ -157,6 +157,7 @@ endif::[]
 | 64          | 02-Jun-2026  | [GRL]Kishok G                       | * Updated the all members causeway location url in reference section. +
                                                                      * Modified the specific release url to Matter Specifications and Test Plans(home path)
 | 65          | 15-Jun-2026  | [Apple]Romulo Quidute               | * Added TC Parameters Mapping File (`--tc-params-file` / `-m`) documentation in the CLI section.
+| 66          | 07-Jul-2026  | [Apple]Romulo Quidute               | * Added Download project logs documentation in the CLI section.
 |===
 
 <<<
