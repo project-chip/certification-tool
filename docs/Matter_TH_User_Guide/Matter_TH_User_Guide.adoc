@@ -157,6 +157,7 @@ endif::[]
 | 64          | 02-Jun-2026  | [GRL]Kishok G                       | * Updated the all members causeway location url in reference section. +
                                                                      * Modified the specific release url to Matter Specifications and Test Plans(home path)
 | 65          | 15-Jun-2026  | [Apple]Romulo Quidute               | * Added TC Parameters Mapping File (`--tc-params-file` / `-m`) documentation in the CLI section.
+| 66          | 07-Jul-2026  | [Apple]Romulo Quidute               | * Added Download project logs documentation in the CLI section.
 |===
 
 <<<
@@ -2415,6 +2416,23 @@ th-cli project update --id 5 --config updated_config.json
 # Delete project
 th-cli project delete --id 5
 ----
+
+**Download project logs:**
+
+[source,bash]
+----
+# Download all logs for a project as a flat zip archive (one .log file per test run execution)
+th-cli project logs --id 5
+
+# Download logs grouped by test case state (one inner .zip per execution)
+th-cli project logs --id 5 --grouped
+
+# Save to a specific output file instead of the default '<project-name>-logs.zip'
+th-cli project logs --id 5 --output-file project5-logs.zip
+----
+
+NOTE: This command downloads a single zip archive containing the logs for *every* test run execution belonging to the project, which can take a while for projects with many or large executions — the CLI prints a notice while the download is in progress. +
+If the project has no test run executions yet, the command reports that there is nothing to download instead of writing an empty zip file.
 
 ==== View Test Execution History
 
