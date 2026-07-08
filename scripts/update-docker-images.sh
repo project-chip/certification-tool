@@ -38,7 +38,7 @@ set +e
 print_script_step "Downloading backend Docker image"
 BACKEND_ERR=$(mktemp)
 newgrp docker << END
-docker compose pull backend 2>&1 | tee "$BACKEND_ERR" >&2; exit \${PIPESTATUS[0]}
+bash -c 'set -o pipefail; docker compose pull backend 2>&1 | tee "$BACKEND_ERR" >&2'
 END
 if [ $? -ne 0 ]; then
     BUILD_BACKEND=true
@@ -54,7 +54,7 @@ rm -f "$BACKEND_ERR"
 print_script_step "Downloading frontend Docker image"
 FRONTEND_ERR=$(mktemp)
 newgrp docker << END
-docker compose pull frontend 2>&1 | tee "$FRONTEND_ERR" >&2; exit \${PIPESTATUS[0]}
+bash -c 'set -o pipefail; docker compose pull frontend 2>&1 | tee "$FRONTEND_ERR" >&2'
 END
 if [ $? -ne 0 ]; then
     BUILD_FRONTEND=true
