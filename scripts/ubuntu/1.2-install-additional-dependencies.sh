@@ -59,14 +59,8 @@ sudo DEBIAN_FRONTEND=noninteractive apt-get install --only-upgrade -y \
     libselinux1-dev \
     zlib1g-dev || true
 
-readarray -t packagelist < "$UBUNTU_SCRIPT_DIR/additional-dependency-list.txt"
+print_script_step "Installing additional packages"
 
-for package in "${packagelist[@]}"; do
-  [ -z "$package" ] && continue
-
-  print_script_step "Installing additional package: $package"
-
-  sudo DEBIAN_FRONTEND=noninteractive apt-get satisfy "$package" -y --allow-downgrades
-done
+sudo DEBIAN_FRONTEND=noninteractive apt-get --no-upgrade satisfy "$(paste -sd, $UBUNTU_SCRIPT_DIR/additional-dependency-list.txt)" -y --allow-downgrades
 
 print_end_of_script

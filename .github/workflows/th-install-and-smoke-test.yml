@@ -1,0 +1,58 @@
+name: Install and smoke test TH
+on:
+  workflow_dispatch:
+  push:
+    paths:
+      - '.github/workflows/th-install-and-smoke-test.yml'
+      - 'scripts/**'
+      - 'cli/**'
+      - 'backend/**'
+      - 'docker-compose*.yml'
+
+jobs:
+  arm64-smoke-test:
+    runs-on: ubuntu-24.04-arm
+    timeout-minutes: 180
+    env:
+      TH_TEST_CASE_ID: TC-ACE-1.1
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          submodules: recursive
+
+      - name: submodule info
+        run: |
+          git submodule status --recursive
+
+      - name: Install Test Harness
+        run: |
+          printf '2\n' | ./scripts/ubuntu/auto-install.sh
+          ./scripts/ubuntu/auto-update.sh $(git rev-parse --abbrev-ref HEAD)
+
+      - name: Start Test Harness services
+        run: |
+          ./scripts/start.sh
+
+      - name: Output available tests from TH CLI
+        run: |
+          th-cli available-tests --compact
+
+      # - name: Setup upterm session
+      #   uses: owenthereal/action-upterm@v1
+      #   with:
+      #     limit-access-to-actor: true # Restrict to the user who triggered the workflow
+
+      - name: Run a sample test with th-cli against a sample app
+        run: |
+          "$HOME/apps/chip-all-clusters-app" \
+            --discriminator 3840 \
+            --passcode 20202021 \
+            --KVS /tmp/chip-kvs \
+            --trace-to json:/tmp/chip-all-clusters-app.json > /tmp/chip-all-clusters-app.log 2>&1 &
+          sleep 2
+          printf "1\n" | th-cli run-tests \
+            --tests-list "${TH_TEST_CASE_ID}" \
+            --config backend/test_collections/matter/default_project.config \
+            --title "arm64-ci-smoke" \
+            --no-color

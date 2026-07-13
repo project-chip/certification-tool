@@ -78,7 +78,7 @@ services:
           - node.labels.${STACK_NAME?Variable not set}.app-db-data == true
 
   backend:
-    image: 'ghcr.io/project-chip/csa-certification-tool-backend:2ac562d'
+    image: 'ghcr.io/project-chip/csa-certification-tool-backend:a2595a0-local'
 
     ports:
       - "8888:8888"
@@ -108,7 +108,7 @@ services:
       - traefik.http.services.${STACK_NAME?Variable not set}-backend.loadbalancer.server.port=80
 
   frontend:
-    image: 'ghcr.io/project-chip/csa-certification-tool-frontend:5be5818'
+    image: 'ghcr.io/project-chip/csa-certification-tool-frontend:10d1822-local'
     build:
       context: ./frontend
     labels:
