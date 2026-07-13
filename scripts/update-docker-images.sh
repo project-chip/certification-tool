@@ -38,9 +38,14 @@ set +e
 print_script_step "Downloading backend Docker image"
 BACKEND_ERR=$(mktemp)
 newgrp docker << END
-bash -c 'set -o pipefail; docker compose pull backend 2>&1 | tee "$BACKEND_ERR" >&2'
+BACKEND_IMAGE=\$(docker compose config --images backend 2>/dev/null | grep "csa-certification-tool-backend:")
+if ! docker manifest inspect "\$BACKEND_IMAGE" > /dev/null 2>"$BACKEND_ERR"; then
+    exit 42
+fi
+docker compose pull backend
 END
-if [ $? -ne 0 ]; then
+BACKEND_EXIT=$?
+if [ $BACKEND_EXIT -eq 42 ]; then
     BUILD_BACKEND=true
     if grep -q -E "manifest unknown|not found" "$BACKEND_ERR"; then
         printf "\n  NOTE: Pre-built backend image not found in the registry for this branch/tag.\n"
@@ -48,15 +53,22 @@ if [ $? -ne 0 ]; then
     else
         cat "$BACKEND_ERR" >&2
     fi
+elif [ $BACKEND_EXIT -ne 0 ]; then
+    BUILD_BACKEND=true
 fi
 rm -f "$BACKEND_ERR"
 
 print_script_step "Downloading frontend Docker image"
 FRONTEND_ERR=$(mktemp)
 newgrp docker << END
-bash -c 'set -o pipefail; docker compose pull frontend 2>&1 | tee "$FRONTEND_ERR" >&2'
+FRONTEND_IMAGE=\$(docker compose config --images frontend 2>/dev/null | grep "csa-certification-tool-frontend:")
+if ! docker manifest inspect "\$FRONTEND_IMAGE" > /dev/null 2>"$FRONTEND_ERR"; then
+    exit 42
+fi
+docker compose pull frontend
 END
-if [ $? -ne 0 ]; then
+FRONTEND_EXIT=$?
+if [ $FRONTEND_EXIT -eq 42 ]; then
     BUILD_FRONTEND=true
     if grep -q -E "manifest unknown|not found" "$FRONTEND_ERR"; then
         printf "\n  NOTE: Pre-built frontend image not found in the registry for this branch/tag.\n"
@@ -64,6 +76,8 @@ if [ $? -ne 0 ]; then
     else
         cat "$FRONTEND_ERR" >&2
     fi
+elif [ $FRONTEND_EXIT -ne 0 ]; then
+    BUILD_FRONTEND=true
 fi
 rm -f "$FRONTEND_ERR"
 set -e
