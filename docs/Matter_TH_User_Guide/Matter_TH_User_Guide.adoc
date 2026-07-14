@@ -17,7 +17,7 @@
 
 :ubuntu-version: 24.04.x
 :ubuntu-description: Ubuntu Server {ubuntu-version} LTS (64-bit)
-:th-version: v2.16-beta1+summer2026
+:th-version: v2.16-beta2+summer2026
 = Matter Test-Harness User Manual: {th-version}
 ifdef::env-github[]
 :tip-caption: :bulb:
@@ -54,7 +54,9 @@ endif::[]
 | Matter 1.5       | v2.14+fall2025     | N/A                                                                                         | https://groups.csa-iot.org/wg/members-all/document/folder/4825[Causeway Link] | ca9d111      | To install, use the tag "v2.14+fall2025" in the instructions of <<fresh_install>>
 | Matter 1.5.1     | v2.14.1+winter2026       | N/A                                                                                         | https://groups.csa-iot.org/wg/members-all/document/folder/5210[Causeway Link] | e9ecfc2      | To install, use the branch "v2.14.1+winter2026" in the instructions of <<fresh_install>>
 | Matter 1.6     | v2.15+spring2026     | N/A                                                                                         | https://groups.csa-iot.org/wg/members-all/document/folder/2269[Causeway Link] | b91b83f      | To install, use the branch "v2.15+spring2026" in the instructions of <<fresh_install>>
+| Matter 1.6.1   | v2.15.1+spring2026   | N/A                                                                                         | TBD | df8bd03      | To install, use the branch "{v2.15.1+spring2026}" in the instructions of <<fresh_install>>
 | Matter 1.7     | {th-version}       | N/A                                                                                         | TBD | 9dc6ceb      | To install, use the branch "{th-version}" in the instructions of <<fresh_install>>
+
 |===
 
 
