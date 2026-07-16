@@ -2233,7 +2233,7 @@ The `hostname` field in `config.json` tells the CLI where to find the Test Harne
 +
 If `th-cli` is installed on a *separate machine from the TH* (e.g. a laptop connecting to a TH running on a lab Raspberry Pi or server), set `hostname` to the TH host's actual IP address, as shown in the above example (`192.168.1.100`). 
 +
-If TH and `th-cli` are running on the *same machine*, since everything's local, this step isn't needed - the CLI defaults to `hostname: "localhost"` automatically.
+If TH and `th-cli` are running on the *same machine*, since everything is local, this step is not needed - the CLI defaults to `hostname: "localhost"` automatically.
 
 +
 NOTE: It is advisable to run TH and `th-cli` on the same machine.
