@@ -153,6 +153,7 @@ endif::[]
 | 61          | 15-May-2026  | [Apple]Romulo Quidute               | * Added grouped log download documentation using CLI.
 | 62          | 02-Jun-2026  | [GRL]Kishok G                       | * Updated the all members causeway location url in reference section. +
                                                                      * Modified the specific release url to Matter Specifications and Test Plans(home path)
+| 63          | 16-Jul-2026  | [GRL]Pradeep G                      | * Added clarification on hostname usage in Quick-Start Guide of CLI section.
 |===
 
 <<<
@@ -2227,6 +2228,15 @@ Edit `~/certification-tool/cli/config.json`:
     "hostname": "192.168.1.100"
 }
 ----
++
+The `hostname` field in `config.json` tells the CLI where to find the Test Harness (TH) backend — it is *not* the address of the DUT.
++
+If `th-cli` is installed on a *separate machine from the TH* (e.g. a laptop connecting to a TH running on a lab Raspberry Pi or server), set `hostname` to the TH host's actual IP address, as shown in the above example (`192.168.1.100`). 
++
+If TH and `th-cli` are running on the *same machine*, since everything is local, this step is not needed - the CLI defaults to `hostname: "localhost"` automatically.
+
++
+NOTE: It is advisable to run TH and `th-cli` on the same machine.
 
 . View available tests:
 +
