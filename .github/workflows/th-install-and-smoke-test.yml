@@ -38,11 +38,6 @@ jobs:
         run: |
           th-cli available-tests --compact
 
-      # - name: Setup upterm session
-      #   uses: owenthereal/action-upterm@v1
-      #   with:
-      #     limit-access-to-actor: true # Restrict to the user who triggered the workflow
-
       - name: Run a sample test with th-cli against a sample app
         run: |
           "$HOME/apps/chip-all-clusters-app" \
