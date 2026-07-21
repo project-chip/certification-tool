@@ -154,6 +154,7 @@ endif::[]
 | 62          | 02-Jun-2026  | [GRL]Kishok G                       | * Updated the all members causeway location url in reference section. +
                                                                      * Modified the specific release url to Matter Specifications and Test Plans(home path)
 | 63          | 16-Jul-2026  | [GRL]Pradeep G                      | * Added clarification on hostname usage in Quick-Start Guide of CLI section.
+| 64          | 21-Jul-2026  | [Apple]Romulo Quidute               | * Added instructions for running a side loaded Python script directly inside the container when it depends on shared SDK modules.
 |===
 
 <<<
@@ -515,6 +516,38 @@ To Side Load any desired script, follow the steps below:
   th-cli run-tests --tests-list TC-JFADMIN-1_1-custom --project-id <id> --config my_config.json --title <Name of the test run execution>  --pics-config-folder ./pics_files/
 ----
 This requirement applies to all test cases placed in the *custom* YAML or Python directories.
+
+==== Running a Side Loaded Python Script Directly Inside the Container
+
+A side-loaded Python script placed in the *custom* Python folder
+(`.../sdk_checkout/python_testing/scripts/custom/`) may import shared SDK helper modules
+(e.g. `TC_GC_common.py`, `TC_TLSCERT_Base.py`) that only exist in the sibling *sdk* folder
+(`.../sdk_checkout/python_testing/scripts/sdk/`).
+
+When the Test-Harness executes a side-loaded script through the normal `run-tests` flow
+(CLI or UI), it automatically makes the *sdk* folder's modules available to the script, so
+these imports resolve without any extra steps.
+
+To run the script directly inside the container (e.g. `docker exec` into the backend container
+and invoke it manually for debugging), the *sdk* scripts folder must be added to `PYTHONPATH`
+so those imports can be found:
+
+[source,bash]
+----
+cd /root/python_testing/scripts/custom
+PYTHONPATH=/root/python_testing/scripts/sdk python3 <script_name>.py \
+  --commissioning-method on-network --discriminator <value> --passcode <value> \
+  --storage-path admin_storage.json --endpoint <value>
+----
+
+[NOTE]
+.*ModuleNotFoundError when running without PYTHONPATH:*
+====
+Running the script directly (`python3 <script_name>.py`) from inside the *custom* folder
+without setting `PYTHONPATH` will fail with `ModuleNotFoundError` for any import that only
+exists in the *sdk* folder. This only affects manual invocation inside the container — it
+does not affect test execution through the Test-Harness CLI or UI.
+====
 
 
 === Troubleshooting
