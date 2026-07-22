@@ -29,7 +29,7 @@ clean_up_environment() {
 
 	print_script_step "Resetting Database"
 	if [ ! $(docker ps -aq -f name=^certification-tool-backend-1$) ]; then
-		docker compose -f $ROOT_DIR/docker-compose.yml -f $ROOT_DIR/docker-compose.override-backend-dev.yml up db backend --detach --no-build
+		docker compose -f $ROOT_DIR/docker-compose.yml -f $ROOT_DIR/docker-compose.override-backend-dev.yml up db backend --detach --no-build --pull never
 	fi
 	docker exec certification-tool-backend-1 bash -c "./prestart.sh ; poetry install ; ./scripts/reset_db.py"
 

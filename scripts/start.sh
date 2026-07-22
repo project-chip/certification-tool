@@ -74,7 +74,7 @@ done
 set +e
 
 echo "*** Starting 'db' and 'proxy' docker containers"
-docker compose -f docker-compose.yml up db proxy --detach
+docker compose -f docker-compose.yml up db proxy --detach --pull never
 if [ $? -ne 0 ]; then
     echo "### Exit with Error ###"
     echo "    Unable to start containers."
@@ -83,7 +83,7 @@ if [ $? -ne 0 ]; then
 fi
 
 echo "*** Starting 'backend' docker container"
-docker compose -f docker-compose.yml $BACKEND_COMPOSE up backend --detach --no-build
+docker compose -f docker-compose.yml $BACKEND_COMPOSE up backend --detach --no-build --pull never
 if [ $? -ne 0 ]; then
     echo "### Exit with Error ###"
     echo "    Unable to start backend container."
@@ -93,7 +93,7 @@ if [ $? -ne 0 ]; then
 fi
 
 echo "*** Starting 'frontend' docker container"
-docker compose -f docker-compose.yml $FRONTEND_COMPOSE up frontend --detach --no-build
+docker compose -f docker-compose.yml $FRONTEND_COMPOSE up frontend --detach --no-build --pull never
 if [ $? -ne 0 ]; then
     echo "### Exit with Error ###"
     echo "    Unable to start frontend container."
