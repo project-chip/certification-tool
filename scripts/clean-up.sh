@@ -24,21 +24,21 @@ source "$SCRIPT_DIR/utils.sh"
 set -e
 
 clean_up_environment() {
-	rm -rf $HOME/apps
-	rm -rf $HOME/.cache/pypoetry
+    rm -rf $HOME/apps
+    rm -rf $HOME/.cache/pypoetry
 
-	print_script_step "Resetting Database"
-	if [ ! $(docker ps -aq -f name=^certification-tool-backend-1$) ]; then
-		docker compose -f $ROOT_DIR/docker-compose.yml -f $ROOT_DIR/docker-compose.override-backend-dev.yml up db backend --detach --no-build
-	fi
-	docker exec certification-tool-backend-1 bash -c "./prestart.sh ; poetry install ; ./scripts/reset_db.py"
+    print_script_step "Resetting Database"
+    if [ ! $(docker ps -aq -f name=^certification-tool-backend-1$) ]; then
+        docker compose -f "$ROOT_DIR/docker-compose.yml" -f "$ROOT_DIR/docker-compose.override-backend-dev.yml" up db backend --detach --no-build --pull never
+    fi
+    docker exec certification-tool-backend-1 bash -c "./prestart.sh ; poetry install ; ./scripts/reset_db.py"
 
-	print_script_step "Stopping all docker containers"
-	$ROOT_DIR/scripts/stop.sh
+    print_script_step "Stopping all docker containers"
+    $ROOT_DIR/scripts/stop.sh
 
-	print_script_step "Cleaning All Images"
-	docker network prune -f
-	docker system prune -af --volumes
+    print_script_step "Cleaning All Images"
+    docker network prune -f
+    docker system prune -af --volumes
 }
 
 print_start_of_script
@@ -49,10 +49,10 @@ read -p "Are you sure you want to clean up the Test-Harness environment? [y/N] "
 echo
 
 if [[ $REPLY =~ ^[Yy]$ ]]; then
-	clean_up_environment
+    clean_up_environment
 else
-	echo
-	echo "Cancelling..."
+    echo
+    echo "Cancelling..."
 fi
 
 print_end_of_script
