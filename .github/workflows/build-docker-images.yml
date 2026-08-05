@@ -1,0 +1,133 @@
+name: Build Docker Images
+
+on:
+  workflow_dispatch:
+    inputs:
+      target_branch_or_tag:
+        required: true
+  pull_request:
+
+jobs:
+  build-images:
+    runs-on: ubuntu-24.04-arm
+    permissions:
+      contents: write
+      packages: write
+
+    steps:
+      - name: Checkout repository when push
+        if: github.event_name == 'push'
+        uses: actions/checkout@v6
+        with:
+          submodules: recursive
+          fetch-depth: 1
+
+      - name: Checkout repository when input
+        if: github.event_name == 'workflow_dispatch'
+        uses: actions/checkout@v6
+        with:
+          ref: ${{ inputs.target_branch_or_tag }}
+          submodules: recursive
+          fetch-depth: 1
+
+      - name: Log in to Github Container Registry
+        uses: docker/login-action@v3
+        with:
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+
+      - parallel:
+        - name: Store backend tag
+          id: backend_tag
+          run: |
+            cd backend
+            echo "tag=$(git rev-parse --short HEAD)" >> $GITHUB_OUTPUT
+
+        - name: Store frontend tag
+          id: frontend_tag
+          run: |
+            cd frontend
+            echo "tag=$(git rev-parse --short HEAD)" >> $GITHUB_OUTPUT
+
+      - parallel:
+        - name: Check if backend image exists
+          id: check_tag_backend
+          env:
+            IMAGE_NAME: "ghcr.io/${{ github.repository_owner }}/csa-certification-tool-backend"
+          run: |
+            if docker manifest inspect $IMAGE_NAME:${{ steps.backend_tag.outputs.tag }} > /dev/null 2>&1; then
+              echo "exists=true" >> $GITHUB_OUTPUT
+            else
+              echo "exists=false" >> $GITHUB_OUTPUT
+            fi
+
+        - name: Check if frontend image exists
+          id: check_tag_frontend
+          env:
+            IMAGE_NAME: "ghcr.io/${{ github.repository_owner }}/csa-certification-tool-frontend"
+          run: |
+            if docker manifest inspect $IMAGE_NAME:${{ steps.frontend_tag.outputs.tag }} > /dev/null 2>&1; then
+              echo "exists=true" >> $GITHUB_OUTPUT
+            else
+              echo "exists=false" >> $GITHUB_OUTPUT
+            fi
+
+      - name: Set up QEMU
+        if: steps.check_tag_backend.outputs.exists == 'false' || steps.check_tag_frontend.outputs.exists == 'false'
+        uses: docker/setup-qemu-action@v3
+
+      - name: Set up Docker Buildx
+        if: steps.check_tag_backend.outputs.exists == 'false' || steps.check_tag_frontend.outputs.exists == 'false'
+        uses: docker/setup-buildx-action@v3
+        with:
+          platforms: linux/amd64, linux/arm64
+
+      - name: Install docker squash
+        if: steps.check_tag_backend.outputs.exists == 'false' || steps.check_tag_frontend.outputs.exists == 'false'
+        run:
+            pip install docker-squash
+
+      - parallel:
+        - name: Build and push backend image
+          if: steps.check_tag_backend.outputs.exists == 'false'
+          run: |
+            ./backend/scripts/build-docker-image.sh --squash --push --multiarch
+
+        - name: Build and push frontend image
+          if: steps.check_tag_frontend.outputs.exists == 'false'
+          run: |
+            ./frontend/scripts/build-docker-image.sh --squash --push
+
+        - name: Ensure backend sha is used in docker-compose
+          env:
+            SHORT_HASH: steps.backend_tag.outputs.tag
+          run:
+            sed -i "s/backend:[a-z0-9]\{7\}/backend:${SHORT_HASH}/" docker-compose.yml
+
+        - name: Ensure frontend sha is used in docker-compose
+          env:
+            SHORT_HASH: steps.frontend.outputs.tag
+          run:
+            sed -i "s/frontend:[a-z0-9]\{7\}/frontend:${SHORT_HASH}/" docker-compose.yml
+
+      - name: Add changes
+        run: |
+          git add docker-compose.yml
+
+      - name: Check for changes
+        id: check
+        run: |
+          if git diff --staged --exit-code; then
+            echo "has_changes=false" >> $GITHUB_OUTPUT
+          else
+            echo "has_changes=true" >> $GITHUB_OUTPUT
+          fi
+
+      - name: Commit and push
+        if: steps.check.outputs.has_changes == 'true'
+        run: |
+          git config user.name "GitHub Actions"
+          git config user.email "actions@github.com"
+          git commit -m "Updating image labels in docker-compose"
+          git push
