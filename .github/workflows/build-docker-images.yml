@@ -16,7 +16,7 @@ jobs:
 
     steps:
       - name: Checkout repository when push
-        if: github.event_name == 'push'
+        if: github.event_name == 'pull_request'
         uses: actions/checkout@v6
         with:
           submodules: recursive
