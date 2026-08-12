@@ -5,7 +5,7 @@ on:
     inputs:
       target_branch_or_tag:
         required: true
-  pull_request:
+  push:
 
 jobs:
   build-images:
@@ -16,10 +16,9 @@ jobs:
 
     steps:
       - name: Checkout repository when push
-        if: github.event_name == 'pull_request'
+        if: github.event_name == 'push'
         uses: actions/checkout@v6
         with:
-          ref: ${{ github.head_ref }}
           submodules: recursive
           fetch-depth: 1
 
@@ -131,4 +130,4 @@ jobs:
           git config user.name "GitHub Actions"
           git config user.email "actions@github.com"
           git commit -m "Updating image labels in docker-compose"
-          git push origin ${{ github.head_ref }}
+          git push
