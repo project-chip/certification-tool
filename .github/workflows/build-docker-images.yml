@@ -19,6 +19,7 @@ jobs:
         if: github.event_name == 'pull_request'
         uses: actions/checkout@v6
         with:
+          ref: ${{ github.head_ref }}
           submodules: recursive
           fetch-depth: 1
 
@@ -101,13 +102,13 @@ jobs:
 
         - name: Ensure backend sha is used in docker-compose
           env:
-            SHORT_HASH: steps.backend_tag.outputs.tag
+            SHORT_HASH: ${{ steps.backend_tag.outputs.tag }}
           run:
             sed -i "s/backend:[a-z0-9]\{7\}/backend:${SHORT_HASH}/" docker-compose.yml
 
         - name: Ensure frontend sha is used in docker-compose
           env:
-            SHORT_HASH: steps.frontend.outputs.tag
+            SHORT_HASH: ${{ steps.frontend.outputs.tag }}
           run:
             sed -i "s/frontend:[a-z0-9]\{7\}/frontend:${SHORT_HASH}/" docker-compose.yml
 
@@ -130,4 +131,4 @@ jobs:
           git config user.name "GitHub Actions"
           git config user.email "actions@github.com"
           git commit -m "Updating image labels in docker-compose"
-          git push
+          git push origin ${{ github.head_ref }}
