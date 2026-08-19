@@ -32,11 +32,14 @@ set +e
 print_script_step "Verify download.docker.com is reachable"
 # Verify download.docker.com is reachable before attempting to install the
 # Docker Package Repo (network randomly fails after service restarts).
+# Port 443 is checked (not 80) since this script only ever talks to this
+# host over HTTPS (see curl/apt source below).
 for i in {1..5}
 do
-    status_code=$(sudo curl -sS -o /dev/null -w "%{http_code}" --connect-timeout 1 "https://download.docker.com" $proxy_opt)
-    if [ $? -eq 0 ] && [ "$status_code" -lt 400 ]; then
-        echo "The download.docker.com is reachable"
+    timeout 2 bash -c "(echo >/dev/tcp/download.docker.com/443) &>/dev/null"
+    retVal=$?
+    if [ $retVal -eq 0 ]; then
+        echo "The download.docker.com is reacheable"
         break
     else
         echo "The download.docker.com is unreachable for try $i"
