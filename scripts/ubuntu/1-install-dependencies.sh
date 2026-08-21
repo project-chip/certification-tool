@@ -32,17 +32,9 @@ sudo sed -i "s/#\$nrconf{kernelhints} = -1;/\$nrconf{kernelhints} = -1;/g" /etc/
 sudo sed -i "s/#\$nrconf{restart} = 'i';/\$nrconf{restart} = 'a';/" /etc/needrestart/needrestart.conf
 
 sudo DEBIAN_FRONTEND=noninteractive apt-get update -y
-sudo DEBIAN_FRONTEND=noninteractive apt-get upgrade -y
 
-readarray packagelist < "$UBUNTU_SCRIPT_DIR/package-dependency-list.txt"
-
-SAVEIFS=$IFS
-IFS=$(echo -en "\r")
-for package in ${packagelist[@]}; do
-  print_script_step "Installing package: ${package[@]}"
-  sudo DEBIAN_FRONTEND=noninteractive apt-get satisfy "${package%%[[:space:]]}" -y --allow-downgrades
-done
-IFS=$SAVEIFS 
+print_script_step "Installing packages"
+sudo DEBIAN_FRONTEND=noninteractive apt-get --no-upgrade satisfy "$(paste -sd, $UBUNTU_SCRIPT_DIR/package-dependency-list.txt)" -y --allow-downgrades
 
 print_script_step "Install Poetry, needed for Test Harness CLI"
 curl -sSL https://install.python-poetry.org | python3 -
