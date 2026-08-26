@@ -44,12 +44,31 @@ $UBUNTU_SCRIPT_DIR/auto-update.sh "$CURRENT_BRANCH"
 verify_return_code
 
 print_script_step "Revert needrestart config to default"
-sudo sed -i "s/\$nrconf{kernelhints} = -1;/#\$nrconf{kernelhints} = -1;/g" /etc/needrestart/needrestart.conf
-sudo sed -i "s/\$nrconf{restart} = 'a';/#\$nrconf{restart} = 'i';/" /etc/needrestart/needrestart.conf
+restore_needrestart
 
 print_end_of_script
 
 print_installation_success
+
+if is_running_in_wsl; then
+    print_script_step "Applying configuration changes (WSL, no reboot required)"
+    sudo sysctl -p || true
+    sudo modprobe ip6table_filter 2>/dev/null || echo "ip6table_filter module not available in the WSL kernel"
+    printf "Log out and back in (or restart WSL) for docker group membership to take effect.\n"
+
+    SDK_DOCKER_PACKAGE=$(cat $ROOT_DIR/backend/test_collections/matter/config.py | grep SDK_DOCKER_IMAGE | cut -d'"' -f 2 | cut -d"'" -f 2)
+    SDK_DOCKER_TAG=$(cat $ROOT_DIR/backend/test_collections/matter/config.py | grep SDK_DOCKER_TAG | cut -d'"' -f 2 | cut -d"'" -f 2)
+    if [[ -z $(sudo docker images -q $SDK_DOCKER_PACKAGE:$SDK_DOCKER_TAG) ]]; then
+        print_script_step "Reminder: SDK image and sample apps still pending"
+        printf "The SDK image is published for arm64 only, so the sample apps installation was skipped.\n"
+        printf "After logging back in:\n"
+        printf "  1. Build the SDK image locally (takes about an hour):\n"
+        printf "     ./backend/test_collections/matter/scripts/build-local-sdk-image.sh\n"
+        printf "  2. Install the sample apps:\n"
+        printf "     ./scripts/update.sh\n"
+    fi
+    exit 0
+fi
 
 print_script_step "You need to reboot to finish setup"
 printf "Do you want to reboot now? (Press 1 to reboot now)\n"

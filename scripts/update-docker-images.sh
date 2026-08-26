@@ -35,6 +35,17 @@ BUILD_BACKEND=false
 BUILD_FRONTEND=false
 set +e
 
+# The published backend/frontend images are built for arm64 (Raspberry Pi)
+# only. On other host architectures a pull of a single-arch image can still
+# "succeed" with a platform mismatch warning and produce unusable containers,
+# so skip the pulls and build the images locally instead.
+HOST_ARCH=$(uname -m)
+if [ "$HOST_ARCH" != "aarch64" ]; then
+    print_script_step "Published images are arm64 only: building locally on $HOST_ARCH"
+    BUILD_BACKEND=true
+    BUILD_FRONTEND=true
+else # arm64: download the published images
+
 print_script_step "Downloading backend Docker image"
 newgrp docker << END
 docker compose pull backend
@@ -50,6 +61,8 @@ END
 if [ $? -ne 0 ]; then
     BUILD_FRONTEND=true
 fi
+
+fi # HOST_ARCH check
 set -e
 
 print_script_step "Downloading proxy and db Docker images"

@@ -33,7 +33,10 @@ sudo groupadd docker
 sudo usermod -a -G docker $USER
 sudo service docker restart
 
-# Setup Wifi
+# Setup Wifi (skipped in WSL: no wlan interface or wpa_supplicant support)
+if is_running_in_wsl; then
+    print_script_step "Skipping wpa_supplicant setup (running in WSL)"
+else
 print_script_step "Create System Service for wpa_suppliant"
 printf "\n Writing: /etc/systemd/system/dbus-fi.w1.wpa_supplicant1.service"
 cat << EOF | sudo tee /etc/systemd/system/dbus-fi.w1.wpa_supplicant1.service
@@ -67,6 +70,7 @@ for setting in ${WPA_SUPPLICANT_SETTINGS[@]}; do
     echo "  setting: $setting"
     grep -qxF "$setting" "$WPA_SUPPLICANT_FILE" || echo "$setting" | sudo tee -a "$WPA_SUPPLICANT_FILE"
 done
+fi
 
 # Setup Network
 print_script_step "Accept Router Advertisements on network interfaces"
@@ -74,9 +78,14 @@ SYSCTL_FILE=/etc/sysctl.conf
 SYSCTL_SETTINGS=(
     "net.ipv6.conf.eth0.accept_ra=2"
     "net.ipv6.conf.eth0.accept_ra_rt_info_max_plen=64"
-    "net.ipv6.conf.$WLAN_INTERFACE.accept_ra=2"
-    "net.ipv6.conf.$WLAN_INTERFACE.accept_ra_rt_info_max_plen=64"
 )
+# The wlan interface does not exist in WSL, skip its sysctl entries there
+if ! is_running_in_wsl; then
+    SYSCTL_SETTINGS+=(
+        "net.ipv6.conf.$WLAN_INTERFACE.accept_ra=2"
+        "net.ipv6.conf.$WLAN_INTERFACE.accept_ra_rt_info_max_plen=64"
+    )
+fi
 printf "\n Updating: $SYSCTL_FILE\n"
 sudo touch "$SYSCTL_FILE"
 for setting in ${SYSCTL_SETTINGS[@]}; do
