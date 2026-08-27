@@ -1,7 +1,10 @@
-# Running the Test Harness on WSL2 (development/test)
+# Running the Test Harness UI/CLI on WSL2 (development/test)
 
 The Test Harness officially targets Raspberry Pi 4/5 and Ubuntu machines. It can
 also run on WSL2 for development and test purposes, with the caveats below.
+
+This covers both the Test Harness UI and the CLI (`th-cli`): both are installed
+by the setup and talk to the same local backend.
 
 ## Prerequisites
 
