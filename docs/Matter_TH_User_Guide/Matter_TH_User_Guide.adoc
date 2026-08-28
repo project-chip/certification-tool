@@ -162,7 +162,8 @@ endif::[]
 | 66          | 07-Jul-2026  | [Apple]Romulo Quidute               | * Added Download project logs documentation in the CLI section.
 | 67          | 16-Jul-2026  | [GRL]Pradeep G                      | * Added clarification on hostname usage in Quick-Start Guide of CLI section.
 | 68          | 21-Jul-2026  | [Apple]Romulo Quidute               | * Added instructions for running a side loaded Python script directly inside the container when it depends on shared SDK modules.
-| 69          | 21-Aug-2026  | [Apple]Antonio Melo Jr.             | * Added the `th_config` project configuration object and the User Prompt Timeout Configuration section. +
+| 69          | 20-Aug-2026  | [Apple]Romulo Quidute               | * Added `th-cli rescan-tests` command documentation, allowing side-loaded test scripts to be picked up without restarting the backend.
+| 70          | 21-Aug-2026  | [Apple]Antonio Melo Jr.             | * Added the `th_config` project configuration object and the User Prompt Timeout Configuration section. +
                                                                      * Updated Python Test Logging Configuration section to document the `th_config.enable_realtime_python_test_logs` per-project override. +
                                                                      * Documented the `--prompt-timeout` CLI flag for `run-tests`.
 |===
@@ -510,13 +511,12 @@ You can copy the original SDK Yaml/Python test to Custom Yaml/Python folder and 
 For the Side Load feature, the user may benefit from the *custom* Test Cases feature mentioned above.
 To Side Load any desired script, follow the steps below:
 
-1. Stop the Test-Harness by executing the script `stop.sh` located at `certification-tool/scripts/` folder
-2. Download the latest Test Case script from the SDK's master branch (https://github.com/project-chip/connectedhomeip[connectedhomeip] repository)
-3. Place the desired script on the appropriate *custom* folder (depending if the script is Yaml or Python)
-4. Start the Test-Harness by executing the script `start.sh` located at `certification-tool/scripts/` folder
-5. Change the Project's configuration as required to run the Side Loaded script (e.g. updating `test_parameters`)
-6. The Side Loaded script will be available on the Test Cases list in the Custom tab (refer to the image above)
-7. When executing side-loaded test cases using the CLI, it is mandatory to append the -custom suffix to the Test  Case ID. This suffix ensures that the Test-Harness correctly identifies and executes the script from the custom directory. Test cases invoked without this suffix will not be recognized as side-loaded and may fail to execute as expected.
+1. Download the latest Test Case script from the SDK's master branch (https://github.com/project-chip/connectedhomeip[connectedhomeip] repository)
+2. Place the desired script on the appropriate *custom* folder (depending if the script is Yaml or Python)
+3. Rescan the Test-Harness so it picks up the new/updated script, using either the CLI or the API (see <<side-load-rescan, Rescanning Side-Loaded Test Cases>> below) — a full backend restart is *not* required
+4. Change the Project's configuration as required to run the Side Loaded script (e.g. updating `test_parameters`)
+5. The Side Loaded script will be available on the Test Cases list in the Custom tab (refer to the image above)
+6. When executing side-loaded test cases using the CLI, it is mandatory to append the -custom suffix to the Test  Case ID. This suffix ensures that the Test-Harness correctly identifies and executes the script from the custom directory. Test cases invoked without this suffix will not be recognized as side-loaded and may fail to execute as expected.
 
 +
 [source,xml]
@@ -526,6 +526,49 @@ To Side Load any desired script, follow the steps below:
   th-cli run-tests --tests-list TC-JFADMIN-1.1-custom --project-id <id> --config my_config.json --title <Name of the test run execution>  --pics-config-folder ./pics_files/
 ----
 This requirement applies to all test cases placed in the *custom* YAML or Python directories.
+
+[#side-load-rescan]
+==== Rescanning Side-Loaded Test Cases
+
+After adding a new custom test script or editing an existing one, the Test-Harness needs to
+re-run test discovery so the change is picked up. This can be done in-process, without
+restarting the backend container:
+
+[source,bash]
+----
+th-cli rescan-tests
+----
+
+This calls the `POST /api/v1/test_collections/rescan` backend endpoint, which re-generates the
+Python test JSON files and re-discovers all test collections, then returns the refreshed list of
+test collections. The new or updated script is immediately available on the Test Cases list —
+no `stop.sh`/`start.sh` cycle is needed, and the backend remains available to other users
+throughout.
+
+[NOTE]
+.*Test Engine must be idle:*
+====
+The rescan cannot run while a test is executing. If a test run is in progress, the command
+returns an error (`Test Engine is busy.`) instead of rescanning; wait for the test run to
+finish, or abort it with `th-cli abort-testing`, and try again.
+====
+
+[NOTE]
+.*Invalid or malformed scripts:*
+====
+If the newly added/edited script cannot be parsed, `rescan-tests` reports the failure and the
+previously loaded test collections remain available — the backend does not need to be
+restarted to recover.
+====
+
+[NOTE]
+.*Full backend restart still works:*
+====
+The previous approach of restarting the backend container (e.g. `./scripts/stop.sh` followed
+by `./scripts/start.sh`) also picks up side-loaded script changes, but is more disruptive since
+it drops any in-progress state and takes the service down for everyone using it. Prefer
+`th-cli rescan-tests` unless a full restart is otherwise needed.
+====
 
 ==== Running a Side Loaded Python Script Directly Inside the Container
 
@@ -2395,6 +2438,21 @@ th-cli available-tests --cluster ACE
 # Filter by test case
 th-cli available-tests | grep "TC-ACE"
 ----
+
+[#cli-rescan-tests]
+==== Rescan Test Collections
+
+Re-run test collection discovery on the backend, without restarting it. This picks up
+newly added or edited side-loaded custom test scripts (see <<side-load-rescan, Rescanning
+Side-Loaded Test Cases>>).
+
+[source,bash]
+----
+th-cli rescan-tests
+----
+
+NOTE: This fails with an error if a test run is currently executing. Wait for it to finish, or
+run `th-cli abort-testing`, then try again.
 
 ==== Running Tests
 
