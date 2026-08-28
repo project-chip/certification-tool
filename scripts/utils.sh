@@ -112,34 +112,3 @@ check_installation_prerequisites()
         exit 1
     fi
 }
-
-# Silence needrestart prompts (reboot hints, service restarts) during the
-# install, and restore the defaults when done. needrestart comes preinstalled
-# on Ubuntu Server images but not on minimal ones such as the WSL image, so
-# both functions are no-ops when the config file is absent.
-silence_needrestart()
-{
-    if [ -f /etc/needrestart/needrestart.conf ]; then
-        sudo sed -i "s/#\$nrconf{kernelhints} = -1;/\$nrconf{kernelhints} = -1;/g" /etc/needrestart/needrestart.conf
-        sudo sed -i "s/#\$nrconf{restart} = 'i';/\$nrconf{restart} = 'a';/" /etc/needrestart/needrestart.conf
-    fi
-}
-
-restore_needrestart()
-{
-    if [ -f /etc/needrestart/needrestart.conf ]; then
-        sudo sed -i "s/\$nrconf{kernelhints} = -1;/#\$nrconf{kernelhints} = -1;/g" /etc/needrestart/needrestart.conf
-        sudo sed -i "s/\$nrconf{restart} = 'a';/#\$nrconf{restart} = 'i';/" /etc/needrestart/needrestart.conf
-    fi
-}
-
-is_running_in_wsl()
-{
-    # Layered detection: the kernel version string covers stock WSL kernels in
-    # any context (login shells, systemd services); the WSLInterop hook covers
-    # custom-compiled WSL kernels; the env var covers interop-disabled setups
-    # (user sessions only, WSL does not set it for systemd services).
-    grep -qi microsoft /proc/version 2>/dev/null || \
-        [ -e /proc/sys/fs/binfmt_misc/WSLInterop ] || \
-        [ -n "$WSL_DISTRO_NAME" ]
-}

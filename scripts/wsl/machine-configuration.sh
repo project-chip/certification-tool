@@ -1,7 +1,7 @@
 #! /usr/bin/env bash
 
  #
- # Copyright (c) 2023 Project CHIP Authors
+ # Copyright (c) 2026 Project CHIP Authors
  #
  # Licensed under the Apache License, Version 2.0 (the "License");
  # you may not use this file except in compliance with the License.
@@ -14,14 +14,17 @@
  # WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  # See the License for the specific language governing permissions and
  # limitations under the License.
+
+# WSL variant of scripts/ubuntu/2-machine-cofiguration.sh (sync commit tracked
+# in wsl-utils.sh). Identical except the wpa_supplicant service setup and the
+# wlan sysctl entries are removed: WSL has no wlan interface.
+
 ROOT_DIR=$(realpath $(dirname "$0")/../..)
 SCRIPT_DIR="$ROOT_DIR/scripts"
 
 source "$SCRIPT_DIR/utils.sh"
 
 print_start_of_script
-
-WLAN_INTERFACE="${WLAN_INTERFACE:-wlan0}"
 
 # Trust github
 print_script_step "Apply github.com fingerprint"
@@ -33,49 +36,12 @@ sudo groupadd docker
 sudo usermod -a -G docker $USER
 sudo service docker restart
 
-# Setup Wifi
-print_script_step "Create System Service for wpa_suppliant"
-printf "\n Writing: /etc/systemd/system/dbus-fi.w1.wpa_supplicant1.service"
-cat << EOF | sudo tee /etc/systemd/system/dbus-fi.w1.wpa_supplicant1.service
-[Unit]
-Description=WPA supplicant
-Before=network.target
-After=dbus.service
-Wants=network.target
-IgnoreOnIsolate=true
-
-[Service]
-Type=dbus
-BusName=fi.w1.wpa_supplicant1
-ExecStart=/sbin/wpa_supplicant -u -s -i $WLAN_INTERFACE -c /etc/wpa_supplicant/wpa_supplicant.conf
-
-[Install]
-WantedBy=multi-user.target
-Alias=dbus-fi.w1.wpa_supplicant1.service
-EOF
-sudo systemctl daemon-reload
-sudo systemctl enable dbus-fi.w1.wpa_supplicant1
-
-WPA_SUPPLICANT_FILE=/etc/wpa_supplicant/wpa_supplicant.conf
-WPA_SUPPLICANT_SETTINGS=(
-    "ctrl_interface=DIR=/run/wpa_supplicant"
-    "update_config=1"
-)
-printf "\n Updating: $WPA_SUPPLICANT_FILE\n"
-sudo touch "$WPA_SUPPLICANT_FILE"
-for setting in ${WPA_SUPPLICANT_SETTINGS[@]}; do
-    echo "  setting: $setting"
-    grep -qxF "$setting" "$WPA_SUPPLICANT_FILE" || echo "$setting" | sudo tee -a "$WPA_SUPPLICANT_FILE"
-done
-
 # Setup Network
 print_script_step "Accept Router Advertisements on network interfaces"
 SYSCTL_FILE=/etc/sysctl.conf
 SYSCTL_SETTINGS=(
     "net.ipv6.conf.eth0.accept_ra=2"
     "net.ipv6.conf.eth0.accept_ra_rt_info_max_plen=64"
-    "net.ipv6.conf.$WLAN_INTERFACE.accept_ra=2"
-    "net.ipv6.conf.$WLAN_INTERFACE.accept_ra_rt_info_max_plen=64"
 )
 printf "\n Updating: $SYSCTL_FILE\n"
 sudo touch "$SYSCTL_FILE"

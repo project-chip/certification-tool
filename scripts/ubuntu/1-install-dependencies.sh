@@ -28,7 +28,8 @@ print_script_step "Set up Docker's apt repository"
 $UBUNTU_SCRIPT_DIR/1.1-install-docker-repository.sh
 
 print_script_step "Silence user prompts about reboot and service restart required (script will prompt user to reboot in the end)"
-silence_needrestart
+sudo sed -i "s/#\$nrconf{kernelhints} = -1;/\$nrconf{kernelhints} = -1;/g" /etc/needrestart/needrestart.conf
+sudo sed -i "s/#\$nrconf{restart} = 'i';/\$nrconf{restart} = 'a';/" /etc/needrestart/needrestart.conf
 
 sudo DEBIAN_FRONTEND=noninteractive apt-get update -y
 sudo DEBIAN_FRONTEND=noninteractive apt-get upgrade -y
