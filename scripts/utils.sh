@@ -85,14 +85,14 @@ check_ubuntu_os_version()
 
 check_user_name()
 {
-    USER_NAME=$(whoami)
-    if [ "$USER_NAME" != "ubuntu" ]; then
+    USER_NAME=$(id -un)
+    if [ "$USER_NAME" = "root" ]; then
         printf "\n\n"
         printf "###################################################################################\n"
-        printf "######  The Matter certification tool requires the username to be 'ubuntu'  #######\n"
+        printf "######  The Matter certification tool must be run from a non-root user account  ######\n"
         printf "###################################################################################\n"
         printf "#                                                                                 #\n"
-        printf "# After creating the 'ubuntu' user, log in and run the auto-install script again. #\n"
+        printf "# Log in with your regular user account and run the auto-install script again.  #\n"
         printf "#                                                                                 #\n"
         printf "###################################################################################\n"
         return 1

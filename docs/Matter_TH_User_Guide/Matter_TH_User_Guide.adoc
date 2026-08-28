@@ -163,6 +163,9 @@ endif::[]
 | 67          | 16-Jul-2026  | [GRL]Pradeep G                      | * Added clarification on hostname usage in Quick-Start Guide of CLI section.
 | 68          | 21-Jul-2026  | [Apple]Romulo Quidute               | * Added instructions for running a side loaded Python script directly inside the container when it depends on shared SDK modules.
 | 69          | 20-Aug-2026  | [Apple]Romulo Quidute               | * Added `th-cli rescan-tests` command documentation, allowing side-loaded test scripts to be picked up without restarting the backend.
+| 70          | 21-Aug-2026  | [Apple]Antonio Melo Jr.             | * Added the `th_config` project configuration object and the User Prompt Timeout Configuration section. +
+                                                                     * Updated Python Test Logging Configuration section to document the `th_config.enable_realtime_python_test_logs` per-project override. +
+                                                                     * Documented the `--prompt-timeout` CLI flag for `run-tests`.
 |===
 
 <<<
@@ -1440,6 +1443,10 @@ image:images/img_15.png[]
     "chip_timeout": null,
     "chip_use_paa_certs": false,
     "trace_log": true
+  },
+  "th_config": {
+    "prompt_timeout_seconds": 60,
+    "enable_realtime_python_test_logs": null
   }
 }
 ----
@@ -1694,6 +1701,8 @@ WARNING: This is an invalid configuration. TH will not accept both parameters se
   "timeout": 300
 }
 ----
++
+NOTE: This `test_parameters.timeout` controls how long the chip-tool/Python test *execution* is allowed to run. It is unrelated to the interactive user-prompt timeout (`th_config.prompt_timeout_seconds`) described in <<user-prompt-timeout-configuration, User Prompt Timeout Configuration>>.
 
 
 On completion of the "network" and the "dut_config" configuration, select the *Update* and then *Create* button to create the Test Project.
@@ -2235,14 +2244,28 @@ The TH is now storing the last commissioning information, so a prompt will prese
 
 image:images/img_67.png[SDK Python Tests - Reuse commissioning information  prompt]
 
+[#python-test-logging-configuration]
 ===== Python Test Logging Configuration
 The TH supports two modes for displaying Python test logs:
 
 * *Real-time logging*: Logs are displayed incrementally as each test step completes
 * *Batch logging (default)*: All logs are displayed at once after test execution completes
 
-To configure the logging mode, add or update the `ENABLE_REALTIME_PYTHON_TEST_LOGS` environment variable in the `.env` file located in the *root* of the certification-tool directory (i.e. `certification-tool/.env`). Note: do *not* edit `certification-tool/backend/.env` — that file is not used by the backend container:
+The logging mode can be configured in two ways, listed in the order they are checked:
 
+. *Per-project override (recommended)*: Set `th_config.enable_realtime_python_test_logs` in the project's configuration (see <<user-prompt-timeout-configuration, User Prompt Timeout Configuration>> for where `th_config` lives in the project JSON). This takes effect immediately on the next test run — no container restart needed:
++
+[source,xml]
+----
+"th_config": {
+  "enable_realtime_python_test_logs": true
+}
+----
++
+Set it to `false` to force batch logging for that project regardless of the instance-wide default below, or leave it `null`/omit the key to defer to that default.
+
+. *Instance-wide default (environment variable)*: If `th_config.enable_realtime_python_test_logs` is `null` or not set for a project, the TH falls back to the `ENABLE_REALTIME_PYTHON_TEST_LOGS` environment variable in the `.env` file located in the *root* of the certification-tool directory (i.e. `certification-tool/.env`). Note: do *not* edit `certification-tool/backend/.env` — that file is not used by the backend container:
++
 [source,shell]
 ----
 # Enable real-time logging
@@ -2251,6 +2274,8 @@ ENABLE_REALTIME_PYTHON_TEST_LOGS=True
 # Enable batch logging (default)
 ENABLE_REALTIME_PYTHON_TEST_LOGS=False
 ----
++
+Changing this variable requires recreating the backend container — see the note at the end of this section.
 
 ===== Container Logging Configuration
 The TH supports optional logging of container operations for debugging and troubleshooting purposes:
@@ -2280,6 +2305,32 @@ NOTE: After changing any configuration in `./.env`, recreate the TH backend cont
 [source,shell]
 ----
 docker compose up -d backend
+----
+
+[#user-prompt-timeout-configuration]
+===== User Prompt Timeout Configuration
+During test execution, the TH sometimes prompts the operator for input or confirmation (e.g. to pair the DUT, enter a setup code, or confirm a commissioning step). By default, the operator has 60 seconds to respond before the prompt times out.
+
+This timeout is configurable per project via a `th_config` object in the project's configuration JSON — the same file edited via the *Project Config* field described earlier in this section, and used with `th-cli project create/update --config` and `th-cli run-tests --config`. `th_config` sits alongside `network`, `dut_config`, and `test_parameters`:
+
+[source,xml]
+----
+"th_config": {
+  "prompt_timeout_seconds": 60,
+  "enable_realtime_python_test_logs": null
+}
+----
+
+* `prompt_timeout_seconds`: how long, in seconds, the operator has to respond to a user prompt before it times out. Increase this if a test step requires the operator to read output and take a manual action that takes longer than the default 60 seconds.
+* `enable_realtime_python_test_logs`: the per-project override for Python test log display described in <<python-test-logging-configuration,Python Test Logging Configuration>> above.
+
+NOTE: `th_config.prompt_timeout_seconds` controls the interactive user-prompt timeout. It is unrelated to `test_parameters.timeout`, which controls the chip-tool/Python test *execution* timeout (see the "Overwrite the default timeout" step under Project Configuration, above) — the two settings sit close together in the same JSON file but govern different things.
+
+When using the CLI, the prompt timeout can also be overridden for a single run without editing the project configuration:
+
+[source,shell]
+----
+th-cli run-tests --tests-list TC-ACE-1.1 --prompt-timeout 300
 ----
 
 <<<
@@ -2429,12 +2480,17 @@ th-cli run-tests --tests-list TC-ACE-1.1 --config my_config.json
 # Use PICS configuration
 th-cli run-tests --tests-list TC-ACE-1.1 --pics-config-folder ./pics_files/
 
+# Override the user-prompt timeout for this run only (seconds)
+th-cli run-tests --tests-list TC-ACE-1.1 --prompt-timeout 300
+
 # Assign to existing project
 th-cli run-tests --tests-list TC-ACE-1.1 --project-id 5
 ----
 
 WARNING: If the *project-id* is not specified, a default project called *CLI Project Execution* will be used (*or* created if not presented) for the test run. Please make sure to use the appropriate project-id if you want to assign the test run to a specific project. +
 You can verify to the existing projects using the `th-cli project list` command, referred at <<project-management, Section 11.3.4, Project Management>>.
+
+NOTE: `--prompt-timeout` is execution-only — it overrides `th_config.prompt_timeout_seconds` (see <<user-prompt-timeout-configuration, User Prompt Timeout Configuration>>) for this run without persisting the change to the project's configuration.
 
 ==== TC Parameters Mapping File (`--tc-params-file` / `-m`)
 

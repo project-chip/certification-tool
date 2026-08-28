@@ -97,7 +97,7 @@ After=network.target
 [Service]
 Type=oneshot
 User=$USER
-Group=ubuntu
+Group=$(id -gn)
 ExecStart=$ROOT_DIR/scripts/start.sh
 [Install]
 WantedBy=default.target
