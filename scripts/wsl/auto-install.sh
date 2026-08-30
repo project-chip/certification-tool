@@ -92,20 +92,31 @@ print_script_step "Revert needrestart config to default"
 sudo sed -i "s/\$nrconf{kernelhints} = -1;/#\$nrconf{kernelhints} = -1;/g" /etc/needrestart/needrestart.conf
 sudo sed -i "s/\$nrconf{restart} = 'a';/#\$nrconf{restart} = 'i';/" /etc/needrestart/needrestart.conf
 
+print_script_step "Applying configuration changes (WSL, no reboot required)"
+sudo sysctl -p || true
+sudo modprobe ip6table_filter 2>/dev/null || echo "ip6table_filter module not available in the WSL kernel"
+
+# The SDK image is published for arm64 only, so it must be built locally
+# before the test collections setup, which installs the sample apps from it.
+# If the build fails, follow the printed guidance and finish the setup with
+# scripts/wsl/build-local-sdk-image.sh and scripts/wsl/update.sh (see
+# README.md).
+print_script_step "Building the SDK image locally (takes about an hour)"
+$WSL_SCRIPT_DIR/build-local-sdk-image.sh
+verify_return_code
+
+print_script_step "Setup Test Collections"
+$SCRIPT_DIR/update-setup-test-collections.sh
+verify_return_code
+
 print_end_of_script
 
 print_installation_success
 
-print_script_step "Applying configuration changes (WSL, no reboot required)"
-sudo sysctl -p || true
-sudo modprobe ip6table_filter 2>/dev/null || echo "ip6table_filter module not available in the WSL kernel"
-printf "Log out and back in (or restart WSL) for docker group membership to take effect.\n"
+# The install shell predates the docker group membership added above, so start
+# through sg. Later starts from new terminals do not need it.
+print_script_step "Starting the Test Harness"
+sg docker -c "$SCRIPT_DIR/start.sh"
 
-print_script_step "Remaining steps: SDK image and test collections"
-printf "The SDK image is published for arm64 only, so it must be built locally and\n"
-printf "the test collections setup that depends on it was deferred.\n"
-printf "After logging back in:\n"
-printf "  1. Build the SDK image locally (takes about an hour):\n"
-printf "     ./scripts/wsl/build-local-sdk-image.sh\n"
-printf "  2. Finish the setup (test collections, CLI, sample apps):\n"
-printf "     ./scripts/wsl/update.sh\n"
+printf "\nThe Test Harness is starting: the backend takes a few minutes to become\n"
+printf "ready, longer on the first start. Then open http://localhost/ in the browser.\n"

@@ -17,7 +17,8 @@ that cannot work:
   wlan sysctl entries (WSL has no wlan interface).
 - The backend, frontend, and SDK docker images are built locally (the
   published images are arm64 only).
-- The final reboot is replaced by logging out and back in.
+- The final reboot is dropped: the setup finishes and starts the Test Harness
+  in one run.
 
 ## Prerequisites
 
@@ -27,7 +28,8 @@ that cannot work:
 
 ## Install
 
-### 1. Run the WSL installer
+The whole setup is a single unattended command, ending with the Test Harness
+up and reachable at http://localhost/ (WSL2 forwards localhost by default):
 
 ```bash
 ./scripts/wsl/auto-install.sh
@@ -35,49 +37,33 @@ that cannot work:
 
 Notes on the run:
 
-- The backend and frontend images build from the submodules during the
-  install (slower than the download, no other impact).
-- The SDK image (`connectedhomeip/chip-cert-bins`) and the test collections
-  setup that depends on it (CLI, sample apps) are deferred to the two explicit
-  steps below: the SDK image build is an hour-long compile, deliberately kept
-  out of the installer.
-- The installer ends with a logout note instead of a reboot: close the WSL
-  terminal and open a new one, or restart WSL. Docker group membership is
-  applied on login.
+- The run takes on the order of 1.5 hours, dominated by the SDK image
+  (`connectedhomeip/chip-cert-bins`) compile.
+- The backend and frontend images build from the submodules (slower than the
+  download, no other impact). Known build issues in the pinned submodules are
+  patched automatically at build time, with a notice (currently one: an npm
+  pin in backends that predate the nodejs/npm removal of
+  [certification-tool-backend#341](https://github.com/project-chip/certification-tool-backend/pull/341)).
+- No reboot or relogin: the install runs start to finish in one shell.
+- If the run stops at the SDK image build (see Troubleshooting), finish the
+  remaining steps manually once it builds: `./scripts/wsl/update.sh`, then
+  start the Test Harness as below.
 
-### 2. Build the SDK image locally
+## Starting the Test Harness
 
-Once logged back in, run the `build-local-sdk-image.sh` script, which compiles
-the Matter SDK into a local image tagged exactly as the backend expects. The
-tag is automatically read from `backend/test_collections/matter/config.py`.
-
-The build takes on the order of an hour:
-
-```bash
-./scripts/wsl/build-local-sdk-image.sh
-```
-
-### 3. Finish the setup
-
-With the SDK image present locally, run the WSL update script to perform the
-test collections setup that was deferred during the install (CLI installation
-and sample apps copied to the ~/apps folder):
-
-```bash
-./scripts/wsl/update.sh
-```
-
-## Start the Test Harness
-
-Run the `start.sh` script, which brings up the Test Harness containers. The
-backend takes a few minutes to become ready, longer on the first start.
-
-Then open http://localhost/ in the browser (WSL2 forwards localhost by
-default):
+The install leaves the Test Harness running, and the `matter-th` service
+starts it when WSL starts. To start it manually, run the `start.sh` script;
+the backend takes a few minutes to become ready, longer on the first start:
 
 ```bash
 ./scripts/start.sh
 ```
+
+One caveat right after an install: shells and services started before it
+(including the shell the installer ran in, and the VS Code WSL server) lack
+the docker group membership it added, so docker commands there fail on
+permissions until they are restarted. `newgrp docker` grants it to such a
+shell in place; `wsl --shutdown` resets everything at once.
 
 ## Updating
 
@@ -136,11 +122,11 @@ systemctl status matter-th
 ### Compose cannot find a locally built backend or frontend image
 
 The image build scripts tag images with the current commit of the respective
-submodule, while `docker-compose.yml` references a pinned tag. The two match on
-a regular checkout of `main`. If the submodule is checked out elsewhere (e.g. a
-development branch), the built tag differs from the pinned one and starting the
-Test Harness tries to download the image instead. Retag the built image to the
-pinned tag, for example for the backend:
+submodule, while `docker-compose.yml` references a pinned tag.
+`build-local-images.sh` retags the built image to the pinned tag automatically
+when they differ, so this only applies to images built by calling the
+submodule build scripts directly. Retag the built image to the pinned tag,
+for example for the backend:
 
 ```bash
 # built tag: see `docker images` (it is the submodule's short commit hash)
