@@ -23,7 +23,7 @@
 # locally with the same stock build scripts the original uses as its pull
 # fallback. The proxy and db images are multi-arch and are pulled as usual.
 
-ROOT_DIR=$(realpath $(dirname "$0")/../..)
+ROOT_DIR=$(realpath "$(dirname "$0")/../..")
 SCRIPT_DIR="$ROOT_DIR/scripts"
 
 # Exit in case anything goes wrong
@@ -33,7 +33,7 @@ source "$SCRIPT_DIR/utils.sh"
 
 print_start_of_script
 
-cd $ROOT_DIR
+cd "$ROOT_DIR"
 
 # Ensure .env exists
 ./scripts/install-default-env.sh
@@ -54,8 +54,8 @@ retag_to_compose_pin()
     local name=$1
     local repository built_tag pinned_tag
     repository="ghcr.io/project-chip/csa-certification-tool-$name"
-    built_tag=$(git -C $ROOT_DIR/$name rev-parse --short HEAD)$(git -C $ROOT_DIR/$name diff -s --exit-code || echo "-local")
-    pinned_tag=$(grep "$repository" $ROOT_DIR/docker-compose.yml | cut -d: -f3 | tr -d "' ")
+    built_tag=$(git -C "$ROOT_DIR/$name" rev-parse --short HEAD)$(git -C "$ROOT_DIR/$name" diff -s --exit-code || echo "-local")
+    pinned_tag=$(grep "$repository" "$ROOT_DIR/docker-compose.yml" | cut -d: -f3 | tr -d "' ")
     if [ -n "$pinned_tag" ] && [ "$built_tag" != "$pinned_tag" ]; then
         echo "Retagging the built $name image ($built_tag) to the tag docker-compose.yml expects ($pinned_tag)"
 newgrp docker << END
@@ -70,11 +70,11 @@ print_script_step "Building backend Docker image locally"
 # for the image's node version. While the pinned backend predates that
 # removal, pin npm at build time and restore the file afterwards.
 NPM_PATCHED=false
-if grep -q "npm install -g npm@latest" $ROOT_DIR/backend/Dockerfile; then
+if grep -q "npm install -g npm@latest" "$ROOT_DIR/backend/Dockerfile"; then
     print_script_step "Patching known npm issue in the backend Dockerfile"
     echo "The pinned backend installs npm@latest, which no longer supports the image's"
     echo "node version. Pinning npm for this build (newer backends no longer install npm)."
-    sed -i "s/npm install -g npm@latest/npm install -g npm@11/" $ROOT_DIR/backend/Dockerfile
+    sed -i "s/npm install -g npm@latest/npm install -g npm@11/" "$ROOT_DIR/backend/Dockerfile"
     NPM_PATCHED=true
 fi
 newgrp docker << END
@@ -82,7 +82,7 @@ newgrp docker << END
 END
 retag_to_compose_pin backend
 if $NPM_PATCHED; then
-    git -C $ROOT_DIR/backend checkout -- Dockerfile
+    git -C "$ROOT_DIR/backend" checkout -- Dockerfile
 fi
 
 print_script_step "Building frontend Docker image locally"

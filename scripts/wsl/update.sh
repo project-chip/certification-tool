@@ -25,7 +25,7 @@
 # sample apps come out of the SDK image, so on a fresh install run
 # build-local-sdk-image.sh first.
 
-ROOT_DIR=$(realpath $(dirname "$0")/../..)
+ROOT_DIR=$(realpath "$(dirname "$0")/../..")
 SCRIPT_DIR="$ROOT_DIR/scripts"
 WSL_SCRIPT_DIR="$SCRIPT_DIR/wsl"
 

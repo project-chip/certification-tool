@@ -38,8 +38,8 @@ LOG_DIR="$ROOT_DIR/logs"
 mkdir -p "$LOG_DIR"
 LOG_PATH="$LOG_DIR/$(date +"log_build_local_sdk_image_%F-%H-%M-%S")"
 
-SDK_DOCKER_PACKAGE=$(cat $MATTER_PROGRAM_DIR/config.py | grep SDK_DOCKER_IMAGE | cut -d'"' -f 2 | cut -d"'" -f 2)
-SDK_DOCKER_TAG=$(cat $MATTER_PROGRAM_DIR/config.py | grep SDK_DOCKER_TAG | cut -d'"' -f 2 | cut -d"'" -f 2)
+SDK_DOCKER_PACKAGE=$(cat "$MATTER_PROGRAM_DIR/config.py" | grep SDK_DOCKER_IMAGE | cut -d'"' -f 2 | cut -d"'" -f 2)
+SDK_DOCKER_TAG=$(cat "$MATTER_PROGRAM_DIR/config.py" | grep SDK_DOCKER_TAG | cut -d'"' -f 2 | cut -d"'" -f 2)
 if [[ -z "$SDK_DOCKER_PACKAGE" || -z "$SDK_DOCKER_TAG" ]]; then
     echo "ERROR: could not read SDK_DOCKER_IMAGE / SDK_DOCKER_TAG from $MATTER_PROGRAM_DIR/config.py"
     exit 1

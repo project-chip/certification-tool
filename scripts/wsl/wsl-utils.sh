@@ -28,6 +28,17 @@ require_wsl()
         echo "On Raspberry Pi or a regular Ubuntu machine use scripts/ubuntu/auto-install.sh."
         exit 1
     fi
+    # The checks above also match WSL1, which cannot run docker or systemd.
+    # Requiring a running systemd rejects WSL1 and catches WSL2 instances
+    # without systemd enabled (a prerequisite, see README.md).
+    if [ ! -d /run/systemd/system ]; then
+        echo "systemd is not running. The Test Harness requires WSL2 with systemd"
+        echo "enabled: add to /etc/wsl.conf:"
+        echo "  [boot]"
+        echo "  systemd=true"
+        echo "then restart WSL (wsl --shutdown) and run this script again."
+        exit 1
+    fi
 }
 
 # The scripts in this folder replay parts of the stock install/update flow.

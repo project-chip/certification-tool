@@ -28,7 +28,7 @@
 # Mirrors scripts/ubuntu/auto-install.sh and scripts/ubuntu/internal-auto-install.sh
 # (sync commits tracked in wsl-utils.sh).
 
-ROOT_DIR=$(realpath $(dirname "$0")/../..)
+ROOT_DIR=$(realpath "$(dirname "$0")/../..")
 SCRIPT_DIR="$ROOT_DIR/scripts"
 UBUNTU_SCRIPT_DIR="$SCRIPT_DIR/ubuntu"
 WSL_SCRIPT_DIR="$SCRIPT_DIR/wsl"
