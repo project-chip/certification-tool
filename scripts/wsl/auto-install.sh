@@ -52,9 +52,14 @@ verify_return_code
 
 # needrestart is not preinstalled on the WSL Ubuntu image, and the stock
 # dependency script edits its config file unconditionally: make sure the file
-# exists so the stock script runs unmodified.
-sudo mkdir -p /etc/needrestart
-sudo touch /etc/needrestart/needrestart.conf
+# exists so the stock script runs unmodified. If created here, remove it again
+# on any exit while still empty (empty and absent are equivalent for
+# needrestart, and a later needrestart install may write a real config).
+if [ ! -f /etc/needrestart/needrestart.conf ]; then
+    sudo mkdir -p /etc/needrestart
+    sudo touch /etc/needrestart/needrestart.conf
+    trap '[ -s /etc/needrestart/needrestart.conf ] || sudo rm -f /etc/needrestart/needrestart.conf' EXIT
+fi
 
 print_script_step "Installing Test Harness Dependencies"
 $UBUNTU_SCRIPT_DIR/1-install-dependencies.sh
