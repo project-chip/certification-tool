@@ -70,7 +70,7 @@ $UBUNTU_SCRIPT_DIR/1.2-install-additional-dependencies.sh
 verify_return_code
 
 print_script_step "Configure Machine (WSL variant)"
-$WSL_SCRIPT_DIR/machine-configuration.sh
+"$WSL_SCRIPT_DIR/machine-configuration.sh"
 verify_return_code
 
 # The stock flow continues with auto-update.sh, which ends in the docker image
@@ -90,7 +90,7 @@ $SCRIPT_DIR/fix-docker-compatibility.sh
 verify_return_code
 
 print_script_step "Building Docker images locally"
-$WSL_SCRIPT_DIR/build-local-images.sh
+"$WSL_SCRIPT_DIR/build-local-images.sh"
 verify_return_code
 
 print_script_step "Revert needrestart config to default"
@@ -107,7 +107,7 @@ sudo modprobe ip6table_filter 2>/dev/null || echo "ip6table_filter module not av
 # scripts/wsl/build-local-sdk-image.sh and scripts/wsl/update.sh (see
 # README.md).
 print_script_step "Building the SDK image locally (takes about an hour)"
-$WSL_SCRIPT_DIR/build-local-sdk-image.sh
+"$WSL_SCRIPT_DIR/build-local-sdk-image.sh"
 verify_return_code
 
 print_script_step "Setup Test Collections"

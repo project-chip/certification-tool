@@ -39,7 +39,7 @@ print_start_of_script
 check_wsl_scripts_sync "$ROOT_DIR"
 
 print_script_step "Update Docker images"
-$WSL_SCRIPT_DIR/build-local-images.sh
+"$WSL_SCRIPT_DIR/build-local-images.sh"
 verify_return_code
 
 print_script_step "Setup Test Collections"
