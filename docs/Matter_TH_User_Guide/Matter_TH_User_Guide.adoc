@@ -2587,7 +2587,7 @@ th-cli project edit --id 5
 Use this to tweak one or two fields (e.g. a `th_config` or `dut_config` value) without exporting, hand-editing, and re-importing a full config file. The editor opens via `$EDITOR`/`$VISUAL` (falling back to `vim`/`nano`/`vi`); on save, the CLI validates your changes, warns before persisting any field it doesn't recognize, and reopens the editor with your edit preserved if something's wrong.
 
 NOTE: *Tip:* +
-For the full behavior — retry handling on invalid input, the new-field confirmation prompt, and how to pick a different editor via `$EDITOR`/`$VISUAL` — run `th-cli project edit --help` or see the https://github.com/project-chip/certification-tool-cli/blob/main/README.md#edit-project[CLI README].
+For the full behavior — retry handling on invalid input, the new-field confirmation prompt, and how to pick a different editor via `$VISUAL`/`$EDITOR` — run `th-cli project edit --help` or see the https://github.com/project-chip/certification-tool-cli/blob/main/README.md#edit-project[CLI README].
 
 **Download project logs:**
 
