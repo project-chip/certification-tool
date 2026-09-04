@@ -166,6 +166,7 @@ endif::[]
 | 70          | 21-Aug-2026  | [Apple]Antonio Melo Jr.             | * Added the `th_config` project configuration object and the User Prompt Timeout Configuration section. +
                                                                      * Updated Python Test Logging Configuration section to document the `th_config.enable_realtime_python_test_logs` per-project override. +
                                                                      * Documented the `--prompt-timeout` CLI flag for `run-tests`.
+| 71          | 03-Sep-2026  | [Apple]Romulo Quidute               | * Updated Section 7.1 to use the current standalone nRF Util executable instead of the deprecated pip-based nrfutil package, and to clarify RCP dongle flashing can be done from a separate Mac/PC.
 |===
 
 <<<
@@ -990,15 +991,20 @@ If the DUT supports Thread Transport, DUT vendors need to use the OTBR that is s
 Currently the OTBR in the TH works with either the Nordic RCP dongle or SiLabs RCP dongle. Refer to <<instructions-to-flash-the-firmware-nrf52840-rcpdongle, Section 7.1>> to flash the NRF52840 firmware or <<instructions-to-flash-silabs-rcp, Section 7.2>> to flash the SiLabs firmware and get the RCP’s ready. Once the RCP’s are programmed, the user needs to insert the RCP dongle on to the Raspberry Pi running the TH and reboot the Raspberry Pi.
 
 === Instructions to Flash the Firmware NRF52840 RCPDongle
+
+NOTE: The RCP dongle does not need to be flashed on the Raspberry Pi running the TH. It can be flashed from any Mac or PC with a free USB port; once flashing completes, move the dongle over to the Raspberry Pi.
+
 . Download RCP firmware package from the following link on the user’s system — https://groups.csa-iot.org/wg/members-all/document/39226[Thread RCP Firmware Package]
-. nRF Util is a unified command line utility for Nordic products. For more details, refer to the following link— https://www.nordicsemi.com/Products/Development-tools/nrf-util[https://www.nordicsemi.com/Products/Development-tools/nrf-util]
-. Install the nRF Util dependencies on the user’s system using the following commands:
+. nRF Util is Nordic’s unified command line utility for its products. It is distributed as a standalone, self-updating executable and is no longer installed via `pip`. For more details and the download for your OS, refer to the following link— https://www.nordicsemi.com/Products/Development-tools/nrf-util[https://www.nordicsemi.com/Products/Development-tools/nrf-util]
+. Download and install nRF Util on the user’s system. On Linux, this can be done using the following commands (on macOS or Windows, download the executable for your OS from the link above instead of the `curl` command below):
 
 +
 [source,shell]
 ----
-python3 -m pip install -U nrfutil
-nrfutil install nrf5sdk-tools
+curl --location https://files.nordicsemi.com/artifactory/swtools/external/nrfutil/executables/x86_64-unknown-linux-gnu/nrfutil -o nrfutil
+chmod +x nrfutil
+./nrfutil self-upgrade
+./nrfutil install device
 ----
 
 . Connect the nRF52840 Dongle to the USB port of the user’s system.
@@ -1006,13 +1012,20 @@ nrfutil install nrf5sdk-tools
 +
 image:images/img_10.png[]
 
-. To install the RCP firmware package on to the dongle, run the following command from the path where the firmware package was downloaded:
+. Run the following command to confirm the dongle is detected and to get its serial number:
 
 +
 |===
-|`nrfutil dfu usb-serial -pkg <FILE NAME> -p /dev/ttyACM0` +
+|`nrfutil device list`
+|===
+
+. To install the RCP firmware package on to the dongle, run the following command from the path where the firmware package was downloaded, using the serial number obtained in the previous step:
+
++
+|===
+|`nrfutil device program --firmware <FILE NAME> --serial-number <SERIAL NUMBER>` +
 Example: +
-`nrfutil dfu usb-serial -pkg nrf52840dongle_rcp_c084c62.zip -p /dev/ttyACM0`
+`nrfutil device program --firmware nrf52840dongle_rcp_c084c62.zip --serial-number 001050231451`
 |===
 
 . Once the flash is successful, the red LED turns off slowly.
