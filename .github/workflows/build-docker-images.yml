@@ -107,7 +107,7 @@ jobs:
 
         - name: Ensure frontend sha is used in docker-compose
           env:
-            SHORT_HASH: ${{ steps.frontend.outputs.tag }}
+            SHORT_HASH: ${{ steps.frontend_tag.outputs.tag }}
           run:
             sed -i "s/frontend:[a-z0-9]\{7\}/frontend:${SHORT_HASH}/" docker-compose.yml
 
