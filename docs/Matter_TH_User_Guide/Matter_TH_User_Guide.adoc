@@ -2664,6 +2664,31 @@ th-cli test-run-execution --all
 th-cli test-run-execution --sort asc
 ----
 
+[#cli-repeat-execution]
+==== Repeat a Test Run Execution
+
+The `test-run-execution repeat` subcommand creates a new test run execution with the same selected tests and config as an existing one, then — by default — starts it and attaches to it the same way `run-tests` does (and the frontend's "Repeat" action does): streaming live test progress and forwarding any user prompts to this terminal.
+
+[source,bash]
+----
+# Repeat execution 87 and immediately start/stream it
+th-cli test-run-execution repeat --id 87
+
+# Override the generated title (the backend always appends an updated timestamp regardless)
+th-cli test-run-execution repeat --id 87 --title my-rerun
+
+# Only create the repeated execution without starting it
+th-cli test-run-execution repeat --id 87 --no-start
+
+# Disable colored output for this execution
+th-cli test-run-execution repeat --id 87 --no-color
+
+# Disable the real-time web log viewer for this execution
+th-cli test-run-execution repeat --id 87 --no-streaming
+----
+
+`--no-streaming` disables the browser-based real-time log viewer (enabled by default, normally reachable at a URL printed at the start of the run); logs are still written to the local log file either way.
+
 [#cli-download-logs]
 ==== Download Test Execution Logs
 
@@ -2769,6 +2794,8 @@ th-cli run-tests --tests-list TC-ACE-1.1 --no-color
 export TH_CLI_NO_COLOR=1
 th-cli run-tests --tests-list TC-ACE-1.1
 ----
+
+NOTE: `--no-color` is also available on `test-run-execution repeat` (see <<cli-repeat-execution, Repeat a Test Run Execution>>).
 
 ==== Manual Test Cases
 
