@@ -169,6 +169,7 @@ endif::[]
 | 71          | 03-Sep-2026  | [Apple]Romulo Quidute               | * Updated Section 7.1 to use the current standalone nRF Util executable instead of the deprecated pip-based nrfutil package, and to clarify RCP dongle flashing can be done from a separate Mac/PC.
 | 72          | 04-Sep-2026  | [Apple]Antonio Melo Jr.             | * Updated Container Logging Configuration section to document the `th_config.enable_container_logs` per-project override (issue #1091).
 | 73          | 10-Sep-2026  | [Google]Andrey Khodyrev             | * Added 'For CNET Tests' section with wpa_supplicant volume mapping instructions for the SDK docker container.
+| 74          | 10-Sep-2026  | [Apple]Romulo Quidute               | * Added Repeat, Export, and Import a Test Run Execution sections to the CLI documentation.
 |===
 
 <<<
@@ -2667,7 +2668,7 @@ th-cli test-run-execution --sort asc
 [#cli-repeat-execution]
 ==== Repeat a Test Run Execution
 
-The `test-run-execution repeat` subcommand creates a new test run execution with the same selected tests and config as an existing one, then — by default — starts it and attaches to it the same way `run-tests` does (and the frontend's "Repeat" action does): streaming live test progress and forwarding any user prompts to this terminal.
+The `test-run-execution repeat` subcommand creates a new test run execution with the same selected tests and config as an existing one, then starts it and attaches to it the same way `run-tests` does (and the frontend's "Repeat" action does): streaming live test progress and forwarding any user prompts to this terminal.
 
 [source,bash]
 ----
@@ -2677,9 +2678,6 @@ th-cli test-run-execution repeat --id 87
 # Override the generated title (the backend always appends an updated timestamp regardless)
 th-cli test-run-execution repeat --id 87 --title my-rerun
 
-# Only create the repeated execution without starting it
-th-cli test-run-execution repeat --id 87 --no-start
-
 # Disable colored output for this execution
 th-cli test-run-execution repeat --id 87 --no-color
 
@@ -2688,6 +2686,31 @@ th-cli test-run-execution repeat --id 87 --no-streaming
 ----
 
 `--no-streaming` disables the browser-based real-time log viewer (enabled by default, normally reachable at a URL printed at the start of the run); logs are still written to the local log file either way.
+
+[#cli-export-execution]
+==== Export a Test Run Execution
+
+The `test-run-execution export` subcommand exports a test run execution's config and results to a JSON file, which can later be imported into another project with `test-run-execution import`.
+
+[source,bash]
+----
+# Export execution 87 to '<execution-title>-execution.json'
+th-cli test-run-execution export --id 87
+
+# Export to a specific output file
+th-cli test-run-execution export --id 87 --output-file execution-87.json
+----
+
+[#cli-import-execution]
+==== Import a Test Run Execution
+
+The `test-run-execution import` subcommand imports a test run execution previously written by `test-run-execution export` into a given project.
+
+[source,bash]
+----
+# Import a previously exported execution into project 5
+th-cli test-run-execution import --file execution-87.json --project-id 5
+----
 
 [#cli-download-logs]
 ==== Download Test Execution Logs
