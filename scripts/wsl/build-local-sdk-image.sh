@@ -153,7 +153,7 @@ print("gn block patched")
 PYEOF
 fi
 
-print_script_step "Building '$SDK_DOCKER_IMAGE' for $(uname -m) (takes beteween one and two hours)"
+print_script_step "Building '$SDK_DOCKER_IMAGE' for $(uname -m) (takes between one and two hours)"
 echo "Build output is also logged to: $LOG_PATH"
 set +e
 sudo docker build --build-arg COMMITHASH=$SDK_DOCKER_TAG -t $SDK_DOCKER_IMAGE $BUILD_DIR 2>&1 | tee "$LOG_PATH"
