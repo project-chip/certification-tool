@@ -40,7 +40,16 @@ endif::[]
 :toclevels: 5
 
 [discrete]
-== *Test-Harness Links*
+== *Overview of Test Harness to be used for each Matter version*
+
+// intro text copied from https://community.csa-iot.org/page/matter-th
+The Test Harness is backwards compatible since Matter v1.4: you should use the latest test harness version (see bottom row of the table) for testing Matter versions Matter v1.4 and beyond.
+Apart from test improvements, it contains various other compatibility fixes and UI/CLI testing improvements to assist you better in performing testing.
+In case of issues using the latest Test Harness, you may fall back to the earlier Matter Test Harness version as used at the applicable(version) SVE (see 3rd column),
+while filing a https://zigbeecertifiedproducts.knack.com/zigbee-alliance-ccb-tool#home/[CCB] against the latest Test Harness version for the problem you encountered.
+
+Specification versions marked with `(Sunset)` in the table have been sunset and are closed for new certifications. They can only be used for re-certification of previously certified products.
+
 //[cols=".^10%,.^25%,.^10%,.^20%,.^10%,.^25%"]
 |===
 | *Matter Version*      | *TH Version* | *Fallback in case of issues with latest TH* | *TH image location*                                                                          | *Supporting Documentation*                                                    | *SDK commit*
@@ -56,8 +65,8 @@ endif::[]
 | Matter 1.6            | use the latest TH version | v2.15+spring2026   | To install, use the branch "v2.15+spring2026" in the instructions of <<fresh_install>>                   | https://groups.csa-iot.org/wg/members-all/document/folder/5452[Causeway Link] | ad9cf71
 | Matter 1.6.1          | {th-version}   | this is the latest TH version | To install, use the branch "{th-version}" in the instructions of <<fresh_install>>                       | https://groups.csa-iot.org/wg/members-all/document/folder/2269[Causeway Link] | e91ea83
 |===
+// todo: fix Causeway URL for 1.6.1 once available
 
-Specification versions marked with `(Sunset)` in the table have been sunset and are closed for new certifications. They can only be used for re-certification of previously certified products.
 
 <<<
 [discrete]
