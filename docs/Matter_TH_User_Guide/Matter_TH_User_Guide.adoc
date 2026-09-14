@@ -41,20 +41,20 @@ endif::[]
 
 [discrete]
 == *Test-Harness Links*
-[cols=".^10%,.^25%,.^10%,.^20%,.^10%,.^25%"]
+//[cols=".^10%,.^25%,.^10%,.^20%,.^10%,.^25%"]
 |===
-| *Matter Version*      | *TH Version*       | *TH image location*                                                                         | *Supporting Documentation*                                                    | *SDK commit* | *Comments*
-| Matter 1.0 `(Sunset)` | v2.6               | https://drive.google.com/file/d/10YkV4mDulhLoA6RJOKZNNKWhHTH1tOfu/view?usp=drive_link[link] | https://groups.csa-iot.org/wg/members-all/document/folder/2729[Causeway Link] | 96c9357      |
-| Matter 1.1 `(Sunset)` | v2.8.1             | https://drive.google.com/file/d/15fU3L7QE-MNBslf53A_6sFgn1Wq0Pvqd/view?usp=drive_link[link] | https://groups.csa-iot.org/wg/members-all/document/folder/2730[Causeway Link] | 5a21d17      |
-| Matter 1.2 `(Sunset)` | TH-Fall2023        | https://drive.google.com/file/d/1WTjhc7xbYt18RvpABU3_r47uqOLd7NN1/view?usp=drive_link[link] | https://groups.csa-iot.org/wg/members-all/document/folder/3045[Causeway Link] | 19771ed      |
-| Matter 1.3 `(Sunset)` | v2.10.4+spring2024 | N/A                                                                                         | https://groups.csa-iot.org/wg/members-all/document/folder/3361[Causeway Link] | 50bcad1      | To install, use the tag "v2.10.4+spring2024" in the instructions of <<fresh_install>>
-| Matter 1.4            | v2.11+fall2024     | N/A                                                                                         | https://groups.csa-iot.org/wg/members-all/document/folder/4120[Causeway Link] | f2e5de7      | To install, use the tag "v2.11+fall2024" in the instructions of <<fresh_install>>
-| Matter 1.4.1          | v2.12+spring2025   | N/A                                                                                         | https://groups.csa-iot.org/wg/members-all/document/folder/4497[Causeway Link] | 91eab26      | To install, use the tag "v2.12+spring2025" in the instructions of <<fresh_install>>
-| Matter 1.4.2          | v2.13+summer2025   | N/A                                                                                         | https://groups.csa-iot.org/wg/members-all/document/folder/4651[Causeway Link] | 1b2b3fd      | To install, use the tag "v2.13+summer2025" in the instructions of <<fresh_install>>
-| Matter 1.5            | v2.14+fall2025     | N/A                                                                                         | https://groups.csa-iot.org/wg/members-all/document/folder/4825[Causeway Link] | ca9d111      | To install, use the tag "v2.14+fall2025" in the instructions of <<fresh_install>>
-| Matter 1.5.1          | v2.14.1+winter2026 | N/A                                                                                         | https://groups.csa-iot.org/wg/members-all/document/folder/5210[Causeway Link] | e9ecfc2      | To install, use the branch "v2.14.1+winter2026" in the instructions of <<fresh_install>>
-| Matter 1.6           | v2.15+spring2026    | N/A                                                                                         | https://groups.csa-iot.org/wg/members-all/document/folder/5452[Causeway Link] | ad9cf71      | To install, use the branch "v2.15+spring2026" in the instructions of <<fresh_install>>
-| Matter 1.6.1         | {th-version}        | N/A                                                                                         | https://groups.csa-iot.org/wg/members-all/document/folder/2269[Causeway Link] | e91ea83      | To install, use the branch "{th-version}" in the instructions of <<fresh_install>>
+| *Matter Version*      | *TH Version* | *Fallback in case of issues with latest TH* | *TH image location*                                                                          | *Supporting Documentation*                                                    | *SDK commit*
+| Matter 1.0 `(Sunset)` | TH-v2.6                   | N/A                | https://drive.google.com/file/d/10YkV4mDulhLoA6RJOKZNNKWhHTH1tOfu/view?usp=drive_link[Google Drive link] | https://groups.csa-iot.org/wg/members-all/document/folder/2729[Causeway Link] | 96c9357
+| Matter 1.1 `(Sunset)` | TH-v2.8.1                 | N/A                | https://drive.google.com/file/d/15fU3L7QE-MNBslf53A_6sFgn1Wq0Pvqd/view?usp=drive_link[Google Drive link] | https://groups.csa-iot.org/wg/members-all/document/folder/2730[Causeway Link] | 5a21d17
+| Matter 1.2 `(Sunset)` | TH-Fall2023               | N/A                | https://drive.google.com/file/d/1WTjhc7xbYt18RvpABU3_r47uqOLd7NN1/view?usp=drive_link[Google Drive link] | https://groups.csa-iot.org/wg/members-all/document/folder/3045[Causeway Link] | 19771ed
+| Matter 1.3 `(Sunset)` | v2.10.4+spring2024        | N/A                | To install, use the tag "v2.10.4+spring2024" in the instructions of <<fresh_install>>                    | https://groups.csa-iot.org/wg/members-all/document/folder/3361[Causeway Link] | 50bcad1
+| Matter 1.4            | use the latest TH version | v2.11+fall2024     | To install, use the tag "v2.11+fall2024" in the instructions of <<fresh_install>>                        | https://groups.csa-iot.org/wg/members-all/document/folder/4120[Causeway Link] | f2e5de7
+| Matter 1.4.1          | use the latest TH version | v2.12+spring2025   | To install, use the tag "v2.12+spring2025" in the instructions of <<fresh_install>>                      | https://groups.csa-iot.org/wg/members-all/document/folder/4497[Causeway Link] | 91eab26
+| Matter 1.4.2          | use the latest TH version | v2.13+summer2025   | To install, use the tag "v2.13+summer2025" in the instructions of <<fresh_install>>                      | https://groups.csa-iot.org/wg/members-all/document/folder/4651[Causeway Link] | 1b2b3fd
+| Matter 1.5            | use the latest TH version | v2.14+fall2025     | To install, use the tag "v2.14+fall2025" in the instructions of <<fresh_install>>                        | https://groups.csa-iot.org/wg/members-all/document/folder/4825[Causeway Link] | ca9d111
+| Matter 1.5.1          | use the latest TH version | v2.14.1+winter2026 | To install, use the branch "v2.14.1+winter2026" in the instructions of <<fresh_install>>                 | https://groups.csa-iot.org/wg/members-all/document/folder/5210[Causeway Link] | e9ecfc2
+| Matter 1.6            | use the latest TH version | v2.15+spring2026   | To install, use the branch "v2.15+spring2026" in the instructions of <<fresh_install>>                   | https://groups.csa-iot.org/wg/members-all/document/folder/5452[Causeway Link] | ad9cf71
+| Matter 1.6.1          | {th-version}   | this is the latest TH version | To install, use the branch "{th-version}" in the instructions of <<fresh_install>>                       | https://groups.csa-iot.org/wg/members-all/document/folder/2269[Causeway Link] | e91ea83
 |===
 
 Specification versions marked with `(Sunset)` in the table have been sunset and are closed for new certifications. They can only be used for re-certification of previously certified products.
@@ -2267,7 +2267,7 @@ Edit `~/certification-tool/cli/config.json`:
 +
 The `hostname` field in `config.json` tells the CLI where to find the Test Harness (TH) backend — it is *not* the address of the DUT.
 +
-If `th-cli` is installed on a *separate machine from the TH* (e.g. a laptop connecting to a TH running on a lab Raspberry Pi or server), set `hostname` to the TH host's actual IP address, as shown in the above example (`192.168.1.100`). 
+If `th-cli` is installed on a *separate machine from the TH* (e.g. a laptop connecting to a TH running on a lab Raspberry Pi or server), set `hostname` to the TH host's actual IP address, as shown in the above example (`192.168.1.100`).
 +
 If TH and `th-cli` are running on the *same machine*, since everything is local, this step is not needed - the CLI defaults to `hostname: "localhost"` automatically.
 
@@ -2442,7 +2442,7 @@ NOTE: The `--log` flag on the base `test-run-execution` command is deprecated. U
 ----
 # Deprecated: use `th-cli test-run-execution log --id 123` instead
 th-cli test-run-execution --log --id 123
-----  
+----
 
 NOTE: The `--grouped` option downloads a `.zip` archive with logs organized by test case. For large runs the server may take several minutes to generate the archive.
 
