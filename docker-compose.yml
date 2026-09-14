@@ -127,7 +127,7 @@ services:
       resources:
         limits:
           cpus: '${FRONTEND_CPU_LIMIT:-0.5}'        # If no environment variables is provided, cap at 0.5 cores
-          memory: '${FRONTEND_MEMORY_LIMIT:-700M}'   # If no environment variables is provided, cap at 700 MB
+          memory: '${FRONTEND_MEMORY_LIMIT:-2000M}'   # If no environment variables is provided, cap at 2000 MB
     labels:
       - traefik.enable=true
       - traefik.constraint-label-stack=${TRAEFIK_TAG?Variable not set}
