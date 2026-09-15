@@ -20,4 +20,8 @@ LOG_DIR="$ROOT_DIR/logs"
 
 LOG_FILENAME=$(date +"log_ubuntu_auto_install_%F-%H-%M-%S")
 LOG_PATH="$LOG_DIR/$LOG_FILENAME"
+
+# Without pipefail, this script's exit code would be tee's (always 0),
+# masking any failure from internal-auto-install.sh.
+set -o pipefail
 $UBUNTU_SCRIPT_DIR/internal-auto-install.sh $* | tee $LOG_PATH

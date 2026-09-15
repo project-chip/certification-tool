@@ -28,7 +28,6 @@ jobs:
       - name: Install Test Harness
         run: |
           printf '2\n' | ./scripts/ubuntu/auto-install.sh
-          ./scripts/ubuntu/auto-update.sh $(git rev-parse --abbrev-ref HEAD)
 
       - name: Start Test Harness services
         run: |
@@ -45,9 +44,28 @@ jobs:
             --passcode 20202021 \
             --KVS /tmp/chip-kvs \
             --trace-to json:/tmp/chip-all-clusters-app.json > /tmp/chip-all-clusters-app.log 2>&1 &
+          APP_PID=$!
           sleep 2
+          if ! kill -0 "$APP_PID" 2>/dev/null; then
+            echo "Sample app exited before tests could run:"
+            cat /tmp/chip-all-clusters-app.log
+            exit 1
+          fi
+
           printf "1\n" | th-cli run-tests \
             --tests-list "${TH_TEST_CASE_ID}" \
             --config backend/test_collections/matter/default_project.config \
             --title "arm64-ci-smoke" \
-            --no-color
+            --no-color | tee /tmp/th-cli-run.log
+
+      - name: Upload logs
+        if: failure()
+        uses: actions/upload-artifact@v4
+        with:
+          name: th-smoke-test-logs
+          path: |
+            logs/
+            /tmp/chip-all-clusters-app.log
+            /tmp/chip-all-clusters-app.json
+            /tmp/th-cli-run.log
+          if-no-files-found: ignore
