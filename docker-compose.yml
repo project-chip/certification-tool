@@ -61,6 +61,10 @@ services:
       placement:
         constraints:
           - node.role == manager
+      resources:
+        limits:
+          cpus: '${PROXY_CPU_LIMIT:-0.2}'        # If no environment variables is provided, cap at 0.2 cores
+          memory: '${PROXY_MEMORY_LIMIT:-128M}'   # If no environment variables is provided, cap at 128 MB
 
   db:
     image: postgres:12
@@ -76,10 +80,13 @@ services:
       placement:
         constraints:
           - node.labels.${STACK_NAME?Variable not set}.app-db-data == true
+      resources:
+        limits:
+          cpus: '${DB_CPU_LIMIT:-0.3}'        # If no environment variables is provided, cap at 0.3 cores
+          memory: '${DB_MEMORY_LIMIT:-384M}'  # If no environment variables is provided, cap at 384 MB
 
   backend:
     image: 'ghcr.io/project-chip/csa-certification-tool-backend:16a190f'
-
     ports:
       - "8888:8888"
       - "50000:50000"
@@ -100,6 +107,11 @@ services:
     privileged: true
     build:
       context: ./backend
+    deploy:
+      resources:
+        limits:
+          cpus: '${BACKEND_CPU_LIMIT:-2.5}'        # If no environment variables is provided, cap at 2.5 cores
+          memory: '${BACKEND_MEMORY_LIMIT:-2000M}' # If no environment variables is provided, cap at 2.0 GB
     command: bash -c "./prestart.sh; python3 ./app/main.py"
     labels:
       - traefik.enable=true
@@ -111,6 +123,11 @@ services:
     image: 'ghcr.io/project-chip/csa-certification-tool-frontend:10d1822'
     build:
       context: ./frontend
+    deploy:
+      resources:
+        limits:
+          cpus: '${FRONTEND_CPU_LIMIT:-0.5}'        # If no environment variables is provided, cap at 0.5 cores
+          memory: '${FRONTEND_MEMORY_LIMIT:-2000M}'   # If no environment variables is provided, cap at 2000 MB
     labels:
       - traefik.enable=true
       - traefik.constraint-label-stack=${TRAEFIK_TAG?Variable not set}

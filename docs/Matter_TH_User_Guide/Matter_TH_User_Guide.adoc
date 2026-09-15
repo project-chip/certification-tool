@@ -170,6 +170,7 @@ endif::[]
 | 72          | 04-Sep-2026  | [Apple]Antonio Melo Jr.             | * Updated Container Logging Configuration section to document the `th_config.enable_container_logs` per-project override (issue #1091).
 | 73          | 10-Sep-2026  | [Google]Andrey Khodyrev             | * Added 'For CNET Tests' section with wpa_supplicant volume mapping instructions for the SDK docker container.
 | 74          | 10-Sep-2026  | [Apple]Romulo Quidute               | * Added Repeat, Export, and Import a Test Run Execution sections to the CLI documentation.
+| 75          | 10-Sep-2026  | [Apple]Antonio Melo Jr.             | * Added the Container Resource Limits Configuration section documenting `BACKEND_CPU_LIMIT`/`BACKEND_MEMORY_LIMIT` and the equivalent frontend/db/proxy variables.
 |===
 
 <<<
@@ -2349,6 +2350,37 @@ NOTE: After changing any configuration in `./.env`, recreate the TH backend cont
 ----
 docker compose up -d backend
 ----
+
+[#container-resource-limits-configuration]
+===== Container Resource Limits Configuration
+The `backend`, `frontend`, `db`, and `proxy` containers each have a CPU/memory ceiling set in `docker-compose.yml`, sized by default to fit a resource-constrained Raspberry Pi.
+
+IMPORTANT: These defaults are *not* auto-scaled to the host's actual hardware — they apply the same way whether the TH is running on a Pi or a much more powerful machine. If you're running on hardware well above the minimum spec, raise these limits (or remove them by setting a very high value) so the TH isn't unnecessarily throttled.
+
+The caps are configured via environment variables in `certification-tool/.env` (see `default.env` for the commented-out defaults):
+
+[source,shell]
+----
+# Backend
+BACKEND_CPU_LIMIT=2.5
+BACKEND_MEMORY_LIMIT=2000M
+
+# Frontend
+FRONTEND_CPU_LIMIT=0.5
+FRONTEND_MEMORY_LIMIT=2000M
+
+# Database
+DB_CPU_LIMIT=0.3
+DB_MEMORY_LIMIT=384M
+
+# Proxy
+PROXY_CPU_LIMIT=0.2
+PROXY_MEMORY_LIMIT=128M
+----
+
+The CPU defaults above sum to 3.5 of the 4 physical cores on a Raspberry Pi 4, leaving 0.5 cores (12.5%) of headroom for the host OS even if every container simultaneously peaks.
+
+Changing these variables requires recreating the affected container(s) — see the note at the end of the <<container-logging-configuration,Container Logging Configuration>> section above for how to do this with `docker compose up`.
 
 [#user-prompt-timeout-configuration]
 ===== User Prompt Timeout Configuration

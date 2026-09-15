@@ -22,7 +22,7 @@ The following will document how to setup a Raspberry Pi so it can be used for ce
 ## Requirements
 
 -   SD card 64 GB or more
--   RaspberryPi 4 or newer with at least 4 GB RAM
+-   RaspberryPi 4 or newer with at least 8 GB RAM
 -   Internet access on Raspberry Pi during setup.
 
 1. Download and flash a micro SD-card with [Ubuntu Server 22.04](https://ubuntu.com/download/raspberry-pi/thank-you?version=22.04.3&architecture=server-arm64+raspi) for Raspberry Pi using [Raspberry Pi imager](https://www.raspberrypi.com/software/)
@@ -82,3 +82,23 @@ The following will document how to setup a Raspberry Pi so it can be used for ce
 8. Wait for 5-10 minutes for the test harness to startup, then access it from a browser
 
     `http://<rpi-ip>`
+
+## Resource Limits
+
+On a resource-constrained Raspberry Pi 4 (8 GB RAM minimum, 4 cores), the `backend`, `frontend`, `db`, and `proxy` containers are each capped with a CPU/memory ceiling in `docker-compose.yml`. The CPU limits sum to 3.5 of the 4 physical cores, leaving 0.5 cores (12.5%) of headroom for the host OS even if every container simultaneously peaks; the memory limits total ~4.5 GB, comfortably within the 8 GB minimum. These caps are configurable via environment variables in `certification-tool/.env` (see `default.env` for the commented-out defaults):
+
+| Service | CPU env var | Default | Memory env var | Default |
+|---|---|---|---|---|
+| backend | `BACKEND_CPU_LIMIT` | 2.5 | `BACKEND_MEMORY_LIMIT` | 2000M |
+| frontend | `FRONTEND_CPU_LIMIT` | 0.5 | `FRONTEND_MEMORY_LIMIT` | 2000M |
+| db | `DB_CPU_LIMIT` | 0.3 | `DB_MEMORY_LIMIT` | 384M |
+| proxy | `PROXY_CPU_LIMIT` | 0.2 | `PROXY_MEMORY_LIMIT` | 128M |
+
+To override a default, add the variable to `certification-tool/.env`, for example:
+
+```shell
+# Lower the backend memory cap to 1500M
+BACKEND_MEMORY_LIMIT=1500M
+```
+
+Changing these variables requires recreating the affected container (`docker compose up -d --force-recreate <service>`) for the new limit to take effect.
