@@ -26,8 +26,28 @@ cd $ROOT_DIR
 # Exit in case of error
 set -e
 
+# For the colored print_error/print_warning helpers used below.
+source "$ROOT_DIR/scripts/version-check/version-lib.sh"
+
 # Ensure .env exists
 ./scripts/install-default-env.sh
+
+# Make the current branch available to the backend container, so it can
+# keep re-checking the version policy for as long as the Test Harness stays
+# up (see scripts/version-check/backend-version-watchdog.sh), not just at
+# startup.
+export TH_CURRENT_BRANCH=$(git -C "$ROOT_DIR" rev-parse --abbrev-ref HEAD 2>/dev/null || true)
+
+# Check the current branch against the published version policy (minimum
+# supported version / denylisted versions). This must not block startup on
+# network failures (e.g. restrictive firewalls), only on an explicit policy
+# violation.
+if ! ./scripts/version-check/check-th-version.sh; then
+    print_error "### Exit with Error ###"
+    print_error "    This Test Harness version is not allowed to run. Taking down the Test Harness."
+    ./scripts/stop.sh
+    exit 1
+fi
 
 # Dev override files
 BACKEND_COMPOSE_DEV="-f docker-compose.override-backend-dev.yml"

@@ -89,6 +89,8 @@ services:
       - /usr/bin/docker:/usr/bin/docker
       - /var/run/dbus:/var/run/dbus
       - ./backend/test_collections:/app/test_collections # mount test_collections in container
+      - ./scripts/version-check/version-lib.sh:/app/scripts/version-check/version-lib.sh:ro
+      - ./scripts/version-check/backend-version-watchdog.sh:/app/scripts/version-check/backend-version-watchdog.sh:ro
     depends_on:
       - db
     env_file:
@@ -97,10 +99,16 @@ services:
       - SERVER_NAME=${DOMAIN?Variable not set}
       - SERVER_HOST=https://${DOMAIN?Variable not set}
       - BACKEND_FILEPATH_ON_HOST=${BACKEND_FILEPATH_ON_HOST}
+      - TH_CURRENT_BRANCH=${TH_CURRENT_BRANCH:-}
     privileged: true
     build:
       context: ./backend
     command: bash -c "./prestart.sh; python3 ./app/main.py"
+    healthcheck:
+      test: ["CMD", "bash", "/app/scripts/version-check/backend-version-watchdog.sh"]
+      interval: 24h
+      timeout: 30s
+      retries: 1
     labels:
       - traefik.enable=true
       - traefik.constraint-label-stack=${TRAEFIK_TAG?Variable not set}
