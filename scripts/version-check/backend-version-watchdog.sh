@@ -77,6 +77,8 @@ if [[ -z "$PROJECT" ]]; then
     print_error "ERROR: could not determine the docker compose project; unable to stop the Test Harness automatically."
     exit 1
 fi
-docker ps -q --filter "label=com.docker.compose.project=$PROJECT" | xargs -r docker stop
+OTHER_IDS=$(docker ps -q --filter "label=com.docker.compose.project=$PROJECT" | grep -v "^$(docker inspect --format '{{.Id}}' "$HOSTNAME" | cut -c1-12)")
+[[ -n "$OTHER_IDS" ]] && docker stop $OTHER_IDS
+docker stop "$HOSTNAME"
 
 exit 1
