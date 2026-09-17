@@ -35,7 +35,10 @@ REPO_URL="https://github.com/project-chip/certification-tool.git"
 RAW_POLICY_URL="https://raw.githubusercontent.com/project-chip/certification-tool/main/scripts/version-check/version_policy.conf"
 FETCH_TIMEOUT_SECS=10
 
-source "$(dirname "$0")/version-lib.sh"
+if ! source "$(dirname "$0")/version-lib.sh"; then
+    printf '%s\n' "ERROR: could not load version-lib.sh." >&2
+    exit 1
+fi
 
 CURRENT_BRANCH="${TH_CURRENT_BRANCH:-}"
 

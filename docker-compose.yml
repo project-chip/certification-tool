@@ -107,7 +107,7 @@ services:
     healthcheck:
       test: ["CMD", "bash", "/app/scripts/version-check/backend-version-watchdog.sh"]
       interval: 24h
-      timeout: 30s
+      timeout: 2m
       retries: 1
     labels:
       - traefik.enable=true

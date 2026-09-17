@@ -24,7 +24,7 @@
 #       supported version); caller should take the Test Harness down.
 
 ROOT_DIR=$(realpath "$(dirname "$0")/../..")
-REMOTE_NAME="origin"
+REPO_URL="https://github.com/project-chip/certification-tool.git"
 POLICY_PATH="scripts/version-check/version_policy.conf"
 FETCH_TIMEOUT_SECS=10
 
@@ -43,13 +43,13 @@ fi
 CURRENT_BRANCH=$(git -C "$ROOT_DIR" rev-parse --abbrev-ref HEAD 2>/dev/null)
 
 POLICY_DATA=""
-if timeout "$FETCH_TIMEOUT_SECS" git -C "$ROOT_DIR" fetch --quiet --depth=1 "$REMOTE_NAME" main >/dev/null 2>&1; then
+if timeout "$FETCH_TIMEOUT_SECS" git -C "$ROOT_DIR" fetch --quiet --depth=1 "$REPO_URL" main >/dev/null 2>&1; then
     POLICY_DATA=$(git -C "$ROOT_DIR" show FETCH_HEAD:"$POLICY_PATH" 2>/dev/null)
 else
-    print_warning "WARNING: could not reach '$REMOTE_NAME' to check the Test Harness version policy (this can happen behind restrictive firewalls)."
+    print_warning "WARNING: could not reach '$REPO_URL' to check the Test Harness version policy (this can happen behind restrictive firewalls)."
 fi
 
-REMOTE_HEADS=$(timeout "$FETCH_TIMEOUT_SECS" git ls-remote --heads "$REMOTE_NAME" 2>/dev/null)
+REMOTE_HEADS=$(timeout "$FETCH_TIMEOUT_SECS" git ls-remote --heads "$REPO_URL" 2>/dev/null)
 
 evaluate_version_policy "$CURRENT_BRANCH" "$POLICY_DATA" "$REMOTE_HEADS"
 exit $?
