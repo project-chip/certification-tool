@@ -40,7 +40,7 @@ if ! git -C "$ROOT_DIR" rev-parse --is-inside-work-tree >/dev/null 2>&1; then
     exit 0
 fi
 
-CURRENT_BRANCH=$(git -C "$ROOT_DIR" rev-parse --abbrev-ref HEAD 2>/dev/null)
+CURRENT_BRANCH=$(detect_current_branch "$ROOT_DIR")
 
 POLICY_DATA=""
 if timeout "$FETCH_TIMEOUT_SECS" git -C "$ROOT_DIR" fetch --quiet --depth=1 "$REPO_URL" main >/dev/null 2>&1; then

@@ -1,0 +1,20 @@
+name: Validate Test Harness version policy
+on:
+  workflow_dispatch:
+  pull_request:
+    paths:
+      - '.github/workflows/validate-version-policy.yml'
+      - 'scripts/version-check/version_policy.conf'
+      - 'scripts/version-check/version-lib.sh'
+      - 'scripts/version-check/validate-version-policy.sh'
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Validate version_policy.conf
+        run: |
+          ./scripts/version-check/validate-version-policy.sh

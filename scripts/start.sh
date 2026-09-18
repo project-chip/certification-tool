@@ -36,7 +36,7 @@ source "$ROOT_DIR/scripts/version-check/version-lib.sh"
 # keep re-checking the version policy for as long as the Test Harness stays
 # up (see scripts/version-check/backend-version-watchdog.sh), not just at
 # startup.
-export TH_CURRENT_BRANCH=$(git -C "$ROOT_DIR" rev-parse --abbrev-ref HEAD 2>/dev/null || true)
+export TH_CURRENT_BRANCH=$(detect_current_branch "$ROOT_DIR")
 
 # Check the current branch against the published version policy (minimum
 # supported version / denylisted versions). This must not block startup on
@@ -44,7 +44,7 @@ export TH_CURRENT_BRANCH=$(git -C "$ROOT_DIR" rev-parse --abbrev-ref HEAD 2>/dev
 # violation.
 if ! ./scripts/version-check/check-th-version.sh; then
     print_error "### Exit with Error ###"
-    print_error "    This Test Harness version is not allowed to run. Taking down the Test Harness."
+    print_error "    This Test Harness version is not allowed to run. Attempting to stop any Test Harness containers that may already be running."
     ./scripts/stop.sh
     exit 1
 fi
