@@ -21,6 +21,19 @@ FRONTEND_CONTAINER_NAME="certification-tool-frontend-1"
 DB_CONTAINER_NAME="certification-tool-db-1"
 PROXY_CONTAINER_NAME="certification-tool-proxy-1"
 
+ROOT_DIR=$(realpath "$(dirname "$0")/../..")
+
+# If the backend isn't running, run the same version check start.sh runs
+# before bringing anything up.
+show_version_check_if_backend_down() {
+    if docker ps --format '{{.Names}}' | grep -q "^${BACKEND_CONTAINER_NAME}$"; then
+        return
+    fi
+    echo "Backend container is not running -- running the Test Harness version check:"
+    "$ROOT_DIR/scripts/version-check/check-th-version.sh"
+    echo
+}
+
 read_version() {
     file_path="$1"
     title="$2"
@@ -143,6 +156,7 @@ show_proxy_info() {
 }
 
 # Show Test Harness version info
+show_version_check_if_backend_down
 read_version ".version_information" "Test Engine Version"
 read_version ".sha_information" "Test Engine SHA"
 read_version "test_collections/matter/config.py" "Test Engine SDK SHA"
@@ -152,3 +166,4 @@ show_backend_info
 show_frontend_info
 show_db_info
 show_proxy_info
+
