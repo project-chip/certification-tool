@@ -18,6 +18,7 @@ ROOT_DIR=$(realpath $(dirname "$0")/..)
 cd $ROOT_DIR
 # Exit in case of error
 set -e
+./scripts/install-default-env.sh
 docker compose -f docker-compose.yml down
 
 echo "Script 'stop.sh' completed successfully"

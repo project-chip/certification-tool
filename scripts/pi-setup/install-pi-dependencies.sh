@@ -31,7 +31,9 @@ print_script_step "Upgrade OS"
 sudo DEBIAN_FRONTEND=noninteractive apt-get update -y
 sudo DEBIAN_FRONTEND=noninteractive apt-get upgrade -y
 
-# TODO Comment on what dependency is required for:
+# pi-bluetooth: attaches the Pi's onboard UART-connected Bluetooth chip, required for BLE commissioning.
+# bluetooth: the BlueZ Bluetooth stack used for BLE commissioning.
+# linux-raspi: the Raspberry Pi-specific kernel, for correct hardware support (Bluetooth, USB, etc).
 packagelist=(
     "pi-bluetooth (>=0.1.18ubuntu4)"
     "bluetooth (>=5.64-0ubuntu1.1)"
@@ -41,9 +43,9 @@ packagelist=(
 SAVEIFS=$IFS
 IFS=$(echo -en "\r")
 for package in ${packagelist[@]}; do
-  print_script_step "Instaling package: ${package[@]}"
-  sudo DEBIAN_FRONTEND=noninteractive sudo apt-get satisfy ${package[@]} -y --allow-downgrades
+  print_script_step "Installing package: ${package[@]}"
+  sudo DEBIAN_FRONTEND=noninteractive apt-get satisfy ${package[@]} -y --allow-downgrades
 done
-IFS=$SAVEIFS 
+IFS=$SAVEIFS
 
 print_end_of_script
