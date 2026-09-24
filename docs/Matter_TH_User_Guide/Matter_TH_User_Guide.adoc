@@ -170,6 +170,7 @@ endif::[]
 | 72          | 04-Sep-2026  | [Apple]Antonio Melo Jr.             | * Updated Container Logging Configuration section to document the `th_config.enable_container_logs` per-project override (issue #1091).
 | 73          | 10-Sep-2026  | [Google]Andrey Khodyrev             | * Added 'For CNET Tests' section with wpa_supplicant volume mapping instructions for the SDK docker container.
 | 74          | 10-Sep-2026  | [Apple]Romulo Quidute               | * Added Repeat, Export, and Import a Test Run Execution sections to the CLI documentation.
+| 75          | 24-Sep-2026  | [Apple]Karsten Sperling             | * Added trouble shooting guidance for Wi-Fi Fixture interfaces.
 |===
 
 <<<
