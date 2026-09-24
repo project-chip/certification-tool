@@ -39,9 +39,9 @@ git stash --include-untracked
 git submodule foreach 'git stash --include-untracked'
 
 print_script_step "Pulling Test Harness code for branch: $ROOT_BRANCH"
-git fetch
+git fetch --no-recurse-submodules
 git checkout $ROOT_BRANCH
-git pull
+git pull --no-recurse-submodules
 git submodule update --init --recursive
 
 print_end_of_script
