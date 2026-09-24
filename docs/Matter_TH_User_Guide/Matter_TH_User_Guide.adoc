@@ -170,7 +170,8 @@ endif::[]
 | 72          | 04-Sep-2026  | [Apple]Antonio Melo Jr.             | * Updated Container Logging Configuration section to document the `th_config.enable_container_logs` per-project override (issue #1091).
 | 73          | 10-Sep-2026  | [Google]Andrey Khodyrev             | * Added 'For CNET Tests' section with wpa_supplicant volume mapping instructions for the SDK docker container.
 | 74          | 10-Sep-2026  | [Apple]Romulo Quidute               | * Added Repeat, Export, and Import a Test Run Execution sections to the CLI documentation.
-| 75          | 24-Sep-2026  | [Apple]Karsten Sperling             | * Added trouble shooting guidance for Wi-Fi Fixture interfaces.
+| 75          | 21-Sep-2026  | [Apple]Romulo Quidute               | * Added PICS Export, Rename, Delete, and Archive/Unarchive Test Run Execution sections to the CLI documentation.
+| 76          | 24-Sep-2026  | [Apple]Karsten Sperling             | * Added trouble shooting guidance for Wi-Fi Fixture interfaces.
 |===
 
 <<<
@@ -2745,6 +2746,69 @@ The `test-run-execution import` subcommand imports a test run execution previous
 # Import a previously exported execution into project 5
 th-cli test-run-execution import --file execution-87.json --project-id 5
 ----
+
+[#cli-pics-export]
+==== Export PICS Used by a Test Run Execution
+
+The `test-run-execution pics-export` subcommand exports the PICS actually used by a specific test run execution to a ZIP file.
+
+[source,bash]
+----
+# Export the PICS used by execution 87 to '<execution-title>-pics.zip'
+th-cli test-run-execution pics-export --id 87
+
+# Export to a specific output file
+th-cli test-run-execution pics-export --id 87 --output-file execution-87-pics.zip
+----
+
+[#cli-rename-execution]
+==== Rename a Test Run Execution
+
+The `test-run-execution rename` subcommand renames an existing test run execution.
+
+[source,bash]
+----
+# Rename execution 87
+th-cli test-run-execution rename --id 87 --name "My Renamed Execution"
+----
+
+[#cli-delete-execution]
+==== Delete a Test Run Execution
+
+The `test-run-execution delete` subcommand permanently deletes a test run execution.
+
+[source,bash]
+----
+# Delete execution 87 (prompts for confirmation)
+th-cli test-run-execution delete --id 87
+
+# Delete execution 87 without a confirmation prompt
+th-cli test-run-execution delete --id 87 --yes
+----
+
+WARNING: Deletion is permanent and cannot be undone.
+
+[#cli-archive-execution]
+==== Archive / Unarchive a Test Run Execution
+
+The `test-run-execution archive` and `test-run-execution unarchive` subcommands mark a test run execution as archived or restore it, without deleting it. Archived executions are hidden from the default `test-run-execution` list; pass `--archived` to view them instead.
+
+[source,bash]
+----
+# Archive execution 87
+th-cli test-run-execution archive --id 87
+
+# Unarchive execution 87
+th-cli test-run-execution unarchive --id 87
+
+# List only archived test run executions
+th-cli test-run-execution --archived
+
+# List archived executions for a specific project
+th-cli test-run-execution --archived --project-id 5
+----
+
+NOTE: `--archived` is not applicable when fetching a specific execution via `--id`.
 
 [#cli-download-logs]
 ==== Download Test Execution Logs
