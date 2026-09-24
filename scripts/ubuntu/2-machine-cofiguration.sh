@@ -16,6 +16,7 @@
  # limitations under the License.
 ROOT_DIR=$(realpath $(dirname "$0")/../..)
 SCRIPT_DIR="$ROOT_DIR/scripts"
+UBUNTU_SCRIPT_DIR="$SCRIPT_DIR/ubuntu"
 
 source "$SCRIPT_DIR/utils.sh"
 
@@ -87,6 +88,10 @@ done
 print_script_step "Enable ip6table_filter in kernel modules"
 printf "\n Updating: /etc/modules\n"
 grep -qxF "ip6table_filter" /etc/modules || echo "ip6table_filter" | sudo tee -a /etc/modules
+
+print_script_step "Configuring Wi-Fi devices"
+$UBUNTU_SCRIPT_DIR/2.1-configure-wifi-devices.sh
+verify_return_code
 
 print_script_step "Create System Service for Matter Test Harness"
 printf "\n Writing: /etc/systemd/system/matter-th.service"

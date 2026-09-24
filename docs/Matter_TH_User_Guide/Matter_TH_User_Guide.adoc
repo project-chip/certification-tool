@@ -171,6 +171,7 @@ endif::[]
 | 73          | 10-Sep-2026  | [Google]Andrey Khodyrev             | * Added 'For CNET Tests' section with wpa_supplicant volume mapping instructions for the SDK docker container.
 | 74          | 10-Sep-2026  | [Apple]Romulo Quidute               | * Added Repeat, Export, and Import a Test Run Execution sections to the CLI documentation.
 | 75          | 21-Sep-2026  | [Apple]Romulo Quidute               | * Added PICS Export, Rename, Delete, and Archive/Unarchive Test Run Execution sections to the CLI documentation.
+| 76          | 24-Sep-2026  | [Apple]Karsten Sperling             | * Added trouble shooting guidance for Wi-Fi Fixture interfaces.
 |===
 
 <<<
@@ -729,6 +730,39 @@ Start the Test-Harness again: +
 |===
 
 This will force the SDK dependencies to be reinstalled during the next startup.
+
+==== No Link-Local IPv6 Address Assigned to the Wi-Fi Fixture Interface
+
+The network the Wi-Fi Fixture brings up has no DHCP server, so a DUT that joins it is reachable only at an IPv6 link-local address. This requires the host to have a link-local address of its own on the fixture's interface, which the kernel assigns as the interface comes up unless NetworkManager has taken the interface over.
+
+===== Symptoms
+A test using the Wi-Fi Fixture fails as it brings up its access point, with a message naming the interface the fixture was given:
+
+|===
+|`No link-local IPv6 address assigned to wlx6ccdd6c589f0 after 5 seconds`
+|===
+
+===== Diagnosis
+Check whether NetworkManager is running and holding that interface:
+
+|===
+|*$* `systemctl is-active NetworkManager`
+
+*$* `nmcli device status`
+|===
+
+An interface NetworkManager has claimed but not activated is listed as `disconnected` rather than `unmanaged`, and has IPv6 switched off for as long as it is in that state.
+
+===== Solution
+The Test-Harness installation scripts write a udev rule that leaves USB Wi-Fi adapters to the Test-Harness, so an installation set up by `auto-install.sh` or brought up to date by `auto-update.sh` is already configured correctly. An older installation can be configured by running that step on its own:
+
+|===
+|*$* `./scripts/ubuntu/2.1-configure-wifi-devices.sh`
+|===
+
+The rule applies to an adapter as it appears, so re-plug an adapter that is already connected, or reboot the host.
+
+Note that NetworkManager is not required on a Test-Harness host and is not installed by the installation scripts, which configure `wpa_supplicant` directly for the host's own Wi-Fi interface.
 
 <<<
 == *Bringing Up of Matter Node (DUT) for Certification Testing*
