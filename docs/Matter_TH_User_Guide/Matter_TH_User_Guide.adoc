@@ -290,14 +290,16 @@ If the DUT supports thread transport, an RCP dongle provisioned with a recommend
 NOTE: **Starting with version v2.10 we have moved from distributing TH as an SD-Card image to publishing the TH Docker containers at Github Container Registry and pulling them at install time. By doing that the release process has been made much faster and less error-prone, while at the same time installation time has gone shorter.**
 
 . Place the blank SD card into the user’s system USB slot.
-. Open the https://www.raspberrypi.com/software/[Raspberry Pi Imager] or https://www.balena.io/etcher/[Balena Etcher] tool on the Mac/PC and select the '{ubuntu-description}'.
-* Edit the SO custom settings to:
-** username: ubuntu
+. Flash the '{ubuntu-description}' image using one of the following tools on the Mac/PC:
+* *Raspberry Pi Imager:* open https://www.raspberrypi.com/software/[Raspberry Pi Imager] and select '{ubuntu-description}' as the operating system (under _Other general-purpose OS_ > _Ubuntu_).
+* *Balena Etcher:* download the Raspberry Pi image of '{ubuntu-description}' from https://ubuntu.com/download/raspberry-pi[ubuntu.com/download/raspberry-pi], then open https://www.balena.io/etcher/[Balena Etcher], choose *Flash from file* and select the downloaded image. Skip the OS customization settings below (see the note).
+. If using Raspberry Pi Imager, edit the OS customization settings to:
+* username: ubuntu
 +
 WARNING: **The username must be 'ubuntu'. Changing the name may cause problems running TH.**
 
-** password: raspberrypi
-** hostname: ubuntu
+* password: raspberrypi
+* hostname: ubuntu
 * Make sure you have enabled the SSH service.
 +
 NOTE: The username/password/hostname/SSH customization above is done through Raspberry

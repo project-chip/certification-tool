@@ -29,6 +29,8 @@ clean_up_environment() {
 
     print_script_step "Resetting Database"
     if [ -z "$(docker ps -q -f name=^certification-tool-backend-1$)" ]; then
+        # docker compose needs a .env file to read (see stop.sh)
+        "$ROOT_DIR/scripts/install-default-env.sh"
         docker compose -f "$ROOT_DIR/docker-compose.yml" -f "$ROOT_DIR/docker-compose.override-backend-dev.yml" up db backend --detach --no-build --pull never
     fi
     docker exec certification-tool-backend-1 bash -c "./prestart.sh ; poetry install ; ./scripts/reset_db.py"
@@ -44,8 +46,14 @@ clean_up_environment() {
 print_start_of_script
 
 echo
-echo "This operation will erase all the data from the database, prune the docker"
-echo "images and networks, and delete $HOME/apps and $HOME/.cache/pypoetry"
+echo "This operation will erase all the data from the database, delete"
+echo "$HOME/apps and $HOME/.cache/pypoetry, and run 'docker system prune -af --volumes'."
+echo "The Docker prune affects the whole machine, not just the Test-Harness, and removes:"
+echo "  - all stopped containers"
+echo "  - all images not used by a running container"
+echo "  - all unused networks"
+echo "  - all unused anonymous volumes"
+echo "  - all build cache"
 read -p "Are you sure you want to clean up the Test-Harness environment? [y/N] " -n 1 -r
 echo
 
