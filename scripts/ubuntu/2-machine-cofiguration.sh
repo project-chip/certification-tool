@@ -14,6 +14,8 @@
  # WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  # See the License for the specific language governing permissions and
  # limitations under the License.
+set -e
+
 ROOT_DIR=$(realpath $(dirname "$0")/../..)
 SCRIPT_DIR="$ROOT_DIR/scripts"
 
@@ -23,15 +25,18 @@ print_start_of_script
 
 WLAN_INTERFACE="${WLAN_INTERFACE:-wlan0}"
 
-# Trust github
-print_script_step "Apply github.com fingerprint"
-ssh-keygen -F github.com || ssh-keyscan github.com >>~/.ssh/known_hosts
-
 # Configure docker access from user
 print_script_step "Configuring Docker access for user"
-sudo groupadd docker
+# docker-ce's own postinst already creates this group, so it normally exists by the
+# time this runs; tolerate that instead of letting it fail the whole script.
+sudo groupadd docker || true
 sudo usermod -a -G docker $USER
 sudo service docker restart
+
+# Grant access to serial devices (e.g. the nRF52840/SiLabs Thread RCP dongle at
+# /dev/ttyACM0) without needing sudo for every nrfutil/otbr invocation.
+print_script_step "Configuring serial device access for user"
+sudo usermod -a -G dialout $USER
 
 # Setup Wifi
 print_script_step "Create System Service for wpa_suppliant"
@@ -62,6 +67,8 @@ WPA_SUPPLICANT_SETTINGS=(
     "update_config=1"
 )
 printf "\n Updating: $WPA_SUPPLICANT_FILE\n"
+# The directory only exists once wpasupplicant is installed, which not every image has.
+sudo mkdir -p "$(dirname "$WPA_SUPPLICANT_FILE")"
 sudo touch "$WPA_SUPPLICANT_FILE"
 for setting in ${WPA_SUPPLICANT_SETTINGS[@]}; do
     echo "  setting: $setting"
@@ -107,7 +114,12 @@ sudo systemctl daemon-reload
 sudo systemctl enable matter-th
 
 print_script_step "Enable systemd-timesyncd"
-sudo systemctl enable systemd-timesyncd
-sudo systemctl start systemd-timesyncd
+# Some images (e.g. ones using chrony) don't ship timesyncd; they already sync time.
+if systemctl list-unit-files systemd-timesyncd.service --no-legend | grep -q .; then
+    sudo systemctl enable systemd-timesyncd
+    sudo systemctl start systemd-timesyncd
+else
+    printf "\n systemd-timesyncd is not installed; skipping.\n"
+fi
 
 print_end_of_script

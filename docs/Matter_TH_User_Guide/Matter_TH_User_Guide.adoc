@@ -290,15 +290,26 @@ If the DUT supports thread transport, an RCP dongle provisioned with a recommend
 NOTE: **Starting with version v2.10 we have moved from distributing TH as an SD-Card image to publishing the TH Docker containers at Github Container Registry and pulling them at install time. By doing that the release process has been made much faster and less error-prone, while at the same time installation time has gone shorter.**
 
 . Place the blank SD card into the user’s system USB slot.
-. Open the https://www.raspberrypi.com/software/[Raspberry Pi Imager] or https://www.balena.io/etcher/[Balena Etcher] tool on the Mac/PC and select the '{ubuntu-description}'.
-* Edit the SO custom settings to:
-** username: ubuntu
+. Flash the '{ubuntu-description}' image using one of the following tools on the Mac/PC:
+* *Raspberry Pi Imager:* open https://www.raspberrypi.com/software/[Raspberry Pi Imager] and select '{ubuntu-description}' as the operating system (under _Other general-purpose OS_ > _Ubuntu_).
+* *Balena Etcher:* download the Raspberry Pi image of '{ubuntu-description}' from https://ubuntu.com/download/raspberry-pi[ubuntu.com/download/raspberry-pi], then open https://www.balena.io/etcher/[Balena Etcher], choose *Flash from file* and select the downloaded image. Skip the OS customization settings below (see the note).
+. If using Raspberry Pi Imager, edit the OS customization settings to:
+* username: ubuntu
 +
 WARNING: **The username must be 'ubuntu'. Changing the name may cause problems running TH.**
 
-** password: raspberrypi
-** hostname: ubuntu
+* password: raspberrypi
+* hostname: ubuntu
 * Make sure you have enabled the SSH service.
++
+NOTE: The username/password/hostname/SSH customization above is done through Raspberry
+Pi Imager's OS customization settings, and enabling SSH with password authentication
+there is enough. Balena Etcher only writes the raw image and has no customization step.
+An image flashed with Etcher uses the defaults from the `user-data` cloud-init file on
+the boot partition: username `ubuntu`, password `ubuntu` (you must change it at first
+login), and `ssh_pwauth: false`, so SSH password login is disabled. You can still log
+in on the Pi's own display and keyboard. To allow SSH with a password, set
+`ssh_pwauth: true` in `user-data` on the boot partition before the first boot.
 . After the SD card has been flashed, remove the SD card and place it in the Raspberry Pi’s memory card slot.
 . Power on the Raspberry Pi and ensure that the local area network, display monitor and keyboard are connected.
 . Enter the username and password.
@@ -761,7 +772,7 @@ To build the example apps from the latest SDK source, follow the instructions be
 
 |===
 |*$* `git clone pass:[git@github.com:project-chip/connectedhomeip.git] --recursive` +
-*$* `cd connectedhome` +
+*$* `cd connectedhomeip` +
 *$* `source scripts/bootstrap.sh` +
 *$* `source scripts/activate.sh`
 |===
@@ -992,7 +1003,7 @@ Remember to set `PATH_TO_PAA_ROOTS` and substitute `<SDK SHA RECOMMENDED>`
 
 If the DUT supports Thread Transport, DUT vendors need to use the OTBR that is shipped with the TH for certification testing. Here are the instructions to set up OTBR that comes with the TH. Users need to get the RCP programmed with the recommended version and connect it to the Raspberry Pi running the TH. The OTBR will be started when the TH runs the thread transport related TC’s.
 
-Currently the OTBR in the TH works with either the Nordic RCP dongle or SiLabs RCP dongle. Refer to <<instructions-to-flash-the-firmware-nrf52840-rcpdongle, Section 7.1>> to flash the NRF52840 firmware or <<instructions-to-flash-silabs-rcp, Section 7.2>> to flash the SiLabs firmware and get the RCP’s ready. Once the RCP’s are programmed, the user needs to insert the RCP dongle on to the Raspberry Pi running the TH and reboot the Raspberry Pi.
+Currently the OTBR in the TH works with either the Nordic RCP dongle or SiLabs RCP dongle. Refer to <<instructions-to-flash-the-firmware-nrf52840-rcpdongle, Section 7.1>> to flash the NRF52840 firmware or <<instructions-to-flash-silabs-rcp, Section 7.3>> to flash the SiLabs firmware and get the RCP’s ready. Once the RCP’s are programmed, the user needs to insert the RCP dongle on to the Raspberry Pi running the TH and reboot the Raspberry Pi.
 
 === Instructions to Flash the Firmware NRF52840 RCPDongle
 
@@ -1048,7 +1059,7 @@ For detailed RCP firmware usage, refer to: https://www.silabs.com/documents/publ
 Requirements:
 
 * SiLabs RCP: https://www.silabs.com/development-tools/thunderboard/thunderboard-sense-two-kit[Thunderboard Sense 2 Sensor-to-Cloud Advanced IoT Kit] or https://www.silabs.com/products/development-tools/wireless/mesh-networking/mighty-gecko-starter-kit[EFR32MG Wireless Starter Kit]
-* SiLabs RCP Firmware: See Session 6.2
+* SiLabs RCP Firmware: see the ot-rcp-binaries download above
 * Simplicity Commander: Installer for https://www.silabs.com/documents/public/software/SimplicityCommander-Windows.zip[Windows], https://www.silabs.com/documents/public/software/SimplicityCommander-Mac.zip[MAC] or https://www.silabs.com/documents/public/software/SimplicityCommander-Linux.zip[Linux]
 
 From UI:

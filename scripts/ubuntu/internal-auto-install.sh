@@ -29,10 +29,6 @@ print_script_step "Installing Test Harness Dependencies"
 $UBUNTU_SCRIPT_DIR/1-install-dependencies.sh
 verify_return_code
 
-print_script_step "Installing Additional Dependencies"
-$UBUNTU_SCRIPT_DIR/1.2-install-additional-dependencies.sh
-verify_return_code
-
 print_script_step "Configure Machine"
 $UBUNTU_SCRIPT_DIR/2-machine-cofiguration.sh
 verify_return_code
@@ -55,6 +51,17 @@ print_end_of_script
 print_installation_success
 
 print_script_step "You need to reboot to finish setup"
+# TH_AUTO_REBOOT lets unattended provisioning opt in to rebooting without a prompt.
+if [ -n "$TH_AUTO_REBOOT" ]; then
+    printf "TH_AUTO_REBOOT is set; rebooting now to finish setup.\n"
+    sudo reboot
+    exit 0
+fi
+# Without a terminal there's nobody to answer the prompt, so leave the reboot to the caller.
+if [ ! -t 0 ]; then
+    printf "No interactive terminal detected; skipping reboot. Reboot manually to finish setup.\n"
+    exit 0
+fi
 printf "Do you want to reboot now? (Press 1 to reboot now)\n"
 select yn in "Yes" "No"; do
     case $yn in

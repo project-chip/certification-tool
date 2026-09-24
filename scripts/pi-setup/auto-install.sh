@@ -19,4 +19,5 @@ PI_SCRIPT_DIR="$ROOT_DIR/scripts/pi-setup"
 LOG_FILENAME=$(date +"log-pi_setup-auto-install_%F-%H-%M-%S")
 LOG_PATH="$ROOT_DIR/logs/$LOG_FILENAME"
 
+set -o pipefail
 $PI_SCRIPT_DIR/internal-auto-install.sh $* | tee $LOG_PATH
