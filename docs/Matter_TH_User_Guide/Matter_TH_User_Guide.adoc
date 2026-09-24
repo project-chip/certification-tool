@@ -171,6 +171,7 @@ endif::[]
 | 73          | 10-Sep-2026  | [Google]Andrey Khodyrev             | * Added 'For CNET Tests' section with wpa_supplicant volume mapping instructions for the SDK docker container.
 | 74          | 10-Sep-2026  | [Apple]Romulo Quidute               | * Added Repeat, Export, and Import a Test Run Execution sections to the CLI documentation.
 | 75          | 21-Sep-2026  | [Apple]Romulo Quidute               | * Added PICS Export, Rename, Delete, and Archive/Unarchive Test Run Execution sections to the CLI documentation.
+| 76          | 23-Sep-2026  | [Apple]Romulo Quidute               | * Updated OTBR docker image references in the Thread dataset generation section to match the new default (`openthread/otbr` digest-pinned image), replacing the obsolete `nrfconnect/otbr:9185bda`.
 |===
 
 <<<
@@ -1077,8 +1078,8 @@ ssh the Raspberry-Pi in the User System using the command "*ssh ubuntu@IP_addres
 Example output for the above command to generate the dataset value:
 |===
 |ubuntu@ubuntu:~*$* ./certification-tool/backend/test_collections/matter/scripts/OTBR/otbr_start.sh
-nrfconnect/otbr             9185bda                                       083c8472bc52   10 months ago   1.21GB +
-otbr image nrfconnect/otbr:9185bda already installed
+openthread/otbr@sha256:aa02bd1534984be704c84a575f97412c71fab504e6e1f094d0de4e06bfe46cf3   083c8472bc52   10 months ago   1.21GB +
+otbr image openthread/otbr@sha256:aa02bd1534984be704c84a575f97412c71fab504e6e1f094d0de4e06bfe46cf3 already installed
 54d868724cbb0c05c155983d5df5e9a3c1b61cbdafdf38eef2d8d1928f305a
 
 waiting 10 seconds to give the docker container enough time to start up... +
@@ -1133,7 +1134,7 @@ If any issue occurs while using *otbr_start.sh*, follow the steps below to gener
 .. Run the docker:
 +
 |===
-|`sudo docker run -it --rm --privileged --network otbr -p 8080:80 --sysctl "net.ipv6.conf.all.disable_ipv6=0 net.ipv6.conf.all.forwarding=1" --name otbr -e NAT64=0 --volume /dev/ttyACM0:/dev/ttyACM0 nrfconnect/otbr:9185bda --radio-url spinel+hdlc+uart:///dev/ttyACM0`
+|`sudo docker run -it --rm --privileged --network otbr -p 8080:80 --sysctl "net.ipv6.conf.all.disable_ipv6=0 net.ipv6.conf.all.forwarding=1" --name otbr -e NAT64=0 --volume /dev/ttyACM0:/dev/ttyACM0 openthread/otbr@sha256:aa02bd1534984be704c84a575f97412c71fab504e6e1f094d0de4e06bfe46cf3 --radio-url spinel+hdlc+uart:///dev/ttyACM0`
 |===
 
 . Generate the Thread form for dataset by entering ‘<Raspberry-Pi IP>:8080’ on the user’s system browser. The OTBR form will be generated as shown below.
