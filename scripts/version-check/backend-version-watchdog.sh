@@ -55,7 +55,6 @@ if [[ -f "$LAST_CHECK_STAMP" ]]; then
         exit 0
     fi
 fi
-date +%s > "$LAST_CHECK_STAMP"
 
 CURRENT_BRANCH="${TH_CURRENT_BRANCH:-}"
 
@@ -68,6 +67,7 @@ POLICY_DATA=$(curl -fsS --max-time "$FETCH_TIMEOUT_SECS" "$RAW_POLICY_URL" 2>/de
 REMOTE_HEADS=$(timeout "$FETCH_TIMEOUT_SECS" git ls-remote --heads "$REPO_URL" 2>/dev/null)
 
 if evaluate_version_policy "$CURRENT_BRANCH" "$POLICY_DATA" "$REMOTE_HEADS"; then
+    date +%s > "$LAST_CHECK_STAMP"
     exit 0
 fi
 
