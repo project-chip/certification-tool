@@ -30,10 +30,22 @@
 # Exit codes only affect the container's reported Docker health status
 # (0 = healthy, 1 = unhealthy); the actual shutdown, when it happens, is
 # performed directly by this script via the mounted docker socket.
+#
+# Docker runs this on docker-compose.yml's short healthcheck interval so
+# the container reports healthy (and becomes Traefik-routable) soon after
+# it starts, not once a day. The version-policy fetch (network calls) is
+# expensive and only meant to happen about once a day, so it's throttled
+# via a timestamp stamp file rather than Docker's interval. Once a fetch
+# finds the version denylisted, that verdict is cached in a separate flag
+# file so the (cheap, local) safe_to_stop check can still be polled every
+# tick without re-hitting the network for as long as a test keeps running.
 
 REPO_URL="https://github.com/project-chip/certification-tool.git"
 RAW_POLICY_URL="https://raw.githubusercontent.com/project-chip/certification-tool/main/scripts/version-check/version_policy.conf"
 FETCH_TIMEOUT_SECS=10
+RECHECK_INTERVAL_SECS=$((24 * 60 * 60))
+LAST_CHECK_STAMP="/tmp/.backend-version-watchdog-last-check"
+DENYLISTED_FLAG="/tmp/.backend-version-watchdog-denylisted"
 
 if ! source "$(dirname "$0")/version-lib.sh"; then
     printf '%s\n' "ERROR: could not load version-lib.sh." >&2
@@ -47,11 +59,26 @@ if [[ -z "$CURRENT_BRANCH" ]]; then
     exit 0
 fi
 
-POLICY_DATA=$(curl -fsS --max-time "$FETCH_TIMEOUT_SECS" "$RAW_POLICY_URL" 2>/dev/null)
-REMOTE_HEADS=$(timeout "$FETCH_TIMEOUT_SECS" git ls-remote --heads "$REPO_URL" 2>/dev/null)
+# Skip straight to the (cheap) safe_to_stop poll if a prior fetch already
+# found this version denylisted -- no need to re-hit the network every
+# tick while we wait for the test run to finish.
+if [[ ! -f "$DENYLISTED_FLAG" ]]; then
+    if [[ -f "$LAST_CHECK_STAMP" ]]; then
+        LAST_CHECK=$(<"$LAST_CHECK_STAMP")
+        if [[ "$LAST_CHECK" =~ ^[0-9]+$ ]] && (( $(date +%s) - LAST_CHECK < RECHECK_INTERVAL_SECS )); then
+            exit 0
+        fi
+    fi
 
-if evaluate_version_policy "$CURRENT_BRANCH" "$POLICY_DATA" "$REMOTE_HEADS"; then
-    exit 0
+    POLICY_DATA=$(curl -fsS --max-time "$FETCH_TIMEOUT_SECS" "$RAW_POLICY_URL" 2>/dev/null)
+    REMOTE_HEADS=$(timeout "$FETCH_TIMEOUT_SECS" git ls-remote --heads "$REPO_URL" 2>/dev/null)
+    date +%s > "$LAST_CHECK_STAMP"
+
+    if evaluate_version_policy "$CURRENT_BRANCH" "$POLICY_DATA" "$REMOTE_HEADS"; then
+        exit 0
+    fi
+
+    : > "$DENYLISTED_FLAG"
 fi
 
 # Returns 0 only if we can positively confirm the test engine is idle (not
