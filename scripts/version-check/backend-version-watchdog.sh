@@ -30,15 +30,32 @@
 # Exit codes only affect the container's reported Docker health status
 # (0 = healthy, 1 = unhealthy); the actual shutdown, when it happens, is
 # performed directly by this script via the mounted docker socket.
+#
+# Docker runs this on docker-compose.yml's short healthcheck interval so
+# the container reports healthy (and becomes Traefik-routable) soon after
+# it starts, not once a day. The actual policy check below is expensive
+# (network calls) and only meant to run about once a day, so it
+# self-throttles via a timestamp stamp file instead of relying on Docker's
+# interval for that cadence.
 
 REPO_URL="https://github.com/project-chip/certification-tool.git"
 RAW_POLICY_URL="https://raw.githubusercontent.com/project-chip/certification-tool/main/scripts/version-check/version_policy.conf"
 FETCH_TIMEOUT_SECS=10
+RECHECK_INTERVAL_SECS=$((24 * 60 * 60))
+LAST_CHECK_STAMP="/tmp/.backend-version-watchdog-last-check"
 
 if ! source "$(dirname "$0")/version-lib.sh"; then
     printf '%s\n' "ERROR: could not load version-lib.sh." >&2
     exit 1
 fi
+
+if [[ -f "$LAST_CHECK_STAMP" ]]; then
+    LAST_CHECK=$(<"$LAST_CHECK_STAMP")
+    if [[ "$LAST_CHECK" =~ ^[0-9]+$ ]] && (( $(date +%s) - LAST_CHECK < RECHECK_INTERVAL_SECS )); then
+        exit 0
+    fi
+fi
+date +%s > "$LAST_CHECK_STAMP"
 
 CURRENT_BRANCH="${TH_CURRENT_BRANCH:-}"
 
