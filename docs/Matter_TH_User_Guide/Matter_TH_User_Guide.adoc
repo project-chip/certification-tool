@@ -172,6 +172,7 @@ endif::[]
 | 74          | 10-Sep-2026  | [Apple]Romulo Quidute               | * Added Repeat, Export, and Import a Test Run Execution sections to the CLI documentation.
 | 75          | 21-Sep-2026  | [Apple]Romulo Quidute               | * Added PICS Export, Rename, Delete, and Archive/Unarchive Test Run Execution sections to the CLI documentation.
 | 76          | 23-Sep-2026  | [Apple]Romulo Quidute               | * Updated OTBR docker image references in the Thread dataset generation section to match the new default (`openthread/otbr` digest-pinned image), replacing the obsolete `nrfconnect/otbr:9185bda`.
+| 77          | 28-Sep-2026  | [Apple]Romulo Quidute               | * Documented `project export`/`project import`, and added missing flag examples for `run-tests --no-streaming`, `test-run-execution` list filters (`--project-id`, `--skip`, `--limit`, `--json`), `available-tests --group-by-cluster`, `test-runner-status --json`, and the `--version` Backend/SDK breakdown.
 |===
 
 <<<
@@ -2464,7 +2465,12 @@ th-cli --version
 
 # Check Test-Harness runner status
 th-cli test-runner-status
+
+# Check Test-Harness runner status in JSON format
+th-cli test-runner-status --json
 ----
+
+`th-cli --version` prints the CLI's own version and git SHA, followed by a Backend/SDK version breakdown fetched from the server: the backend version and SHA, the SDK SHA and Docker tag, and the database revision. If the server is unreachable, the CLI still prints its own version and reports that server versions could not be retrieved.
 
 ==== View Available Tests
 
@@ -2481,6 +2487,9 @@ th-cli available-tests --json
 
 # Filter by cluster
 th-cli available-tests --cluster ACE
+
+# Group test cases by cluster, 4 per line
+th-cli available-tests --group-by-cluster
 
 # Filter by test case
 th-cli available-tests | grep "TC-ACE"
@@ -2532,7 +2541,12 @@ th-cli run-tests --tests-list TC-ACE-1.1 --prompt-timeout 300
 
 # Assign to existing project
 th-cli run-tests --tests-list TC-ACE-1.1 --project-id 5
+
+# Disable the real-time web log viewer for this run
+th-cli run-tests --tests-list TC-ACE-1.1 --no-streaming
 ----
+
+`--no-streaming` disables the browser-based real-time log viewer (enabled by default, normally reachable at a URL printed at the start of the run); logs are still written to the local log file either way.
 
 WARNING: If the *project-id* is not specified, a default project called *CLI Project Execution* will be used (*or* created if not presented) for the test run. Please make sure to use the appropriate project-id if you want to assign the test run to a specific project. +
 You can verify to the existing projects using the `th-cli project list` command, referred at <<project-management, Section 11.3.4, Project Management>>.
@@ -2653,6 +2667,23 @@ th-cli project logs --id 5 --output-file project5-logs.zip
 NOTE: This command downloads a single zip archive containing the logs for *every* test run execution belonging to the project, which can take a while for projects with many or large executions — the CLI prints a notice while the download is in progress. +
 If the project has no test run executions yet, the command reports that there is nothing to download instead of writing an empty zip file.
 
+[#cli-export-import-project]
+**Export and import a project:**
+
+The `project export` and `project import` subcommands export a project's configuration to a JSON file and import it again, letting you copy a project's setup (including PICS) between Test-Harness instances or reuse it as a template for a new project.
+
+[source,bash]
+----
+# Export project 5 to '<project-name>-project-config.json'
+th-cli project export --id 5
+
+# Export to a specific output file
+th-cli project export --id 5 --output-file door-lock-project.json
+
+# Import a previously exported project config, creating a new project
+th-cli project import --file door-lock-project.json
+----
+
 ==== View Test Execution History
 
 [source,bash]
@@ -2665,6 +2696,15 @@ th-cli test-run-execution --all
 
 # Sort by ascending order
 th-cli test-run-execution --sort asc
+
+# Filter by project
+th-cli test-run-execution --project-id 5
+
+# Skip the first 10 (ordered by ID) and fetch the next 20
+th-cli test-run-execution --skip 10 --limit 20
+
+# Print JSON output for more details
+th-cli test-run-execution --json
 ----
 
 [#cli-repeat-execution]
