@@ -105,12 +105,13 @@ services:
       context: ./backend
     command: bash -c "./prestart.sh; python3 ./app/main.py"
     healthcheck:
-      # The watchdog script self-throttles its actual version-policy check to
-      # once every 24h (see backend-version-watchdog.sh); this interval only
-      # controls how quickly Docker/Traefik see the container become healthy.
+      # start_interval overrides the probe cadence only during start_period,
+      # so Traefik sees the container become healthy shortly after it starts
+      # instead of waiting for the first 24h interval tick.
       test: ["CMD", "bash", "/app/scripts/version-check/backend-version-watchdog.sh"]
-      interval: 30s
+      interval: 24h
       start_period: 2m
+      start_interval: 1m
       timeout: 2m
       retries: 1
     labels:
