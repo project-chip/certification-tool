@@ -59,13 +59,17 @@ _Pro Tip: To change wifi networks in the future, edit the `<wifi-ssid>` & `<wifi
 
 By default, wpa_supplicant is not allowed to update (overwrite) configurations, if you want chip app to be able to store the configuration changes permanently, we need to make the following changes:
 
-6. Edit `dbus-fi.w1.wpa_supplicant1.service` to use our own conf file instead:
+6. Create a drop-in override for `wpa_supplicant.service` to use our own conf file instead:
 
-`$ sudo vim /etc/systemd/system/dbus-fi.w1.wpa_supplicant1.service`
+`$ sudo systemctl edit wpa_supplicant.service`
 
-7. Change the wpa_supplicant start parameter to match the following, then save+close the file:
+7. Add the following override of the wpa_supplicant start parameters, then save+close the file:
 
-`ExecStart=/sbin/wpa_supplicant -u -s -i wlan0 -c /etc/wpa_supplicant/wpa_supplicant.conf`
+```
+[Service]
+ExecStart=
+ExecStart=/usr/sbin/wpa_supplicant -u -s -i wlan0 -c /etc/wpa_supplicant/wpa_supplicant.conf
+```
 
 8. Create the wpa-supplicant conf file:
 

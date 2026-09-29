@@ -40,27 +40,27 @@ print_script_step "Configuring serial device access for user"
 sudo usermod -a -G dialout $USER
 
 # Setup Wifi
-print_script_step "Create System Service for wpa_suppliant"
-printf "\n Writing: /etc/systemd/system/dbus-fi.w1.wpa_supplicant1.service"
-cat << EOF | sudo tee /etc/systemd/system/dbus-fi.w1.wpa_supplicant1.service
-[Unit]
-Description=WPA supplicant
-Before=network.target
-After=dbus.service
-Wants=network.target
-IgnoreOnIsolate=true
-
+print_script_step "Configure wpa_supplicant service"
+# The packaged wpa_supplicant.service provides the dbus-fi.w1.wpa_supplicant1.service
+# alias, and on stock images /etc/systemd/system/dbus-fi.w1.wpa_supplicant1.service is
+# already a symlink to it. So instead of writing a unit at that path (which would write
+# through the symlink into the packaged unit), override ExecStart with a drop-in.
+WPA_ALIAS_UNIT_FILE=/etc/systemd/system/dbus-fi.w1.wpa_supplicant1.service
+WPA_DROPIN_DIR=/etc/systemd/system/wpa_supplicant.service.d
+# Older installs wrote a standalone unit at the alias path, which would conflict with the alias.
+if [ -f "$WPA_ALIAS_UNIT_FILE" ] && [ ! -L "$WPA_ALIAS_UNIT_FILE" ]; then
+    printf "\n Removing standalone unit from a previous install: $WPA_ALIAS_UNIT_FILE\n"
+    sudo rm "$WPA_ALIAS_UNIT_FILE"
+fi
+printf "\n Writing: $WPA_DROPIN_DIR/matter-th.conf\n"
+sudo mkdir -p "$WPA_DROPIN_DIR"
+cat << EOF | sudo tee "$WPA_DROPIN_DIR/matter-th.conf"
 [Service]
-Type=dbus
-BusName=fi.w1.wpa_supplicant1
-ExecStart=/sbin/wpa_supplicant -u -s -i $WLAN_INTERFACE -c /etc/wpa_supplicant/wpa_supplicant.conf
-
-[Install]
-WantedBy=multi-user.target
-Alias=dbus-fi.w1.wpa_supplicant1.service
+ExecStart=
+ExecStart=/usr/sbin/wpa_supplicant -u -s -i $WLAN_INTERFACE -c /etc/wpa_supplicant/wpa_supplicant.conf
 EOF
 sudo systemctl daemon-reload
-sudo systemctl enable dbus-fi.w1.wpa_supplicant1
+sudo systemctl enable wpa_supplicant.service
 
 WPA_SUPPLICANT_FILE=/etc/wpa_supplicant/wpa_supplicant.conf
 WPA_SUPPLICANT_SETTINGS=(
