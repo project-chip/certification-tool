@@ -35,4 +35,5 @@ print_script_step "Update Test Harness code"
 $SCRIPT_DIR/update-th-code.sh "$BRANCH_NAME"
 verify_return_code
 
+set -o pipefail
 $UBUNTU_SCRIPT_DIR/internal-auto-update.sh $* | tee $LOG_PATH

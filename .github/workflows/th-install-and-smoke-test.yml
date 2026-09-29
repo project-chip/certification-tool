@@ -27,7 +27,7 @@ jobs:
 
       - name: Install Test Harness
         run: |
-          printf '2\n' | ./scripts/ubuntu/auto-install.sh
+          ./scripts/ubuntu/auto-install.sh
 
       - name: Start Test Harness services
         run: |
