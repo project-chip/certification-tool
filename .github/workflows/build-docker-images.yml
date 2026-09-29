@@ -97,7 +97,7 @@ jobs:
         - name: Build and push frontend image
           if: steps.check_tag_frontend.outputs.exists == 'false'
           run: |
-            ./frontend/scripts/build-docker-image.sh --squash --push
+            ./frontend/scripts/build-docker-image.sh --squash --push --multiarch
 
         - name: Ensure backend sha is used in docker-compose
           env:
