@@ -111,7 +111,7 @@ services:
       test: ["CMD", "bash", "/app/scripts/version-check/backend-version-watchdog.sh"]
       interval: 24h
       start_period: 2m
-      start_interval: 1m
+      start_interval: 5s
       timeout: 2m
       retries: 1
     labels:
