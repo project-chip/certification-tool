@@ -30,7 +30,7 @@ $UBUNTU_SCRIPT_DIR/1-install-dependencies.sh
 verify_return_code
 
 print_script_step "Configure Machine"
-$UBUNTU_SCRIPT_DIR/2-machine-cofiguration.sh
+$UBUNTU_SCRIPT_DIR/2-machine-configuration.sh
 verify_return_code
 
 print_script_step "Update Test Harness code"
