@@ -45,7 +45,7 @@ read_version() {
     fi
 
     # Check if file exists in the container
-    if ! docker exec "$BACKEND_CONTAINER_NAME" sh -c "[ -f $file_path ]"; then
+    if ! docker exec "$BACKEND_CONTAINER_NAME" sh -c "[ -f \"$file_path\" ]"; then
         echo "File '$file_path' not found in the container!"
         return 1
     fi
@@ -54,7 +54,7 @@ read_version() {
     file_content=$(docker exec "$BACKEND_CONTAINER_NAME" cat "$file_path")
 
     if [[ "$file_path" == *"config.py"* ]]; then
-        SDK_SHA=$(docker exec $BACKEND_CONTAINER_NAME sh -c "grep SDK_SHA $file_path | cut -d'\"' -f 2 | cut -d\"'\" -f 2")
+        SDK_SHA=$(docker exec "$BACKEND_CONTAINER_NAME" sh -c "grep SDK_SHA $file_path | cut -d'\"' -f 2 | cut -d\"'\" -f 2")
         file_content=$SDK_SHA
     fi
 
@@ -76,7 +76,7 @@ show_backend_info() {
     fi
 
     # Get info
-    inspect_output_backend=$(docker inspect $BACKEND_CONTAINER_NAME)
+    inspect_output_backend=$(docker inspect "$BACKEND_CONTAINER_NAME")
     dc_version_backend=$(echo "$inspect_output_backend" | grep -oP '"com.docker.compose.version": "\K[^"]+')
     os=$(echo "$inspect_output_backend" | grep -oP '"org.opencontainers.image.ref.name": "\K[^"]+')
     os_version=$(echo "$inspect_output_backend" | grep -oP '"org.opencontainers.image.version": "\K[^"]+')
@@ -100,7 +100,7 @@ show_frontend_info() {
     fi
 
     # Get info
-    inspect_output_frontend=$(docker inspect $FRONTEND_CONTAINER_NAME)
+    inspect_output_frontend=$(docker inspect "$FRONTEND_CONTAINER_NAME")
     dc_version_frontend=$(echo "$inspect_output_frontend" | grep -oP '"com.docker.compose.version": "\K[^"]+')
     image_frontend=$(echo "$inspect_output_frontend" | grep -oP '"Image": "\K[^"]+' | grep -v '^sha')
 
@@ -121,7 +121,7 @@ show_db_info() {
     fi
 
     # Get info
-    inspect_output_db=$(docker inspect $DB_CONTAINER_NAME)
+    inspect_output_db=$(docker inspect "$DB_CONTAINER_NAME")
     dc_version_db=$(echo "$inspect_output_db" | grep -oP '"com.docker.compose.version": "\K[^"]+')
     image_db=$(echo "$inspect_output_db" | grep -oP '"Image": "\K[^"]+' | grep -v '^sha')
     version_db_app=$(echo "$inspect_output_db" | grep -oP '"PG_VERSION=[^"]+' | cut -d'=' -f2)
@@ -144,7 +144,7 @@ show_proxy_info() {
     fi
 
     # Get info
-    inspect_output_proxy=$(docker inspect $PROXY_CONTAINER_NAME)
+    inspect_output_proxy=$(docker inspect "$PROXY_CONTAINER_NAME")
     dc_version_proxy=$(echo "$inspect_output_proxy" | grep -oP '"com.docker.compose.version": "\K[^"]+')
     image_proxy=$(echo "$inspect_output_proxy" | grep -oP '"Image": "\K[^"]+' | grep -v '^sha')
 

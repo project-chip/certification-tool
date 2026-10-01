@@ -15,8 +15,8 @@
  # See the License for the specific language governing permissions and
  # limitations under the License.
 
-ROOT_DIR=$(realpath $(dirname "$0")/../..)
-cd $ROOT_DIR
+ROOT_DIR=$(realpath "$(dirname "$0")/../..")
+cd "$ROOT_DIR"
 
 # Function to display OS information
 get_os_info() {
@@ -27,7 +27,7 @@ get_os_info() {
         echo "Version: $VERSION"
         echo "ID: $ID"
         echo "ID Like: $ID_LIKE"
-    elif [ -f /etc/*-release ]; then
+    elif compgen -G "/etc/*-release" > /dev/null; then
         # If /etc/os-release is not available, use other available /etc/*-release file
         echo "OS Information from /etc/*-release:"
         cat /etc/*-release
