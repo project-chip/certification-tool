@@ -26,13 +26,13 @@
 #
 
 # Project's root directory
-ROOT_DIR=$(realpath $(dirname "$0")/..)
+ROOT_DIR=$(realpath "$(dirname "$0")/..")
 USER_GUIDE_PATH="$ROOT_DIR/docs/Matter_TH_User_Guide/"
 
 # Docker related variables
 DOCKER_IMAGE=asciidoctor/docker-asciidoctor             # Official Docker image with Asciidoctor
 ALT_DOCKER_IMAGE=kidip/chip-documentation               # Alternative Docker Image with Asciidoctor
-DOCKER_ARGS="run --rm -v $USER_GUIDE_PATH:/documents/"  # Docker arguments with run and volumes bind
+DOCKER_ARGS=(run --rm -v "$USER_GUIDE_PATH:/documents/")  # Docker arguments with run and volumes bind
 
 # Call the Docker Asciidoctor PDF application
-docker $DOCKER_ARGS $DOCKER_IMAGE asciidoctor-pdf Matter_TH_User_Guide.adoc
+docker "${DOCKER_ARGS[@]}" "$DOCKER_IMAGE" asciidoctor-pdf Matter_TH_User_Guide.adoc

@@ -15,10 +15,10 @@
  # See the License for the specific language governing permissions and
  # limitations under the License.
 
-ROOT_DIR=$(realpath $(dirname "$0")/../..)
+ROOT_DIR=$(realpath "$(dirname "$0")/../..")
 
 # Set the path to the file containing the package list
-FILE_PATH=$ROOT_DIR"/cli/pyproject.toml"
+FILE_PATH="$ROOT_DIR/cli/pyproject.toml"
 
 # Check if file exists
 if [ ! -f "$FILE_PATH" ]; then
@@ -34,8 +34,8 @@ print_dependencies() {
     echo "---------------------------------------------"
     awk -v section="$section" 'BEGIN{flag=0} $0 == section {flag=1; next} flag && /^\[/{exit} flag {print $0}' "$FILE_PATH" | \
     grep '=' | sed 's/ = /:/g' | tr -d '"' | tr -d ',' | while read -r line; do
-        package_name=$(echo $line | cut -d: -f1)
-        listed_version=$(echo $line | cut -d: -f2)
+        package_name=$(echo "$line" | cut -d: -f1)
+        listed_version=$(echo "$line" | cut -d: -f2)
         printf "%-30s %-20s\n" "$package_name" "$listed_version"
     done
     echo ""  # Print an empty line as a separator
@@ -43,4 +43,4 @@ print_dependencies() {
 
 # Call the function for each section
 print_dependencies "[tool.poetry.dependencies]"
-print_dependencies "[tool.poetry.dev-dependencies]"
+print_dependencies "[tool.poetry.group.dev.dependencies]"
