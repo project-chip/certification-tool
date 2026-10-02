@@ -15,8 +15,8 @@
  # See the License for the specific language governing permissions and
  # limitations under the License.
 
-ROOT_DIR=$(realpath $(dirname "$0")/../..)
-cd $ROOT_DIR
+ROOT_DIR=$(realpath "$(dirname "$0")/../..")
+cd "$ROOT_DIR"
 
 get_repo_and_branch_info() {
     # Input validation
@@ -39,7 +39,7 @@ get_repo_and_branch_info() {
         return 1
     fi
 
-    cd $path
+    cd "$path"
 
     # Get the URL of the remote origin
     remote_url=$(git config --get remote.origin.url)
@@ -90,7 +90,7 @@ get_repo_and_branch_info() {
     echo "Commit Date: $commit_datetime"
 
     # Attempt to find branches that contain this commit
-    branches=$(git branch --contains $commit_sha | sed 's/^/    /')
+    branches=$(git branch --contains "$commit_sha" | sed 's/^/    /')
 
     if [ -n "$branches" ]; then
         echo "Contained in branches:"
@@ -104,7 +104,7 @@ get_repo_and_branch_info() {
     echo
 
     # Navigate back to the original directory
-    cd $ROOT_DIR
+    cd "$ROOT_DIR"
 }
 
 get_repo_and_branch_info "."

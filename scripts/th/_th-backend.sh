@@ -18,26 +18,27 @@
 CONTAINER_NAME="certification-tool-backend-1"
 
 # Check if the container is running
-container_running=$(docker inspect -f '{{.State.Running}}' $CONTAINER_NAME 2>/dev/null)
+container_running=$(docker inspect -f '{{.State.Running}}' "$CONTAINER_NAME" 2>/dev/null)
 
 # If the docker inspect command fails or the container is not running, notify and exit
 if [ "$?" -ne 0 ] || [ "$container_running" != "true" ]; then
-    echo "The container \"$CONTAINER_NAME\" is not running.\nPlease start it and try again."
+    echo "The container \"$CONTAINER_NAME\" is not running."
+    echo "Please start it and try again."
     exit 1
 fi
 
 # Function to check if command exists inside the container
 command_exists_in_container () {
-    docker exec $CONTAINER_NAME sh -c "type $1" &> /dev/null
+    docker exec "$CONTAINER_NAME" sh -c "type $1" &> /dev/null
 }
 
 # Fetch pip list from container
 echo "----- Python Environment -----"
 if command_exists_in_container pip; then
-    pip_list=$(docker exec $CONTAINER_NAME pip list)
+    pip_list=$(docker exec "$CONTAINER_NAME" pip list)
     echo "$pip_list"
 elif command_exists_in_container pip3; then
-    pip_list=$(docker exec $CONTAINER_NAME pip3 list)
+    pip_list=$(docker exec "$CONTAINER_NAME" pip3 list)
     echo "$pip_list"
 else
     echo "Neither pip nor pip3 is installed in the container."
