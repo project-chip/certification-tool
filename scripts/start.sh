@@ -14,14 +14,14 @@
  # WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  # See the License for the specific language governing permissions and
  # limitations under the License.
-ROOT_DIR=$(realpath $(dirname "$0")/..)
+ROOT_DIR=$(realpath "$(dirname "$0")/..")
 
 ## SET BACKEND PATH ENV
 KEY="BACKEND_FILEPATH_ON_HOST"
-VALUE=$(readlink -f $ROOT_DIR/backend)
-export $KEY=$VALUE
+VALUE=$(readlink -f "$ROOT_DIR/backend")
+export "$KEY=$VALUE"
 
-cd $ROOT_DIR
+cd "$ROOT_DIR"
 
 # Exit in case of error
 set -e
@@ -67,7 +67,6 @@ print_start_container() {
 # Parse args for which docker compose overrides to use
 BACKEND_COMPOSE=""
 FRONTEND_COMPOSE=""
-COMPOSE_CACHE_OPTION=""
 BACKEND_DEV=false
 FRONTEND_DEV=false
 for arg in "$@"
@@ -130,7 +129,7 @@ if [ "$FRONTEND_DEV" = true ] ; then
 else
     echo -n "Waiting for frontend to start"
     CHECK_FRONTEND_SERVICE="docker compose exec frontend curl --fail -s --output /dev/null http://localhost:4200"
-    until $CHECK_FRONTEND_SERVICE >> $FRONTEND_LOGFILE_PATH 2>&1
+    until $CHECK_FRONTEND_SERVICE >> "$FRONTEND_LOGFILE_PATH" 2>&1
     do
         echo -n "."
         sleep 5
@@ -146,7 +145,21 @@ if [ "$BACKEND_DEV" = true ] ; then
 else
     echo -n "Waiting for backend to start"
     CHECK_BACKEND_SERVICE="docker compose exec backend curl --fail -s --output /dev/null http://localhost/docs"
-    until $CHECK_BACKEND_SERVICE >> $BACKEND_LOGFILE_PATH 2>&1
+    until $CHECK_BACKEND_SERVICE >> "$BACKEND_LOGFILE_PATH" 2>&1
+    do
+        echo -n "."
+        sleep 5
+    done
+
+    # The check above only confirms the backend app itself is serving
+    # requests inside its own container. Traefik (the 'proxy' service) only
+    # routes to the backend once Docker reports its healthcheck as healthy,
+    # so wait for the backend to also be reachable through the proxy before
+    # declaring startup complete - otherwise callers (e.g. th-cli) can hit
+    # Traefik's "no healthy backend" 404 in the gap between the two.
+    echo -n " waiting for proxy to route to backend"
+    CHECK_BACKEND_VIA_PROXY="curl --fail -s --output /dev/null http://localhost/docs"
+    until $CHECK_BACKEND_VIA_PROXY >> "$BACKEND_LOGFILE_PATH" 2>&1
     do
         echo -n "."
         sleep 5
@@ -154,10 +167,10 @@ else
     echo " done"
 fi
 
-echo "Backend startup process completed" >> $BACKEND_LOGFILE_PATH 2>&1
-docker compose logs backend >> $BACKEND_LOGFILE_PATH 2>&1
+echo "Backend startup process completed" >> "$BACKEND_LOGFILE_PATH" 2>&1
+docker compose logs backend >> "$BACKEND_LOGFILE_PATH" 2>&1
 
-echo "Frontend startup process completed" >> $FRONTEND_LOGFILE_PATH 2>&1
-docker compose logs frontend >> $FRONTEND_LOGFILE_PATH 2>&1
+echo "Frontend startup process completed" >> "$FRONTEND_LOGFILE_PATH" 2>&1
+docker compose logs frontend >> "$FRONTEND_LOGFILE_PATH" 2>&1
 
 echo "Script 'start.sh' completed successfully"

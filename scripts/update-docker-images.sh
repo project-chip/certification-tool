@@ -14,7 +14,7 @@
  # WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  # See the License for the specific language governing permissions and
  # limitations under the License.
-ROOT_DIR=$(realpath $(dirname "$0")/..)
+ROOT_DIR=$(realpath "$(dirname "$0")/..")
 SCRIPT_DIR="$ROOT_DIR/scripts"
 
 # Exit in case anything goes wrong
@@ -24,7 +24,7 @@ source "$SCRIPT_DIR/utils.sh"
 
 print_start_of_script
 
-cd $ROOT_DIR
+cd "$ROOT_DIR"
 # Ensure .env exists
 ./scripts/install-default-env.sh
 
@@ -91,14 +91,14 @@ END
 if $BUILD_BACKEND; then
     print_script_step "Building backend Docker image locally"
 newgrp docker << END
-    $ROOT_DIR/backend/scripts/build-docker-image.sh
+    "$ROOT_DIR/backend/scripts/build-docker-image.sh"
 END
 fi
 
 if $BUILD_FRONTEND; then
     print_script_step "Building frontend Docker image locally"
 newgrp docker << END
-    $ROOT_DIR/frontend/scripts/build-docker-image.sh
+    "$ROOT_DIR/frontend/scripts/build-docker-image.sh"
 END
 fi
 

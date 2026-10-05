@@ -19,28 +19,28 @@ print_script_step()
 {
     info=$1
     #Retreive the script name
-    script_name=`basename "$(realpath $0)"`
+    script_name=$(basename "$(realpath "$0")")
 
     printf "\n\n********************************************************************************\n"
-    printf "$script_name: $info\n"
+    printf '%s: %s\n' "$script_name" "$info"
     printf "********************************************************************************\n"
 }
 
 print_start_of_script()
 {
     #Retreive the script name
-    script_name=`basename "$(realpath $0)"`
+    script_name=$(basename "$(realpath "$0")")
     printf "\n\n################################################################################\n"
-    printf "$script_name: Starting...\n"
+    printf '%s: Starting...\n' "$script_name"
     printf "################################################################################\n"
 }
 
 print_end_of_script()
 {
     #Retreive the script name
-    script_name=`basename "$(realpath $0)"`
+    script_name=$(basename "$(realpath "$0")")
     printf "\n\n################################################################################\n"
-    printf "$script_name: Finishing...\n"
+    printf '%s: Finishing...\n' "$script_name"
     printf "################################################################################\n"
 }
 
