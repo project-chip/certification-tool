@@ -42,4 +42,8 @@ print_script_step "Configuring Wi-Fi devices"
 $UBUNTU_SCRIPT_DIR/2.1-configure-wifi-devices.sh
 verify_return_code
 
+print_script_step "Starting Test Harness"
+$SCRIPT_DIR/start.sh
+verify_return_code
+
 print_end_of_script

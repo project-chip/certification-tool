@@ -16,7 +16,7 @@
  # limitations under the License.
 set -e
 
-ROOT_DIR=$(realpath $(dirname "$0")/../..)
+ROOT_DIR=$(realpath "$(dirname "$0")/../..")
 SCRIPT_DIR="$ROOT_DIR/scripts"
 
 source "$SCRIPT_DIR/utils.sh"
