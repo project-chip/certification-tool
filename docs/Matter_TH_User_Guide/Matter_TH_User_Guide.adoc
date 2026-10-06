@@ -174,6 +174,7 @@ endif::[]
 | 76          | 23-Sep-2026  | [Apple]Romulo Quidute               | * Updated OTBR docker image references in the Thread dataset generation section to match the new default (`openthread/otbr` digest-pinned image), replacing the obsolete `nrfconnect/otbr:9185bda`.
 | 77          | 28-Sep-2026  | [Apple]Romulo Quidute               | * Documented `project export`/`project import`, and added missing flag examples for `run-tests --no-streaming`, `test-run-execution` list filters (`--project-id`, `--skip`, `--limit`, `--json`), `available-tests --group-by-cluster`, `test-runner-status --json`, and the `--version` Backend/SDK breakdown.
 | 78          | 29-Sep-2026  | [Apple]Karsten Sperling             | * Added trouble shooting guidance for Wi-Fi Fixture interfaces.
+| 79          | 05-Oct-2026  | [Apple]Romulo Quidute               | * Added `th_config.sdk_container_apps_dir` documentation for mounting helper app binaries into the SDK container.
 |===
 
 <<<
@@ -1511,7 +1512,8 @@ image:images/img_15.png[]
   "th_config": {
     "prompt_timeout_seconds": 60,
     "enable_realtime_python_test_logs": null,
-    "enable_container_logs": null
+    "enable_container_logs": null,
+    "sdk_container_apps_dir": null
   }
 }
 ----
@@ -2398,6 +2400,27 @@ NOTE: After changing any configuration in `./.env`, recreate the TH backend cont
 docker compose up -d backend
 ----
 
+[#sdk-container-apps-dir]
+===== Helper App Binaries in the SDK Container
+Some tests launch helper apps from inside the SDK container, for example the OTA Software Update tests TC-SU-2.2 and TC-SU-2.5, which run `chip-ota-provider-app` from the `provider_app_path` test parameter. The binary must exist _inside_ the SDK container.
+
+Set `th_config.sdk_container_apps_dir` to a folder on the TH host to mount it read-only at `/launch_dir/apps` in the SDK container:
+
+[source,xml]
+----
+"th_config": {
+  "sdk_container_apps_dir": "/home/ubuntu/apps"
+}
+----
+
+With the binary at `/home/ubuntu/apps/chip-ota-provider-app`, pass `provider_app_path:/launch_dir/apps/chip-ota-provider-app`, for example `th-cli run-tests -t TC-SU-2.2 --config my-config.json -- --string-arg provider_app_path:/launch_dir/apps/chip-ota-provider-app`.
+
+* The path is resolved on the Docker host, so the TH cannot check that it exists. Docker creates an empty folder if it does not, and the test then fails with `Invalid provider_app_path`. The mount is logged when the SDK container starts.
+* If `sdk_container_apps_dir` is `null` or not set, the TH falls back to the `SDK_CONTAINER_APPS_DIR` environment variable in `certification-tool/.env`. If neither is set, nothing is mounted.
+* The SDK container is recreated for each test suite run, so a changed setting applies on the next run.
+
+NOTE: Without this setting, copy the binary to `/var/tmp` on the TH host, which is mapped to `/logs` in the SDK container, and use `provider_app_path:/logs/chip-ota-provider-app`.
+
 [#user-prompt-timeout-configuration]
 ===== User Prompt Timeout Configuration
 During test execution, the TH sometimes prompts the operator for input or confirmation (e.g. to pair the DUT, enter a setup code, or confirm a commissioning step). By default, the operator has 60 seconds to respond before the prompt times out.
@@ -2409,13 +2432,15 @@ This timeout is configurable per project via a `th_config` object in the project
 "th_config": {
   "prompt_timeout_seconds": 60,
   "enable_realtime_python_test_logs": null,
-  "enable_container_logs": null
+  "enable_container_logs": null,
+  "sdk_container_apps_dir": null
 }
 ----
 
 * `prompt_timeout_seconds`: how long, in seconds, the operator has to respond to a user prompt before it times out. Increase this if a test step requires the operator to read output and take a manual action that takes longer than the default 60 seconds.
 * `enable_realtime_python_test_logs`: the per-project override for Python test log display described in <<python-test-logging-configuration,Python Test Logging Configuration>> above.
 * `enable_container_logs`: the per-project override for Docker container operation logging described in <<container-logging-configuration,Container Logging Configuration>> above.
+* `sdk_container_apps_dir`: a folder on the TH host with helper app binaries (e.g. `chip-ota-provider-app`), mounted read-only at `/launch_dir/apps` in the SDK container. See <<sdk-container-apps-dir,Helper App Binaries in the SDK Container>> below.
 
 NOTE: `th_config.prompt_timeout_seconds` controls the interactive user-prompt timeout. It is unrelated to `test_parameters.timeout`, which controls the chip-tool/Python test *execution* timeout (see the "Overwrite the default timeout" step under Project Configuration, above) — the two settings sit close together in the same JSON file but govern different things.
 
