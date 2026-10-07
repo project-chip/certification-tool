@@ -15,7 +15,6 @@
  # See the License for the specific language governing permissions and
  # limitations under the License.
 
-ROOT_DIR=$(realpath $(dirname "$0")/../..)
 
 # Containers
 BACKEND_CONTAINER_NAME="certification-tool-backend-1"
@@ -37,7 +36,7 @@ print_container_logs() {
     if ! docker ps --format '{{.Names}}' | grep -q "^${container_name}$"; then
         echo "     The container is not running."
     else
-        docker logs --tail 100 $container_name
+        docker logs --tail 100 "$container_name"
     fi
 }
 
@@ -45,10 +44,10 @@ echo
 echo "^^ THE ABOVE DOCKER LOGS ARE PART OF THE '$DB_CONTAINER_NAME' CONTAINER. ^^"
 echo "   IT'S UNKNOWN WHY THIS HAPPENS WITH THE DB CONTAINER ONLY, WHICH IS THE"
 echo "   LOGS APPEARING BEFORE ITS HEADER TITLE, ANY HELP WITH THIS IS APPRECIATED"
-echo 
+echo
 
 # Call the function for each container
-print_container_logs $BACKEND_CONTAINER_NAME
-print_container_logs $FRONTEND_CONTAINER_NAME
-print_container_logs $DB_CONTAINER_NAME
-print_container_logs $PROXY_CONTAINER_NAME
+print_container_logs "$BACKEND_CONTAINER_NAME"
+print_container_logs "$FRONTEND_CONTAINER_NAME"
+print_container_logs "$DB_CONTAINER_NAME"
+print_container_logs "$PROXY_CONTAINER_NAME"

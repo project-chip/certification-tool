@@ -56,9 +56,9 @@
     echo "$date_string"
     echo
 
-    ROOT_DIR=$(realpath $(dirname "$0")/../..)
+    ROOT_DIR=$(realpath "$(dirname "$0")/../..")
     TH_DEV_SCRIPTS_DIR=$ROOT_DIR/scripts/th
-    cd $ROOT_DIR
+    cd "$ROOT_DIR"
 
     # Check for arguments
     if [ "$#" -gt 1 ]; then
@@ -166,6 +166,9 @@
 
     # Handle arguments
     case "$1" in
+        "")
+        usage
+            ;;
         --system)
         show_system
         usage
@@ -195,6 +198,7 @@
         usage
             ;;
         *)
+            echo "Error: Unknown option: $1"
             usage
             exit 1
             ;;

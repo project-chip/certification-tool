@@ -18,12 +18,12 @@
 
 TAG_DESCRIPTION=""
 REMOTE="origin"
-MATTER_PROGRAM_DIR=$(realpath $(dirname "$0")/../backend/test_collections/matter)
+MATTER_PROGRAM_DIR=$(realpath "$(dirname "$0")/../backend/test_collections/matter")
 
 # Get configured SDK_SHA (will default to value in ./backend/test_collection/matter/config.py)
-SDK_SHA=$(cat $MATTER_PROGRAM_DIR/config.py | grep SDK_SHA | cut -d'"' -f 2 | cut -d"'" -f 2)
+SDK_SHA=$(cat "$MATTER_PROGRAM_DIR/config.py" | grep SDK_SHA | cut -d'"' -f 2 | cut -d"'" -f 2)
 
-if [ -z "$SDK_SHA"]
+if [ -z "$SDK_SHA" ]
 then
     echo "### Error: Matter SDK information not found. Please verify the Matter program 'config.py' file"
     exit 1
@@ -49,27 +49,27 @@ else
 fi
 
 echo "*** Deleting old local tag"
-git tag -d $TAG_NAME
+git tag -d "$TAG_NAME"
 
 echo "*** Creating a local release tag"
 GIT_SUBMODULES=$(git submodule)
-TAG_SHA_DESCRIPTION=$(printf "$GIT_SUBMODULES\n $SDK_SHA Matter SDK")
-git tag -a $TAG_NAME -m "$TAG_NAME" -m "$TAG_DESCRIPTION" -m "$TAG_SHA_DESCRIPTION"
+TAG_SHA_DESCRIPTION=$(printf '%s\n %s Matter SDK' "$GIT_SUBMODULES" "$SDK_SHA")
+git tag -a "$TAG_NAME" -m "$TAG_NAME" -m "$TAG_DESCRIPTION" -m "$TAG_SHA_DESCRIPTION"
 
 echo "*** Release tag"
-git tag -v $TAG_NAME
+git tag -v "$TAG_NAME"
 
 printf "\n\n**********\n"
-printf "Do you want to push the tag to remote[$REMOTE]?\n"
+printf 'Do you want to push the tag to remote[%s]?\n' "$REMOTE"
 select yn in "Push" "Do not Push"
 do
-    case $yn in
+    case "$yn" in
         Push )
             echo "*** Pushing tag on remote"
-            git push $REMOTE $TAG_NAME
+            git push "$REMOTE" "$TAG_NAME"
             break
             ;;
-        *) 
+        *)
             exit
             ;;
     esac

@@ -21,9 +21,9 @@ REMOTE="origin"
 if [ $# = 0 ]
 then
   echo "No custom remote defined. Using 'origin' as default."
-elif [ $# = 2 ] && [ $1 = "--remote" ]
+elif [ $# = 2 ] && [ "$1" = "--remote" ]
 then
-  REMOTE=$2
+  REMOTE="$2"
   echo "Using '$REMOTE' as remote."
 else
   echo "This script will update the '$TAG_NAME' tag reference and push it to remote."
@@ -36,13 +36,13 @@ fi
 echo "Updating remote '$TAG_NAME' tag references and push it to remote."
 
 echo "*** Deleting old local tag"
-git tag --delete $TAG_NAME
+git tag --delete "$TAG_NAME"
 
 echo "*** Deleting old remote tag"
-git push $REMOTE :refs/tags/$TAG_NAME
+git push "$REMOTE" ":refs/tags/$TAG_NAME"
 
 echo "*** Creating a local tag"
-git tag --annotate $TAG_NAME -m "$TAG_COMMENT"
+git tag --annotate "$TAG_NAME" -m "$TAG_COMMENT"
 
 echo "*** Pushing tag on remote"
-git push $REMOTE $TAG_NAME
+git push "$REMOTE" "$TAG_NAME"
