@@ -16,7 +16,7 @@
  # limitations under the License.
 ROOT_DIR=$(realpath "$(dirname "$0")/..")
 
-cd "$ROOT_DIR"
+cd "$ROOT_DIR" || exit 1
 if [ ! -e ".env" ]
 then
     cp default.env .env

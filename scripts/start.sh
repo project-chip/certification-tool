@@ -159,10 +159,19 @@ else
     # Traefik's "no healthy backend" 404 in the gap between the two.
     echo -n " waiting for proxy to route to backend"
     CHECK_BACKEND_VIA_PROXY="curl --fail -s --output /dev/null http://localhost/docs"
+    PROXY_READY_TIMEOUT=60
+    PROXY_READY_ELAPSED=0
     until $CHECK_BACKEND_VIA_PROXY >> "$BACKEND_LOGFILE_PATH" 2>&1
     do
+        if [ "$PROXY_READY_ELAPSED" -ge "$PROXY_READY_TIMEOUT" ]; then
+            echo
+            echo "### Exit with Error ###"
+            echo "    Timed out after ${PROXY_READY_TIMEOUT}s waiting for the proxy to route to the backend."
+            exit 1
+        fi
         echo -n "."
         sleep 5
+        PROXY_READY_ELAPSED=$((PROXY_READY_ELAPSED + 5))
     done
     echo " done"
 fi
