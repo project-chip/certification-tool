@@ -27,7 +27,7 @@ response=$(curl -si "$endpoint")
 # Check if the curl command was successful
 if [ $? -eq 0 ]; then
     # Extract the HTTP status code from the response
-    status_code=$(echo "$response" | grep -oP '(?<=^HTTP/[0-9.]+ )\d+')
+    status_code=$(echo "$response" | grep -oP '^HTTP/[0-9.]+ \K\d+')
     
     # Check if the status code indicates an error (i.e., not 2xx)
     if [[ $status_code -lt 200 || $status_code -ge 300 ]]; then
