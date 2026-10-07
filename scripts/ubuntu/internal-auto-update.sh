@@ -14,7 +14,7 @@
  # WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  # See the License for the specific language governing permissions and
  # limitations under the License.
-ROOT_DIR=$(realpath $(dirname "$0")/../..)
+ROOT_DIR=$(realpath "$(dirname "$0")/../..")
 SCRIPT_DIR="$ROOT_DIR/scripts"
 UBUNTU_SCRIPT_DIR="$SCRIPT_DIR/ubuntu"
 
@@ -43,7 +43,7 @@ $UBUNTU_SCRIPT_DIR/2.1-configure-wifi-devices.sh
 verify_return_code
 
 print_script_step "Starting Test Harness"
-$SCRIPT_DIR/start.sh
+"$SCRIPT_DIR/start.sh"
 verify_return_code
 
 print_end_of_script
