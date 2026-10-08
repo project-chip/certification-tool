@@ -14,9 +14,9 @@
  # WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  # See the License for the specific language governing permissions and
  # limitations under the License.
-ROOT_DIR=$(realpath $(dirname "$0")/..)
+ROOT_DIR=$(realpath "$(dirname "$0")/..")
 
-cd $ROOT_DIR
+cd "$ROOT_DIR" || exit 1
 if [ ! -e ".env" ]
 then
     cp default.env .env

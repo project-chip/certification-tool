@@ -14,7 +14,7 @@
  # WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  # See the License for the specific language governing permissions and
  # limitations under the License.
-ROOT_DIR=$(realpath $(dirname "$0")/..)
+ROOT_DIR=$(realpath "$(dirname "$0")/..")
 SCRIPT_DIR="$ROOT_DIR/scripts"
 
 source "$SCRIPT_DIR/utils.sh"
@@ -32,7 +32,7 @@ if [ $# -eq 1 ]; then
     ROOT_BRANCH="$1"
 fi
 
-cd $ROOT_DIR
+cd "$ROOT_DIR"
 
 print_script_step "Stashing local changes"
 git stash --include-untracked
@@ -40,7 +40,7 @@ git submodule foreach 'git stash --include-untracked'
 
 print_script_step "Pulling Test Harness code for branch: $ROOT_BRANCH"
 git fetch --no-recurse-submodules
-git checkout $ROOT_BRANCH
+git checkout "$ROOT_BRANCH"
 git pull --no-recurse-submodules
 git submodule update --init --recursive
 

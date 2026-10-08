@@ -14,7 +14,7 @@
  # WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  # See the License for the specific language governing permissions and
  # limitations under the License.
-ROOT_DIR=$(realpath $(dirname "$0")/..)
+ROOT_DIR=$(realpath "$(dirname "$0")/..")
 SCRIPT_DIR="$ROOT_DIR/scripts"
 
 source "$SCRIPT_DIR/utils.sh"
@@ -22,11 +22,11 @@ source "$SCRIPT_DIR/utils.sh"
 print_start_of_script
 
 print_script_step "Update Docker images"
-$SCRIPT_DIR/update-docker-images.sh
+"$SCRIPT_DIR/update-docker-images.sh"
 verify_return_code
 
 print_script_step "Setup Test Collections"
-$SCRIPT_DIR/update-setup-test-collections.sh
+"$SCRIPT_DIR/update-setup-test-collections.sh"
 verify_return_code
 
 print_end_of_script
