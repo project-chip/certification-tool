@@ -14,7 +14,7 @@
  # WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  # See the License for the specific language governing permissions and
  # limitations under the License.
-ROOT_DIR=$(realpath $(dirname "$0")/../..)
+ROOT_DIR=$(realpath "$(dirname "$0")/../..")
 UBUNTU_SCRIPT_DIR="$ROOT_DIR/scripts/ubuntu"
 LOG_DIR="$ROOT_DIR/logs"
 
@@ -24,4 +24,4 @@ LOG_PATH="$LOG_DIR/$LOG_FILENAME"
 # Without pipefail, this script's exit code would be tee's (always 0),
 # masking any failure from internal-auto-install.sh.
 set -o pipefail
-$UBUNTU_SCRIPT_DIR/internal-auto-install.sh $* | tee $LOG_PATH
+"$UBUNTU_SCRIPT_DIR/internal-auto-install.sh" "$@" | tee "$LOG_PATH"

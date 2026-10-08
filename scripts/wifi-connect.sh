@@ -14,7 +14,9 @@
  # WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  # See the License for the specific language governing permissions and
  # limitations under the License.
-ROOT_DIR=$(realpath $(dirname "$0")/..)
+set -e
+
+ROOT_DIR=$(realpath "$(dirname "$0")/..")
 SCRIPT_DIR="$ROOT_DIR/scripts"
 
 source "$SCRIPT_DIR/utils.sh"
