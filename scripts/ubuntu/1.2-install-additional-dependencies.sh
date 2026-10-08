@@ -16,7 +16,7 @@
 # limitations under the License.
 set -e
 
-ROOT_DIR=$(realpath $(dirname "$0")/../..)
+ROOT_DIR=$(realpath "$(dirname "$0")/../..")
 SCRIPT_DIR="$ROOT_DIR/scripts"
 UBUNTU_SCRIPT_DIR="$SCRIPT_DIR/ubuntu"
 
@@ -61,6 +61,6 @@ sudo DEBIAN_FRONTEND=noninteractive apt-get install --only-upgrade -y \
 
 print_script_step "Installing additional packages"
 
-sudo DEBIAN_FRONTEND=noninteractive apt-get --no-upgrade satisfy "$(paste -sd, $UBUNTU_SCRIPT_DIR/additional-dependency-list.txt)" -y --allow-downgrades
+sudo DEBIAN_FRONTEND=noninteractive apt-get --no-upgrade satisfy "$(paste -sd, "$UBUNTU_SCRIPT_DIR/additional-dependency-list.txt")" -y --allow-downgrades
 
 print_end_of_script
