@@ -53,6 +53,10 @@ fi
 BACKEND_COMPOSE_DEV="-f docker-compose.override-backend-dev.yml"
 FRONTEND_COMPOSE_DEV="-f docker-compose.override-frontend-dev.yml"
 
+# Wi-Fi override file, applied only if the host has wpa_supplicant (see below)
+BACKEND_COMPOSE_WIFI="-f docker-compose.override-backend-wifi.yml"
+WPA_SUPPLICANT_HOST_PATH="/var/run/wpa_supplicant"
+
 DATE_STR=$(date +"%F-%H-%M-%S")
 
 BACKEND_LOGFILE_PATH="logs/backend_service_start_$DATE_STR.log"
@@ -88,6 +92,15 @@ do
         ;;
     esac
 done
+
+# Give the backend access to the host's wpa_supplicant control socket (used by
+# the CNET Wi-Fi test cases) only on hosts that have it. A plain bind mount of a
+# missing path would fail (e.g. Docker Desktop on macOS) or make Docker create an
+# empty directory on the host, which would defeat the is_dir() check the backend
+# uses to decide whether to mount it into the SDK container.
+if [ -d "$WPA_SUPPLICANT_HOST_PATH" ]; then
+    BACKEND_COMPOSE="$BACKEND_COMPOSE $BACKEND_COMPOSE_WIFI"
+fi
 
 # Do not exit in case of error
 set +e
