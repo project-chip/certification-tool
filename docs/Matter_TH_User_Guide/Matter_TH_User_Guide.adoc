@@ -1942,12 +1942,12 @@ TIP: The simplest way to start a new configuration is the default one pre-filled
 | `chip_use_paa_certs`
 | boolean
 | Yes
-| The key must be present. `true` makes the Test-Harness use the PAA certificates installed in `/var/paa-root-certs/` (see <<paa-certificates, PAA Certificates>>).
+| The key must be present, with either `true` or `false`. Omitting it is an error: it does not fall back to a default value. `true` makes the Test-Harness use the PAA certificates installed in `/var/paa-root-certs/` (see <<paa-certificates, PAA Certificates>>).
 
 | `trace_log`
 | boolean
 | Yes
-| The key must be present. When `true`, SDK Python tests run with trace logging enabled (`--trace-to json:log`).
+| The key must be present, with either `true` or `false`. Omitting it is an error: it does not fall back to a default value. When `true`, SDK Python tests run with trace logging enabled (`--trace-to json:log`).
 
 | `chip_timeout`
 | string or `null`
@@ -2083,6 +2083,7 @@ TIP: The simplest way to start a new configuration is the default one pre-filled
 When a configuration is saved, the Test-Harness checks it as follows:
 
 * `network` and `dut_config` are mandatory, and `network` must contain `wifi` and `thread`.
+* In `dut_config`, `pairing_mode`, `chip_use_paa_certs` and `trace_log` must always be present. A missing key is rejected; the Test-Harness does not substitute a default value for it.
 * Any key in `dut_config` other than the ones listed above is *rejected*, and the error message lists the valid keys.
 * An unknown key anywhere *else* in the configuration is *silently ignored*, not rejected. The configuration is saved exactly as typed, but the Test-Harness never reads the unknown key. A misspelled key, such as `prompt_timeout_second` in `th_config`, therefore causes no error and the default value is used instead, so check key names against the tables above. The default configuration also contains a `fabric_id` entry in `network`, which the Test-Harness ignores.
 * `qr-code` and `manual-code` in `test_parameters` are mutually exclusive.
