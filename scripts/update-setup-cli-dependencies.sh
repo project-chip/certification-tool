@@ -24,6 +24,11 @@ source "$SCRIPT_DIR/utils.sh"
 print_start_of_script
 
 print_script_step "Running CLI install script"
+# Poetry (installed by ubuntu/1-install-dependencies.sh) and pipx put their
+# executables in ~/.local/bin. On a fresh machine that folder is only added to
+# PATH by the login shell once it exists, so a script run from the same session
+# that installed Poetry would not find it.
+export PATH="$HOME/.local/bin:$PATH"
 cd "$ROOT_DIR/cli"
 ./scripts/th_cli_install.sh
 

@@ -175,6 +175,8 @@ endif::[]
 | 77          | 28-Sep-2026  | [Apple]Romulo Quidute               | * Documented `project export`/`project import`, and added missing flag examples for `run-tests --no-streaming`, `test-run-execution` list filters (`--project-id`, `--skip`, `--limit`, `--json`), `available-tests --group-by-cluster`, `test-runner-status --json`, and the `--version` Backend/SDK breakdown.
 | 78          | 29-Sep-2026  | [Apple]Karsten Sperling             | * Added trouble shooting guidance for Wi-Fi Fixture interfaces.
 | 79          | 05-Oct-2026  | [Apple]Romulo Quidute               | * Added `th_config.sdk_container_apps_dir` documentation for mounting helper app binaries into the SDK container.
+| 80          | 19-Oct-2026  | [Apple]Antonio Melo Jr.             | * Clarified that the Test-Harness CLI is installed and updated by `auto-install.sh` and `auto-update.sh` (and not by `start.sh`), in the installation, update and CLI Quick-Start sections (issue #1154). +
+                                                                     * Added the Project Configuration Reference section (field reference, mandatory fields, validation rules, and editing the project configuration from the UI and with `th-cli project edit`). Added `wifipaf-wifi` to the pairing modes list and fixed the `chip_use_paa_certs` field name (issue #1156).
 |===
 
 <<<
@@ -325,6 +327,8 @@ in on the Pi's own display and keyboard. To allow SSH with a password, set
 * Install/configure the TH dependencies:
 ** `$./scripts/pi-setup/auto-install.sh`
 ** At the end of the script, select option 1 to restart the RaspberryPi.
++
+NOTE: The auto-install script also installs the Test-Harness CLI (`th-cli`), so no separate CLI installation is required. See <<matter-test-harness-cli, Section 11, Matter Test-Harness Command Line Interface (CLI)>> for how to use it.
 . Wait about 10 minutes.
 . Using the _ifconfig_ command, obtain the IP address of the Raspberry Pi. The same IP address will be used to launch the TH user interface on the user's system using the browser.
 . Proceed with test configuration and execution (refer to <<test-configuration, Section 8, Test Configuration>> and <<test-case-execution, Section 9, Test Case Execution>> respectively).
@@ -385,6 +389,8 @@ Seems like bridged network is not available, so you will not be able to test wit
 |===
 |`./scripts/ubuntu/auto-install.sh`
 |===
+
+NOTE: This script also installs the Test-Harness CLI (`th-cli`). See <<matter-test-harness-cli, Section 11, Matter Test-Harness Command Line Interface (CLI)>>.
 
 * Reboot VM
 
@@ -449,6 +455,8 @@ To update an existing TH environment, follow the instructions below on the termi
 
 Wait for 10 mins and open the TH application using the browser
 |===
+
+NOTE: The auto-update script also reinstalls the Test-Harness CLI (`th-cli`), so the CLI does not need to be updated separately. The `./scripts/start.sh` script only starts the Test-Harness containers; it does not install or update the CLI.
 
 === Updating Existing Yaml Test Script
 
@@ -1464,8 +1472,9 @@ Depending on the DUT's network transport, any one of the appropriate pairing mod
 * *'nfc-thread'* to complete the pairing for the Thread Device using NFC Transport Layer (NTL).
 * *'nfc-wifi'* to complete the pairing for the Wi-Fi Device using NFC Transport Layer (NTL).
 * *'nfc-ethernet'* to complete the pairing for the Ethernet Device using NFC Transport Layer (NTL).
+* *'wifipaf-wifi'* to complete the pairing for the Wi-Fi Device using Wi-Fi PAF (refer to <<wi-fi-paf-commissioning, Wi-Fi PAF Commissioning>>).
 
-Follow the sections below for the project configuration and test execution.
+Follow the sections below for the project configuration and test execution. The complete list of configuration fields is described in <<project-config-reference, Section 8.3, Project Configuration Reference>>.
 
 ==== Projects Menu
 . Open a Web browser from the user's system and enter the IP address of the Raspberry Pi as given in <<th-installation-on-raspberry-pi, Section 4.1.2, TH Installation on Raspberry Pi>>.
@@ -1474,7 +1483,7 @@ Follow the sections below for the project configuration and test execution.
 image:images/img_15.png[]
 
 . A new window will be opened as "Matter Test Harness".
-. Click on the *Create New Project* button. Enter the project name as "Test Project" and edit the Project Config settings to provide additional details.
+. Click on the *Create New Project* button. Enter the project name as "Test Project" and edit the Project Config settings to provide additional details (every field is described in <<project-config-reference, Section 8.3, Project Configuration Reference>>).
 +
 
 [source,xml]
@@ -1701,7 +1710,7 @@ For *non-commissioning* test cases (e.g., `TC_DD_1_5`), `qr-code` is a legitimat
 ----
 
 ==== PAA Certificates
-For the case that the DUT requires a PAA certificate to perform a pairing operation, input "true" for the flag "chip_tool_use_paa_certs" to configure the Test-Harness to use them.
+For the case that the DUT requires a PAA certificate to perform a pairing operation, input "true" for the flag "chip_use_paa_certs" to configure the Test-Harness to use them.
 [source,xml]
 ----
 "dut_config": {
@@ -1837,6 +1846,248 @@ image:images/img_30.png[]
 ==== Settings Menu
 
 Click on the "*Select theme*" option drop-down to select the different theme for the user interface.
+
+[#project-config-reference]
+=== Project Configuration Reference
+
+Each project stores its test environment as a single JSON document, the *project configuration*. The same document is shown in the *Project Config* field of the web UI and is read and written by the CLI commands `th-cli project create`, `project update`, `project edit`, `project list --json` and `run-tests --config`. This section describes how the configuration can be edited, its structure, and which fields are mandatory.
+
+==== Editing the Project Configuration
+
+The configuration can be edited from the web UI or from the CLI. Both save the configuration through the same Test-Harness API, so the same validation applies to either.
+
+[cols="1,3,3", options="header"]
+|===
+| Task | Web UI | CLI
+
+| Create a project
+| *Create New Project*: the *Project Config* field is pre-filled with the default configuration. Edit it, select *Update* and then *Create* (see <<projects-menu, Projects Menu>>).
+| `th-cli project create --name "<name>" --config <file>`
+
+| View the configuration of a project
+| Select *Edit* on the project in the project list.
+| `th-cli project list --id <ID> --json`
+
+| Edit the configuration of an existing project
+| Select *Edit* on the project in the project list. The text area holds a JSON document with two entries, `config` and `pics`. Edit it and apply the change.
+| `th-cli project edit --id <ID>` opens only the `config` portion in your editor (`$VISUAL` or `$EDITOR`).
+
+| Replace the configuration with the content of a file
+| Paste the new JSON into the *Edit* text area.
+| `th-cli project update --id <ID> --config <file>`
+
+| Copy a project, with its configuration, to another Test-Harness
+| Not available in the UI.
+| `th-cli project export` and `th-cli project import`
+|===
+
+Notes:
+
+* `project update` and the UI replace the whole `config` object, not individual fields. Use `th-cli project edit` to change one or two values without re-creating the full document.
+* When `th-cli project edit` is used, the CLI checks the JSON before saving. If the JSON is invalid, or if the Test-Harness rejects the configuration, the editor reopens with your edit preserved and an explanation of the problem. If you added a key that was not in the original configuration, the CLI lists it and asks for confirmation (see <<project-config-validation, Validation Rules>> for why this matters).
+* The UI and the CLI do not update each other live. If a project is edited in both, the last save wins. Reload the project list in the UI after editing with the CLI.
+* The file passed to `--config` can be either the configuration alone (`{"network": {...}, "dut_config": {...}}`) or a full project document (`{"name": "...", "config": {...}}`), so the output of `project export` can be reused. JSON does not allow comments.
+* `th-cli run-tests --config <file>` applies the file to that test run only. It does not change the configuration stored in the project.
+
+TIP: The simplest way to start a new configuration is the default one pre-filled by the UI, or the configuration of an existing project printed by `th-cli project list --id <ID> --json`.
+
+==== Structure and Mandatory Fields
+
+[cols="2,2,1,5", options="header"]
+|===
+| Key | Type | Required | Description
+
+| `network`
+| object
+| Yes
+| Network settings. It must contain both `wifi` and `thread`, even when the DUT uses neither of them (see below).
+
+| `dut_config`
+| object
+| Yes
+| DUT pairing settings (see below).
+
+| `test_parameters`
+| object or `null`
+| No
+| Test parameters passed to the test cases (see <<test-parameters, Test Parameters>>). `qr-code` and `manual-code` cannot be used together.
+
+| `th_config`
+| object
+| No
+| Test-Harness settings. When omitted, the defaults listed below apply.
+|===
+
+===== `dut_config`
+
+[cols="2,2,1,5", options="header"]
+|===
+| Key | Type | Required | Description
+
+| `pairing_mode`
+| string
+| Yes
+| One of `onnetwork`, `ble-wifi`, `ble-thread`, `thread-meshcop`, `nfc-wifi`, `nfc-thread` or `wifipaf-wifi`. See <<project-configuration, Project Configuration>> for when to use each mode.
+
+| `discriminator`
+| string
+| Yes, except for NFC modes
+| DUT discriminator, for example `"3840"`. For `nfc-wifi` and `nfc-thread` it is optional, as the onboarding data is read from the NFC tag.
+
+| `setup_code`
+| string
+| Yes, except for NFC modes
+| DUT setup code (passcode), for example `"20202021"`. Optional for the NFC modes, as above.
+
+| `chip_use_paa_certs`
+| boolean
+| Yes
+| The key must be present, with either `true` or `false`. Omitting it is an error: it does not fall back to a default value. `true` makes the Test-Harness use the PAA certificates installed in `/var/paa-root-certs/` (see <<paa-certificates, PAA Certificates>>).
+
+| `trace_log`
+| boolean
+| Yes
+| The key must be present, with either `true` or `false`. Omitting it is an error: it does not fall back to a default value. When `true`, SDK Python tests run with trace logging enabled (`--trace-to json:log`).
+
+| `chip_timeout`
+| string or `null`
+| No
+| Accepted for compatibility, but not currently used by the Test-Harness. Leave it as `null`.
+
+| `enhanced_setup_flow`
+| object
+| No
+| Used to run SDK Python tests against a DUT that implements the Enhanced Setup Flow (Terms and Conditions). When present, both entries are mandatory: `tc_user_response` (integer), passed to the test as `--tc-acknowledgements`, and `tc_version` (integer), passed as `--tc-acknowledgements-version`. The test is also started with `--require-tc-acknowledgements 1`.
+|===
+
+===== `network.wifi`
+
+[cols="2,2,1,5", options="header"]
+|===
+| Key | Type | Required | Description
+
+| `ssid`
+| string
+| Yes
+| Wi-Fi network name used for Wi-Fi pairing.
+
+| `password`
+| string
+| Yes
+| Wi-Fi network password.
+
+| `interfaces`
+| list of strings
+| No (default: empty list)
+| Names of the host Wi-Fi interfaces dedicated to the Wi-Fi Fixture, for example `["wlx6ccdd6c589f0"]`. Naming at least one interface is what makes the Test-Harness start the Wi-Fi Fixture container. The Test-Harness needs exclusive use of these interfaces; the test fails to start if a host service manages one of them. See <<no-link-local-ipv6-address-assigned-to-the-wi-fi-fixture-interface, No Link-Local IPv6 Address Assigned to the Wi-Fi Fixture Interface>>.
+
+| `docker_image`
+| string or `null`
+| No
+| Docker image used for the Wi-Fi Fixture container. When omitted or `null`, the default image is used.
+|===
+
+===== `network.thread`
+
+`thread` takes one of two forms.
+
+*Test-Harness border router* (the Test-Harness starts the OTBR container using an RCP dongle):
+
+[cols="2,2,1,5", options="header"]
+|===
+| Key | Type | Required | Description
+
+| `rcp_serial_path`
+| string
+| Yes
+| Serial device of the RCP dongle, for example `/dev/ttyACM0`.
+
+| `rcp_baudrate`
+| integer
+| Yes
+| Baud rate of the RCP serial connection, for example `115200`.
+
+| `on_mesh_prefix`
+| string
+| Yes
+| On-mesh prefix, for example `fd11:22::/64`.
+
+| `network_interface`
+| string
+| Yes
+| Host network interface used by the border router, for example `eth0`.
+
+| `dataset`
+| object
+| Yes
+| Thread dataset. All of `channel`, `panid`, `extpanid`, `networkkey` and `networkname` are mandatory strings.
+
+| `otbr_docker_image`
+| string or `null`
+| No
+| OTBR Docker image. When `null`, the default image is used.
+|===
+
+*External border router* (the Thread network already exists; used with `thread-meshcop`):
+
+[cols="2,2,1,5", options="header"]
+|===
+| Key | Type | Required | Description
+
+| `operational_dataset_hex`
+| string
+| Yes
+| Active operational dataset as a hex string.
+
+| `ba_host`
+| string
+| Only for `thread-meshcop`
+| Host or IP address of the Thread Border Agent.
+
+| `ba_port`
+| integer
+| Only for `thread-meshcop`
+| Port of the Thread Border Agent, for example `5684`.
+|===
+
+===== `th_config`
+
+[cols="3,2,2,5", options="header"]
+|===
+| Key | Type | Default | Description
+
+| `prompt_timeout_seconds`
+| integer
+| `60`
+| How long the Test-Harness waits for an answer to a user prompt. See <<user-prompt-timeout-configuration, User Prompt Timeout Configuration>>.
+
+| `enable_realtime_python_test_logs`
+| boolean or `null`
+| `null`
+| `null` defers to the `ENABLE_REALTIME_PYTHON_TEST_LOGS` environment variable. See <<python-test-logging-configuration, Python Test Logging Configuration>>.
+
+| `enable_container_logs`
+| boolean or `null`
+| `null`
+| `null` defers to the `ENABLE_CONTAINER_LOGS` environment variable. See <<container-logging-configuration, Container Logging Configuration>>.
+
+| `sdk_container_apps_dir`
+| string or `null`
+| `null`
+| `null` defers to the `SDK_CONTAINER_APPS_DIR` environment variable. See <<sdk-container-apps-dir, SDK Container Apps Directory>>.
+|===
+
+[#project-config-validation]
+==== Validation Rules
+
+When a configuration is saved, the Test-Harness checks it as follows:
+
+* `network` and `dut_config` are mandatory, and `network` must contain `wifi` and `thread`.
+* In `dut_config`, `pairing_mode`, `chip_use_paa_certs` and `trace_log` must always be present. A missing key is rejected; the Test-Harness does not substitute a default value for it.
+* Any key in `dut_config` other than the ones listed above is *rejected*, and the error message lists the valid keys.
+* An unknown key anywhere *else* in the configuration is *silently ignored*, not rejected. The configuration is saved exactly as typed, but the Test-Harness never reads the unknown key. A misspelled key, such as `prompt_timeout_second` in `th_config`, therefore causes no error and the default value is used instead, so check key names against the tables above. The default configuration also contains a `fabric_id` entry in `network`, which the Test-Harness ignores.
+* `qr-code` and `manual-code` in `test_parameters` are mutually exclusive.
+* With `thread-meshcop`, `ba_host` and `ba_port` are mandatory in `network.thread`.
 
 
 <<<
@@ -2476,15 +2727,24 @@ The Matter Test-Harness Command Line Interface (CLI) provides a powerful command
 
 This quick guide shows you how to start testing in 5 minutes:
 
-. Install the CLI:
+. Make sure the CLI is installed:
++
+The CLI is installed automatically by the Test-Harness `auto-install.sh` and `auto-update.sh` scripts (see <<th-installation-on-raspberry-pi, Section 4.1.2, TH Installation on Raspberry Pi>> and <<update-existing-th, Section 4.4, Update Existing TH>>), so on the machine that runs the Test-Harness there is nothing else to install. To confirm, open a new terminal and run:
++
+[source,bash]
+----
+th-cli --version
+----
++
+If the command is not found, or if you want to install or update the CLI on its own (for example, on a machine other than the TH), run the CLI install script from a full clone of the Test-Harness repository:
 +
 [source,bash]
 ----
 cd ~/certification-tool/cli
 ./scripts/th_cli_install.sh
 ----
-
-Note: The CLI instalation script is automatically executed when setting up the Matter Test-Harness. If you have not set up the Test-Harness yet, refer to <<matter-test-harness-setup, Section 4, Matter Test-Harness Setup>>. Otherwise, you can run the above command to install or update the CLI whenever needed.
++
+NOTE: The script needs the whole repository (not only the `cli` folder), because it copies a shared constants file from the `backend` folder. It also needs Poetry, which the Test-Harness install scripts provide, and installs `pipx` when it is missing. If `th-cli` is not found right after the installation, open a new terminal so the updated `PATH` is loaded.
 
 . Configure connection to Test-Harness:
 +
@@ -2680,7 +2940,7 @@ th-cli project create --name "Door Lock Project" --config project_config.json
 
 NOTE: *Tip:* +
 The project configuration structure from an existing project may be verified using the following CLI command `th-cli project list --id <PROJECT-ID> --json`. +
-That way it's possile to create new projects and update based on existing configurations.
+That way it's possible to create new projects and update based on existing configurations.
 
 **List projects:**
 
@@ -2715,7 +2975,7 @@ th-cli project delete --id 5
 th-cli project edit --id 5
 ----
 
-Use this to tweak one or two fields (e.g. a `th_config` or `dut_config` value) without exporting, hand-editing, and re-importing a full config file. The editor opens via `$EDITOR`/`$VISUAL` (falling back to `vim`/`nano`/`vi`); on save, the CLI validates your changes, warns before persisting any field it doesn't recognize, and reopens the editor with your edit preserved if something's wrong.
+Use this to tweak one or two fields (e.g. a `th_config` or `dut_config` value) without exporting, hand-editing, and re-importing a full config file. The editor opens via `$EDITOR`/`$VISUAL` (falling back to `vim`/`nano`/`vi`); on save, the CLI validates your changes, warns before persisting any field it doesn't recognize, and reopens the editor with your edit preserved if something's wrong. Every configuration field, and how this command compares with editing the configuration in the web UI, is described in <<project-config-reference, Section 8.3, Project Configuration Reference>>.
 
 NOTE: *Tip:* +
 For the full behavior — retry handling on invalid input, the new-field confirmation prompt, and how to pick a different editor via `$VISUAL`/`$EDITOR` — run `th-cli project edit --help` or see the https://github.com/project-chip/certification-tool-cli/blob/main/README.md#edit-project[CLI README].
