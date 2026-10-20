@@ -59,6 +59,37 @@ print_script_step "Enable ip6table_filter in kernel modules"
 printf "\n Updating: /etc/modules\n"
 grep -qxF "ip6table_filter" /etc/modules || echo "ip6table_filter" | sudo tee -a /etc/modules
 
+# Set "key=value" in the [server] section of $AVAHI_CONF: replace an existing or commented-out
+# line, otherwise add it right after [server].
+set_avahi_option() {
+    local key=$1 value=$2
+    echo "  setting: $key=$value"
+    if grep -q "^$key=" "$AVAHI_CONF"; then
+        sudo sed -i "s|^$key=.*|$key=$value|" "$AVAHI_CONF"
+    elif grep -q "^#$key=" "$AVAHI_CONF"; then
+        sudo sed -i "s|^#$key=.*|$key=$value|" "$AVAHI_CONF"
+    else
+        sudo sed -i "/^\[server\]/a $key=$value" "$AVAHI_CONF"
+    fi
+}
+
+# On a Docker host Avahi also joins the docker0/br-*/veth* interfaces, so it sees its own
+# mDNS records come back through them (host name conflicts, stale records). Keep it on the
+# physical and Thread (wpan0) interfaces only.
+print_script_step "Restrict host Avahi to physical network interfaces"
+AVAHI_CONF=/etc/avahi/avahi-daemon.conf
+AVAHI_ALLOW_INTERFACES="${AVAHI_ALLOW_INTERFACES:-eth0,wpan0}"
+if [ -f "$AVAHI_CONF" ]; then
+    printf "\n Updating: $AVAHI_CONF\n"
+    sudo cp -n "$AVAHI_CONF" "$AVAHI_CONF.orig"
+    set_avahi_option allow-interfaces "$AVAHI_ALLOW_INTERFACES"
+    # wpan0 is a point-to-point interface, which Avahi ignores unless this is enabled.
+    set_avahi_option allow-point-to-point yes
+    sudo systemctl restart avahi-daemon || printf "\n Could not restart avahi-daemon; restart it manually.\n"
+else
+    printf "\n $AVAHI_CONF not found (avahi-daemon is not installed); skipping.\n"
+fi
+
 print_script_step "Create System Service for Matter Test Harness"
 printf "\n Writing: /etc/systemd/system/matter-th.service"
 cat << EOF | sudo tee /etc/systemd/system/matter-th.service
