@@ -177,6 +177,7 @@ endif::[]
 | 79          | 05-Oct-2026  | [Apple]Romulo Quidute               | * Added `th_config.sdk_container_apps_dir` documentation for mounting helper app binaries into the SDK container.
 | 80          | 19-Oct-2026  | [Apple]Antonio Melo Jr.             | * Clarified that the Test-Harness CLI is installed and updated by `auto-install.sh` and `auto-update.sh` (and not by `start.sh`), in the installation, update and CLI Quick-Start sections (issue #1154). +
                                                                      * Added the Project Configuration Reference section (field reference, mandatory fields, validation rules, and editing the project configuration from the UI and with `th-cli project edit`). Added `wifipaf-wifi` to the pairing modes list and fixed the `chip_use_paa_certs` field name (issue #1156).
+| 81          | 20-Oct-2026  | [Apple]Romulo Quidute               | * Updated the Python Test Logging Configuration section: real-time logging is the default (issue #1171). Added the Backend Log Output Configuration section for `LOGGING_ENQUEUE`, which now defaults to `False` (issue #1178).
 |===
 
 <<<
@@ -2576,8 +2577,8 @@ image:images/img_67.png[SDK Python Tests - Reuse commissioning information  prom
 ===== Python Test Logging Configuration
 The TH supports two modes for displaying Python test logs:
 
-* *Real-time logging*: Logs are displayed incrementally as each test step completes
-* *Batch logging (default)*: All logs are displayed at once after test execution completes
+* *Real-time logging (default)*: Logs are displayed incrementally as each test step completes
+* *Batch logging*: All logs are displayed at once after test execution completes
 
 The logging mode can be configured in two ways, listed in the order they are checked:
 
@@ -2596,10 +2597,10 @@ Set it to `false` to force batch logging for that project regardless of the inst
 +
 [source,shell]
 ----
-# Enable real-time logging
+# Enable real-time logging (default)
 ENABLE_REALTIME_PYTHON_TEST_LOGS=True
 
-# Enable batch logging (default)
+# Enable batch logging
 ENABLE_REALTIME_PYTHON_TEST_LOGS=False
 ----
 +
@@ -2650,6 +2651,23 @@ NOTE: After changing any configuration in `./.env`, recreate the TH backend cont
 ----
 docker compose up -d backend
 ----
+
+[#backend-log-output-configuration]
+===== Backend Log Output Configuration
+The TH backend writes its own log to the container output (`docker logs`) and to a log file. By default each log line is written by the thread that produces it. This is the fastest option for test cases with a very large output: handing every line to a worker thread through a queue costs roughly 0.1 ms per line and per output, which adds up to minutes for hundreds of thousands of lines. For example, on a Raspberry Pi 5 the test case TC-ACE-2.1 (about 712,000 log lines) took about 640 seconds with queuing and about 460 seconds without.
+
+The `LOGGING_ENQUEUE` environment variable in the same `certification-tool/.env` file controls this. Set it to `True` to queue the lines instead, which protects the backend from a slow disk or a stalled log reader at the cost of the speed above:
+
+[source,shell]
+----
+# Write backend log lines on the thread that produces them (default)
+LOGGING_ENQUEUE=False
+
+# Queue backend log lines for a worker thread
+LOGGING_ENQUEUE=True
+----
+
+Changing this variable requires recreating the backend container — see the note above. It does not change which messages are logged, only how they are written.
 
 [#sdk-container-apps-dir]
 ===== Helper App Binaries in the SDK Container
