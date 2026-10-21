@@ -80,7 +80,7 @@ WSL_SYNC_TABLE=(
     "scripts/ubuntu/internal-auto-install.sh 8add9f9ca1bd"
     "scripts/ubuntu/auto-update.sh 2c42af0d2faa"
     "scripts/ubuntu/internal-auto-update.sh 5f8fcfa3f35b"
-    "scripts/ubuntu/2-machine-configuration.sh a0a4a3be478d"
+    "scripts/ubuntu/2-machine-configuration.sh 00ea2e312d22"
     "scripts/update.sh cab4e1395f10"
     "scripts/update-docker-images.sh 501a18094186"
 )
