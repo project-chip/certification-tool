@@ -177,7 +177,8 @@ endif::[]
 | 79          | 05-Oct-2026  | [Apple]Romulo Quidute               | * Added `th_config.sdk_container_apps_dir` documentation for mounting helper app binaries into the SDK container.
 | 80          | 19-Oct-2026  | [Apple]Antonio Melo Jr.             | * Clarified that the Test-Harness CLI is installed and updated by `auto-install.sh` and `auto-update.sh` (and not by `start.sh`), in the installation, update and CLI Quick-Start sections (issue #1154). +
                                                                      * Added the Project Configuration Reference section (field reference, mandatory fields, validation rules, and editing the project configuration from the UI and with `th-cli project edit`). Added `wifipaf-wifi` to the pairing modes list and fixed the `chip_use_paa_certs` field name (issue #1156).
-| 81          | 20-Oct-2026  | [Apple]Romulo Quidute               | * Updated the Python Test Logging Configuration section: real-time logging is the default (issue #1171). Added the Backend Log Output Configuration section for `LOGGING_ENQUEUE`, which now defaults to `False` (issue #1178).
+| 81          | 20-Oct-2026  | [Apple]Romulo Quidute               | * Updated the Python Test Logging Configuration section: real-time logging is the default (issue #1171). +
+                                                                      * Removed the `ENABLE_REALTIME_PYTHON_TEST_LOGS` and `ENABLE_CONTAINER_LOGS` environment variable fallbacks from the Python Test Logging Configuration and Container Logging Configuration sections; both are now configured only with `th_config` in the project configuration (issue #1178).
 |===
 
 <<<
@@ -2615,29 +2616,6 @@ When enabled, the following container information will be logged:
 * Container destruction (kill and remove commands)
 * File copy operations between host and container
 * Container execution commands
-
-[#backend-log-output-configuration]
-===== Backend Log Output Configuration
-The TH backend writes its own log to the container output (`docker logs`) and to a log file. By default each log line is written by the thread that produces it. This is the fastest option for test cases with a very large output: handing every line to a worker thread through a queue costs roughly 0.1 ms per line and per output, which adds up to minutes for hundreds of thousands of lines. For example, on a Raspberry Pi 5 the test case TC-ACE-2.1 (about 712,000 log lines) took about 640 seconds with queuing and about 460 seconds without.
-
-The `LOGGING_ENQUEUE` environment variable in the `.env` file located in the *root* of the certification-tool directory (i.e. `certification-tool/.env`) controls this. Do _not_ edit `certification-tool/backend/.env` — that file is not used by the backend container. Set it to `True` to queue the lines instead, which protects the backend from a slow disk or a stalled log reader at the cost of the speed above:
-
-[source,shell]
-----
-# Write backend log lines on the thread that produces them (default)
-LOGGING_ENQUEUE=False
-
-# Queue backend log lines for a worker thread
-LOGGING_ENQUEUE=True
-----
-
-This variable does not change which messages are logged, only how they are written.
-
-NOTE: After changing any configuration in `./.env`, recreate the TH backend container to apply the new environment variables. Use `docker compose up` instead of `docker restart` — `docker restart` does not re-read the `.env` file:
-[source,shell]
-----
-docker compose up -d backend
-----
 
 [#sdk-container-apps-dir]
 ===== Helper App Binaries in the SDK Container
