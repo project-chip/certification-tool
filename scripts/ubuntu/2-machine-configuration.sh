@@ -76,7 +76,16 @@ if [ -n "$(sudo netplan get "wifis.$WLAN_INTERFACE" 2>/dev/null | grep -vx 'null
     sudo systemctl disable --now wpa_supplicant.service || true
     sudo systemctl mask wpa_supplicant.service
     # Stopping ours may have removed the shared control socket; restart netplan's to recreate it.
-    sudo systemctl try-restart --no-block "netplan-wpa-$WLAN_INTERFACE.service" || true
+    # This briefly drops Wi-Fi, and the install pulls code from GitHub right after this script,
+    # so wait until the network (and DNS) is back before going on.
+    sudo systemctl try-restart "netplan-wpa-$WLAN_INTERFACE.service" || true
+    printf "\n Waiting for the network to come back on $WLAN_INTERFACE"
+    for _ in $(seq 1 60); do
+        getent hosts github.com > /dev/null && break
+        printf "."
+        sleep 1
+    done
+    printf "\n"
 else
     sudo systemctl unmask wpa_supplicant.service
     sudo systemctl enable wpa_supplicant.service
