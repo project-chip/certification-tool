@@ -177,6 +177,8 @@ endif::[]
 | 79          | 05-Oct-2026  | [Apple]Romulo Quidute               | * Added `th_config.sdk_container_apps_dir` documentation for mounting helper app binaries into the SDK container.
 | 80          | 19-Oct-2026  | [Apple]Antonio Melo Jr.             | * Clarified that the Test-Harness CLI is installed and updated by `auto-install.sh` and `auto-update.sh` (and not by `start.sh`), in the installation, update and CLI Quick-Start sections (issue #1154). +
                                                                      * Added the Project Configuration Reference section (field reference, mandatory fields, validation rules, and editing the project configuration from the UI and with `th-cli project edit`). Added `wifipaf-wifi` to the pairing modes list and fixed the `chip_use_paa_certs` field name (issue #1156).
+| 81          | 20-Oct-2026  | [Apple]Romulo Quidute               | * Updated the Python Test Logging Configuration section: real-time logging is the default (issue #1171). +
+                                                                      * Removed the `ENABLE_REALTIME_PYTHON_TEST_LOGS` and `ENABLE_CONTAINER_LOGS` environment variable fallbacks from the Python Test Logging Configuration and Container Logging Configuration sections; both are now configured only with `th_config` in the project configuration (issue #1178).
 |===
 
 <<<
@@ -2576,34 +2578,19 @@ image:images/img_67.png[SDK Python Tests - Reuse commissioning information  prom
 ===== Python Test Logging Configuration
 The TH supports two modes for displaying Python test logs:
 
-* *Real-time logging*: Logs are displayed incrementally as each test step completes
-* *Batch logging (default)*: All logs are displayed at once after test execution completes
+* *Real-time logging (default)*: Logs are displayed incrementally as each test step completes
+* *Batch logging*: All logs are displayed at once after test execution completes
 
-The logging mode can be configured in two ways, listed in the order they are checked:
+The logging mode is configured per project with `th_config.enable_realtime_python_test_logs` in the project's configuration (see <<user-prompt-timeout-configuration, User Prompt Timeout Configuration>> for where `th_config` lives in the project JSON). This takes effect immediately on the next test run — no container restart needed:
 
-. *Per-project override (recommended)*: Set `th_config.enable_realtime_python_test_logs` in the project's configuration (see <<user-prompt-timeout-configuration, User Prompt Timeout Configuration>> for where `th_config` lives in the project JSON). This takes effect immediately on the next test run — no container restart needed:
-+
 [source,xml]
 ----
 "th_config": {
-  "enable_realtime_python_test_logs": true
+  "enable_realtime_python_test_logs": false
 }
 ----
-+
-Set it to `false` to force batch logging for that project regardless of the instance-wide default below, or leave it `null`/omit the key to defer to that default.
 
-. *Instance-wide default (environment variable)*: If `th_config.enable_realtime_python_test_logs` is `null` or not set for a project, the TH falls back to the `ENABLE_REALTIME_PYTHON_TEST_LOGS` environment variable in the `.env` file located in the *root* of the certification-tool directory (i.e. `certification-tool/.env`). Note: do *not* edit `certification-tool/backend/.env` — that file is not used by the backend container:
-+
-[source,shell]
-----
-# Enable real-time logging
-ENABLE_REALTIME_PYTHON_TEST_LOGS=True
-
-# Enable batch logging (default)
-ENABLE_REALTIME_PYTHON_TEST_LOGS=False
-----
-+
-Changing this variable requires recreating the backend container — see the note at the end of this section.
+Set it to `false` to use batch logging for that project. Set it to `true`, or leave it `null`/omit the key, to use real-time logging (default).
 
 [#container-logging-configuration]
 ===== Container Logging Configuration
@@ -2612,31 +2599,16 @@ The TH supports optional logging of container operations for debugging and troub
 * *Container logging disabled (default)*: No container operation logs are displayed
 * *Container logging enabled*: Displays detailed Docker container operations including creation, destruction, and file copy operations
 
-The logging mode can be configured in two ways, listed in the order they are checked:
+The logging mode is configured per project with `th_config.enable_container_logs` in the project's configuration (see <<user-prompt-timeout-configuration, User Prompt Timeout Configuration>> for where `th_config` lives in the project JSON). This takes effect immediately on the next test run — no container restart needed:
 
-. *Per-project override (recommended)*: Set `th_config.enable_container_logs` in the project's configuration (see <<user-prompt-timeout-configuration, User Prompt Timeout Configuration>> for where `th_config` lives in the project JSON). This takes effect immediately on the next test run — no container restart needed:
-+
 [source,xml]
 ----
 "th_config": {
   "enable_container_logs": true
 }
 ----
-+
-Set it to `false` to force container logging off for that project regardless of the instance-wide default below, or leave it `null`/omit the key to defer to that default.
 
-. *Instance-wide default (environment variable)*: If `th_config.enable_container_logs` is `null` or not set for a project, the TH falls back to the `ENABLE_CONTAINER_LOGS` environment variable in the same `certification-tool/.env` file:
-+
-[source,shell]
-----
-# Enable container logging
-ENABLE_CONTAINER_LOGS=True
-
-# Disable container logging (default)
-ENABLE_CONTAINER_LOGS=False
-----
-+
-Changing this variable requires recreating the backend container — see the note at the end of this section.
+Set it to `true` to enable container logging for that project. Set it to `false`, or leave it `null`/omit the key, to keep it disabled (default).
 
 When enabled, the following container information will be logged:
 
@@ -2644,12 +2616,6 @@ When enabled, the following container information will be logged:
 * Container destruction (kill and remove commands)
 * File copy operations between host and container
 * Container execution commands
-
-NOTE: After changing any configuration in `./.env`, recreate the TH backend container to apply the new environment variables. Use `docker compose up` instead of `docker restart` — `docker restart` does not re-read the `.env` file:
-[source,shell]
-----
-docker compose up -d backend
-----
 
 [#sdk-container-apps-dir]
 ===== Helper App Binaries in the SDK Container
