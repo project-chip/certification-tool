@@ -61,7 +61,35 @@ ExecStart=
 ExecStart=/usr/sbin/wpa_supplicant -u -s -i $WLAN_INTERFACE -c $WPA_SUPPLICANT_FILE
 EOF
 sudo systemctl daemon-reload
-sudo systemctl enable wpa_supplicant.service
+
+# Only one wpa_supplicant may manage $WLAN_INTERFACE. When netplan already configures Wi-Fi
+# on it (e.g. Wi-Fi set in Raspberry Pi Imager, or the netplan step of
+# docs/enable_wifi_and_ssh_raspi_ubuntu_server.md), netplan runs its own wpa_supplicant there
+# with the same control socket (/run/wpa_supplicant/$WLAN_INTERFACE). Running ours as well makes
+# the two fight over the interface and the socket, which then disappears intermittently
+# depending on start order, so CNET Wi-Fi tests fail with "No WiFi interface found".
+# In that case keep netplan's (it holds the Wi-Fi connection and provides the control socket)
+# and mask ours, which also stops D-Bus from activating it.
+if [ -n "$(sudo netplan get "wifis.$WLAN_INTERFACE" 2>/dev/null | grep -vx 'null')" ]; then
+    printf "\n netplan already manages Wi-Fi on $WLAN_INTERFACE: keeping its wpa_supplicant,"
+    printf "\n masking wpa_supplicant.service so only one wpa_supplicant runs on $WLAN_INTERFACE\n"
+    sudo systemctl disable --now wpa_supplicant.service || true
+    sudo systemctl mask wpa_supplicant.service
+    # Stopping ours may have removed the shared control socket; restart netplan's to recreate it.
+    # This briefly drops Wi-Fi, and the install pulls code from GitHub right after this script,
+    # so wait until the network (and DNS) is back before going on.
+    sudo systemctl try-restart "netplan-wpa-$WLAN_INTERFACE.service" || true
+    printf "\n Waiting for the network to come back on $WLAN_INTERFACE"
+    for _ in $(seq 1 60); do
+        getent hosts github.com > /dev/null && break
+        printf "."
+        sleep 1
+    done
+    printf "\n"
+else
+    sudo systemctl unmask wpa_supplicant.service
+    sudo systemctl enable wpa_supplicant.service
+fi
 
 WPA_SUPPLICANT_SETTINGS=(
     "ctrl_interface=DIR=/run/wpa_supplicant"
