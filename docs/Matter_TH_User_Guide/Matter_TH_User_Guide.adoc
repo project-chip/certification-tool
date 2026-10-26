@@ -17,7 +17,7 @@
 
 :ubuntu-version: 24.04.x
 :ubuntu-description: Ubuntu Server {ubuntu-version} LTS (64-bit)
-:th-version: v2.16-beta2+summer2026
+:th-version: v2.16-beta3+winter2026
 = Matter Test-Harness User Manual: {th-version}
 ifdef::env-github[]
 :tip-caption: :bulb:
@@ -55,8 +55,7 @@ endif::[]
 | Matter 1.5.1     | v2.14.1+winter2026       | N/A                                                                                         | https://groups.csa-iot.org/wg/members-all/document/folder/5210[Causeway Link] | e9ecfc2      | To install, use the branch "v2.14.1+winter2026" in the instructions of <<fresh_install>>
 | Matter 1.6     | v2.15+spring2026     | N/A                                                                                         | https://groups.csa-iot.org/wg/members-all/document/folder/2269[Causeway Link] | b91b83f      | To install, use the branch "v2.15+spring2026" in the instructions of <<fresh_install>>
 | Matter 1.6.1   | v2.15.1+spring2026   | N/A                                                                                         | TBD | df8bd03      | To install, use the branch "{v2.15.1+spring2026}" in the instructions of <<fresh_install>>
-| Matter 1.7     | {th-version}       | N/A                                                                                         | TBD | 99a81bd      | To install, use the branch "{th-version}" in the instructions of <<fresh_install>>
-
+| Matter 1.7     | {th-version} | N/A                                                                                         | TBD | a7c8170      | To install, use the branch "{th-version}" in the instructions of <<fresh_install>>
 |===
 
 
@@ -178,7 +177,7 @@ endif::[]
 | 80          | 19-Oct-2026  | [Apple]Antonio Melo Jr.             | * Clarified that the Test-Harness CLI is installed and updated by `auto-install.sh` and `auto-update.sh` (and not by `start.sh`), in the installation, update and CLI Quick-Start sections (issue #1154). +
                                                                      * Added the Project Configuration Reference section (field reference, mandatory fields, validation rules, and editing the project configuration from the UI and with `th-cli project edit`). Added `wifipaf-wifi` to the pairing modes list and fixed the `chip_use_paa_certs` field name (issue #1156).
 | 81          | 20-Oct-2026  | [Apple]Romulo Quidute               | * Updated the Python Test Logging Configuration section: real-time logging is the default (issue #1171). +
-                                                                      * Removed the `ENABLE_REALTIME_PYTHON_TEST_LOGS` and `ENABLE_CONTAINER_LOGS` environment variable fallbacks from the Python Test Logging Configuration and Container Logging Configuration sections; both are now configured only with `th_config` in the project configuration (issue #1178).
+                                                                    * Removed the `ENABLE_REALTIME_PYTHON_TEST_LOGS` and `ENABLE_CONTAINER_LOGS` environment variable fallbacks from the Python Test Logging Configuration and Container Logging Configuration sections; both are now configured only with `th_config` in the project configuration (issue #1178).
 |===
 
 <<<
