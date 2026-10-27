@@ -105,6 +105,16 @@ fi
 # Do not exit in case of error
 set +e
 
+# A fresh install adds the user to the docker group, which only applies to new
+# login sessions. Say so, instead of the generic "Unable to start containers".
+DOCKER_INFO_ERR=$(docker info 2>&1 >/dev/null)
+if [ $? -ne 0 ] && echo "$DOCKER_INFO_ERR" | grep -qi "permission denied"; then
+    print_error "### Exit with Error ###"
+    print_error "    This session cannot access docker (permission denied)."
+    print_error "    If you were just added to the 'docker' group (e.g. by the installation), log out and back in or reboot, then run this script again."
+    exit 1
+fi
+
 echo "*** Starting 'db' and 'proxy' docker containers"
 docker compose -f docker-compose.yml up db proxy --detach --pull never
 if [ $? -ne 0 ]; then
