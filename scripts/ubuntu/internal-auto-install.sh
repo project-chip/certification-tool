@@ -39,7 +39,11 @@ print_script_step "Update Test Harness code"
 # actions/checkout leaves the repo in a detached HEAD state, where
 # `git rev-parse --abbrev-ref HEAD` would just return the literal string "HEAD".
 CURRENT_BRANCH=${GITHUB_REF_NAME:-$(git rev-parse --abbrev-ref HEAD)}
-$UBUNTU_SCRIPT_DIR/auto-update.sh "$CURRENT_BRANCH"
+# The Test Harness is not started here: the user was just added to the `docker`
+# group, which only applies to new login sessions, so docker would fail with
+# "permission denied". The matter-th service (see 2-machine-configuration.sh)
+# starts it on boot, after the reboot requested at the end of this script.
+TH_SKIP_START=1 $UBUNTU_SCRIPT_DIR/auto-update.sh "$CURRENT_BRANCH"
 verify_return_code
 
 print_script_step "Revert needrestart config to default"
