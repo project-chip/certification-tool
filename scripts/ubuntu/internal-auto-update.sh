@@ -42,8 +42,12 @@ print_script_step "Configuring Wi-Fi devices"
 $UBUNTU_SCRIPT_DIR/2.1-configure-wifi-devices.sh
 verify_return_code
 
-print_script_step "Starting Test Harness"
-"$SCRIPT_DIR/start.sh"
-verify_return_code
+# Callers that cannot start the Test Harness yet (e.g. a fresh install, before
+# the reboot that applies docker group membership) set TH_SKIP_START.
+if [ -z "$TH_SKIP_START" ]; then
+    print_script_step "Starting Test Harness"
+    "$SCRIPT_DIR/start.sh"
+    verify_return_code
+fi
 
 print_end_of_script

@@ -77,9 +77,9 @@ print(" ".join(sorted(a for a in archs if a and a != "unknown")))
 # (and this table updated).
 WSL_SYNC_TABLE=(
     "scripts/ubuntu/auto-install.sh c5989a121ca1"
-    "scripts/ubuntu/internal-auto-install.sh 8add9f9ca1bd"
+    "scripts/ubuntu/internal-auto-install.sh 2f4f0bc67f54"
     "scripts/ubuntu/auto-update.sh 2c42af0d2faa"
-    "scripts/ubuntu/internal-auto-update.sh 5f8fcfa3f35b"
+    "scripts/ubuntu/internal-auto-update.sh 343e6e9926b8"
     "scripts/ubuntu/2-machine-configuration.sh 00ea2e312d22"
     "scripts/update.sh cab4e1395f10"
     "scripts/update-docker-images.sh 501a18094186"
