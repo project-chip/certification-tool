@@ -179,6 +179,7 @@ endif::[]
 | 81          | 20-Oct-2026  | [Apple]Romulo Quidute               | * Updated the Python Test Logging Configuration section: real-time logging is the default (issue #1171). +
                                                                      * Removed the `ENABLE_REALTIME_PYTHON_TEST_LOGS` and `ENABLE_CONTAINER_LOGS` environment variable fallbacks from the Python Test Logging Configuration and Container Logging Configuration sections; both are now configured only with `th_config` in the project configuration (issue #1178).
 | 82          | 05-Nov-2026  | [Apple]Romulo Quidute               | * Documented side loading of helper/base modules in the *custom* Python folder, including the rule that they shadow SDK modules of the same name.
+| 83          | 05-Nov-2026  | [Apple]Romulo Quidute               | * Documented that `th-cli rescan-tests` now reports the test cases added, modified and removed by the rescan, and lists scripts that could not be parsed.
 |===
 
 <<<
@@ -575,6 +576,31 @@ test collections. The new or updated script is immediately available on the Test
 no `stop.sh`/`start.sh` cycle is needed, and the backend remains available to other users
 throughout.
 
+The command reports what the rescan changed, grouped by test collection, so you can tell whether
+your change was picked up:
+
+[source,bash]
+----
+Rescanned test collections successfully (6 found)
+
+Custom SDK Python Tests
+  + TC-FAKE-1.1-custom           added
+  ~ TC-ACE-1.3-custom            modified
+  - TC-OLD-1.1-custom            removed
+No changes in: SDK Python Tests, SDK YAML Tests
+----
+
+When nothing changed, the command says so explicitly:
+
+[source,bash]
+----
+Rescanned test collections successfully (6 found). No changes detected.
+----
+
+A test case is reported as *modified* when its discovered definition changes: its title or
+description, its PICS, or (for Python tests) its steps, class name or path. Edits that do not change
+what discovery reads, such as changes inside a test step's code, are not reported.
+
 [NOTE]
 .*Test Engine must be idle:*
 ====
@@ -586,9 +612,17 @@ finish, or abort it with `th-cli abort-testing`, and try again.
 [NOTE]
 .*Invalid or malformed scripts:*
 ====
-If the newly added/edited script cannot be parsed, `rescan-tests` reports the failure and the
-previously loaded test collections remain available — the backend does not need to be
-restarted to recover.
+If a newly added/edited script cannot be parsed, `rescan-tests` skips it and lists it, with the
+reason, after the changes:
+
+[source,bash]
+----
+Scripts that could not be parsed (skipped):
+  ! TC_FAKE_1_1.py: Syntax error: invalid syntax (line 12)
+----
+
+The rest of the rescan still completes. Fix the script and run `th-cli rescan-tests` again — the
+backend does not need to be restarted to recover.
 ====
 
 [NOTE]
@@ -2854,6 +2888,9 @@ Side-Loaded Test Cases>>).
 ----
 th-cli rescan-tests
 ----
+
+The output lists the test cases that were added, modified or removed, and any scripts that could
+not be parsed. See <<side-load-rescan, Rescanning Side-Loaded Test Cases>> for an example.
 
 NOTE: This fails with an error if a test run is currently executing. Wait for it to finish, or
 run `th-cli abort-testing`, then try again.
