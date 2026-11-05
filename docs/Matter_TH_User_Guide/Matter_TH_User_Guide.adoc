@@ -178,6 +178,7 @@ endif::[]
                                                                      * Added the Project Configuration Reference section (field reference, mandatory fields, validation rules, and editing the project configuration from the UI and with `th-cli project edit`). Added `wifipaf-wifi` to the pairing modes list and fixed the `chip_use_paa_certs` field name (issue #1156).
 | 81          | 20-Oct-2026  | [Apple]Romulo Quidute               | * Updated the Python Test Logging Configuration section: real-time logging is the default (issue #1171). +
                                                                      * Removed the `ENABLE_REALTIME_PYTHON_TEST_LOGS` and `ENABLE_CONTAINER_LOGS` environment variable fallbacks from the Python Test Logging Configuration and Container Logging Configuration sections; both are now configured only with `th_config` in the project configuration (issue #1178).
+| 82          | 05-Nov-2026  | [Apple]Romulo Quidute               | * Documented side loading of helper/base modules in the *custom* Python folder, including the rule that they shadow SDK modules of the same name.
 |===
 
 <<<
@@ -631,6 +632,32 @@ exists in the *sdk* folder. This only affects manual invocation inside the conta
 does not affect test execution through the Test-Harness CLI or UI.
 ====
 
+
+==== Side Loading Helper/Base Modules (e.g. `TC_SUTestBase.py`)
+
+Besides test scripts (`TC_*.py`), the *custom* Python folder may also hold helper or base
+modules that a side-loaded test imports with a flat import
+(e.g. `from TC_SUTestBase import ...`). When the Test-Harness runs a test, it resolves
+such imports in this order:
+
+. the *custom* folder (`.../python_testing/scripts/custom/`)
+. the *sdk* folder (`.../python_testing/scripts/sdk/`)
+
+A helper placed in the *custom* folder therefore *shadows* the SDK module with the same file
+name. To use a modified helper, copy the SDK file into the *custom* folder, edit the copy and
+run `th-cli rescan-tests`. Do not edit files in the *sdk* folder.
+
+[IMPORTANT]
+.*Shadowing applies to every script in the custom folder:*
+====
+The override is based on the file name alone and is not limited to the test that needs it.
+A copy of an SDK helper left in the *custom* folder is used by *all* side-loaded tests, and by
+any SDK module that imports it by that flat name. Remove the copy when it is no longer needed,
+and re-copy it from the SDK after a Test-Harness update, since it will not follow SDK changes.
+====
+
+NOTE: Only plain `import` / `from ... import` of modules in these two folders is affected.
+Packages installed with the SDK (e.g. `matter.testing...`) are not overridden.
 
 === Troubleshooting
 
