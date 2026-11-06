@@ -75,17 +75,28 @@ if [ -n "$(sudo netplan get "wifis.$WLAN_INTERFACE" 2>/dev/null | grep -vx 'null
     printf "\n masking wpa_supplicant.service so only one wpa_supplicant runs on $WLAN_INTERFACE\n"
     sudo systemctl disable --now wpa_supplicant.service || true
     sudo systemctl mask wpa_supplicant.service
-    # Stopping ours may have removed the shared control socket; restart netplan's to recreate it.
+    # Stopping ours may have removed the shared control socket, and if ours won the start-order
+    # race at boot, netplan's is in the failed state. `restart` (unlike `try-restart`) also
+    # starts it when it is inactive or failed, so it recreates the socket and brings Wi-Fi back.
     # This briefly drops Wi-Fi, and the install pulls code from GitHub right after this script,
     # so wait until the network (and DNS) is back before going on.
-    sudo systemctl try-restart "netplan-wpa-$WLAN_INTERFACE.service" || true
+    if ! sudo systemctl restart "netplan-wpa-$WLAN_INTERFACE.service"; then
+        printf "\n ERROR: could not start netplan-wpa-$WLAN_INTERFACE.service; no wpa_supplicant is running on $WLAN_INTERFACE."
+        printf "\n Check: sudo journalctl -u netplan-wpa-$WLAN_INTERFACE.service\n"
+        exit 1
+    fi
     printf "\n Waiting for the network to come back on $WLAN_INTERFACE"
+    network_up=false
     for _ in $(seq 1 60); do
-        getent hosts github.com > /dev/null && break
+        if getent hosts github.com > /dev/null; then
+            network_up=true
+            break
+        fi
         printf "."
         sleep 1
     done
     printf "\n"
+    $network_up || printf " Warning: github.com is still not resolvable after 60s; the next install steps may fail.\n"
 else
     sudo systemctl unmask wpa_supplicant.service
     sudo systemctl enable wpa_supplicant.service
