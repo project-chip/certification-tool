@@ -179,7 +179,7 @@ endif::[]
 | 81          | 20-Oct-2026  | [Apple]Romulo Quidute               | * Updated the Python Test Logging Configuration section: real-time logging is the default (issue #1171). +
                                                                      * Removed the `ENABLE_REALTIME_PYTHON_TEST_LOGS` and `ENABLE_CONTAINER_LOGS` environment variable fallbacks from the Python Test Logging Configuration and Container Logging Configuration sections; both are now configured only with `th_config` in the project configuration (issue #1178).
 | 82          | 05-Nov-2026  | [Apple]Romulo Quidute               | * Documented side loading of helper/base modules in the *custom* Python folder, including the rule that they shadow SDK modules of the same name.
-| 83          | 05-Nov-2026  | [Apple]Romulo Quidute               | * Documented that `th-cli rescan-tests` now reports the test cases added, modified and removed by the rescan, lists scripts that could not be parsed, and lists the custom files that override SDK modules.
+| 83          | 05-Nov-2026  | [Apple]Romulo Quidute               | * Documented that `th-cli rescan-tests` now reports the test cases added, modified and removed by the rescan, lists scripts that could not be parsed, and lists the files added, modified or removed in the custom folder.
 |===
 
 <<<
@@ -599,7 +599,8 @@ Rescanned test collections successfully (6 found). No changes detected.
 
 A test case is reported as *modified* when its discovered definition changes: its title or
 description, its PICS, or (for Python tests) its steps, class name or path. Edits that do not change
-what discovery reads, such as changes inside a test step's code, are not reported.
+what discovery reads, such as changes inside a test step's code, are not reported for the test case,
+but the file shows up in the list of changed *custom* files below.
 
 [NOTE]
 .*Test Engine must be idle:*
@@ -626,24 +627,24 @@ backend does not need to be restarted to recover.
 ====
 
 [NOTE]
-.*Custom files that override SDK modules:*
+.*Files changed in the custom folder:*
 ====
-If a Python file in the *custom* folder has the same name as a file in the *sdk* folder, it is used
-instead of the SDK module by every test that imports it (see the *Side Loading Helper/Base
-Modules* section). `rescan-tests` lists those
-files, and, separately, same-name copies that nothing imports and so override nothing (typically a
-side-loaded copy of an SDK test):
+Besides the test cases, `rescan-tests` lists the Python files in the *custom* folder that were added,
+modified or removed since the previous rescan (or since the backend started). This covers files that
+are not test cases, such as helper modules, and edits that do not change what discovery reads:
 
 [source,bash]
 ----
-Custom files overriding SDK modules (used by every test that imports them):
-  ! TC_SUTestBase.py
-
-Custom files with the same name as an SDK file that nothing imports (override nothing):
-  - TC_ACE_1_3.py
+Custom files
+  + TC_SUTestBase.py             added (replaces sdk/TC_SUTestBase.py)
+  ~ TC_ACE_1_3.py                modified
+  - TC_OLD_1_1.py                removed
 ----
 
-Nothing is printed when there are no such files.
+`(replaces sdk/<file>)` marks a file that has the same name as a file in the *sdk* folder and is
+imported by another script, so every test importing it uses the *custom* copy (see the *Side Loading
+Helper/Base Modules* section). A same-name copy of an SDK test is not imported by anything and does
+not get the note. Unchanged files are not listed, and nothing is printed when no file changed.
 ====
 
 [NOTE]
@@ -724,9 +725,9 @@ SIDELOAD: MyHelper loaded from custom/MyHelper.py (no sdk/ counterpart)
 
 No `SIDELOAD:` line means the run used no module from the *custom* folder.
 
-To see what is overriding before a run, `th-cli rescan-tests` lists the *custom* files that replace
-an SDK module (see <<side-load-rescan, Rescanning Side-Loaded Test Cases>>). You can also compare the
-two folders:
+To see what changed in the *custom* folder, `th-cli rescan-tests` lists the added, modified and removed
+files and marks the ones that replace an SDK module (see
+<<side-load-rescan, Rescanning Side-Loaded Test Cases>>). You can also compare the two folders:
 
 [source,bash]
 ----
