@@ -178,6 +178,7 @@ endif::[]
                                                                      * Added the Project Configuration Reference section (field reference, mandatory fields, validation rules, and editing the project configuration from the UI and with `th-cli project edit`). Added `wifipaf-wifi` to the pairing modes list and fixed the `chip_use_paa_certs` field name (issue #1156).
 | 81          | 20-Oct-2026  | [Apple]Romulo Quidute               | * Updated the Python Test Logging Configuration section: real-time logging is the default (issue #1171). +
                                                                      * Removed the `ENABLE_REALTIME_PYTHON_TEST_LOGS` and `ENABLE_CONTAINER_LOGS` environment variable fallbacks from the Python Test Logging Configuration and Container Logging Configuration sections; both are now configured only with `th_config` in the project configuration (issue #1178).
+| 82          | 05-Nov-2026  | [Apple]Romulo Quidute               | * Documented side loading of helper/base modules in the *custom* Python folder, including the rule that they shadow SDK modules of the same name.
 |===
 
 <<<
@@ -631,6 +632,58 @@ exists in the *sdk* folder. This only affects manual invocation inside the conta
 does not affect test execution through the Test-Harness CLI or UI.
 ====
 
+
+==== Side Loading Helper/Base Modules (e.g. `TC_SUTestBase.py`)
+
+Besides test scripts (`TC_*.py`), the *custom* Python folder may also hold helper or base
+modules that a side-loaded test imports with a flat import
+(e.g. `from TC_SUTestBase import ...`). When the Test-Harness runs a test, it resolves
+such imports in this order:
+
+. the *custom* folder (`.../python_testing/scripts/custom/`)
+. the *sdk* folder (`.../python_testing/scripts/sdk/`)
+
+A helper placed in the *custom* folder therefore *shadows* the SDK module with the same file
+name. To use a modified helper, copy the SDK file into the *custom* folder, edit the copy and
+run `th-cli rescan-tests`. Do not edit files in the *sdk* folder.
+
+The shadowing is not limited to side-loaded tests. A file in the *custom* folder is also used by the
+SDK tests that import a module with that name, so an SDK helper can be patched without
+side-loading every test that uses it. Test discovery follows the same order.
+
+[IMPORTANT]
+.*A copy left in the custom folder keeps applying:*
+====
+The override is based on the file name alone. A copy of an SDK helper left in the *custom* folder is
+used by *every* test that imports it, side-loaded or not, and it does not follow SDK changes after a
+Test-Harness update. Remove the copy as soon as it is no longer needed.
+====
+
+To see what a test run used, check the test log: for each module loaded from the *custom* folder
+(other than the side-loaded test itself) the Test-Harness prints a line such as:
+
+----
+SIDELOAD: TC_SUTestBase loaded from custom/TC_SUTestBase.py, overriding sdk/TC_SUTestBase.py
+SIDELOAD: MyHelper loaded from custom/MyHelper.py (no sdk/ counterpart)
+----
+
+No `SIDELOAD:` line means the run used no module from the *custom* folder.
+
+To see what is overriding before a run, `th-cli rescan-tests` lists the *custom* files that replace
+an SDK module (see <<side-load-rescan, Rescanning Side-Loaded Test Cases>>). You can also compare the
+two folders:
+
+[source,bash]
+----
+comm -12 <(ls custom | grep '\.py$' | sort) <(ls sdk | grep '\.py$' | sort)
+----
+
+(run it from `.../python_testing/scripts/`). A side-loaded copy of an SDK test, for example
+`custom/TC_ACE_1_3.py`, appears in this list as well. That is expected, since tests are not imported
+by other modules.
+
+NOTE: Only plain `import` / `from ... import` of modules in these two folders is affected.
+Packages installed with the SDK (e.g. `matter.testing...`) are not overridden.
 
 === Troubleshooting
 
