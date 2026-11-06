@@ -179,7 +179,7 @@ endif::[]
 | 81          | 20-Oct-2026  | [Apple]Romulo Quidute               | * Updated the Python Test Logging Configuration section: real-time logging is the default (issue #1171). +
                                                                      * Removed the `ENABLE_REALTIME_PYTHON_TEST_LOGS` and `ENABLE_CONTAINER_LOGS` environment variable fallbacks from the Python Test Logging Configuration and Container Logging Configuration sections; both are now configured only with `th_config` in the project configuration (issue #1178).
 | 82          | 05-Nov-2026  | [Apple]Romulo Quidute               | * Documented side loading of helper/base modules in the *custom* Python folder, including the rule that they shadow SDK modules of the same name.
-| 83          | 05-Nov-2026  | [Apple]Romulo Quidute               | * Documented that `th-cli rescan-tests` now reports the test cases added, modified and removed by the rescan, and lists scripts that could not be parsed.
+| 83          | 05-Nov-2026  | [Apple]Romulo Quidute               | * Documented that `th-cli rescan-tests` now reports the test cases added, modified and removed by the rescan, lists scripts that could not be parsed, and lists the custom files that override SDK modules.
 |===
 
 <<<
@@ -623,6 +623,27 @@ Scripts that could not be parsed (skipped):
 
 The rest of the rescan still completes. Fix the script and run `th-cli rescan-tests` again — the
 backend does not need to be restarted to recover.
+====
+
+[NOTE]
+.*Custom files that override SDK modules:*
+====
+If a Python file in the *custom* folder has the same name as a file in the *sdk* folder, it is used
+instead of the SDK module by every test that imports it (see the *Side Loading Helper/Base
+Modules* section). `rescan-tests` lists those
+files, and, separately, same-name copies that nothing imports and so override nothing (typically a
+side-loaded copy of an SDK test):
+
+[source,bash]
+----
+Custom files overriding SDK modules (used by every test that imports them):
+  ! TC_SUTestBase.py
+
+Custom files with the same name as an SDK file that nothing imports (override nothing):
+  - TC_ACE_1_3.py
+----
+
+Nothing is printed when there are no such files.
 ====
 
 [NOTE]
