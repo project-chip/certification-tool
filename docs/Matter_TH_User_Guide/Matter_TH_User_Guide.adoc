@@ -667,8 +667,11 @@ SIDELOAD: TC_SUTestBase loaded from custom/TC_SUTestBase.py, overriding sdk/TC_S
 SIDELOAD: MyHelper loaded from custom/MyHelper.py (no sdk/ counterpart)
 ----
 
-No `SIDELOAD:` line means the run used no module from the *custom* folder. To list the files that
-override an SDK file before a run, compare the two folders:
+No `SIDELOAD:` line means the run used no module from the *custom* folder.
+
+To see what is overriding before a run, `th-cli rescan-tests` lists the *custom* files that replace
+an SDK module (see <<side-load-rescan, Rescanning Side-Loaded Test Cases>>). You can also compare the
+two folders:
 
 [source,bash]
 ----
