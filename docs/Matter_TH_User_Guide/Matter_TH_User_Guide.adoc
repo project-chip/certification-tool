@@ -178,6 +178,8 @@ endif::[]
                                                                      * Added the Project Configuration Reference section (field reference, mandatory fields, validation rules, and editing the project configuration from the UI and with `th-cli project edit`). Added `wifipaf-wifi` to the pairing modes list and fixed the `chip_use_paa_certs` field name (issue #1156).
 | 81          | 20-Oct-2026  | [Apple]Romulo Quidute               | * Updated the Python Test Logging Configuration section: real-time logging is the default (issue #1171). +
                                                                      * Removed the `ENABLE_REALTIME_PYTHON_TEST_LOGS` and `ENABLE_CONTAINER_LOGS` environment variable fallbacks from the Python Test Logging Configuration and Container Logging Configuration sections; both are now configured only with `th_config` in the project configuration (issue #1178).
+| 82          | 06-Nov-2026  | [Apple]Romulo Quidute               | * Added the Collecting Files for ATL Submission section, mapping the web UI download buttons to CLI commands, and documented the per-execution report (`test-run-execution --id <ID> --json`) (issue #1203). +
+                                                                     * Corrected the `--grouped` log archive description and noted that `test-run-execution export` is not the report to submit to an ATL.
 |===
 
 <<<
@@ -2945,6 +2947,7 @@ Use this to tweak one or two fields (e.g. a `th_config` or `dut_config` value) w
 NOTE: *Tip:* +
 For the full behavior — retry handling on invalid input, the new-field confirmation prompt, and how to pick a different editor via `$VISUAL`/`$EDITOR` — run `th-cli project edit --help` or see the https://github.com/project-chip/certification-tool-cli/blob/main/README.md#edit-project[CLI README].
 
+[#cli-download-project-logs]
 **Download project logs:**
 
 [source,bash]
@@ -3001,6 +3004,8 @@ th-cli test-run-execution --skip 10 --limit 20
 # Print JSON output for more details
 th-cli test-run-execution --json
 ----
+
+TIP: To print the full report of a single test run execution (the file saved by the *Download Report* button in the web UI), add `--id`: `th-cli test-run-execution --id 17 --json > report-17.json`. See <<cli-atl-submission-files, Collecting Files for ATL Submission>>.
 
 [#cli-repeat-execution]
 ==== Repeat a Test Run Execution
@@ -3125,7 +3130,7 @@ th-cli test-run-execution log --id 123
 # Save the flattened JSON log to a file
 th-cli test-run-execution log --id 123 --output-file run_123.log
 
-# Download a grouped log ZIP archive (one file per test case)
+# Download a grouped log ZIP archive (logs grouped by test case state)
 th-cli test-run-execution log --id 123 --grouped
 
 # Download grouped logs to a specific file
@@ -3142,7 +3147,40 @@ NOTE: The `--log` flag on the base `test-run-execution` command is deprecated. U
 th-cli test-run-execution --log --id 123
 ----  
 
-NOTE: The `--grouped` option downloads a `.zip` archive with logs organized by test case. For large runs the server may take several minutes to generate the archive.
+NOTE: The `--grouped` option downloads a `.zip` archive containing a list of the test cases for each state, the logs of the executed test suites, and one log file per state with the logs of all test cases that finished in that state. For large runs the server may take several minutes to generate the archive.
+
+[#cli-atl-submission-files]
+==== Collecting Files for ATL Submission
+
+The web UI offers three download buttons for each test run execution in the test history. The CLI provides the same files:
+
+[cols="1,1,3",options="header"]
+|===
+| Web UI button | File | CLI command
+
+| *Download Report*
+| `.json`
+| `th-cli test-run-execution --id 17 --json > report-17.json`
+
+| *Download Logs*
+| `.log`
+| `th-cli test-run-execution log --id 17 --output-file run-17.log`
+
+| *Download Grouped Logs*
+| `.zip`
+| `th-cli test-run-execution log --id 17 --grouped --output-file run-17.zip`
+|===
+
+Replace `17` with the ID of the test run execution, which is listed by `th-cli test-run-execution`. The report command has no `--output-file` option, so the output is redirected to a file. The file names above are examples; the web UI names the files after the test run title.
+
+NOTE: `th-cli test-run-execution export` is not the report to submit to an ATL. It writes a different file, meant to be imported again with `test-run-execution import` (see <<cli-export-execution, Export a Test Run Execution>>).
+
+To submit the results to an ATL:
+
+* *Individual test run upload:* only the `.log` file is necessary.
+* *Bulk upload:* each test run consists of one `.json`, one `.log` and one `.zip` file. Include the files of all test runs in a single outer `.zip` file.
+
+To download the logs of every test run execution of a project at once, use `th-cli project logs` (see <<cli-download-project-logs, Download project logs>>).
 
 ==== Abort Running Tests
 
