@@ -182,6 +182,7 @@ endif::[]
 | 83          | 05-Nov-2026  | [Apple]Romulo Quidute               | * Documented that `th-cli rescan-tests` now reports the test cases added, modified and removed by the rescan, lists scripts that could not be parsed, and lists the files added, modified or removed in the custom folder.
 | 84          | 06-Nov-2026  | [Apple]Romulo Quidute               | * Added the Collecting Files for ATL Submission section, mapping the web UI download buttons to CLI commands, and documented the per-execution report (`test-run-execution --id <ID> --json`) (issue #1203). +
                                                                      * Corrected the `--grouped` log archive description and noted that `test-run-execution export` is not the report to submit to an ATL.
+| 85          | 10-Nov-2026  | [Apple]Romulo Quidute               | * Documented `th-cli project applicable-tests`, which lists the test cases that apply to a project based on its PICS configuration (issue #1206).
 |===
 
 <<<
@@ -3058,6 +3059,20 @@ Use this to tweak one or two fields (e.g. a `th_config` or `dut_config` value) w
 
 NOTE: *Tip:* +
 For the full behavior — retry handling on invalid input, the new-field confirmation prompt, and how to pick a different editor via `$VISUAL`/`$EDITOR` — run `th-cli project edit --help` or see the https://github.com/project-chip/certification-tool-cli/blob/main/README.md#edit-project[CLI README].
+
+[#cli-project-applicable-tests]
+**List the test cases applicable to a project:**
+
+[source,bash]
+----
+# List the test cases that apply to project 5 (one ID per line, sorted)
+th-cli project applicable-tests --id 5
+
+# Print the raw JSON response instead
+th-cli project applicable-tests --id 5 --json
+----
+
+The list is filtered by the project's PICS configuration and its `dmp_test_skip` setting. This differs from `th-cli available-tests`, which lists every test case known to the Test Harness regardless of project: a test that requires a PICS item disabled in the project appears in `available-tests` but not in `project applicable-tests`. The test count is printed to stderr, so the IDs on stdout can be piped (e.g. `th-cli project applicable-tests --id 5 | grep TC-ACL`).
 
 [#cli-download-project-logs]
 **Download project logs:**
