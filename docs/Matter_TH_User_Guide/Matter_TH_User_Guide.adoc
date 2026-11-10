@@ -3072,7 +3072,7 @@ th-cli project applicable-tests --id 5
 th-cli project applicable-tests --id 5 --json
 ----
 
-The list is filtered by the project's PICS configuration and its `dmp_test_skip` setting. This differs from `th-cli available-tests`, which lists every test case known to the Test Harness regardless of project: a test that requires a PICS item disabled in the project appears in `available-tests` but not in `project applicable-tests`. The test count is printed to stderr, so the IDs on stdout can be piped (e.g. `th-cli project applicable-tests --id 5 | grep TC-ACL`).
+The list is filtered by the project's PICS configuration and its `dmp_test_skip` setting. This differs from `th-cli available-tests`, which lists every test case known to the Test Harness regardless of project: a test that requires a PICS item disabled in the project appears in `available-tests` but not in `project applicable-tests`. A header line (`Applicable test case(s) for project <id>:`) is printed to stderr, so the IDs on stdout can be piped (e.g. `th-cli project applicable-tests --id 5 | grep TC-ACL`).
 
 [#cli-download-project-logs]
 **Download project logs:**
