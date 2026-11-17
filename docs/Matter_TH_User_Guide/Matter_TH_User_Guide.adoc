@@ -2177,12 +2177,12 @@ TIP: The simplest way to start a new configuration is the default one pre-filled
 | `enable_realtime_python_test_logs`
 | boolean or `null`
 | `null`
-| `null` defers to the `ENABLE_REALTIME_PYTHON_TEST_LOGS` environment variable. See <<python-test-logging-configuration, Python Test Logging Configuration>>.
+| `null` enables real-time logs. See <<python-test-logging-configuration, Python Test Logging Configuration>>.
 
 | `enable_container_logs`
 | boolean or `null`
 | `null`
-| `null` defers to the `ENABLE_CONTAINER_LOGS` environment variable. See <<container-logging-configuration, Container Logging Configuration>>.
+| `null` disables container logs. See <<container-logging-configuration, Container Logging Configuration>>.
 
 | `sdk_container_apps_dir`
 | string or `null`
