@@ -794,10 +794,10 @@ Note that NetworkManager is not required on a Test-Harness host and is not insta
 Tests reach the DUT through the host's Avahi daemon, which only uses the network interfaces its configuration allows. When the `allow-interfaces` setting in `/etc/avahi/avahi-daemon.conf` is set, any interface it does not list, such as a USB Wi-Fi adapter named after its MAC address, is left out.
 
 ===== Symptoms
-A test using the Wi-Fi Fixture fails before its access point is brought up, with a message naming the interface the fixture was given:
+A test using the Wi-Fi Fixture brings up its access point, but the DUT on that network is never discovered, so the test times out waiting for it. The host's Avahi log has no `Joining mDNS multicast group on interface` line for the interface the fixture was given, for example `wlx6ccdd6c589f0`:
 
 |===
-|`The host Avahi daemon does not use wlx6ccdd6c589f0`
+|*$* `journalctl -u avahi-daemon -b \| grep wlx6ccdd6c589f0`
 |===
 
 ===== Solution
