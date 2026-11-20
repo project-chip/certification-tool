@@ -899,6 +899,30 @@ The rule applies to an adapter as it appears, so re-plug an adapter that is alre
 
 Note that NetworkManager is not required on a Test-Harness host and is not installed by the installation scripts, which configure `wpa_supplicant` directly for the host's own Wi-Fi interface.
 
+==== Host Avahi Not Using the Wi-Fi Fixture Interface
+
+Tests reach the DUT through the host's Avahi daemon, which only uses the network interfaces its configuration allows. When the `allow-interfaces` setting in `/etc/avahi/avahi-daemon.conf` is set, any interface it does not list, such as a USB Wi-Fi adapter named after its MAC address, is left out.
+
+===== Symptoms
+A test using the Wi-Fi Fixture fails before its access point is brought up, with a message naming the interface the fixture was given:
+
+|===
+|`The host Avahi daemon does not use wlx6ccdd6c589f0`
+|===
+
+===== Solution
+Some earlier installations set `allow-interfaces` to `eth0,wlan0,wpan0`. Running `auto-update.sh` removes that setting, as does running this step on its own:
+
+|===
+|*$* `./scripts/ubuntu/2.2-configure-avahi.sh`
+|===
+
+A list set by hand is left as it is: add the adapter's interface to it (or comment the setting out), remove the interface from `deny-interfaces` if it is listed there, and restart Avahi:
+
+|===
+|*$* `sudo systemctl restart avahi-daemon`
+|===
+
 <<<
 == *Bringing Up of Matter Node (DUT) for Certification Testing*
 

@@ -88,6 +88,7 @@ services:
       - /var/run/docker.sock:/var/run/docker.sock
       - /usr/bin/docker:/usr/bin/docker
       - /var/run/dbus:/var/run/dbus
+      - /etc/avahi:/host/etc/avahi:ro # host Avahi config, for the Wi-Fi fixture's preflight check
       - ./backend/test_collections:/app/test_collections # mount test_collections in container
       - ./scripts/version-check/version-lib.sh:/app/scripts/version-check/version-lib.sh:ro
       - ./scripts/version-check/backend-version-watchdog.sh:/app/scripts/version-check/backend-version-watchdog.sh:ro
