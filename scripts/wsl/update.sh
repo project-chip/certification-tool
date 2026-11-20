@@ -17,7 +17,8 @@
 
 # WSL variant of scripts/update.sh (sync tracked in wsl-utils.sh). Identical
 # except the docker images step pulls only the images published for this
-# host's architecture and builds the others locally. Always use this instead
+# host's architecture and builds the others locally, and the host Avahi step
+# from scripts/ubuntu/internal-auto-update.sh is added. Always use this instead
 # of the stock update.sh on WSL: the stock pulls would overwrite the locally
 # built images with arm64 ones.
 #
@@ -44,6 +45,10 @@ verify_return_code
 
 print_script_step "Setup Test Collections"
 "$SCRIPT_DIR/update-setup-test-collections.sh"
+verify_return_code
+
+print_script_step "Configuring host Avahi"
+"$SCRIPT_DIR/ubuntu/2.2-configure-avahi.sh"
 verify_return_code
 
 print_end_of_script
