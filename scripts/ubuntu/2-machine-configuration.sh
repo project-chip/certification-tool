@@ -53,13 +53,49 @@ if [ -f "$WPA_ALIAS_UNIT_FILE" ] && [ ! -L "$WPA_ALIAS_UNIT_FILE" ]; then
     printf "\n Removing standalone unit from a previous install: $WPA_ALIAS_UNIT_FILE\n"
     sudo rm "$WPA_ALIAS_UNIT_FILE"
 fi
-printf "\n Writing: $WPA_DROPIN_DIR/matter-th.conf\n"
-sudo mkdir -p "$WPA_DROPIN_DIR"
-cat << EOF | sudo tee "$WPA_DROPIN_DIR/matter-th.conf"
+# Exactly one wpa_supplicant may manage $WLAN_INTERFACE: CNET Wi-Fi tests
+# switch the TH's Wi-Fi through its control socket, /run/wpa_supplicant/$WLAN_INTERFACE.
+#
+# 1. netplan manages $WLAN_INTERFACE with the systemd-networkd renderer (Wi-Fi set in Raspberry Pi
+#    Imager, or with docs/enable_wifi_and_ssh_raspi_ubuntu_server.md): netplan generates
+#    netplan-wpa-$WLAN_INTERFACE.service, which runs its own wpa_supplicant there with the same
+#    control socket, and DHCP for $WLAN_INTERFACE. Making wpa_supplicant.service claim the interface
+#    as well fails with "ctrl_iface exists and seems to be in use" and can remove the shared
+#    socket, depending on boot order. So leave wpa_supplicant.service as packaged (D-Bus only,
+#    no interface) and don't write the drop-in. Nothing is masked or restarted here; the reboot
+#    at the end of the install starts the services in their final configuration.
+# 2. Otherwise (Wi-Fi not configured, e.g. an Ethernet-only TH): wpa_supplicant.service manages
+#    $WLAN_INTERFACE through the drop-in below. Nothing requests DHCP on $WLAN_INTERFACE in that
+#    case, so the test would join a network but never get an address; add a systemd-networkd
+#    config for it.
+# With the NetworkManager renderer no netplan-wpa unit exists and NetworkManager drives
+# wpa_supplicant.service over D-Bus; that setup is not changed here.
+WLAN_NETWORKD_FILE="/etc/systemd/network/25-$WLAN_INTERFACE.network"
+if systemctl list-unit-files "netplan-wpa-$WLAN_INTERFACE.service" --no-legend 2>/dev/null | grep -q .; then
+    printf "\n netplan manages $WLAN_INTERFACE (netplan-wpa-$WLAN_INTERFACE.service):"
+    printf "\n not writing $WPA_DROPIN_DIR/matter-th.conf\n"
+    # A drop-in or DHCP file from a previous install would make two configurations claim the interface.
+    sudo rm -f "$WPA_DROPIN_DIR/matter-th.conf" "$WLAN_NETWORKD_FILE"
+else
+    printf "\n Writing: $WPA_DROPIN_DIR/matter-th.conf\n"
+    sudo mkdir -p "$WPA_DROPIN_DIR"
+    cat << EOF | sudo tee "$WPA_DROPIN_DIR/matter-th.conf"
 [Service]
 ExecStart=
 ExecStart=/usr/sbin/wpa_supplicant -u -s -i $WLAN_INTERFACE -c $WPA_SUPPLICANT_FILE
 EOF
+    if ! systemctl list-units --type=service --state=active --no-legend 2>/dev/null | grep -q '^ *NetworkManager.service'; then
+        printf "\n Writing: $WLAN_NETWORKD_FILE (DHCP for $WLAN_INTERFACE)\n"
+        sudo mkdir -p "$(dirname "$WLAN_NETWORKD_FILE")"
+        cat << EOF | sudo tee "$WLAN_NETWORKD_FILE"
+[Match]
+Name=$WLAN_INTERFACE
+[Network]
+DHCP=yes
+EOF
+        sudo systemctl enable systemd-networkd
+    fi
+fi
 sudo systemctl daemon-reload
 sudo systemctl enable wpa_supplicant.service
 
